@@ -1,0 +1,205 @@
+{
+  "lng": "0",
+  "geonameId": 6295630,
+  "toponymName": "Earth",
+  "asciiName": "Earth",
+  "astergdem": -9999,
+  "fcl": "L",
+  "population": 6814400000,
+  "wikipediaURL": "en.wikipedia.org/wiki/Earth",
+  "adminName5": "",
+  "srtm3": -32768,
+  "adminName4": "",
+  "adminName3": "",
+  "alternateNames": [
+    {
+      "name": "🌐",
+      "lang": "abbr"
+    },
+    {
+      "name": "Aarde",
+      "lang": "nl"
+    },
+    {
+      "isShortName": true,
+      "name": "Earth",
+      "lang": "en"
+    },
+    {
+      "name": "el món",
+      "lang": "ca"
+    },
+    {
+      "name": "el planeta",
+      "lang": "es"
+    },
+    {
+      "isPreferredName": true,
+      "name": "Erde",
+      "lang": "de"
+    },
+    {
+      "isShortName": true,
+      "isPreferredName": true,
+      "name": "Föld",
+      "lang": "hu"
+    },
+    {
+      "name": "Globe",
+      "lang": "en"
+    },
+    {
+      "name": "Globo",
+      "lang": "it"
+    },
+    {
+      "name": "https://en.wikipedia.org/wiki/Earth",
+      "lang": "link"
+    },
+    {
+      "name": "Jorden",
+      "lang": "no"
+    },
+    {
+      "name": "La terdi",
+      "lang": "jbo"
+    },
+    {
+      "name": "Lurra",
+      "lang": "eu"
+    },
+    {
+      "name": "Maa",
+      "lang": "fi"
+    },
+    {
+      "isShortName": true,
+      "isPreferredName": true,
+      "name": "Monde",
+      "lang": "fr"
+    },
+    {
+      "name": "Mondo",
+      "lang": "eo"
+    },
+    {
+      "name": "Mondo",
+      "lang": "it"
+    },
+    {
+      "name": "Mundo",
+      "lang": "es"
+    },
+    {
+      "name": "Mundua",
+      "lang": "eu"
+    },
+    {
+      "name": "nuestro planeta",
+      "lang": "es"
+    },
+    {
+      "name": "Orbs",
+      "lang": "la"
+    },
+    {
+      "name": "Pamânt",
+      "lang": "ro"
+    },
+    {
+      "name": "Pianeta Terra",
+      "lang": "it"
+    },
+    {
+      "name": "Planeta Tierra",
+      "lang": "es"
+    },
+    {
+      "name": "Tero",
+      "lang": "eo"
+    },
+    {
+      "name": "Terra",
+      "lang": "ca"
+    },
+    {
+      "isShortName": true,
+      "isPreferredName": true,
+      "name": "Terra",
+      "lang": "it"
+    },
+    {
+      "name": "Terra",
+      "lang": "la"
+    },
+    {
+      "name": "Terre",
+      "lang": "fr"
+    },
+    {
+      "name": "Tierra",
+      "lang": "es"
+    },
+    {
+      "name": "Welt",
+      "lang": "de"
+    },
+    {
+      "name": "World",
+      "lang": "en"
+    },
+    {
+      "isPreferredName": true,
+      "name": "Yeryüzü",
+      "lang": "tr"
+    },
+    {
+      "isPreferredName": true,
+      "name": "Zeme",
+      "lang": "lv"
+    },
+    {
+      "isPreferredName": true,
+      "name": "Ziemia",
+      "lang": "pl"
+    },
+    {
+      "isShortName": true,
+      "isPreferredName": true,
+      "name": "Γη",
+      "lang": "el"
+    },
+    {
+      "name": "Υδρόγειος",
+      "lang": "el"
+    },
+    {
+      "name": "Ер шары",
+      "lang": "ba"
+    },
+    {
+      "name": "Җир шары",
+      "lang": "tt"
+    },
+    {
+      "isPreferredName": true,
+      "name": "Земля",
+      "lang": "ru"
+    },
+    {
+      "name": "पृथ्वी",
+      "lang": "hi"
+    },
+    {
+      "name": "পৃথিবী",
+      "lang": "bn"
+    }
+  ],
+  "adminName2": "",
+  "name": "Earth",
+  "fclName": "parks,area, ...",
+  "fcodeName": "area",
+  "adminName1": "",
+  "lat": "0",
+  "fcode": "AREA"
+}

@@ -1,0 +1,140 @@
+{"geonames": [{
+  "lng": "0",
+  "geonameId": 6295630,
+  "toponymName": "Earth",
+  "asciiName": "Earth",
+  "astergdem": -9999,
+  "fcl": "L",
+  "population": 6814400000,
+  "adminName5": "",
+  "srtm3": -32768,
+  "adminName4": "",
+  "adminName3": "",
+  "alternateNames": [
+    {
+      "name": "🌐",
+      "lang": "abbr"
+    },
+    {
+      "name": "Ер шары",
+      "lang": "ba"
+    },
+    {
+      "name": "পৃথিবী",
+      "lang": "bn"
+    },
+    {
+      "name": "Terra",
+      "lang": "ca"
+    },
+    {
+      "isPreferredName": true,
+      "name": "Erde",
+      "lang": "de"
+    },
+    {
+      "isShortName": true,
+      "isPreferredName": true,
+      "name": "Γη",
+      "lang": "el"
+    },
+    {
+      "isShortName": true,
+      "name": "Earth",
+      "lang": "en"
+    },
+    {
+      "name": "Tero",
+      "lang": "eo"
+    },
+    {
+      "name": "Tierra",
+      "lang": "es"
+    },
+    {
+      "name": "Mundua",
+      "lang": "eu"
+    },
+    {
+      "name": "Maa",
+      "lang": "fi"
+    },
+    {
+      "isShortName": true,
+      "isPreferredName": true,
+      "name": "Monde",
+      "lang": "fr"
+    },
+    {
+      "name": "पृथ्वी",
+      "lang": "hi"
+    },
+    {
+      "isShortName": true,
+      "isPreferredName": true,
+      "name": "Föld",
+      "lang": "hu"
+    },
+    {
+      "isShortName": true,
+      "isPreferredName": true,
+      "name": "Terra",
+      "lang": "it"
+    },
+    {
+      "name": "La terdi",
+      "lang": "jbo"
+    },
+    {
+      "name": "Orbs",
+      "lang": "la"
+    },
+    {
+      "name": "https://en.wikipedia.org/wiki/Earth",
+      "lang": "link"
+    },
+    {
+      "isPreferredName": true,
+      "name": "Zeme",
+      "lang": "lv"
+    },
+    {
+      "name": "Aarde",
+      "lang": "nl"
+    },
+    {
+      "name": "Jorden",
+      "lang": "no"
+    },
+    {
+      "isPreferredName": true,
+      "name": "Ziemia",
+      "lang": "pl"
+    },
+    {
+      "name": "Pamânt",
+      "lang": "ro"
+    },
+    {
+      "isPreferredName": true,
+      "name": "Земля",
+      "lang": "ru"
+    },
+    {
+      "isPreferredName": true,
+      "name": "Yeryüzü",
+      "lang": "tr"
+    },
+    {
+      "name": "Җир шары",
+      "lang": "tt"
+    }
+  ],
+  "adminName2": "",
+  "name": "Earth",
+  "fclName": "parks,area, ...",
+  "fcodeName": "area",
+  "adminName1": "",
+  "lat": "0",
+  "fcode": "AREA"
+}]}

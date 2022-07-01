@@ -1,0 +1,247 @@
+{
+  "lng": "9.14062",
+  "geonameId": 6255148,
+  "timezone": {
+    "gmtOffset": 1,
+    "timeZoneId": "Europe/Vaduz",
+    "dstOffset": 2
+  },
+  "bbox": {
+    "east": 41.73303985595703,
+    "south": 27.6377894797159,
+    "north": 80.76416015625,
+    "west": -24.532675386662543,
+    "accuracyLevel": 0
+  },
+  "toponymName": "Europe",
+  "asciiName": "Europe",
+  "astergdem": 439,
+  "fcl": "L",
+  "population": 741000000,
+  "wikipediaURL": "en.wikipedia.org/wiki/Europe",
+  "adminName5": "",
+  "srtm3": 443,
+  "adminName4": "",
+  "adminName3": "",
+  "alternateNames": [
+    {
+      "isPreferredName": true,
+      "name": "유럽",
+      "lang": "ko"
+    },
+    {
+      "name": "ยุโรป",
+      "lang": "th"
+    },
+    {
+      "name": "ヨーロッパ",
+      "lang": "ja"
+    },
+    {
+      "name": "an Eoraip",
+      "lang": "ga"
+    },
+    {
+      "name": "Avrupa",
+      "lang": "tr"
+    },
+    {
+      "name": "Châu Âu",
+      "lang": "vi"
+    },
+    {
+      "name": "Eiropa",
+      "lang": "lv"
+    },
+    {
+      "isColloquial": true,
+      "name": "El viejo continente",
+      "lang": "es"
+    },
+    {
+      "name": "Eropa",
+      "lang": "id"
+    },
+    {
+      "name": "Eurohpá",
+      "lang": "se"
+    },
+    {
+      "isPreferredName": true,
+      "name": "Euroopa",
+      "lang": "et"
+    },
+    {
+      "name": "Eurooppa",
+      "lang": "fi"
+    },
+    {
+      "isShortName": true,
+      "isPreferredName": true,
+      "name": "Europa",
+      "lang": "ca"
+    },
+    {
+      "name": "Europa",
+      "lang": "da"
+    },
+    {
+      "isPreferredName": true,
+      "name": "Europa",
+      "lang": "de"
+    },
+    {
+      "isShortName": true,
+      "isPreferredName": true,
+      "name": "Europa",
+      "lang": "es"
+    },
+    {
+      "name": "Europa",
+      "lang": "eu"
+    },
+    {
+      "name": "Europa",
+      "lang": "it"
+    },
+    {
+      "name": "Europa",
+      "lang": "la"
+    },
+    {
+      "name": "Europa",
+      "lang": "lt"
+    },
+    {
+      "name": "Europa",
+      "lang": "nb"
+    },
+    {
+      "isShortName": true,
+      "isPreferredName": true,
+      "name": "Europa",
+      "lang": "nl"
+    },
+    {
+      "name": "Europa",
+      "lang": "no"
+    },
+    {
+      "name": "Europa",
+      "lang": "pl"
+    },
+    {
+      "name": "Europa",
+      "lang": "pt"
+    },
+    {
+      "isPreferredName": true,
+      "name": "Europa",
+      "lang": "ro"
+    },
+    {
+      "name": "Europa",
+      "lang": "sv"
+    },
+    {
+      "name": "Európa",
+      "lang": "hu"
+    },
+    {
+      "isPreferredName": true,
+      "name": "Európa",
+      "lang": "sk"
+    },
+    {
+      "isPreferredName": true,
+      "name": "Europe",
+      "lang": "en"
+    },
+    {
+      "name": "Europe",
+      "lang": "fr"
+    },
+    {
+      "name": "Eŭropo",
+      "lang": "eo"
+    },
+    {
+      "name": "Evropa",
+      "lang": "bs"
+    },
+    {
+      "name": "Evropa",
+      "lang": "cs"
+    },
+    {
+      "name": "Evrópa",
+      "lang": "is"
+    },
+    {
+      "name": "Ewrop",
+      "lang": "cy"
+    },
+    {
+      "name": "Ewropa",
+      "lang": "ku"
+    },
+    {
+      "name": "http://id.loc.gov/authorities/subjects/sh85045631",
+      "lang": "link"
+    },
+    {
+      "name": "https://en.wikipedia.org/wiki/Europe",
+      "lang": "link"
+    },
+    {
+      "name": "أوروبا",
+      "lang": "ar"
+    },
+    {
+      "name": "אירופה",
+      "lang": "he"
+    },
+    {
+      "name": "Ευρώπη",
+      "lang": "el"
+    },
+    {
+      "name": "Европа",
+      "lang": "bg"
+    },
+    {
+      "isPreferredName": true,
+      "name": "Европа",
+      "lang": "ru"
+    },
+    {
+      "name": "Еўропа",
+      "lang": "be"
+    },
+    {
+      "name": "Європа",
+      "lang": "uk"
+    },
+    {
+      "name": "Рашка",
+      "lang": "ru"
+    },
+    {
+      "name": "यूरोप",
+      "lang": "hi"
+    },
+    {
+      "name": "欧洲",
+      "lang": "zh"
+    }
+  ],
+  "cc2": "AD,AL,AT,AX,BA,BE,BG,BY,CH,CZ,DE,DK,EE,ES,FI,FO,FR,GB,GG,GI,GR,HR,HU,IE,IM,IS,IT,JE,LI,LT,LU,LV,MC,MD,ME,MK,MT,NL,NO,PL,PT,RO,RS,RU,SE,SI,SJ,SK,SM,UA,VA",
+  "adminName2": "",
+  "name": "Europe",
+  "fclName": "parks,area, ...",
+  "fcodeName": "continent",
+  "adminName1": "",
+  "lat": "48.69096",
+  "fcode": "CONT",
+  "continentCode": "EU"
+}

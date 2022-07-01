@@ -34,6 +34,8 @@ describe('OPTIMETA Geoplugin Configuration', function () {
   });
 
   it('Configure Geoplugin - Geonames', function () {
+    cy.intercept('GET', 'http://api.geonames.org/searchJSON?name_equals=Münster*', { fixture: 'geonames/20-configuration-Münster.json' })
+
     cy.login('admin', 'admin', Cypress.env('contextPath'));
     cy.get('nav[class="app__nav"] a:contains("Website")').click();
     cy.get('button[id="plugins-button"]').click();

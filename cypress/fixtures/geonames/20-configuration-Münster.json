@@ -1,0 +1,866 @@
+{
+    "totalResultsCount": 29,
+    "geonames": [
+        {
+            "timezone": {
+                "gmtOffset": 1,
+                "timeZoneId": "Europe/Berlin",
+                "dstOffset": 2
+            },
+            "bbox": {
+                "east": 7.671209105910431,
+                "south": 51.91537136540322,
+                "north": 51.98867213131061,
+                "west": 7.5839371596321765,
+                "accuracyLevel": 10
+            },
+            "asciiName": "Muenster",
+            "astergdem": 71,
+            "countryId": "2921044",
+            "fcl": "P",
+            "srtm3": 64,
+            "score": 177.66195678710938,
+            "adminId2": "2867539",
+            "adminId3": "3247442",
+            "countryCode": "DE",
+            "adminId4": "6553087",
+            "adminCodes1": {
+                "ISO3166_2": "NW"
+            },
+            "adminId1": "2861876",
+            "lat": "51.96236",
+            "fcode": "PPLA2",
+            "continentCode": "EU",
+            "adminCode2": "055",
+            "adminCode3": "05515",
+            "adminCode1": "07",
+            "lng": "7.62571",
+            "geonameId": 2867543,
+            "toponymName": "Münster",
+            "adminCode4": "05515000",
+            "population": 270184,
+            "adminName5": "",
+            "adminName4": "Münster",
+            "adminName3": "Kreisfreie Stadt Münster",
+            "alternateNames": [
+                {
+                    "name": "مونستر",
+                    "lang": "ar"
+                },
+                {
+                    "name": "Мюнстэр",
+                    "lang": "be"
+                },
+                {
+                    "name": "Мюнстер",
+                    "lang": "bg"
+                },
+                {
+                    "name": "Мюнстер",
+                    "lang": "cv"
+                },
+                {
+                    "name": "Münster",
+                    "lang": "da"
+                },
+                {
+                    "isPreferredName": true,
+                    "name": "Münster",
+                    "lang": "de"
+                },
+                {
+                    "name": "Μύνστερ",
+                    "lang": "el"
+                },
+                {
+                    "name": "Münster",
+                    "lang": "en"
+                },
+                {
+                    "name": "Münster",
+                    "lang": "eo"
+                },
+                {
+                    "name": "Münster",
+                    "lang": "es"
+                },
+                {
+                    "name": "Münster",
+                    "lang": "et"
+                },
+                {
+                    "name": "مونستر",
+                    "lang": "fa"
+                },
+                {
+                    "name": "Münster",
+                    "lang": "fi"
+                },
+                {
+                    "name": "Münster",
+                    "lang": "fr"
+                },
+                {
+                    "name": "Munster",
+                    "lang": "fy"
+                },
+                {
+                    "name": "מינסטר",
+                    "lang": "he"
+                },
+                {
+                    "name": "FMO",
+                    "lang": "iata"
+                },
+                {
+                    "name": "Münster",
+                    "lang": "it"
+                },
+                {
+                    "name": "ミュンスター",
+                    "lang": "ja"
+                },
+                {
+                    "name": "მიუნსტერი",
+                    "lang": "ka"
+                },
+                {
+                    "name": "Мюнстер",
+                    "lang": "kk"
+                },
+                {
+                    "name": "뮌스터",
+                    "lang": "ko"
+                },
+                {
+                    "name": "Monasterium",
+                    "lang": "la"
+                },
+                {
+                    "name": "https://en.wikipedia.org/wiki/M%C3%BCnster",
+                    "lang": "link"
+                },
+                {
+                    "name": "Miunsteris",
+                    "lang": "lt"
+                },
+                {
+                    "name": "Minstere",
+                    "lang": "lv"
+                },
+                {
+                    "name": "Мюнстер",
+                    "lang": "mn"
+                },
+                {
+                    "name": "Mönster",
+                    "lang": "nds"
+                },
+                {
+                    "name": "Münster",
+                    "lang": "nl"
+                },
+                {
+                    "name": "Münster",
+                    "lang": "no"
+                },
+                {
+                    "name": "Münster",
+                    "lang": "pl"
+                },
+                {
+                    "name": "Münster",
+                    "lang": "pt"
+                },
+                {
+                    "name": "Münster",
+                    "lang": "ro"
+                },
+                {
+                    "name": "Мюнстер",
+                    "lang": "ru"
+                },
+                {
+                    "name": "Минстер",
+                    "lang": "sr"
+                },
+                {
+                    "name": "Munster",
+                    "lang": "stq"
+                },
+                {
+                    "name": "Münster",
+                    "lang": "sv"
+                },
+                {
+                    "name": "Münster",
+                    "lang": "tr"
+                },
+                {
+                    "name": "Мюнстер",
+                    "lang": "uk"
+                },
+                {
+                    "name": "DEMSR",
+                    "lang": "unlc"
+                },
+                {
+                    "name": "Münster",
+                    "lang": "vi"
+                },
+                {
+                    "name": "Münster",
+                    "lang": "vo"
+                },
+                {
+                    "name": "明斯特",
+                    "lang": "zh"
+                },
+                {
+                    "name": "明斯特",
+                    "lang": "zh-Hant"
+                }
+            ],
+            "adminName2": "Regierungsbezirk Münster",
+            "name": "Münster",
+            "fclName": "city, village,...",
+            "countryName": "Germany",
+            "fcodeName": "seat of a second-order administrative division",
+            "adminName1": "North Rhine-Westphalia"
+        },
+        {
+            "timezone": {
+                "gmtOffset": 1,
+                "timeZoneId": "Europe/Berlin",
+                "dstOffset": 2
+            },
+            "bbox": {
+                "east": 8.878715834145398,
+                "south": 49.91405630417288,
+                "north": 49.93326810111294,
+                "west": 8.849670531338589,
+                "accuracyLevel": 10
+            },
+            "asciiName": "Munster",
+            "astergdem": 132,
+            "countryId": "2921044",
+            "fcl": "P",
+            "srtm3": 139,
+            "score": 70.595703125,
+            "adminId2": "2938912",
+            "adminId3": "3220966",
+            "countryCode": "DE",
+            "adminId4": "6553168",
+            "adminCodes1": {
+                "ISO3166_2": "HE"
+            },
+            "adminId1": "2905330",
+            "lat": "49.92278",
+            "fcode": "PPLA4",
+            "continentCode": "EU",
+            "adminCode2": "064",
+            "adminCode3": "06432",
+            "adminCode1": "05",
+            "lng": "8.86778",
+            "geonameId": 2867548,
+            "toponymName": "Münster",
+            "adminCode4": "06432015",
+            "population": 14018,
+            "adminName5": "",
+            "adminName4": "Münster",
+            "adminName3": "Landkreis Darmstadt-Dieburg",
+            "alternateNames": [
+                {
+                    "isShortName": true,
+                    "name": "Münster",
+                    "lang": "de"
+                },
+                {
+                    "name": "DEMUS",
+                    "lang": "unlc"
+                }
+            ],
+            "adminName2": "Regierungsbezirk Darmstadt",
+            "name": "Münster",
+            "fclName": "city, village,...",
+            "countryName": "Germany",
+            "fcodeName": "seat of a fourth-order administrative division",
+            "adminName1": "Hesse"
+        },
+        {
+            "timezone": {
+                "gmtOffset": 1,
+                "timeZoneId": "Europe/Zurich",
+                "dstOffset": 2
+            },
+            "bbox": {
+                "east": 8.27071155961778,
+                "south": 46.48263412038205,
+                "north": 46.48949194957104,
+                "west": 8.258050357679252,
+                "accuracyLevel": 10
+            },
+            "asciiName": "Muenster",
+            "astergdem": 1376,
+            "countryId": "2658434",
+            "fcl": "P",
+            "srtm3": 1382,
+            "score": 67.24800872802734,
+            "adminId2": "6458766",
+            "adminId3": "11611716",
+            "countryCode": "CH",
+            "adminCodes1": {
+                "ISO3166_2": "VS"
+            },
+            "adminId1": "2658205",
+            "lat": "46.48647",
+            "fcode": "PPL",
+            "continentCode": "EU",
+            "adminCode2": "2304",
+            "adminCode3": "6077",
+            "adminCode1": "VS",
+            "lng": "8.26434",
+            "geonameId": 2659545,
+            "toponymName": "Münster",
+            "population": 0,
+            "adminName5": "",
+            "adminName4": "",
+            "adminName3": "Goms",
+            "alternateNames": [
+                {
+                    "name": "Münster-Geschinen",
+                    "lang": "de"
+                },
+                {
+                    "name": "https://en.wikipedia.org/wiki/M%C3%BCnster%2C_Valais",
+                    "lang": "link"
+                },
+                {
+                    "name": "3985",
+                    "lang": "post"
+                }
+            ],
+            "adminName2": "Goms",
+            "name": "Münster",
+            "fclName": "city, village,...",
+            "countryName": "Switzerland",
+            "fcodeName": "populated place",
+            "adminName1": "Valais"
+        },
+        {
+            "timezone": {
+                "gmtOffset": 1,
+                "timeZoneId": "Europe/Berlin",
+                "dstOffset": 2
+            },
+            "bbox": {
+                "east": 8.320136134018338,
+                "south": 51.48083809085128,
+                "north": 52.47496744895713,
+                "west": 6.386696630387,
+                "accuracyLevel": 10
+            },
+            "asciiName": "Regierungsbezirk Muenster",
+            "astergdem": 72,
+            "countryId": "2921044",
+            "fcl": "A",
+            "srtm3": 76,
+            "score": 67.24800872802734,
+            "adminId2": "2867539",
+            "countryCode": "DE",
+            "adminCodes1": {
+                "ISO3166_2": "NW"
+            },
+            "adminId1": "2861876",
+            "lat": "51.9666",
+            "fcode": "ADM2",
+            "continentCode": "EU",
+            "adminCode2": "055",
+            "adminCode1": "07",
+            "lng": "7.4333",
+            "geonameId": 2867539,
+            "toponymName": "Regierungsbezirk Münster",
+            "population": 2624625,
+            "adminName5": "",
+            "adminName4": "",
+            "adminName3": "",
+            "alternateNames": [
+                {
+                    "isShortName": true,
+                    "name": "Münster",
+                    "lang": "de"
+                },
+                {
+                    "name": "District de Münster",
+                    "lang": "fr"
+                },
+                {
+                    "name": "https://en.wikipedia.org/wiki/M%C3%BCnster_%28region%29",
+                    "lang": "link"
+                }
+            ],
+            "adminName2": "Regierungsbezirk Münster",
+            "name": "Regierungsbezirk Münster",
+            "fclName": "country, state, region,...",
+            "countryName": "Germany",
+            "fcodeName": "second-order administrative division",
+            "adminName1": "North Rhine-Westphalia"
+        },
+        {
+            "timezone": {
+                "gmtOffset": 1,
+                "timeZoneId": "Europe/Berlin",
+                "dstOffset": 2
+            },
+            "bbox": {
+                "east": 8.27670498975991,
+                "south": 50.36693773743565,
+                "north": 50.37430730747138,
+                "west": 8.258463715642442,
+                "accuracyLevel": 10
+            },
+            "asciiName": "Muenster",
+            "astergdem": 230,
+            "countryId": "2921044",
+            "fcl": "P",
+            "srtm3": 228,
+            "score": 57.641151428222656,
+            "adminId2": "3220941",
+            "adminId3": "3220992",
+            "countryCode": "DE",
+            "adminId4": "3208126",
+            "adminCodes1": {
+                "ISO3166_2": "HE"
+            },
+            "adminId1": "2905330",
+            "lat": "50.3698",
+            "fcode": "PPL",
+            "continentCode": "EU",
+            "adminCode2": "065",
+            "adminCode3": "06533",
+            "adminCode1": "05",
+            "lng": "8.26678",
+            "geonameId": 2867546,
+            "toponymName": "Münster",
+            "adminCode4": "06533014",
+            "population": 0,
+            "adminName5": "",
+            "adminName4": "Selters (Taunus)",
+            "adminName3": "Landkreis Limburg-Weilburg",
+            "adminName2": "Regierungsbezirk Gießen",
+            "name": "Münster",
+            "fclName": "city, village,...",
+            "countryName": "Germany",
+            "fcodeName": "populated place",
+            "adminName1": "Hesse"
+        },
+        {
+            "timezone": {
+                "gmtOffset": 1,
+                "timeZoneId": "Europe/Berlin",
+                "dstOffset": 2
+            },
+            "bbox": {
+                "east": 12.57917741374042,
+                "south": 48.94620026750169,
+                "north": 48.958385250954535,
+                "west": 12.5669068586776,
+                "accuracyLevel": 10
+            },
+            "asciiName": "Munster",
+            "astergdem": 329,
+            "countryId": "2921044",
+            "fcl": "P",
+            "srtm3": 337,
+            "score": 57.641151428222656,
+            "adminId2": "2863622",
+            "adminId3": "3220816",
+            "countryCode": "DE",
+            "adminId4": "6556599",
+            "adminCodes1": {
+                "ISO3166_2": "BY"
+            },
+            "adminId1": "2951839",
+            "lat": "48.95274",
+            "fcode": "PPL",
+            "continentCode": "EU",
+            "adminCode2": "092",
+            "adminCode3": "09278",
+            "adminCode1": "02",
+            "lng": "12.57209",
+            "geonameId": 2867551,
+            "toponymName": "Münster",
+            "adminCode4": "09278190",
+            "population": 0,
+            "adminName5": "",
+            "adminName4": "Steinach",
+            "adminName3": "Landkreis Straubing-Bogen",
+            "alternateNames": [
+                {
+                    "name": "Мюнстер",
+                    "lang": "ru"
+                }
+            ],
+            "adminName2": "Lower Bavaria",
+            "name": "Münster",
+            "fclName": "city, village,...",
+            "countryName": "Germany",
+            "fcodeName": "populated place",
+            "adminName1": "Bavaria"
+        },
+        {
+            "timezone": {
+                "gmtOffset": 1,
+                "timeZoneId": "Europe/Berlin",
+                "dstOffset": 2
+            },
+            "bbox": {
+                "east": 9.228688867223555,
+                "south": 48.81606555017508,
+                "north": 48.83921696659623,
+                "west": 9.189775741462379,
+                "accuracyLevel": 10
+            },
+            "asciiName": "Muenster",
+            "astergdem": 223,
+            "countryId": "2921044",
+            "fcl": "A",
+            "srtm3": 222,
+            "score": 57.641151428222656,
+            "adminId2": "3214105",
+            "adminId3": "3220785",
+            "countryCode": "DE",
+            "adminId4": "6690189",
+            "adminId5": "11807545",
+            "adminCodes1": {
+                "ISO3166_2": "BW"
+            },
+            "adminId1": "2953481",
+            "lat": "48.82488",
+            "fcode": "ADM5",
+            "continentCode": "EU",
+            "adminCode2": "081",
+            "adminCode3": "08111",
+            "adminCode1": "01",
+            "lng": "9.21054",
+            "geonameId": 11807545,
+            "toponymName": "Münster",
+            "adminCode4": "08111000",
+            "population": 0,
+            "adminCode5": "14",
+            "adminName5": "Münster",
+            "adminName4": "Stuttgart",
+            "adminName3": "Stadtkreis Stuttgart",
+            "adminName2": "Regierungsbezirk Stuttgart",
+            "name": "Münster",
+            "fclName": "country, state, region,...",
+            "countryName": "Germany",
+            "fcodeName": "fifth-order administrative division",
+            "adminName1": "Baden-Württemberg"
+        },
+        {
+            "timezone": {
+                "gmtOffset": 1,
+                "timeZoneId": "Europe/Berlin",
+                "dstOffset": 2
+            },
+            "bbox": {
+                "east": 10.63757810829911,
+                "south": 48.228142635124854,
+                "north": 48.229941364875145,
+                "west": 10.634877891700889,
+                "accuracyLevel": 2
+            },
+            "asciiName": "Munster",
+            "astergdem": 525,
+            "countryId": "2921044",
+            "fcl": "P",
+            "srtm3": 532,
+            "score": 54.34459686279297,
+            "adminId2": "2835521",
+            "adminId3": "3220871",
+            "countryCode": "DE",
+            "adminId4": "6557146",
+            "adminCodes1": {
+                "ISO3166_2": "BY"
+            },
+            "adminId1": "2951839",
+            "lat": "48.22904",
+            "fcode": "PPL",
+            "continentCode": "EU",
+            "adminCode2": "097",
+            "adminCode3": "09772",
+            "adminCode1": "02",
+            "lng": "10.63623",
+            "geonameId": 2867555,
+            "toponymName": "Münster",
+            "adminCode4": "09772178",
+            "population": 1078,
+            "adminName5": "",
+            "adminName4": "Mickhausen",
+            "adminName3": "Landkreis Augsburg",
+            "adminName2": "Swabia",
+            "name": "Münster",
+            "fclName": "city, village,...",
+            "countryName": "Germany",
+            "fcodeName": "populated place",
+            "adminName1": "Bavaria"
+        },
+        {
+            "timezone": {
+                "gmtOffset": 1,
+                "timeZoneId": "Europe/Vienna",
+                "dstOffset": 2
+            },
+            "bbox": {
+                "east": 11.864074473738517,
+                "south": 47.40206060220066,
+                "north": 47.47098703829925,
+                "west": 11.772930730645298,
+                "accuracyLevel": 10
+            },
+            "asciiName": "Muenster",
+            "astergdem": 1237,
+            "countryId": "2782113",
+            "fcl": "A",
+            "srtm3": 1286,
+            "score": 54.34459686279297,
+            "adminId2": "2773299",
+            "adminId3": "7873652",
+            "countryCode": "AT",
+            "adminCodes1": {
+                "ISO3166_2": "7"
+            },
+            "adminId1": "2763586",
+            "lat": "47.43637",
+            "fcode": "ADM3",
+            "continentCode": "EU",
+            "adminCode2": "705",
+            "adminCode3": "70517",
+            "adminCode1": "07",
+            "lng": "11.81951",
+            "geonameId": 7873652,
+            "toponymName": "Münster",
+            "population": 3328,
+            "adminName5": "",
+            "adminName4": "",
+            "adminName3": "Münster",
+            "alternateNames": [
+                {
+                    "name": "70517",
+                    "lang": "lauc"
+                },
+                {
+                    "name": "https://en.wikipedia.org/wiki/M%C3%BCnster%2C_Tyrol",
+                    "lang": "link"
+                }
+            ],
+            "adminName2": "Kufstein",
+            "name": "Münster",
+            "fclName": "country, state, region,...",
+            "countryName": "Austria",
+            "fcodeName": "third-order administrative division",
+            "adminName1": "Tyrol"
+        },
+        {
+            "timezone": {
+                "gmtOffset": 1,
+                "timeZoneId": "Europe/Berlin",
+                "dstOffset": 2
+            },
+            "bbox": {
+                "east": 9.869558072456375,
+                "south": 50.00755135124857,
+                "north": 50.02553864875143,
+                "west": 9.841559927543624,
+                "accuracyLevel": 1
+            },
+            "asciiName": "Munster",
+            "astergdem": 214,
+            "countryId": "2921044",
+            "fcl": "P",
+            "srtm3": 209,
+            "score": 48.0342903137207,
+            "adminId2": "2819564",
+            "adminId3": "3220893",
+            "countryCode": "DE",
+            "adminId4": "6557034",
+            "adminCodes1": {
+                "ISO3166_2": "BY"
+            },
+            "adminId1": "2951839",
+            "lat": "50.01655",
+            "fcode": "PPL",
+            "continentCode": "EU",
+            "adminCode2": "096",
+            "adminCode3": "09677",
+            "adminCode1": "02",
+            "lng": "9.85556",
+            "geonameId": 2867547,
+            "toponymName": "Münster",
+            "adminCode4": "09677127",
+            "population": 0,
+            "adminName5": "",
+            "adminName4": "Eußenheim",
+            "adminName3": "Landkreis Main-Spessart",
+            "alternateNames": [
+                {
+                    "name": "Q32843476",
+                    "lang": "wkdt"
+                }
+            ],
+            "adminName2": "Lower Franconia",
+            "name": "Münster",
+            "fclName": "city, village,...",
+            "countryName": "Germany",
+            "fcodeName": "populated place",
+            "adminName1": "Bavaria"
+        },
+        {
+            "timezone": {
+                "gmtOffset": 1,
+                "timeZoneId": "Europe/Berlin",
+                "dstOffset": 2
+            },
+            "bbox": {
+                "east": 7.805142466576904,
+                "south": 47.84365299543697,
+                "north": 47.86499374818032,
+                "west": 7.761184402328032,
+                "accuracyLevel": 10
+            },
+            "asciiName": "Munster",
+            "astergdem": 402,
+            "countryId": "2921044",
+            "fcl": "P",
+            "srtm3": 400,
+            "score": 48.0342903137207,
+            "adminId2": "2925180",
+            "adminId3": "2944796",
+            "countryCode": "DE",
+            "adminId4": "3205409",
+            "adminCodes1": {
+                "ISO3166_2": "BW"
+            },
+            "adminId1": "2953481",
+            "lat": "47.85714",
+            "fcode": "PPL",
+            "continentCode": "EU",
+            "adminCode2": "083",
+            "adminCode3": "08315",
+            "adminCode1": "01",
+            "lng": "7.79324",
+            "geonameId": 2867557,
+            "toponymName": "Münster",
+            "adminCode4": "08315130",
+            "population": 0,
+            "adminName5": "",
+            "adminName4": "Münstertal",
+            "adminName3": "Landkreis Breisgau-Hochschwarzwald",
+            "alternateNames": [
+                {
+                    "name": "Q15122378",
+                    "lang": "wkdt"
+                }
+            ],
+            "adminName2": "Freiburg Region",
+            "name": "Münster",
+            "fclName": "city, village,...",
+            "countryName": "Germany",
+            "fcodeName": "populated place",
+            "adminName1": "Baden-Württemberg"
+        },
+        {
+            "timezone": {
+                "gmtOffset": 1,
+                "timeZoneId": "Europe/Zurich",
+                "dstOffset": 2
+            },
+            "bbox": {
+                "east": 8.207045335218615,
+                "south": 47.19822582562831,
+                "north": 47.21259132534343,
+                "west": 8.183945996193406,
+                "accuracyLevel": 10
+            },
+            "asciiName": "Beromuenster",
+            "astergdem": 636,
+            "countryId": "2658434",
+            "fcl": "P",
+            "srtm3": 637,
+            "score": 40.758445739746094,
+            "adminId2": "8740970",
+            "adminId3": "7285216",
+            "countryCode": "CH",
+            "adminCodes1": {
+                "ISO3166_2": "LU"
+            },
+            "adminId1": "2659810",
+            "lat": "47.20612",
+            "fcode": "PPL",
+            "continentCode": "EU",
+            "adminCode2": "314",
+            "adminCode3": "1081",
+            "adminCode1": "LU",
+            "lng": "8.19265",
+            "geonameId": 2661542,
+            "toponymName": "Beromünster",
+            "population": 2876,
+            "adminName5": "",
+            "adminName4": "",
+            "adminName3": "Beromünster",
+            "alternateNames": [
+                {
+                    "name": "برومونسته",
+                    "lang": "fa"
+                },
+                {
+                    "name": "ベロミュンスター",
+                    "lang": "ja"
+                },
+                {
+                    "name": "Беромюнстер",
+                    "lang": "kk"
+                },
+                {
+                    "name": "베로뮌스터",
+                    "lang": "ko"
+                },
+                {
+                    "name": "Villa Beronensis",
+                    "lang": "la"
+                },
+                {
+                    "name": "https://en.wikipedia.org/wiki/Berom%C3%BCnster",
+                    "lang": "link"
+                },
+                {
+                    "name": "6215",
+                    "lang": "post"
+                },
+                {
+                    "name": "Беромюнстер",
+                    "lang": "ru"
+                },
+                {
+                    "name": "CHBRM",
+                    "lang": "unlc"
+                },
+                {
+                    "name": "貝羅明斯特",
+                    "lang": "zh"
+                },
+                {
+                    "name": "貝羅明斯特",
+                    "lang": "zh-Hant"
+                }
+            ],
+            "adminName2": "Sursee",
+            "name": "Beromünster",
+            "fclName": "city, village,...",
+            "countryName": "Switzerland",
+            "fcodeName": "populated place",
+            "adminName1": "Lucerne"
+        }
+    ]
+}

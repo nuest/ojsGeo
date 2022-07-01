@@ -1,0 +1,1675 @@
+{"geonames": [
+  {
+    "lng": "0",
+    "geonameId": 6295630,
+    "toponymName": "Earth",
+    "asciiName": "Earth",
+    "astergdem": -9999,
+    "fcl": "L",
+    "population": 6814400000,
+    "adminName5": "",
+    "srtm3": -32768,
+    "adminName4": "",
+    "adminName3": "",
+    "alternateNames": [
+      {
+        "name": "🌐",
+        "lang": "abbr"
+      },
+      {
+        "name": "Ер шары",
+        "lang": "ba"
+      },
+      {
+        "name": "পৃথিবী",
+        "lang": "bn"
+      },
+      {
+        "name": "Terra",
+        "lang": "ca"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Erde",
+        "lang": "de"
+      },
+      {
+        "isShortName": true,
+        "isPreferredName": true,
+        "name": "Γη",
+        "lang": "el"
+      },
+      {
+        "isShortName": true,
+        "name": "Earth",
+        "lang": "en"
+      },
+      {
+        "name": "Tero",
+        "lang": "eo"
+      },
+      {
+        "name": "Tierra",
+        "lang": "es"
+      },
+      {
+        "name": "Mundua",
+        "lang": "eu"
+      },
+      {
+        "name": "Maa",
+        "lang": "fi"
+      },
+      {
+        "isShortName": true,
+        "isPreferredName": true,
+        "name": "Monde",
+        "lang": "fr"
+      },
+      {
+        "name": "पृथ्वी",
+        "lang": "hi"
+      },
+      {
+        "isShortName": true,
+        "isPreferredName": true,
+        "name": "Föld",
+        "lang": "hu"
+      },
+      {
+        "isShortName": true,
+        "isPreferredName": true,
+        "name": "Terra",
+        "lang": "it"
+      },
+      {
+        "name": "La terdi",
+        "lang": "jbo"
+      },
+      {
+        "name": "Orbs",
+        "lang": "la"
+      },
+      {
+        "name": "https://en.wikipedia.org/wiki/Earth",
+        "lang": "link"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Zeme",
+        "lang": "lv"
+      },
+      {
+        "name": "Aarde",
+        "lang": "nl"
+      },
+      {
+        "name": "Jorden",
+        "lang": "no"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Ziemia",
+        "lang": "pl"
+      },
+      {
+        "name": "Pamânt",
+        "lang": "ro"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Земля",
+        "lang": "ru"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Yeryüzü",
+        "lang": "tr"
+      },
+      {
+        "name": "Җир шары",
+        "lang": "tt"
+      }
+    ],
+    "adminName2": "",
+    "name": "Earth",
+    "fclName": "parks,area, ...",
+    "fcodeName": "area",
+    "adminName1": "",
+    "lat": "0",
+    "fcode": "AREA"
+  },
+  {
+    "lng": "9.14062",
+    "geonameId": 6255148,
+    "timezone": {
+      "gmtOffset": 1,
+      "timeZoneId": "Europe/Vaduz",
+      "dstOffset": 2
+    },
+    "bbox": {
+      "east": 41.73303985595703,
+      "south": 27.6377894797159,
+      "north": 80.76416015625,
+      "west": -24.532675386662543,
+      "accuracyLevel": 7
+    },
+    "toponymName": "Europe",
+    "asciiName": "Europe",
+    "astergdem": 439,
+    "fcl": "L",
+    "population": 741000000,
+    "adminName5": "",
+    "srtm3": 443,
+    "adminName4": "",
+    "adminName3": "",
+    "alternateNames": [
+      {
+        "name": "أوروبا",
+        "lang": "ar"
+      },
+      {
+        "name": "Еўропа",
+        "lang": "be"
+      },
+      {
+        "name": "Европа",
+        "lang": "bg"
+      },
+      {
+        "name": "Evropa",
+        "lang": "bs"
+      },
+      {
+        "isShortName": true,
+        "isPreferredName": true,
+        "name": "Europa",
+        "lang": "ca"
+      },
+      {
+        "name": "Evropa",
+        "lang": "cs"
+      },
+      {
+        "name": "Ewrop",
+        "lang": "cy"
+      },
+      {
+        "name": "Europa",
+        "lang": "da"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Europa",
+        "lang": "de"
+      },
+      {
+        "name": "Ευρώπη",
+        "lang": "el"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Europe",
+        "lang": "en"
+      },
+      {
+        "name": "Eŭropo",
+        "lang": "eo"
+      },
+      {
+        "isShortName": true,
+        "isPreferredName": true,
+        "name": "Europa",
+        "lang": "es"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Euroopa",
+        "lang": "et"
+      },
+      {
+        "name": "Europa",
+        "lang": "eu"
+      },
+      {
+        "name": "Eurooppa",
+        "lang": "fi"
+      },
+      {
+        "name": "Europe",
+        "lang": "fr"
+      },
+      {
+        "name": "an Eoraip",
+        "lang": "ga"
+      },
+      {
+        "name": "אירופה",
+        "lang": "he"
+      },
+      {
+        "name": "यूरोप",
+        "lang": "hi"
+      },
+      {
+        "name": "Európa",
+        "lang": "hu"
+      },
+      {
+        "name": "Eropa",
+        "lang": "id"
+      },
+      {
+        "name": "Evrópa",
+        "lang": "is"
+      },
+      {
+        "name": "Europa",
+        "lang": "it"
+      },
+      {
+        "name": "ヨーロッパ",
+        "lang": "ja"
+      },
+      {
+        "isPreferredName": true,
+        "name": "유럽",
+        "lang": "ko"
+      },
+      {
+        "name": "Ewropa",
+        "lang": "ku"
+      },
+      {
+        "name": "Europa",
+        "lang": "la"
+      },
+      {
+        "name": "https://en.wikipedia.org/wiki/Europe",
+        "lang": "link"
+      },
+      {
+        "name": "Europa",
+        "lang": "lt"
+      },
+      {
+        "name": "Eiropa",
+        "lang": "lv"
+      },
+      {
+        "name": "Europa",
+        "lang": "nb"
+      },
+      {
+        "isShortName": true,
+        "isPreferredName": true,
+        "name": "Europa",
+        "lang": "nl"
+      },
+      {
+        "name": "Europa",
+        "lang": "no"
+      },
+      {
+        "name": "Europa",
+        "lang": "pl"
+      },
+      {
+        "name": "Europa",
+        "lang": "pt"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Europa",
+        "lang": "ro"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Европа",
+        "lang": "ru"
+      },
+      {
+        "name": "Eurohpá",
+        "lang": "se"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Európa",
+        "lang": "sk"
+      },
+      {
+        "name": "Europa",
+        "lang": "sv"
+      },
+      {
+        "name": "ยุโรป",
+        "lang": "th"
+      },
+      {
+        "name": "Avrupa",
+        "lang": "tr"
+      },
+      {
+        "name": "Європа",
+        "lang": "uk"
+      },
+      {
+        "name": "Châu Âu",
+        "lang": "vi"
+      },
+      {
+        "name": "欧洲",
+        "lang": "zh"
+      },
+      {
+        "name": "欧洲",
+        "lang": "zh-Hant"
+      }
+    ],
+    "cc2": "AD,AL,AT,AX,BA,BE,BG,BY,CH,CZ,DE,DK,EE,ES,FI,FO,FR,GB,GG,GI,GR,HR,HU,IE,IM,IS,IT,JE,LI,LT,LU,LV,MC,MD,ME,MK,MT,NL,NO,PL,PT,RO,RS,RU,SE,SI,SJ,SK,SM,UA,VA",
+    "adminName2": "",
+    "name": "Europe",
+    "fclName": "parks,area, ...",
+    "fcodeName": "continent",
+    "adminName1": "",
+    "lat": "48.69096",
+    "fcode": "CONT",
+    "continentCode": "EU"
+  },
+  {
+    "bbox": {
+      "east": 15.0418156516163,
+      "south": 47.2701236047002,
+      "north": 55.0583836008072,
+      "west": 5.8663152683722,
+      "accuracyLevel": 10
+    },
+    "asciiName": "Federal Republic of Germany",
+    "astergdem": 316,
+    "countryId": "2921044",
+    "fcl": "A",
+    "srtm3": 303,
+    "countryCode": "DE",
+    "lat": "51.5",
+    "fcode": "PCLI",
+    "continentCode": "EU",
+    "adminCode1": "00",
+    "lng": "10.5",
+    "geonameId": 2921044,
+    "toponymName": "Federal Republic of Germany",
+    "population": 82927922,
+    "adminName5": "",
+    "adminName4": "",
+    "adminName3": "",
+    "alternateNames": [
+      {
+        "isPreferredName": true,
+        "name": "Germany",
+        "lang": "aa"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Duitsland",
+        "lang": "af"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Gyaaman",
+        "lang": "ak"
+      },
+      {
+        "isPreferredName": true,
+        "name": "ጀርመን",
+        "lang": "am"
+      },
+      {
+        "name": "Alemaña",
+        "lang": "an"
+      },
+      {
+        "name": "Þēodiscland",
+        "lang": "ang"
+      },
+      {
+        "isPreferredName": true,
+        "name": "ألمانيا",
+        "lang": "ar"
+      },
+      {
+        "name": "ܓܪܡܢ",
+        "lang": "arc"
+      },
+      {
+        "isPreferredName": true,
+        "name": "জাৰ্মানী",
+        "lang": "as"
+      },
+      {
+        "name": "Alemaña",
+        "lang": "ast"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Almaniya",
+        "lang": "az"
+      },
+      {
+        "name": "Deitschlånd",
+        "lang": "bar"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Германія",
+        "lang": "be"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Германия",
+        "lang": "bg"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Alimaɲi",
+        "lang": "bm"
+      },
+      {
+        "isPreferredName": true,
+        "name": "জার্মানি",
+        "lang": "bn"
+      },
+      {
+        "isPreferredName": true,
+        "name": "འཇར་མན་",
+        "lang": "bo"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Alamagn",
+        "lang": "br"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Nemačka",
+        "lang": "bs"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Alemanya",
+        "lang": "ca"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Германи",
+        "lang": "ce"
+      },
+      {
+        "name": "ئەڵمانیا",
+        "lang": "ckb"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Německo",
+        "lang": "cs"
+      },
+      {
+        "name": "Miemieckô",
+        "lang": "csb"
+      },
+      {
+        "name": "Германи",
+        "lang": "cv"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Yr Almaen",
+        "lang": "cy"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Tyskland",
+        "lang": "da"
+      },
+      {
+        "isShortName": true,
+        "isPreferredName": true,
+        "name": "Deutschland",
+        "lang": "de"
+      },
+      {
+        "isPreferredName": true,
+        "name": "ཇཱར་མ་ནི",
+        "lang": "dz"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Germania nutome",
+        "lang": "ee"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Γερμανία",
+        "lang": "el"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Germany",
+        "lang": "en"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Germanujo",
+        "lang": "eo"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Alemania",
+        "lang": "es"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Saksamaa",
+        "lang": "et"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Alemania",
+        "lang": "eu"
+      },
+      {
+        "isPreferredName": true,
+        "name": "آلمان",
+        "lang": "fa"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Almaañ",
+        "lang": "ff"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Saksa",
+        "lang": "fi"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Týskland",
+        "lang": "fo"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Allemagne",
+        "lang": "fr"
+      },
+      {
+        "name": "Alemagne",
+        "lang": "frp"
+      },
+      {
+        "name": "Gjermanie",
+        "lang": "fur"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Dútslân",
+        "lang": "fy"
+      },
+      {
+        "isPreferredName": true,
+        "name": "an Ghearmáin",
+        "lang": "ga"
+      },
+      {
+        "isPreferredName": true,
+        "name": "A’ Ghearmailt",
+        "lang": "gd"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Alemaña",
+        "lang": "gl"
+      },
+      {
+        "name": "Alemaña",
+        "lang": "gn"
+      },
+      {
+        "isPreferredName": true,
+        "name": "જર્મની",
+        "lang": "gu"
+      },
+      {
+        "name": "Yn Ghermaan",
+        "lang": "gv"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Jamus",
+        "lang": "ha"
+      },
+      {
+        "name": "Nemačka",
+        "lang": "hbs"
+      },
+      {
+        "isPreferredName": true,
+        "name": "גרמניה",
+        "lang": "he"
+      },
+      {
+        "isPreferredName": true,
+        "name": "जर्मनी",
+        "lang": "hi"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Njemačka",
+        "lang": "hr"
+      },
+      {
+        "name": "Němska",
+        "lang": "hsb"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Németország",
+        "lang": "hu"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Գերմանիա",
+        "lang": "hy"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Germania",
+        "lang": "ia"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Jerman",
+        "lang": "id"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Jamanị",
+        "lang": "ig"
+      },
+      {
+        "isPreferredName": true,
+        "name": "ꄓꇩ",
+        "lang": "ii"
+      },
+      {
+        "name": "Alemania",
+        "lang": "ilo"
+      },
+      {
+        "name": "Germania",
+        "lang": "io"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Þýskaland",
+        "lang": "is"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Germania",
+        "lang": "it"
+      },
+      {
+        "isPreferredName": true,
+        "name": "ドイツ連邦共和国",
+        "lang": "ja"
+      },
+      {
+        "name": "dotygu'e",
+        "lang": "jbo"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Jérman",
+        "lang": "jv"
+      },
+      {
+        "isPreferredName": true,
+        "name": "გერმანია",
+        "lang": "ka"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Njeremani",
+        "lang": "ki"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Германия",
+        "lang": "kk"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Tysklandi",
+        "lang": "kl"
+      },
+      {
+        "isPreferredName": true,
+        "name": "អាល្លឺម៉ង់",
+        "lang": "km"
+      },
+      {
+        "isPreferredName": true,
+        "name": "ಜರ್ಮನಿ",
+        "lang": "kn"
+      },
+      {
+        "isPreferredName": true,
+        "name": "독일",
+        "lang": "ko"
+      },
+      {
+        "isPreferredName": true,
+        "name": "جرمٔنی",
+        "lang": "ks"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Almanya",
+        "lang": "ku"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Almayn",
+        "lang": "kw"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Германия",
+        "lang": "ky"
+      },
+      {
+        "name": "Germania",
+        "lang": "la"
+      },
+      {
+        "name": "Alemania",
+        "lang": "lad"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Däitschland",
+        "lang": "lb"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Budaaki",
+        "lang": "lg"
+      },
+      {
+        "name": "Duutsjlandj",
+        "lang": "li"
+      },
+      {
+        "name": "https://en.wikipedia.org/wiki/Germany",
+        "lang": "link"
+      },
+      {
+        "name": "Discüssiun sura la fundazziun",
+        "lang": "lmo"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Alemani",
+        "lang": "ln"
+      },
+      {
+        "isPreferredName": true,
+        "name": "ເຢຍລະມັນ",
+        "lang": "lo"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Vokietija",
+        "lang": "lt"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Alemanu",
+        "lang": "lu"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Vācija",
+        "lang": "lv"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Alemaina",
+        "lang": "mg"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Tiamana",
+        "lang": "mi"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Германија",
+        "lang": "mk"
+      },
+      {
+        "isPreferredName": true,
+        "name": "ജർമ്മനി",
+        "lang": "ml"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Герман",
+        "lang": "mn"
+      },
+      {
+        "isPreferredName": true,
+        "name": "जमिन",
+        "lang": "mr"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Jerman",
+        "lang": "ms"
+      },
+      {
+        "isPreferredName": true,
+        "name": "il-Ġermanja",
+        "lang": "mt"
+      },
+      {
+        "isPreferredName": true,
+        "name": "ဂျာမနီ",
+        "lang": "my"
+      },
+      {
+        "name": "Germany",
+        "lang": "na"
+      },
+      {
+        "name": "Teutōtitlan",
+        "lang": "nah"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Tyskland",
+        "lang": "nb"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Germany",
+        "lang": "nd"
+      },
+      {
+        "name": "Düütschland",
+        "lang": "nds"
+      },
+      {
+        "isPreferredName": true,
+        "name": "जर्मनी",
+        "lang": "ne"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Duitsland",
+        "lang": "nl"
+      },
+      {
+        "name": "Tyskland",
+        "lang": "nn"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Tyskland",
+        "lang": "no"
+      },
+      {
+        "name": "Allemangne",
+        "lang": "nrm"
+      },
+      {
+        "name": "DE",
+        "lang": "nuts"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Alemanha",
+        "lang": "oc"
+      },
+      {
+        "name": "Germuanii",
+        "lang": "olo"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Germany",
+        "lang": "om"
+      },
+      {
+        "isPreferredName": true,
+        "name": "ଜର୍ମାନୀ",
+        "lang": "or"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Герман",
+        "lang": "os"
+      },
+      {
+        "isPreferredName": true,
+        "name": "ਜਰਮਨੀ",
+        "lang": "pa"
+      },
+      {
+        "name": "Germany",
+        "lang": "pam"
+      },
+      {
+        "name": "Deitschland",
+        "lang": "pdc"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Niemcy",
+        "lang": "pl"
+      },
+      {
+        "name": "Germania",
+        "lang": "pms"
+      },
+      {
+        "isPreferredName": true,
+        "name": "المان",
+        "lang": "ps"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Alemanha",
+        "lang": "pt"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Alemania",
+        "lang": "qu"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Germania",
+        "lang": "rm"
+      },
+      {
+        "name": "Jermaniya",
+        "lang": "rmy"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Ubudage",
+        "lang": "rn"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Germania",
+        "lang": "ro"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Германия",
+        "lang": "ru"
+      },
+      {
+        "isPreferredName": true,
+        "name": "जर्मनीदेश:",
+        "lang": "sa"
+      },
+      {
+        "name": "Germània",
+        "lang": "sc"
+      },
+      {
+        "name": "Girmania",
+        "lang": "scn"
+      },
+      {
+        "name": "Germany",
+        "lang": "sco"
+      },
+      {
+        "isPreferredName": true,
+        "name": "جرمني",
+        "lang": "sd"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Duiskka",
+        "lang": "se"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Zâmani",
+        "lang": "sg"
+      },
+      {
+        "isPreferredName": true,
+        "name": "ජර්මනිය",
+        "lang": "si"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Nemecko",
+        "lang": "sk"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Nemčija",
+        "lang": "sl"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Germany",
+        "lang": "sn"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Jarmal",
+        "lang": "so"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Gjermani",
+        "lang": "sq"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Немачка",
+        "lang": "sr"
+      },
+      {
+        "name": "Tôitšhi",
+        "lang": "st"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Jérman",
+        "lang": "su"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Tyskland",
+        "lang": "sv"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Ujerumani",
+        "lang": "sw"
+      },
+      {
+        "isPreferredName": true,
+        "name": "ஜெர்மனி",
+        "lang": "ta"
+      },
+      {
+        "isPreferredName": true,
+        "name": "జర్మనీ",
+        "lang": "te"
+      },
+      {
+        "name": "Alemaña",
+        "lang": "tet"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Германия",
+        "lang": "tg"
+      },
+      {
+        "isPreferredName": true,
+        "name": "เยอรมัน",
+        "lang": "th"
+      },
+      {
+        "isPreferredName": true,
+        "name": "ጀርመን",
+        "lang": "ti"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Germaniýa",
+        "lang": "tk"
+      },
+      {
+        "name": "Alemanya",
+        "lang": "tl"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Siamane",
+        "lang": "to"
+      },
+      {
+        "name": "Siaman",
+        "lang": "tpi"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Almanya",
+        "lang": "tr"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Германия",
+        "lang": "tt"
+      },
+      {
+        "name": "Heremani",
+        "lang": "ty"
+      },
+      {
+        "name": "Германия",
+        "lang": "udm"
+      },
+      {
+        "isPreferredName": true,
+        "name": "گېرمانىيە",
+        "lang": "ug"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Німеччина",
+        "lang": "uk"
+      },
+      {
+        "isPreferredName": true,
+        "name": "جرمنی",
+        "lang": "ur"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Germaniya",
+        "lang": "uz"
+      },
+      {
+        "name": "Germania",
+        "lang": "vec"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Đức",
+        "lang": "vi"
+      },
+      {
+        "name": "Duutsland",
+        "lang": "vls"
+      },
+      {
+        "name": "Deutän",
+        "lang": "vo"
+      },
+      {
+        "name": "Alemanya",
+        "lang": "war"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Almaañ",
+        "lang": "wo"
+      },
+      {
+        "isPreferredName": true,
+        "name": "דייטשלאַנד",
+        "lang": "yi"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Jámánì",
+        "lang": "yo"
+      },
+      {
+        "isPreferredName": true,
+        "name": "德国",
+        "lang": "zh"
+      },
+      {
+        "isPreferredName": true,
+        "name": "德國",
+        "lang": "zh-Hant"
+      },
+      {
+        "name": "德意志聯邦共和國",
+        "lang": "zh-TW"
+      },
+      {
+        "isPreferredName": true,
+        "name": "i-Germany",
+        "lang": "zu"
+      },
+      {
+        "name": "德意志聯邦共和國",
+        "lang": "zh-Hant"
+      }
+    ],
+    "adminName2": "",
+    "name": "Germany",
+    "fclName": "country, state, region,...",
+    "countryName": "Germany",
+    "fcodeName": "independent political entity",
+    "adminName1": ""
+  },
+  {
+    "timezone": {
+      "gmtOffset": 1,
+      "timeZoneId": "Europe/Berlin",
+      "dstOffset": 2
+    },
+    "bbox": {
+      "east": 13.1870716187652,
+      "south": 50.9380320763096,
+      "north": 53.0417984885848,
+      "west": 10.561226987731,
+      "accuracyLevel": 10
+    },
+    "asciiName": "Saxony-Anhalt",
+    "astergdem": 48,
+    "countryId": "2921044",
+    "fcl": "A",
+    "srtm3": 51,
+    "countryCode": "DE",
+    "adminCodes1": {"ISO3166_2": "ST"},
+    "adminId1": "2842565",
+    "lat": "52",
+    "fcode": "ADM1",
+    "continentCode": "EU",
+    "adminCode1": "14",
+    "lng": "11.7333",
+    "geonameId": 2842565,
+    "toponymName": "Saxony-Anhalt",
+    "adminTypeName": "state",
+    "population": 2356219,
+    "adminName5": "",
+    "adminName4": "",
+    "adminName3": "",
+    "alternateNames": [
+      {
+        "name": "ST",
+        "lang": "abbr"
+      },
+      {
+        "isPreferredName": true,
+        "name": "سكسونيا أنهالت",
+        "lang": "ar"
+      },
+      {
+        "name": "زاکسن-آنهالت",
+        "lang": "azb"
+      },
+      {
+        "name": "Саксония-Анхалт",
+        "lang": "bg"
+      },
+      {
+        "name": "জ্যাক্সোনি-আনহাল্ট",
+        "lang": "bn"
+      },
+      {
+        "name": "ساکسۆنیا-ئەنھالت",
+        "lang": "ckb"
+      },
+      {
+        "isShortName": true,
+        "isPreferredName": true,
+        "name": "Sachsen-Anhalt",
+        "lang": "de"
+      },
+      {
+        "name": "Σαξωνία-Άνχαλτ",
+        "lang": "el"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Saxony-Anhalt",
+        "lang": "en"
+      },
+      {
+        "name": "Saksio-Anhalto",
+        "lang": "eo"
+      },
+      {
+        "name": "Sajonia-Anhalt",
+        "lang": "es"
+      },
+      {
+        "name": "زاکسن-آنهالت",
+        "lang": "fa"
+      },
+      {
+        "name": "Saksi-Anhalt",
+        "lang": "fi"
+      },
+      {
+        "name": "Saxe-Anhalt",
+        "lang": "fr"
+      },
+      {
+        "name": "Saksen-Anhalt",
+        "lang": "fy"
+      },
+      {
+        "name": "An tSacsain-Anhalt",
+        "lang": "ga"
+      },
+      {
+        "name": "Sagsainn-Anhalt",
+        "lang": "gd"
+      },
+      {
+        "name": "Sahoña-Anhalt",
+        "lang": "gn"
+      },
+      {
+        "name": "Saksen-Aanhoalt",
+        "lang": "gos"
+      },
+      {
+        "name": "סקסוניה-אנהלט",
+        "lang": "he"
+      },
+      {
+        "name": "सैक्सोनी-एन्हाल्ट",
+        "lang": "hi"
+      },
+      {
+        "name": "Saksko-Anhaltska",
+        "lang": "hsb"
+      },
+      {
+        "name": "Szász-Anhalt",
+        "lang": "hu"
+      },
+      {
+        "name": "Սաքսոնիա-Անհալթ",
+        "lang": "hy"
+      },
+      {
+        "name": "Saxland-Anhalt",
+        "lang": "is"
+      },
+      {
+        "name": "Sassonia-Anhalt",
+        "lang": "it"
+      },
+      {
+        "name": "ザクセン＝アンハルト州",
+        "lang": "ja"
+      },
+      {
+        "name": "საქსონია-ანჰალტი",
+        "lang": "ka"
+      },
+      {
+        "isPreferredName": true,
+        "name": "작센안할트 주",
+        "lang": "ko"
+      },
+      {
+        "name": "Saxonia-Anhaltium",
+        "lang": "la"
+      },
+      {
+        "name": "https://en.wikipedia.org/wiki/Saxony-Anhalt",
+        "lang": "link"
+      },
+      {
+        "name": "Saksonija-Anhaltas",
+        "lang": "lt"
+      },
+      {
+        "name": "Саксон-Анхальт",
+        "lang": "mn"
+      },
+      {
+        "name": "जाक्सन-आनहाल्ट",
+        "lang": "mr"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Sassen-Anholt",
+        "lang": "nds"
+      },
+      {
+        "name": "Saksen-Anhalt",
+        "lang": "nl"
+      },
+      {
+        "name": "DEE",
+        "lang": "nuts"
+      },
+      {
+        "name": "Saksonia-Anhalt",
+        "lang": "pl"
+      },
+      {
+        "name": "سیکسنی آنہالٹ",
+        "lang": "pnb"
+      },
+      {
+        "name": "Saxônia-Anhalt",
+        "lang": "pt"
+      },
+      {
+        "name": "Саксония-Анхальт",
+        "lang": "ru"
+      },
+      {
+        "name": "سئڪسني اينھالٽ",
+        "lang": "sd"
+      },
+      {
+        "name": "Sasko-Anhaltsko",
+        "lang": "sk"
+      },
+      {
+        "name": "Saška-Anhalt",
+        "lang": "sl"
+      },
+      {
+        "name": "Саксонија-Анхалт",
+        "lang": "sr"
+      },
+      {
+        "name": "รัฐแซกโซนี-อันฮัลต์",
+        "lang": "th"
+      },
+      {
+        "name": "Saksonya-Anhalt",
+        "lang": "tr"
+      },
+      {
+        "name": "Саксонія-Ангальт",
+        "lang": "uk"
+      },
+      {
+        "name": "زاکسن-آنہالت",
+        "lang": "ur"
+      },
+      {
+        "name": "Q1206",
+        "lang": "wkdt"
+      },
+      {
+        "name": "זאקסן-אנהאלט",
+        "lang": "yi"
+      },
+      {
+        "name": "薩克遜－雁候",
+        "lang": "yue"
+      },
+      {
+        "name": "萨克森-安哈尔特",
+        "lang": "zh"
+      },
+      {
+        "name": "萨克森-安哈尔特",
+        "lang": "zh-Hant"
+      }
+    ],
+    "adminName2": "",
+    "name": "Saxony-Anhalt",
+    "fclName": "country, state, region,...",
+    "countryName": "Germany",
+    "fcodeName": "first-order administrative division",
+    "adminName1": "Saxony-Anhalt"
+  },
+  {
+    "timezone": {
+      "gmtOffset": 1,
+      "timeZoneId": "Europe/Berlin",
+      "dstOffset": 2
+    },
+    "bbox": {
+      "east": 12.293914549743869,
+      "south": 50.938032076309604,
+      "north": 51.32040669898539,
+      "west": 11.36483264269247,
+      "accuracyLevel": 10
+    },
+    "asciiName": "Burgenlandkreis",
+    "astergdem": 121,
+    "countryId": "2921044",
+    "fcl": "A",
+    "srtm3": 124,
+    "adminId3": "3302156",
+    "countryCode": "DE",
+    "adminCodes1": {"ISO3166_2": "ST"},
+    "adminId1": "2842565",
+    "lat": "51.13989",
+    "fcode": "ADM3",
+    "continentCode": "EU",
+    "adminCode2": "00",
+    "adminCode3": "15084",
+    "adminCode1": "14",
+    "lng": "11.85784",
+    "geonameId": 3302156,
+    "toponymName": "Burgenlandkreis",
+    "population": 178846,
+    "adminName5": "",
+    "adminName4": "",
+    "adminName3": "Burgenlandkreis",
+    "alternateNames": [
+      {
+        "name": "https://en.wikipedia.org/wiki/Burgenlandkreis_%28former_district%29",
+        "lang": "link"
+      },
+      {
+        "name": "DEE08",
+        "lang": "nuts"
+      }
+    ],
+    "adminName2": "",
+    "name": "Burgenlandkreis",
+    "fclName": "country, state, region,...",
+    "countryName": "Germany",
+    "fcodeName": "third-order administrative division",
+    "adminName1": "Saxony-Anhalt"
+  },
+  {
+    "timezone": {
+      "gmtOffset": 1,
+      "timeZoneId": "Europe/Berlin",
+      "dstOffset": 2
+    },
+    "bbox": {
+      "east": 12.075097590159915,
+      "south": 51.155960630399534,
+      "north": 51.288303157269276,
+      "west": 11.858651240504093,
+      "accuracyLevel": 10
+    },
+    "asciiName": "Weissenfels",
+    "astergdem": 162,
+    "countryId": "2921044",
+    "fcl": "A",
+    "srtm3": 166,
+    "adminId3": "3302156",
+    "countryCode": "DE",
+    "adminId4": "6551143",
+    "adminCodes1": {"ISO3166_2": "ST"},
+    "adminId1": "2842565",
+    "lat": "51.19583",
+    "fcode": "ADM4",
+    "continentCode": "EU",
+    "adminCode2": "00",
+    "adminCode3": "15084",
+    "adminCode1": "14",
+    "lng": "11.9849",
+    "geonameId": 6551143,
+    "toponymName": "Weißenfels",
+    "adminCode4": "15084550",
+    "population": 40192,
+    "adminName5": "",
+    "adminName4": "Weißenfels",
+    "adminName3": "Burgenlandkreis",
+    "alternateNames": [
+      {
+        "name": "15084550",
+        "lang": "lauc"
+      },
+      {
+        "name": "https://en.wikipedia.org/wiki/Wei%C3%9Fenfels",
+        "lang": "link"
+      }
+    ],
+    "adminName2": "",
+    "name": "Weißenfels",
+    "fclName": "country, state, region,...",
+    "countryName": "Germany",
+    "fcodeName": "fourth-order administrative division",
+    "adminName1": "Saxony-Anhalt"
+  },
+  {
+    "timezone": {
+      "gmtOffset": 1,
+      "timeZoneId": "Europe/Berlin",
+      "dstOffset": 2
+    },
+    "bbox": {
+      "east": 11.966376177193672,
+      "south": 51.16650135124857,
+      "north": 51.184488648751426,
+      "west": 11.937679822806329,
+      "accuracyLevel": 1
+    },
+    "asciiName": "Obergreisslau",
+    "astergdem": 159,
+    "countryId": "2921044",
+    "fcl": "P",
+    "srtm3": 159,
+    "adminId3": "3302156",
+    "countryCode": "DE",
+    "adminId4": "6551143",
+    "adminCodes1": {"ISO3166_2": "ST"},
+    "adminId1": "2842565",
+    "lat": "51.17549",
+    "fcode": "PPL",
+    "continentCode": "EU",
+    "adminCode2": "00",
+    "adminCode3": "15084",
+    "adminCode1": "14",
+    "lng": "11.95203",
+    "geonameId": 2860579,
+    "toponymName": "Obergreißlau",
+    "adminCode4": "15084550",
+    "population": 0,
+    "adminName5": "",
+    "adminName4": "Weißenfels",
+    "adminName3": "Burgenlandkreis",
+    "adminName2": "",
+    "name": "Obergreißlau",
+    "fclName": "city, village,...",
+    "countryName": "Germany",
+    "fcodeName": "populated place",
+    "adminName1": "Saxony-Anhalt"
+  }
+]}

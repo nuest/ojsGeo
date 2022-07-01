@@ -1,0 +1,379 @@
+{"geonames": [
+  {
+    "lng": "0",
+    "geonameId": 6295630,
+    "toponymName": "Earth",
+    "asciiName": "Earth",
+    "astergdem": -9999,
+    "fcl": "L",
+    "population": 6814400000,
+    "adminName5": "",
+    "srtm3": -32768,
+    "adminName4": "",
+    "adminName3": "",
+    "alternateNames": [
+      {
+        "name": "🌐",
+        "lang": "abbr"
+      },
+      {
+        "name": "Ер шары",
+        "lang": "ba"
+      },
+      {
+        "name": "পৃথিবী",
+        "lang": "bn"
+      },
+      {
+        "name": "Terra",
+        "lang": "ca"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Erde",
+        "lang": "de"
+      },
+      {
+        "isShortName": true,
+        "isPreferredName": true,
+        "name": "Γη",
+        "lang": "el"
+      },
+      {
+        "isShortName": true,
+        "name": "Earth",
+        "lang": "en"
+      },
+      {
+        "name": "Tero",
+        "lang": "eo"
+      },
+      {
+        "name": "Tierra",
+        "lang": "es"
+      },
+      {
+        "name": "Mundua",
+        "lang": "eu"
+      },
+      {
+        "name": "Maa",
+        "lang": "fi"
+      },
+      {
+        "isShortName": true,
+        "isPreferredName": true,
+        "name": "Monde",
+        "lang": "fr"
+      },
+      {
+        "name": "पृथ्वी",
+        "lang": "hi"
+      },
+      {
+        "isShortName": true,
+        "isPreferredName": true,
+        "name": "Föld",
+        "lang": "hu"
+      },
+      {
+        "isShortName": true,
+        "isPreferredName": true,
+        "name": "Terra",
+        "lang": "it"
+      },
+      {
+        "name": "La terdi",
+        "lang": "jbo"
+      },
+      {
+        "name": "Orbs",
+        "lang": "la"
+      },
+      {
+        "name": "https://en.wikipedia.org/wiki/Earth",
+        "lang": "link"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Zeme",
+        "lang": "lv"
+      },
+      {
+        "name": "Aarde",
+        "lang": "nl"
+      },
+      {
+        "name": "Jorden",
+        "lang": "no"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Ziemia",
+        "lang": "pl"
+      },
+      {
+        "name": "Pamânt",
+        "lang": "ro"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Земля",
+        "lang": "ru"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Yeryüzü",
+        "lang": "tr"
+      },
+      {
+        "name": "Җир шары",
+        "lang": "tt"
+      }
+    ],
+    "adminName2": "",
+    "name": "Earth",
+    "fclName": "parks,area, ...",
+    "fcodeName": "area",
+    "adminName1": "",
+    "lat": "0",
+    "fcode": "AREA"
+  },
+  {
+    "lng": "9.14062",
+    "geonameId": 6255148,
+    "timezone": {
+      "gmtOffset": 1,
+      "timeZoneId": "Europe/Vaduz",
+      "dstOffset": 2
+    },
+    "bbox": {
+      "east": 41.73303985595703,
+      "south": 27.6377894797159,
+      "north": 80.76416015625,
+      "west": -24.532675386662543,
+      "accuracyLevel": 7
+    },
+    "toponymName": "Europe",
+    "asciiName": "Europe",
+    "astergdem": 439,
+    "fcl": "L",
+    "population": 741000000,
+    "adminName5": "",
+    "srtm3": 443,
+    "adminName4": "",
+    "adminName3": "",
+    "alternateNames": [
+      {
+        "name": "أوروبا",
+        "lang": "ar"
+      },
+      {
+        "name": "Еўропа",
+        "lang": "be"
+      },
+      {
+        "name": "Европа",
+        "lang": "bg"
+      },
+      {
+        "name": "Evropa",
+        "lang": "bs"
+      },
+      {
+        "isShortName": true,
+        "isPreferredName": true,
+        "name": "Europa",
+        "lang": "ca"
+      },
+      {
+        "name": "Evropa",
+        "lang": "cs"
+      },
+      {
+        "name": "Ewrop",
+        "lang": "cy"
+      },
+      {
+        "name": "Europa",
+        "lang": "da"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Europa",
+        "lang": "de"
+      },
+      {
+        "name": "Ευρώπη",
+        "lang": "el"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Europe",
+        "lang": "en"
+      },
+      {
+        "name": "Eŭropo",
+        "lang": "eo"
+      },
+      {
+        "isShortName": true,
+        "isPreferredName": true,
+        "name": "Europa",
+        "lang": "es"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Euroopa",
+        "lang": "et"
+      },
+      {
+        "name": "Europa",
+        "lang": "eu"
+      },
+      {
+        "name": "Eurooppa",
+        "lang": "fi"
+      },
+      {
+        "name": "Europe",
+        "lang": "fr"
+      },
+      {
+        "name": "an Eoraip",
+        "lang": "ga"
+      },
+      {
+        "name": "אירופה",
+        "lang": "he"
+      },
+      {
+        "name": "यूरोप",
+        "lang": "hi"
+      },
+      {
+        "name": "Európa",
+        "lang": "hu"
+      },
+      {
+        "name": "Eropa",
+        "lang": "id"
+      },
+      {
+        "name": "Evrópa",
+        "lang": "is"
+      },
+      {
+        "name": "Europa",
+        "lang": "it"
+      },
+      {
+        "name": "ヨーロッパ",
+        "lang": "ja"
+      },
+      {
+        "isPreferredName": true,
+        "name": "유럽",
+        "lang": "ko"
+      },
+      {
+        "name": "Ewropa",
+        "lang": "ku"
+      },
+      {
+        "name": "Europa",
+        "lang": "la"
+      },
+      {
+        "name": "https://en.wikipedia.org/wiki/Europe",
+        "lang": "link"
+      },
+      {
+        "name": "Europa",
+        "lang": "lt"
+      },
+      {
+        "name": "Eiropa",
+        "lang": "lv"
+      },
+      {
+        "name": "Europa",
+        "lang": "nb"
+      },
+      {
+        "isShortName": true,
+        "isPreferredName": true,
+        "name": "Europa",
+        "lang": "nl"
+      },
+      {
+        "name": "Europa",
+        "lang": "no"
+      },
+      {
+        "name": "Europa",
+        "lang": "pl"
+      },
+      {
+        "name": "Europa",
+        "lang": "pt"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Europa",
+        "lang": "ro"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Европа",
+        "lang": "ru"
+      },
+      {
+        "name": "Eurohpá",
+        "lang": "se"
+      },
+      {
+        "isPreferredName": true,
+        "name": "Európa",
+        "lang": "sk"
+      },
+      {
+        "name": "Europa",
+        "lang": "sv"
+      },
+      {
+        "name": "ยุโรป",
+        "lang": "th"
+      },
+      {
+        "name": "Avrupa",
+        "lang": "tr"
+      },
+      {
+        "name": "Європа",
+        "lang": "uk"
+      },
+      {
+        "name": "Châu Âu",
+        "lang": "vi"
+      },
+      {
+        "name": "欧洲",
+        "lang": "zh"
+      },
+      {
+        "name": "欧洲",
+        "lang": "zh-Hant"
+      }
+    ],
+    "cc2": "AD,AL,AT,AX,BA,BE,BG,BY,CH,CZ,DE,DK,EE,ES,FI,FO,FR,GB,GG,GI,GR,HR,HU,IE,IM,IS,IT,JE,LI,LT,LU,LV,MC,MD,ME,MK,MT,NL,NO,PL,PT,RO,RS,RU,SE,SI,SJ,SK,SM,UA,VA",
+    "adminName2": "",
+    "name": "Europe",
+    "fclName": "parks,area, ...",
+    "fcodeName": "continent",
+    "adminName1": "",
+    "lat": "48.69096",
+    "fcode": "CONT",
+    "continentCode": "EU"
+  }
+]}

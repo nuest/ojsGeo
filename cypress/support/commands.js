@@ -41,7 +41,7 @@ Cypress.Commands.add('install', function () {
 
     // for OJS 3.2.1.x, see https://github.com/pkp/pkp-lib/blob/9abc0f70f8d151f153fe36270341938216f3e5c2/cypress/support/commands.js
     cy.get('body').then($body => {
-        if ($body.find('#createDatabase').length > 0) {   
+        if ($body.find('#createDatabase').length > 0) {
             cy.get('input[id=createDatabase]').uncheck();
         }
     });
@@ -57,7 +57,7 @@ Cypress.Commands.add('install', function () {
 
     // Complete the installation
     cy.get('button[id^=submitFormButton-]').click();
-	cy.get('p:contains("has completed successfully.")');
+    cy.get('p:contains("has completed successfully.")');
 });
 
 // from https://github.com/pkp/ojs/blob/stable-3_3_0/cypress/tests/data/20-CreateContext.spec.js
@@ -365,6 +365,15 @@ Cypress.Commands.add('createSubmissionAndPublish', (data, context) => {
     cy.get('input[name=datetimes]').type(data.timePeriod);
     cy.wait(1000);
     cy.get('.applyBtn').click();
+
+    cy.intercept('GET', 'http://api.geonames.org/hierarchyJSON?formatted=true&lat=53.330872983017066&lng=8.437500000000002&username=optimeta_geo&style=full&featureClass=P&_=*', { fixture: '30-submission-01.json' })
+    cy.intercept('GET', 'http://api.geonames.org/hierarchyJSON?formatted=true&lat=51.17934297928929&lng=11.953125000000002&username=optimeta_geo&style=full&featureClass=P&_=*', { fixture: '30-submission-02.json' })
+    cy.intercept('GET', 'http://api.geonames.org/hierarchyJSON?geonameId=6295630&formatted=true&username=optimeta_geo&style=full&maxRows=12&_=*', { fixture: '30-submission-03.json' })
+    cy.intercept('GET', 'http://api.geonames.org/getJSON?geonameId=6295630&formatted=true&username=optimeta_geo&style=full&maxRows=12&_=*', { fixture: '30-submission-04.json' })
+    cy.intercept('GET', 'http://api.geonames.org/hierarchyJSON?geonameId=6255148&formatted=true&username=optimeta_geo&style=full&maxRows=12&_=*', { fixture: '30-submission-05.json' })
+    cy.intercept('GET', 'http://api.geonames.org/getJSON?geonameId=6255148&formatted=true&username=optimeta_geo&style=full&maxRows=12&_=*', { fixture: '30-submission-06.json' })
+    cy.intercept('GET', 'http://api.geonames.org/hierarchyJSON?geonameId=2921044&formatted=true&username=optimeta_geo&style=full&maxRows=12&_=*', { fixture: '30-submission-017json' })
+    cy.intercept('GET', 'http://api.geonames.org/getJSON?geonameId=2921044&formatted=true&username=optimeta_geo&style=full&maxRows=12&_=*', { fixture: '30-submission-08.json' })
 
     // https://medium.com/geoman-blog/testing-maps-e2e-with-cypress-ba9e5d903b2b
     cy.toolbarButton('polyline').click();
