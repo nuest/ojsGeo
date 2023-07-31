@@ -71,9 +71,11 @@ class OptimetaGeoPlugin extends GenericPlugin
 			HookRegistry::register('Templates::Submission::SubmissionMetadataForm::AdditionalMetadata', array($this, 'extendSubmissionMetadataFormTemplate'));
 
 			// Hooks for changing the article page 
-			HookRegistry::register('Templates::Article::Main', array(&$this, 'extendArticleMainTemplate'));
-			HookRegistry::register('Templates::Article::Details', array(&$this, 'extendArticleDetailsTemplate'));
-			HookRegistry::register('ArticleHandler::view', array(&$this, 'extendArticleView')); //
+			HookRegistry::register('Templates::Preprint::Main', array(&$this, 'extendArticleMainTemplate'));
+			HookRegistry::register('Templates::Preprint::Details', array(&$this, 'extendArticleDetailsTemplate'));
+
+			HookRegistry::register('ArticleHandler::view', array(&$this, 'extendArticleView'));
+			//HookRegistry::register('PreprintHandler::view', array(&$this, 'extendArticleView'));
 
 			// Hooks for changing the issue page 
 			HookRegistry::register('Templates::Issue::TOC::Main', array(&$this, 'extendIssueTocTemplate'));
