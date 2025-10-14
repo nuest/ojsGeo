@@ -74,7 +74,7 @@ $(function () {
 
                     let popupTemporal = `<br/>
                     <div class="authors">
-                        <i class="fa-solid fa-calendar-days"></i>
+                        <i class="fa fa-calendar pkpIcon--inline"></i>
                         <i>${articleTemporalStart} – ${articleTemporalEnd}</i>
                     </div>`
 
@@ -84,7 +84,7 @@ $(function () {
                 if (articleAdministrativeUnit !== "no data" && articleAdministrativeUnit !== null) {
                     let popupAdministrativeUnit = `<br/>
                     <div class="authors"> 
-                        <i class="fa-solid fa-location-dot"></i>
+                        <i class="fa fa-map-marker pkpIcon--inline"></i>
                         <i>${articleAdministrativeUnit}</i>
                     </div>`
 

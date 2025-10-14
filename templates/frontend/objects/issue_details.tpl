@@ -31,12 +31,12 @@
 		{/if} 
 		{if $publication->getData(GEOMETADATA_DB_FIELD_TIME_PERIODS) != "no data" && $publication->getData(GEOMETADATA_DB_FIELD_TIME_PERIODS) != ""}
 			<p></p>
-			<i class="fa-solid fa-calendar-days"></i>
+			<i class="fa fa-calendar pkpIcon--inline"></i>
 			<i>{$publication->getData(GEOMETADATA_DB_FIELD_TIME_PERIODS)|escape|replace:'..':' – '|replace:'{':''|replace:'}':''}</i>
 		{/if}
 		{if $article->getCoverage($journal->getPrimaryLocale()) != "no data" && $article->getCoverage($journal->getPrimaryLocale()) != ""}
 			<p></p>
-			<i class="fa-solid fa-location-dot"></i>
+            <i class="fa fa-map-marker pkpIcon--inline"></i>
 			<i>{$article->getCoverage($journal->getPrimaryLocale())|escape}</i>
 		{/if}
 	'>
