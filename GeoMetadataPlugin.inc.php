@@ -121,7 +121,7 @@ class GeoMetadataPlugin extends GenericPlugin
 			$templateMgr->assign('geoMetadata_markerBaseUrl',     $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/leaflet-color-markers/img/');
 
 			$templateMgr->assign('geoMetadata_mapUrlPath', MAP_URL_PATH);
-			$templateMgr->assign('geoMetadata_metadataLicense', '<a href="https://creativecommons.org/publicdomain/zero/1.0/">CC-0</a>');
+			$templateMgr->assign('geoMetadata_metadataLicense', '<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener noreferrer">CC-0</a>');
 		}
 
 		return $success;
