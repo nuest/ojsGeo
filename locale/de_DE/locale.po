@@ -113,6 +113,12 @@ msgstr "Artikel"
 msgid "plugins.generic.geoMetadata.map.administrativeLayerName"
 msgstr "Verwaltungseinheiten"
 
+msgid "plugins.generic.geoMetadata.map.fullscreen.title"
+msgstr "Vollbild anzeigen"
+
+msgid "plugins.generic.geoMetadata.map.fullscreen.titleCancel"
+msgstr "Vollbild verlassen"
+
 msgid "plugins.generic.geoMetadata.submission.coverageDisabledHover"
 msgstr "Dieses Feld wurde deaktiviert. Die Informationen werden automatisch auf der Grundlage der unten eingegebenen Geodaten ausgefüllt."
 

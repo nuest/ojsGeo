@@ -91,6 +91,8 @@ class GeoMetadataPlugin extends GenericPlugin
 			$urlLeafletJS =                $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/leaflet/dist/leaflet.js';
 			$urlLeafletDrawCSS =           $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/leaflet-draw/dist/leaflet.draw.css';
 			$urlLeafletDrawJS =            $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/leaflet-draw/dist/leaflet.draw.js';
+			$urlLeafletFullscreenCSS =     $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/leaflet.fullscreen/Control.FullScreen.css';
+			$urlLeafletFullscreenJS =      $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/leaflet.fullscreen/Control.FullScreen.js';
 			$urlMomentJS =                 $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/moment/moment.js';
 			$urlDaterangepickerJS =        $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/daterangepicker/daterangepicker.js';
 			$urlDaterangepickerCSS =       $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/daterangepicker/daterangepicker.css';
@@ -104,6 +106,10 @@ class GeoMetadataPlugin extends GenericPlugin
 			// loading the leaflet draw scripts, source: https://www.jsdelivr.com/package/npm/leaflet-draw?path=dist
 			$templateMgr->addStyleSheet("leafletDrawCSS", $urlLeafletDrawCSS, array('contexts' => array('frontend', 'backend')));
 			$templateMgr->addJavaScript("leafletDrawJS", $urlLeafletDrawJS, array('contexts' => array('frontend', 'backend')));
+
+			// loading the leaflet fullscreen control, source: https://github.com/brunob/leaflet.fullscreen
+			$templateMgr->addStyleSheet("leafletFullscreenCSS", $urlLeafletFullscreenCSS, array('contexts' => array('frontend', 'backend')));
+			$templateMgr->addJavaScript("leafletFullscreenJS", $urlLeafletFullscreenJS, array('contexts' => array('frontend', 'backend')));
 
 			// loading the daterangepicker scripts, source: https://www.daterangepicker.com/#example2
 			$templateMgr->addJavaScript("momentJS", $urlMomentJS, array('contexts' => array('frontend', 'backend')));

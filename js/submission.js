@@ -87,6 +87,13 @@ function initMap() {
     // add scale to the map
     L.control.scale({ position: 'bottomright' }).addTo(map);
 
+    // add fullscreen control
+    L.control.fullscreen({
+        position: 'topleft',
+        title: geoMetadata_fullscreenTitle,
+        titleCancel: geoMetadata_fullscreenTitleCancel
+    }).addTo(map);
+
     // FeatureGroup for the items drawn or inserted by the search
     drawnItems = new L.FeatureGroup();
     map.addLayer(drawnItems);

@@ -19,6 +19,8 @@ const geoMetadata_mapLayerStyle = {
 
 const geoMetadata_articleLayerName = '{translate key="plugins.generic.geoMetadata.map.articleLayerName"}';
 const geoMetadata_adminLayerName = '{translate key="plugins.generic.geoMetadata.map.administrativeLayerName"}';
+const geoMetadata_fullscreenTitle = '{translate key="plugins.generic.geoMetadata.map.fullscreen.title"}';
+const geoMetadata_fullscreenTitleCancel = '{translate key="plugins.generic.geoMetadata.map.fullscreen.titleCancel"}';
 </script>
 
 <div style="clear:both;">

@@ -11,10 +11,10 @@
 The geoMetadata Plugin (formerly known as OJS Geo Plugin or OPTIMETA Geo Plugin) offers a novel way to capture and provide geospatial properties of research articles in [Open Journal Systems (OJS)](https://pkp.sfu.ca/ojs/).
 It is developed as part of the BMFTR-funded projects [OPTIMETA](https://projects.tib.eu/optimeta/en/) and [KOMET](https://projects.tib.eu/komet/en/).
 
-The KOMET team develops further plugins like the [citationManager](https://github.com/TIBHannover/citationManager) and [pidManager](https://github.com/TIBHannover/pidManager). 
+The KOMET team develops further plugins like the [citationManager](https://github.com/TIBHannover/citationManager) and [pidManager](https://github.com/TIBHannover/pidManager).
 Visit the [KOMET project website](https://projects.tib.eu/komet/output/) for a full overview of the project output.
 
-## Functionality  
+## Functionality
 
 Authors can either search for a location and accept the suggested bounding box or manually create one or more suitable geometric shape(s) on a map.
 If authors enter geometries, a gazetteer is used to suggest a matching administrative unit’s name to the author.
@@ -36,14 +36,14 @@ In addition, the information is also added to the HTML source code of article’
 <em>Screenshot of geospatial properties in the OJS article view</em>
 </div>
 
-## Publications 
+## Publications
 
 A first prototype of the geoMetadata Plugin was developed under the name *geoOJS* by Tom Niers for the BSc. thesis [Geospatial Metadata for Discovery in Scholarly Publishing](http://nbn-resolving.de/urn:nbn:de:hbz:6-69029469735); the work was [presented at The Munin Conference on Scholarly Publishing, 2020](https://doi.org/10.7557/5.5590), see [recording](https://youtu.be/-Lc9AjHq_AY).
 
 ## Download & Installation
 
-You can download OJS via the [PKP Software Download Section](https://pkp.sfu.ca/software/ojs/download/). 
-A detailed [GetStarted Guide](GetStarted.md) for installing OJS is available. 
+You can download OJS via the [PKP Software Download Section](https://pkp.sfu.ca/software/ojs/download/).
+A detailed [GetStarted Guide](GetStarted.md) for installing OJS is available.
 
 ### From Source
 
@@ -56,18 +56,18 @@ Once OJS has been installed, the plugin must be downloaded and installed.
 
 ### Via Release
 
-See releases at <https://github.com/TIBHannover/geoMetadata/releases>. 
-In the GitHub Release View you will find 4 archives in the assets of the corresponding release:  
+See releases at <https://github.com/TIBHannover/geoMetadata/releases>.
+In the GitHub Release View you will find 4 archives in the assets of the corresponding release:
 
 - The `geoMetadata.tar.gz` and `geoMetadata.zip` archive contain the plugin's source code, along with the necessary JavaScript dependencies. No further installation via composer is required, the plugin is ready to use.
-- `Source code (zip)` and `Source code (tar.gz)` contain only the plugin source code. Further installation via composer is required (See [Step 3. From Source](#from-source)). 
+- `Source code (zip)` and `Source code (tar.gz)` contain only the plugin source code. Further installation via composer is required (See [Step 3. From Source](#from-source)).
 
 We recommend downloading either the `geoMetadata.tar.gz` or the `geoMetadata.zip` archive, which include the JavaScript dependencies. The following guidelines will guide you through the installation process using these archives. There are two options available:
 
-#### Installation via Upload 
+#### Installation via Upload
 
 1. Download as `zip`-archive or `tar.gz`-archive. Renaming is not required.
-1. Use the button `Upload a New Plugin` in the OJS plugin settings (OJS > Dashboard > Website > Plugins > Installed Plugins). 
+1. Use the button `Upload a New Plugin` in the OJS plugin settings (OJS > Dashboard > Website > Plugins > Installed Plugins).
 1. Select the `zip`-archive or `tar.gz`-archive for upload and click the `Save`-button.
 1. Activate the plugin in the OJS plugin settings (OJS > Dashboard > Website > Plugins > Installed Plugins) and continue with [Configuration](#configuration).
 
@@ -76,23 +76,23 @@ We recommend downloading either the `geoMetadata.tar.gz` or the `geoMetadata.zip
 - The upload limit in OJS is 2 MB by default. To upload the geoMetadata plugin, you need to increase this limit in the used `php.ini`-file.
    - If you do not know where the `php.ini` file is located, you can find it by creating an `info.php`-file in your server folder containing the following content: `echo "<?php phpinfo();" >`
       - Open the `info.php`-file in a browser to check the location (property: `Loaded Configuration File`) of the `php.ini`-file.
-   - The following properties need to be adapted: 
+   - The following properties need to be adapted:
       - `post_max_size = 100M`
       - `upload_max_filesize = 100M`
-   - To apply the changes in the `php.ini`-file, a restart of Apache and OJS is required. 
-- If you want to upload the plugin as `tar.gz`-archive you need to define the `tar`-path in the OJS configuration file (`config.inc.php`). 
-   - code sequence in the `config.inc.php`: 
+   - To apply the changes in the `php.ini`-file, a restart of Apache and OJS is required.
+- If you want to upload the plugin as `tar.gz`-archive you need to define the `tar`-path in the OJS configuration file (`config.inc.php`).
+   - code sequence in the `config.inc.php`:
       ```bash
       ; tar (used in backup plugin, translation packaging)
       tar = /bin/tar
       ```
-   - If you are not aware of the `tar`-path on your system you can find it out by using the following command in the terminal: `which tar`.  
+   - If you are not aware of the `tar`-path on your system you can find it out by using the following command in the terminal: `which tar`.
 
-#### Installation via Drag and Drop 
+#### Installation via Drag and Drop
 
 1. Download as `zip`-archive or `tar.gz`-archive and uncompress it.
-1. Save the contents into the directory `ojs/plugins/generic/geoMetadata` in your OJS installation. 
-   - It is important to store the content in the directory `ojs/plugins/generic/geoMetadata` and not in a directory including the tag e.g. `ojs/plugins/generic/geoMetadata-1.0.0.0-beta`. 
+1. Save the contents into the directory `ojs/plugins/generic/geoMetadata` in your OJS installation.
+   - It is important to store the content in the directory `ojs/plugins/generic/geoMetadata` and not in a directory including the tag e.g. `ojs/plugins/generic/geoMetadata-1.0.0.0-beta`.
 1. Activate the plugin in the OJS plugin settings (OJS > Dashboard > Website > Plugins > Installed Plugins) and continue with [Configuration](#configuration).
 
 ## Configuration
@@ -102,53 +102,53 @@ We recommend downloading either the `geoMetadata.tar.gz` or the `geoMetadata.zip
 You have to specify your username for the GeoNames API, so that an alignment for the administrative units is possible.
 
 1. Create an account on <https://www.geonames.org/login> and enable it by clicking the activiation link you receive via email.
-1. Go to <https://www.geonames.org/manageaccount> and enable your account for free web services. 
+1. Go to <https://www.geonames.org/manageaccount> and enable your account for free web services.
 1. Enter the username and the GeoNames BaseURL in the settings (OJS > Dashboard > Website > Plugins > Installed Plugins > geoMetadata > blue arrow > Settings).
 
-### 2. Configure **Issue TOC** 
+### 2. Configure **Issue TOC**
 
-The plugin displays geospatial information for each article included in an issue on a map on the issue page. 
-To enable this feature, you need to change a line of code in the main OJS code. 
+The plugin displays geospatial information for each article included in an issue on a map on the issue page.
+To enable this feature, you need to change a line of code in the main OJS code.
 
-You need to add the following line of code to the [issue_toc.tpl](https://github.com/pkp/ojs/blob/bad437e0ef240afb2370c0548e55fb18716fd278/templates/frontend/objects/issue_toc.tpl) in [line 130](https://github.com/pkp/ojs/blob/bad437e0ef240afb2370c0548e55fb18716fd278/templates/frontend/objects/issue_toc.tpl#L130): 
+You need to add the following line of code to the [issue_toc.tpl](https://github.com/pkp/ojs/blob/bad437e0ef240afb2370c0548e55fb18716fd278/templates/frontend/objects/issue_toc.tpl) in [line 130](https://github.com/pkp/ojs/blob/bad437e0ef240afb2370c0548e55fb18716fd278/templates/frontend/objects/issue_toc.tpl#L130):
 
 ```php
 {call_hook name="Templates::Issue::TOC::Main"}
 ```
 
-With your adaptations, this section of the file should look like this: 
+With your adaptations, this section of the file should look like this:
 
 ```php
 {/foreach}                                     # line 129
 {call_hook name="Templates::Issue::TOC::Main"} # line 130
 </div><!-- .sections -->                       # line 131
 ```
-   
+
 ### 3. Configure Journal Map
 
 The plugin displays geospatial information for each article included in a journal on a map.
 This map is available via the URL `<journal URL>/map`, e.g., `https://example-publisher.org/index.php/exampleJournal/map`.
-   
+
 This map is always available via the URL, but you can carry out the following steps to make it accessible to users with a button in the _Primary Navigation Menu_.
 
 1. Enter the corresponding menu (OJS > Dashboard > Website > Setup > Navigation).
 1. Add the Navigation Menu Item _Map_.
-   1. _Add Item_ 
-   1. Title: _Map_ 
-   1. Navigation Menu Type: _Remote URL_  
-   1. URL: _journalURL/map_  
-1. Add Navigation Menu Item _Map_ to _Primary Navigation Menu_. 
-   - If the _Primary Navigation Menu_ is available. 
-      1. _Blue Arrow_ next to _Primary Navigation Menu_ 
-      1. _Edit_ 
-      1. Place the Menu Item _Map_ at the place where the user should find it. You can move the item _Map_ from the _Unassigned Menu Items_ to the _Assigned Menu Items_. 
-   - If the _Primary Navigation Menu_ is not available you have to create it. 
-      1. _Add Menu_ 
-      1. Title: _Primary Navigation Menu_ 
+   1. _Add Item_
+   1. Title: _Map_
+   1. Navigation Menu Type: _Remote URL_
+   1. URL: _journalURL/map_
+1. Add Navigation Menu Item _Map_ to _Primary Navigation Menu_.
+   - If the _Primary Navigation Menu_ is available.
+      1. _Blue Arrow_ next to _Primary Navigation Menu_
+      1. _Edit_
+      1. Place the Menu Item _Map_ at the place where the user should find it. You can move the item _Map_ from the _Unassigned Menu Items_ to the _Assigned Menu Items_.
+   - If the _Primary Navigation Menu_ is not available you have to create it.
+      1. _Add Menu_
+      1. Title: _Primary Navigation Menu_
       1. Active Theme Navigation Areas: _primary_
-      1. Place all items the user should find in the menu including the item _Map_. You can move the items from the _Unassigned Menu Items_ to the _Assigned Menu Items_.  
+      1. Place all items the user should find in the menu including the item _Map_. You can move the items from the _Unassigned Menu Items_ to the _Assigned Menu Items_.
 
-Further information on the geoJSON specification is available via a [wiki](https://github.com/tomniers/geoOJS/wiki/geoJSON-Specification). 
+Further information on the geoJSON specification is available via a [wiki](https://github.com/tomniers/geoOJS/wiki/geoJSON-Specification).
 
 ## Contribute
 
@@ -197,17 +197,17 @@ To debug, add `debugger;` to the code and make sure to have the developer tools 
 
 1. Run `composer update` and `composer install`
 1. Update the releaseVersion in the `version.xml` e.g. `<release>1.0.1.0-beta</release>`
-   - Create a corresponding commit and push it to GitHub 
+   - Create a corresponding commit and push it to GitHub
 1. Add a git tag and push it to GitHub
-   - `git tag -a vReleaseVersion -m "release vReleaseVersion"` e.g. `git tag -a v1.0.1.0-beta -m "release v1.0.1.0-beta"` 
+   - `git tag -a vReleaseVersion -m "release vReleaseVersion"` e.g. `git tag -a v1.0.1.0-beta -m "release v1.0.1.0-beta"`
       - The tag is now connected to the beforehand pushed commit with the changed `version.xml`
    - `git push origin tag vReleaseVersion` e.g. `git push origin tag v1.0.1.0-beta`
-1. Create a `zip` and `tar.gz` archive of the local repository including the required dependencies from `vendor/` and `js/lib/` but excluding exclude non-essential files. 
-   - `zip`-archive 
+1. Create a `zip` and `tar.gz` archive of the local repository including the required dependencies from `vendor/` and `js/lib/` but excluding exclude non-essential files.
+   - `zip`-archive
       ```bash
       zip -r geoMetadata.zip geoMetadata --exclude '*.git*' --exclude '*.github/*' --exclude 'node_modules/*' --exclude '*cypress/*' --exclude '*.gitignore*' --exclude '*.npmignore*' --exclude '*messages.mo*' --exclude '*cypress.config.js*' --exclude '*CONDUCT.md*' --exclude '*docs/*' --exclude '*testData/*'
       ```
-   - `tar.gz`-archive  
+   - `tar.gz`-archive
       ```bash
       tar -czf geoMetadata.tar.gz \
           --exclude='*.git*' \
@@ -225,7 +225,7 @@ To debug, add `debugger;` to the code and make sure to have the developer tools 
       ```
 1. Create a new [release](https://github.com/TIBHannover/geoMetadata/releases) on GitHub using the tag just created, with a fitting title, description and, if necessary, check the `pre-release` box
 1. Upload the both archives as binaries to the release on GitHub
-1. Publish release 
+1. Publish release
 
 Later release workflows will include usage of the PKP CLI tool, see <https://docs.pkp.sfu.ca/dev/plugin-guide/en/release>.
 

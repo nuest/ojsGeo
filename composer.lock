@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "09a191a176f82f2ca87256afe2960bc5",
+    "content-hash": "ab0dfbf3e957006d5e0d9f389072c321",
     "packages": [
         {
             "name": "composer/installers",
@@ -225,6 +225,18 @@
             "dist": {
                 "type": "tar",
                 "url": "https://registry.npmjs.org/leaflet-draw/-/leaflet-draw-1.0.4.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "npm-asset/leaflet.fullscreen",
+            "version": "3.0.2",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/leaflet.fullscreen/-/leaflet.fullscreen-3.0.2.tgz"
             },
             "type": "npm-asset",
             "license": [

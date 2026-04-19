@@ -22,6 +22,8 @@ const geoMetadata_mapLayerStyle = {
 
 const geoMetadata_layerName = '{translate key="plugins.generic.geoMetadata.map.articleLayerName"}';
 const geoMetadata_articleBaseUrl = '{if $journal}{url journal=$journal->getPath() page="article" op="view" path=""}{else}{url page="article" op="view" path=""}{/if}';
+const geoMetadata_fullscreenTitle = '{translate key="plugins.generic.geoMetadata.map.fullscreen.title"}';
+const geoMetadata_fullscreenTitleCancel = '{translate key="plugins.generic.geoMetadata.map.fullscreen.titleCancel"}';
 </script>
 
 <link rel="stylesheet" href="{$pluginStylesheetURL}styles.css" type="text/css" />

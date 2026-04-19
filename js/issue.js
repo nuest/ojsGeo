@@ -25,8 +25,15 @@ var baseLayers = {
     "Esri World Imagery": Esri_WorldImagery
 };
 
-// add scale to the map 
+// add scale to the map
 L.control.scale({ position: 'bottomright' }).addTo(map);
+
+// add fullscreen control
+L.control.fullscreen({
+    position: 'topleft',
+    title: geoMetadata_fullscreenTitle,
+    titleCancel: geoMetadata_fullscreenTitleCancel
+}).addTo(map);
 
 // FeatureGroup for the geospatial extent of articles
 var articleLocations = new L.FeatureGroup();

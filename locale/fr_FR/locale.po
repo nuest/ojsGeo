@@ -110,6 +110,12 @@ msgstr "Des articles"
 msgid "plugins.generic.geoMetadata.map.administrativeLayerName"
 msgstr "Unités administratives"
 
+msgid "plugins.generic.geoMetadata.map.fullscreen.title"
+msgstr "Afficher en plein écran"
+
+msgid "plugins.generic.geoMetadata.map.fullscreen.titleCancel"
+msgstr "Quitter le plein écran"
+
 msgid "plugins.generic.geoMetadata.map.coverageDisabledHover"
 msgstr "Ce champ a été désactivé. Les informations seront remplies automatiquement en fonction des informations géospatiales saisies ci-dessous."
 

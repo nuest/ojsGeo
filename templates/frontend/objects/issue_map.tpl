@@ -43,6 +43,8 @@
 
 		const geoMetadata_layerName = '{translate key="plugins.generic.geoMetadata.map.articleLayerName"}';
 		const geoMetadata_markerBaseUrl = '{$geoMetadata_markerBaseUrl}';
+		const geoMetadata_fullscreenTitle = '{translate key="plugins.generic.geoMetadata.map.fullscreen.title"}';
+		const geoMetadata_fullscreenTitleCancel = '{translate key="plugins.generic.geoMetadata.map.fullscreen.titleCancel"}';
 	</script>
 
     <{$heading}>{translate key="plugins.generic.geoMetadata.issue.title"}</{$heading}>

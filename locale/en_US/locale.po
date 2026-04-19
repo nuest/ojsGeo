@@ -113,6 +113,12 @@ msgstr "Articles"
 msgid "plugins.generic.geoMetadata.map.administrativeLayerName"
 msgstr "Administrative Units"
 
+msgid "plugins.generic.geoMetadata.map.fullscreen.title"
+msgstr "View fullscreen"
+
+msgid "plugins.generic.geoMetadata.map.fullscreen.titleCancel"
+msgstr "Exit fullscreen"
+
 msgid "plugins.generic.geoMetadata.submission.coverageDisabledHover"
 msgstr "This field has been disabled. Information will be filled in automatically based on the location information entered below."
 

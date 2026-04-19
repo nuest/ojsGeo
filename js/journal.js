@@ -27,6 +27,13 @@ var baseLayers = {
 
 L.control.scale({ position: 'bottomright' }).addTo(map);
 
+// add fullscreen control
+L.control.fullscreen({
+    position: 'topleft',
+    title: geoMetadata_fullscreenTitle,
+    titleCancel: geoMetadata_fullscreenTitleCancel
+}).addTo(map);
+
 // FeatureGroup for the geospatial extent of articles
 var articleLocations = new L.FeatureGroup();
 map.addLayer(articleLocations);
