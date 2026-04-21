@@ -27,7 +27,7 @@ msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal"
 msgstr "Zeitliche Eigenschaften"
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.description.submission"
-msgstr "Definieren Sie die zeitlichen Eigenschaften des Artikelinhalts durch Angabe von Anfangs- und Enddatum. Die Eingabe ist sowohl über das Textfeld als auch über die Kalenderansicht möglich. Klicken Sie auf das Eingabefeld unter diesem Text, um die Kalenderansicht zu öffnen. Drücken Sie \"Übernehmen\", um die Kalendereinstellung zu speichern. Drücken Sie \"Löschen\", um die aktuellen Daten zu entfernen. Texteingaben müssen dem folgenden Format entsprechen und durch Klicken auf \"Anwenden\" bestätigt werden. Nutzen Sie bitte nicht die Enter-Taste. Bei manuellen Eingaben werden Anfang und Ende durch einen Bindestrich getrennt, der von Leerzeichen umgeben ist; Datumsangaben sind im Format \"JJJJ-MM-TT\" einzugeben, wobei \"JJJJ\" für Jahre, \"MM\" für Monate (mit einer führenden Null) und \"DD\" für Tage (mit einer führenden Null) steht. Darüber hinaus werden Eingaben wie "XXXX" und "XXXX-DD" auch akzeptiert und in der Folge formatiert in "XXXX-01-01" oder "XXXX-DD-01"."
+msgstr "Definieren Sie die zeitlichen Eigenschaften des Artikelinhalts durch Angabe von Anfangs- und Enddatum. Die Eingabe ist sowohl über das Textfeld als auch über die Kalenderansicht möglich. Klicken Sie auf das Eingabefeld unter diesem Text, um die Kalenderansicht zu öffnen. Drücken Sie \"Übernehmen\", um die Kalendereinstellung zu speichern. Drücken Sie \"Löschen\", um die aktuellen Daten zu entfernen. Texteingaben müssen dem folgenden Format entsprechen und durch Klicken auf \"Anwenden\" bestätigt werden. Nutzen Sie bitte nicht die Enter-Taste. Bei manuellen Eingaben werden Anfang und Ende durch einen Bindestrich getrennt, der von Leerzeichen umgeben ist; Datumsangaben sind im Format \"JJJJ-MM-TT\" einzugeben, wobei \"JJJJ\" für Jahre, \"MM\" für Monate (mit einer führenden Null) und \"DD\" für Tage (mit einer führenden Null) steht. Darüber hinaus werden Eingaben wie \"XXXX\" und \"XXXX-DD\" auch akzeptiert und in der Folge formatiert in \"XXXX-01-01\" oder \"XXXX-DD-01\"."
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.description.article"
 msgstr "Zeitliche Eigenschaften des Artikelinhalts, angegeben in Tagen."
@@ -81,7 +81,7 @@ msgid "plugins.generic.geoMetadata.settings.baseurlGeonames"
 msgstr "Basis-URL von GeoNames, um zwischen 'http' und 'https' zu wechseln."
 
 msgid "plugins.generic.geoMetadata.settings.baseurlGeonames.description"
-msgstr "Geben Sie hier in Abhängigkeit zu Ihrem Setup die passende GeoNames Base URL ein. Diese ist voraussichtlich eine der folgenden: <code>http://api.geonames.org</code>, <code>https://www.geonames.org</code>, oder <code>https://secure.geonames.org</code>. Wenn Sie das Plugin lokal testen sollten Sie <code>http://api.geonames.org</code> nutzen, der sichere und CORS-valide GeoNames endpoint ist <code>https://secure.geonames.org</code>. Weitere Informationen sind verfügbar unter <a href=\"https://www.geonames.org/export/web-services.html">https://www.geonames.org/export/web-services.html</a>."
+msgstr "Geben Sie hier in Abhängigkeit zu Ihrem Setup die passende GeoNames Base URL ein. Diese ist voraussichtlich eine der folgenden: <code>http://api.geonames.org</code>, <code>https://www.geonames.org</code>, oder <code>https://secure.geonames.org</code>. Wenn Sie das Plugin lokal testen sollten Sie <code>http://api.geonames.org</code> nutzen, der sichere und CORS-valide GeoNames endpoint ist <code>https://secure.geonames.org</code>. Weitere Informationen sind verfügbar unter <a href=\"https://www.geonames.org/export/web-services.html\">https://www.geonames.org/export/web-services.html</a>."
 
 msgid "plugins.generic.geoMetadata.name"
 msgstr "geoMetadata Plugin"
@@ -118,6 +118,123 @@ msgstr "Vollbild anzeigen"
 
 msgid "plugins.generic.geoMetadata.map.fullscreen.titleCancel"
 msgstr "Vollbild verlassen"
+
+msgid "plugins.generic.geoMetadata.map.overlay.geometry"
+msgstr "Geometrische Form(en)"
+
+msgid "plugins.generic.geoMetadata.map.overlay.administrativeUnit"
+msgstr "Verwaltungseinheit"
+
+msgid "plugins.generic.geoMetadata.map.zoom.in"
+msgstr "Hineinzoomen"
+
+msgid "plugins.generic.geoMetadata.map.zoom.out"
+msgstr "Herauszoomen"
+
+msgid "plugins.generic.geoMetadata.map.geocoder.placeholder"
+msgstr "Suchen"
+
+msgid "plugins.generic.geoMetadata.map.geocoder.errorMessage"
+msgstr "Nichts gefunden."
+
+msgid "plugins.generic.geoMetadata.map.geocoder.buttonTitle"
+msgstr "Auf der Karte suchen"
+
+msgid "plugins.generic.geoMetadata.map.draw.actionCancelTitle"
+msgstr "Zeichnen abbrechen"
+
+msgid "plugins.generic.geoMetadata.map.draw.actionCancel"
+msgstr "Abbrechen"
+
+msgid "plugins.generic.geoMetadata.map.draw.finishTitle"
+msgstr "Zeichnen abschließen"
+
+msgid "plugins.generic.geoMetadata.map.draw.finish"
+msgstr "Fertig"
+
+msgid "plugins.generic.geoMetadata.map.draw.undoTitle"
+msgstr "Letzten gezeichneten Punkt löschen"
+
+msgid "plugins.generic.geoMetadata.map.draw.undo"
+msgstr "Letzter Punkt"
+
+msgid "plugins.generic.geoMetadata.map.draw.polyline"
+msgstr "Linienzug zeichnen"
+
+msgid "plugins.generic.geoMetadata.map.draw.polygon"
+msgstr "Polygon zeichnen"
+
+msgid "plugins.generic.geoMetadata.map.draw.rectangle"
+msgstr "Rechteck zeichnen"
+
+msgid "plugins.generic.geoMetadata.map.draw.marker"
+msgstr "Marker setzen"
+
+msgid "plugins.generic.geoMetadata.map.draw.marker.tooltipStart"
+msgstr "Klicken Sie auf die Karte, um einen Marker zu setzen."
+
+msgid "plugins.generic.geoMetadata.map.draw.polygon.tooltipStart"
+msgstr "Klicken Sie, um mit dem Zeichnen der Form zu beginnen."
+
+msgid "plugins.generic.geoMetadata.map.draw.polygon.tooltipCont"
+msgstr "Klicken Sie, um das Zeichnen der Form fortzusetzen."
+
+msgid "plugins.generic.geoMetadata.map.draw.polygon.tooltipEnd"
+msgstr "Klicken Sie auf den ersten Punkt, um die Form zu schließen."
+
+msgid "plugins.generic.geoMetadata.map.draw.polyline.tooltipStart"
+msgstr "Klicken Sie, um mit dem Zeichnen der Linie zu beginnen."
+
+msgid "plugins.generic.geoMetadata.map.draw.polyline.tooltipCont"
+msgstr "Klicken Sie, um das Zeichnen der Linie fortzusetzen."
+
+msgid "plugins.generic.geoMetadata.map.draw.polyline.tooltipEnd"
+msgstr "Klicken Sie den letzten Punkt an, um die Linie abzuschließen."
+
+msgid "plugins.generic.geoMetadata.map.draw.rectangle.tooltipStart"
+msgstr "Klicken und ziehen, um ein Rechteck zu zeichnen."
+
+msgid "plugins.generic.geoMetadata.map.draw.simpleshape.tooltipEnd"
+msgstr "Maustaste loslassen, um das Zeichnen abzuschließen."
+
+msgid "plugins.generic.geoMetadata.map.edit.saveTitle"
+msgstr "Änderungen speichern"
+
+msgid "plugins.generic.geoMetadata.map.edit.save"
+msgstr "Speichern"
+
+msgid "plugins.generic.geoMetadata.map.edit.cancelTitle"
+msgstr "Bearbeitung abbrechen, alle Änderungen verwerfen"
+
+msgid "plugins.generic.geoMetadata.map.edit.cancel"
+msgstr "Abbrechen"
+
+msgid "plugins.generic.geoMetadata.map.edit.clearAllTitle"
+msgstr "Alle Ebenen entfernen"
+
+msgid "plugins.generic.geoMetadata.map.edit.clearAll"
+msgstr "Alle entfernen"
+
+msgid "plugins.generic.geoMetadata.map.edit.edit"
+msgstr "Ebenen bearbeiten"
+
+msgid "plugins.generic.geoMetadata.map.edit.editDisabled"
+msgstr "Keine Ebenen zum Bearbeiten"
+
+msgid "plugins.generic.geoMetadata.map.edit.remove"
+msgstr "Ebenen löschen"
+
+msgid "plugins.generic.geoMetadata.map.edit.removeDisabled"
+msgstr "Keine Ebenen zum Löschen"
+
+msgid "plugins.generic.geoMetadata.map.edit.handlerText"
+msgstr "Ziehen Sie Griffe oder Marker, um Objekte zu bearbeiten."
+
+msgid "plugins.generic.geoMetadata.map.edit.handlerSubtext"
+msgstr "Klicken Sie auf Abbrechen, um die Änderungen rückgängig zu machen."
+
+msgid "plugins.generic.geoMetadata.map.edit.removeHandlerText"
+msgstr "Klicken Sie auf ein Objekt, um es zu entfernen."
 
 msgid "plugins.generic.geoMetadata.submission.coverageDisabledHover"
 msgstr "Dieses Feld wurde deaktiviert. Die Informationen werden automatisch auf der Grundlage der unten eingegebenen Geodaten ausgefüllt."

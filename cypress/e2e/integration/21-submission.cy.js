@@ -27,7 +27,7 @@ describe('geoMetadata Submission without Geonames', function () {
   it('Has no map on the empty current issue page', function () {
     cy.visit('/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Current")').click();
-    cy.get('.pkp_structure_main').should('not.contain', 'Times & locations');
+    cy.get('.pkp_structure_main').should('not.contain', 'Times & Locations');
     cy.get('#mapdiv').should('not.exist');
   });
 
@@ -42,7 +42,7 @@ describe('geoMetadata Submission without Geonames', function () {
     cy.visit('/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Current")').click();
     cy.get('.pkp_structure_main').should('contain', 'Vancouver is cool');
-    cy.get('.pkp_structure_main').should('not.contain', 'Times & locations');
+    cy.get('.pkp_structure_main').should('not.contain', 'Times & Locations');
     cy.get('#mapdiv').should('not.exist');
   });
 

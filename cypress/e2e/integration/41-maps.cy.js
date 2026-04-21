@@ -36,7 +36,7 @@ describe('geoMetadata Maps', function () {
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
 
-    cy.get('.pkp_structure_main').should('contain', 'Times & locations');
+    cy.get('.pkp_structure_main').should('contain', 'Times & Locations');
     cy.get('#mapdiv').should('exist');
 
     cy.mapHasFeatures(geometriesCount);
@@ -98,7 +98,7 @@ describe('geoMetadata Maps', function () {
 
     cy.visit('/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Map")').click();
-    cy.get('.pkp_structure_main').should('contain', 'Times & locations');
+    cy.get('.pkp_structure_main').should('contain', 'Times & Locations');
     cy.get('#mapdiv').should('exist');
   });
 

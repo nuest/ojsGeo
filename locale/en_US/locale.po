@@ -27,7 +27,7 @@ msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal"
 msgstr "Temporal Properties"
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.description.submission"
-msgstr "Define the temporal properties of the articles content by specifying the begin and end dates. The input is possible via the text field as well as via the calendar view. Click the input field below this text to open the calendar. Press \"Apply\" to save the calender setting. Press \"Clear\" to remove the current data. Textual input must be confirmed by clicking \"Apply\" (not Enter!) and match the following format: begin and end are seperated by a hyphen surrounded by spaces; dates are given as \"YYYY-MM-DD\", whereby \"YYYY\" stands for years, \"MM\" for months (with a leading zero), and \"DD\" for days (with a leading zero). Moreover text input like "XXXX" and "XXXX-DD" is also accepted and will be formatted to "XXXX-01-01" or "XXXX-DD-01"."  
+msgstr "Define the temporal properties of the articles content by specifying the begin and end dates. The input is possible via the text field as well as via the calendar view. Click the input field below this text to open the calendar. Press \"Apply\" to save the calender setting. Press \"Clear\" to remove the current data. Textual input must be confirmed by clicking \"Apply\" (not Enter!) and match the following format: begin and end are seperated by a hyphen surrounded by spaces; dates are given as \"YYYY-MM-DD\", whereby \"YYYY\" stands for years, \"MM\" for months (with a leading zero), and \"DD\" for days (with a leading zero). Moreover text input like \"XXXX\" and \"XXXX-DD\" is also accepted and will be formatted to \"XXXX-01-01\" or \"XXXX-DD-01\"."
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.description.article"
 msgstr "Temporal properties of the article's content specified with a day resolution."
@@ -81,7 +81,7 @@ msgid "plugins.generic.geoMetadata.settings.baseurlGeonames"
 msgstr "Base URL of GeoNames, use to switch between 'http' and 'https'."
 
 msgid "plugins.generic.geoMetadata.settings.baseurlGeonames.description"
-msgstr "Depending on your setup, select a suitable GeoNames Base URL. This is probably one of the following: <code>http://api.geonames.org</code>, <code>https://www.geonames.org</code>, or <code>https://secure.geonames.org</code>. If you are running the plugin locally, you should use <code>http://api.geonames.org</code>, the secure and CORS valid GeoNames endpoint is <code>https://secure.geonames.org</code>. Further instructions can be found at <a href=\"https://www.geonames.org/export/web-services.html">https://www.geonames.org/export/web-services.html</a>."
+msgstr "Depending on your setup, select a suitable GeoNames Base URL. This is probably one of the following: <code>http://api.geonames.org</code>, <code>https://www.geonames.org</code>, or <code>https://secure.geonames.org</code>. If you are running the plugin locally, you should use <code>http://api.geonames.org</code>, the secure and CORS valid GeoNames endpoint is <code>https://secure.geonames.org</code>. Further instructions can be found at <a href=\"https://www.geonames.org/export/web-services.html\">https://www.geonames.org/export/web-services.html</a>."
 
 msgid "plugins.generic.geoMetadata.name"
 msgstr "geoMetadata Plugin"
@@ -118,6 +118,123 @@ msgstr "View fullscreen"
 
 msgid "plugins.generic.geoMetadata.map.fullscreen.titleCancel"
 msgstr "Exit fullscreen"
+
+msgid "plugins.generic.geoMetadata.map.overlay.geometry"
+msgstr "Geometric shape(s)"
+
+msgid "plugins.generic.geoMetadata.map.overlay.administrativeUnit"
+msgstr "Administrative unit"
+
+msgid "plugins.generic.geoMetadata.map.zoom.in"
+msgstr "Zoom in"
+
+msgid "plugins.generic.geoMetadata.map.zoom.out"
+msgstr "Zoom out"
+
+msgid "plugins.generic.geoMetadata.map.geocoder.placeholder"
+msgstr "Search"
+
+msgid "plugins.generic.geoMetadata.map.geocoder.errorMessage"
+msgstr "Nothing found."
+
+msgid "plugins.generic.geoMetadata.map.geocoder.buttonTitle"
+msgstr "Search on the map"
+
+msgid "plugins.generic.geoMetadata.map.draw.actionCancelTitle"
+msgstr "Cancel drawing"
+
+msgid "plugins.generic.geoMetadata.map.draw.actionCancel"
+msgstr "Cancel"
+
+msgid "plugins.generic.geoMetadata.map.draw.finishTitle"
+msgstr "Finish drawing"
+
+msgid "plugins.generic.geoMetadata.map.draw.finish"
+msgstr "Finish"
+
+msgid "plugins.generic.geoMetadata.map.draw.undoTitle"
+msgstr "Delete last point drawn"
+
+msgid "plugins.generic.geoMetadata.map.draw.undo"
+msgstr "Delete last point"
+
+msgid "plugins.generic.geoMetadata.map.draw.polyline"
+msgstr "Draw a polyline"
+
+msgid "plugins.generic.geoMetadata.map.draw.polygon"
+msgstr "Draw a polygon"
+
+msgid "plugins.generic.geoMetadata.map.draw.rectangle"
+msgstr "Draw a rectangle"
+
+msgid "plugins.generic.geoMetadata.map.draw.marker"
+msgstr "Draw a marker"
+
+msgid "plugins.generic.geoMetadata.map.draw.marker.tooltipStart"
+msgstr "Click map to place marker."
+
+msgid "plugins.generic.geoMetadata.map.draw.polygon.tooltipStart"
+msgstr "Click to start drawing shape."
+
+msgid "plugins.generic.geoMetadata.map.draw.polygon.tooltipCont"
+msgstr "Click to continue drawing shape."
+
+msgid "plugins.generic.geoMetadata.map.draw.polygon.tooltipEnd"
+msgstr "Click first point to close this shape."
+
+msgid "plugins.generic.geoMetadata.map.draw.polyline.tooltipStart"
+msgstr "Click to start drawing line."
+
+msgid "plugins.generic.geoMetadata.map.draw.polyline.tooltipCont"
+msgstr "Click to continue drawing line."
+
+msgid "plugins.generic.geoMetadata.map.draw.polyline.tooltipEnd"
+msgstr "Click last point to finish line."
+
+msgid "plugins.generic.geoMetadata.map.draw.rectangle.tooltipStart"
+msgstr "Click and drag to draw rectangle."
+
+msgid "plugins.generic.geoMetadata.map.draw.simpleshape.tooltipEnd"
+msgstr "Release mouse to finish drawing."
+
+msgid "plugins.generic.geoMetadata.map.edit.saveTitle"
+msgstr "Save changes"
+
+msgid "plugins.generic.geoMetadata.map.edit.save"
+msgstr "Save"
+
+msgid "plugins.generic.geoMetadata.map.edit.cancelTitle"
+msgstr "Cancel editing, discards all changes"
+
+msgid "plugins.generic.geoMetadata.map.edit.cancel"
+msgstr "Cancel"
+
+msgid "plugins.generic.geoMetadata.map.edit.clearAllTitle"
+msgstr "Clear all layers"
+
+msgid "plugins.generic.geoMetadata.map.edit.clearAll"
+msgstr "Clear All"
+
+msgid "plugins.generic.geoMetadata.map.edit.edit"
+msgstr "Edit layers"
+
+msgid "plugins.generic.geoMetadata.map.edit.editDisabled"
+msgstr "No layers to edit"
+
+msgid "plugins.generic.geoMetadata.map.edit.remove"
+msgstr "Delete layers"
+
+msgid "plugins.generic.geoMetadata.map.edit.removeDisabled"
+msgstr "No layers to delete"
+
+msgid "plugins.generic.geoMetadata.map.edit.handlerText"
+msgstr "Drag handles or markers to edit features."
+
+msgid "plugins.generic.geoMetadata.map.edit.handlerSubtext"
+msgstr "Click cancel to undo changes."
+
+msgid "plugins.generic.geoMetadata.map.edit.removeHandlerText"
+msgstr "Click on a feature to remove."
 
 msgid "plugins.generic.geoMetadata.submission.coverageDisabledHover"
 msgstr "This field has been disabled. Information will be filled in automatically based on the location information entered below."

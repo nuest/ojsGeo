@@ -8,7 +8,13 @@
  */
 
 var mapView = "0, 0, 1".split(",");
-var map = L.map('mapdiv').setView([mapView[0], mapView[1]], mapView[2]);
+var map = L.map('mapdiv', { zoomControl: false }).setView([mapView[0], mapView[1]], mapView[2]);
+
+// translated zoom control (issue #151)
+L.control.zoom({
+    zoomInTitle:  geoMetadata_zoomInTitle,
+    zoomOutTitle: geoMetadata_zoomOutTitle
+}).addTo(map);
 
 var osmlayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: 'Map data: &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',

@@ -7,8 +7,14 @@
  * @brief Display spatio-temporal metadata in the article view.
  */
 
-// create map 
-var map = L.map('mapdiv');
+// create map
+var map = L.map('mapdiv', { zoomControl: false });
+
+// translated zoom control (issue #151)
+L.control.zoom({
+    zoomInTitle:  geoMetadata_zoomInTitle,
+    zoomOutTitle: geoMetadata_zoomOutTitle
+}).addTo(map);
 
 var osmlayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: 'Map data: &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
@@ -51,9 +57,12 @@ var overlayMaps = {
 // add layerControl to the map to the map 
 L.control.layers(baseLayers, overlayMaps).addTo(map);
 
-// add a search to the map 
+// add a search to the map
 var geocoder = L.Control.geocoder({
-    defaultMarkGeocode: false
+    defaultMarkGeocode: false,
+    placeholder:  geoMetadata_geocoderPlaceholder,
+    errorMessage: geoMetadata_geocoderError,
+    iconLabel:    geoMetadata_geocoderButtonTitle
 })
     .on('markgeocode', function (e) {
         var bbox = e.geocode.bbox;

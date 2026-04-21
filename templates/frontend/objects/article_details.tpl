@@ -9,19 +9,7 @@
  * the main template is here extended using the hook 'Templates::Article::Main'.
  *}
 
-<script type="text/javascript">
-const geoMetadata_mapLayerStyle = {
-    weight: 5,
-    color: '#1E6292',
-    dashArray: '',
-    fillOpacity: 0.6
-};
-
-const geoMetadata_articleLayerName = '{translate key="plugins.generic.geoMetadata.map.articleLayerName"}';
-const geoMetadata_adminLayerName = '{translate key="plugins.generic.geoMetadata.map.administrativeLayerName"}';
-const geoMetadata_fullscreenTitle = '{translate key="plugins.generic.geoMetadata.map.fullscreen.title"}';
-const geoMetadata_fullscreenTitleCancel = '{translate key="plugins.generic.geoMetadata.map.fullscreen.titleCancel"}';
-</script>
+{include file=$geoMetadata_mapJsGlobalsTpl}
 
 <div style="clear:both;">
     <section id="geoMetadata_article_geospatialmetadata" class="item geospatialmetadata">

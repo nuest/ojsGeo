@@ -18,12 +18,18 @@ describe('geoMetadata Fullscreen Control — localized titles (via user menu)', 
 
   const fsBtnSelector = '#mapdiv a.leaflet-control-zoom-fullscreen';
 
-  // Label = name shown in the .pkpDropdown menu for each locale
-  // enter / exit = locale.po entries for plugins.generic.geoMetadata.map.fullscreen.{title,titleCancel}
+  // Label    = name shown in the .pkpDropdown menu for each locale
+  // enter/exit = locale.po entries for plugins.generic.geoMetadata.map.fullscreen.{title,titleCancel}
+  // zoomIn/Out = plugins.generic.geoMetadata.map.zoom.{in,out} — asserted on the same page
+  //             so the `_map_js_globals.tpl` escape pipeline is exercised for each locale.
+  //             fr_FR is load-bearing here: its map.edit.cancelTitle contains an apostrophe
+  //             ("Annuler l'édition, …") that previously closed the JS string literal and
+  //             broke every map control downstream; the zoom assertion fails fast if that
+  //             regresses, with a more precise message than the fullscreen button selector.
   const localized = {
-    de_DE: { label: 'Deutsch',  enter: 'Vollbild anzeigen',       exit: 'Vollbild verlassen' },
-    es_ES: { label: 'Español',  enter: 'Ver a pantalla completa', exit: 'Salir de pantalla completa' },
-    fr_FR: { label: 'Français', enter: 'Afficher en plein écran', exit: 'Quitter le plein écran' },
+    de_DE: { label: 'Deutsch',  enter: 'Vollbild anzeigen',        exit: 'Vollbild verlassen',        zoomIn: 'Hineinzoomen', zoomOut: 'Herauszoomen' },
+    es_ES: { label: 'Español',  enter: 'Ver a pantalla completa',  exit: 'Salir de pantalla completa', zoomIn: 'Acercar',      zoomOut: 'Alejar' },
+    fr_FR: { label: 'Français', enter: 'Afficher en plein écran',  exit: 'Quitter le plein écran',     zoomIn: 'Zoom avant',   zoomOut: 'Zoom arrière' },
   };
 
   beforeEach(() => {
@@ -52,6 +58,11 @@ describe('geoMetadata Fullscreen Control — localized titles (via user menu)', 
       cy.visit('/');
       cy.get('#mapdiv').should('exist');
       cy.get(fsBtnSelector).as('fsBtn');
+
+      // Zoom tooltips use the same `_map_js_globals.tpl` pipeline as the fullscreen strings,
+      // so asserting them here gives cheap regression coverage for any future escape bug.
+      cy.get('#mapdiv a.leaflet-control-zoom-in').should('have.attr', 'title', strings.zoomIn);
+      cy.get('#mapdiv a.leaflet-control-zoom-out').should('have.attr', 'title', strings.zoomOut);
 
       // title reflects the user's display language (loaded via Smarty {translate} in the template)
       cy.get('@fsBtn')

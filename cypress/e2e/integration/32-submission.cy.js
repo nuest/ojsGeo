@@ -48,7 +48,7 @@ describe('geoMetadata Submission', function () {
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Current")').click();
     cy.get('.pkp_structure_main').should('contain', 'Hanover is nice');
     cy.get('.pkp_structure_main').should('contain', 'Augusta Author');
-    cy.get('.pkp_structure_main').should('contain', 'Times & locations');
+    cy.get('.pkp_structure_main').should('contain', 'Times & Locations');
     cy.get('#mapdiv').should('exist');
   });
 
@@ -63,6 +63,25 @@ describe('geoMetadata Submission', function () {
     cy.get('button.submitFormButton').click();
     cy.wait(1000);
     cy.get('button.submitFormButton').click();
+
+    // Leaflet.Draw toolbar i18n (issue #111). The Draw control reads its labels from
+    // L.drawLocal, which submission.js deep-merges from geoMetadata_drawLocal just before
+    // `new L.Control.Draw()`. Assert the four draw buttons + the two edit buttons carry the
+    // English strings from locale/en_US/locale.po → proves the full escape-aware pipeline
+    // survived from PHP → Smarty → <script> → L.drawLocal. Localised variants are covered
+    // indirectly by 52-fullscreen-locales.cy.js (zoom tooltips share the same pipeline).
+    cy.get('#mapdiv a.leaflet-draw-draw-polyline').should('have.attr', 'title', 'Draw a polyline');
+    cy.get('#mapdiv a.leaflet-draw-draw-polygon').should('have.attr', 'title', 'Draw a polygon');
+    cy.get('#mapdiv a.leaflet-draw-draw-rectangle').should('have.attr', 'title', 'Draw a rectangle');
+    cy.get('#mapdiv a.leaflet-draw-draw-marker').should('have.attr', 'title', 'Draw a marker');
+    cy.get('#mapdiv a.leaflet-draw-edit-edit').should('exist');
+    cy.get('#mapdiv a.leaflet-draw-edit-remove').should('exist');
+
+    // Layer switcher overlay names — submission.js uses the new overlay.* translation keys
+    // (issue #111). The layer-control labels are the only place these surface.
+    cy.get('#mapdiv .leaflet-control-layers-overlays label')
+      .should('contain', 'administrative unit')
+      .and('contain', 'geometric shape(s)');
 
     cy.toolbarButton('marker').click();
     cy.get('#mapdiv').click(260, 110);

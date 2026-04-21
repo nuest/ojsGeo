@@ -13,8 +13,8 @@ describe('geoMetadata Configuration Geonames', function () {
     cy.get('button[id="plugins-button"]').click();
 
     // Open the settings form
-    cy.get('tr[id="component-grid-settings-plugins-settingsplugingrid-category-generic-row-geoMetadata"] a[class="show_extras"]').click();
-    cy.get('a[id^="component-grid-settings-plugins-settingsplugingrid-category-generic-row-geoMetadata-settings-button"]').click();
+    cy.get('tr[id="component-grid-settings-plugins-settingsplugingrid-category-generic-row-geometadataplugin"] a[class="show_extras"]').click();
+    cy.get('a[id^="component-grid-settings-plugins-settingsplugingrid-category-generic-row-geometadataplugin-settings-button"]').click();
 
     // Fill out settings form
     cy.get('form[id="geoMetadataSettings"] input[name="geoMetadata_geonames_username"]')

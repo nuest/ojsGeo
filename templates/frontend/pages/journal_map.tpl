@@ -12,18 +12,9 @@
 
 {include file="frontend/components/header.tpl" pageTitle="plugins.generic.geoMetadata.journal.pageTitle"}
 
+{include file=$geoMetadata_mapJsGlobalsTpl}
 <script type="text/javascript">
-const geoMetadata_mapLayerStyle = {
-    weight: 5,
-    color: '#1E6292',
-    dashArray: '',
-    fillOpacity: 0.6
-};
-
-const geoMetadata_layerName = '{translate key="plugins.generic.geoMetadata.map.articleLayerName"}';
 const geoMetadata_articleBaseUrl = '{if $journal}{url journal=$journal->getPath() page="article" op="view" path=""}{else}{url page="article" op="view" path=""}{/if}';
-const geoMetadata_fullscreenTitle = '{translate key="plugins.generic.geoMetadata.map.fullscreen.title"}';
-const geoMetadata_fullscreenTitleCancel = '{translate key="plugins.generic.geoMetadata.map.fullscreen.titleCancel"}';
 </script>
 
 <link rel="stylesheet" href="{$pluginStylesheetURL}styles.css" type="text/css" />

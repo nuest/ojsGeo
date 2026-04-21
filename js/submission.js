@@ -67,7 +67,13 @@ function checkGeonames() {
 function initMap() {
     //var mapView =  document.getElementById("geoMetadata_mapView").value; // TODO make configurable
     var mapView = "0, 0, 1".split(",");
-    map = L.map('mapdiv').setView([mapView[0], mapView[1]], mapView[2]);
+    map = L.map('mapdiv', { zoomControl: false }).setView([mapView[0], mapView[1]], mapView[2]);
+
+    // translated zoom control (issue #151) — default zoomControl disabled above so we can set tooltips
+    L.control.zoom({
+        zoomInTitle:  geoMetadata_zoomInTitle,
+        zoomOutTitle: geoMetadata_zoomOutTitle
+    }).addTo(map);
 
     var osmlayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data: &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
@@ -103,12 +109,15 @@ function initMap() {
     map.addLayer(administrativeUnitsMap);
 
     var overlayMaps = {
-        "administrative unit": administrativeUnitsMap,
-        "geometric shape(s)": drawnItems
+        [geoMetadata_overlayAdminUnit]: administrativeUnitsMap,
+        [geoMetadata_overlayGeometry]: drawnItems
     };
 
     // add layerControl to the map to the map
     L.control.layers(baseLayers, overlayMaps).addTo(map);
+
+    // translate Leaflet.Draw toolbar (issue #111) — deep-merge our strings into the library's locale table
+    $.extend(true, L.drawLocal, geoMetadata_drawLocal);
 
     // edit which geometrical forms are drawable
     var drawControl = new L.Control.Draw({
@@ -205,7 +214,10 @@ function initMap() {
      * This can be edited or deleted and further elements can be added.
      */
     L.Control.geocoder({
-        defaultMarkGeocode: false
+        defaultMarkGeocode: false,
+        placeholder:  geoMetadata_geocoderPlaceholder,
+        errorMessage: geoMetadata_geocoderError,
+        iconLabel:    geoMetadata_geocoderButtonTitle
     })
         .on('markgeocode', function (e) {
             var bbox = e.geocode.bbox;

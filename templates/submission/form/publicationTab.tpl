@@ -18,10 +18,7 @@
         style="height: 0px; width: 0px; visibility: hidden;"
         value="{translate key="plugins.generic.geoMetadata.submission.coverageDisabledHover"}">
 
-<script type="text/javascript">
-    const geoMetadata_fullscreenTitle = '{translate key="plugins.generic.geoMetadata.map.fullscreen.title"}';
-    const geoMetadata_fullscreenTitleCancel = '{translate key="plugins.generic.geoMetadata.map.fullscreen.titleCancel"}';
-</script>
+{include file=$geoMetadata_mapJsGlobalsTpl}
 
 <tab id="timeLocation" label="{translate key="plugins.generic.geoMetadata.publication.label"}">
 

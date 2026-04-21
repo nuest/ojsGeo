@@ -26,25 +26,9 @@
 {if $section.articles}
 	<link rel="stylesheet" href="{$pluginStylesheetURL}/styles.css" type="text/css" />
 	
+	{include file=$geoMetadata_mapJsGlobalsTpl}
 	<script type="text/javascript">
-		const geoMetadata_mapLayerStyle = {
-			weight: 5,
-			color: '#1E6292',
-			dashArray: '',
-			fillOpacity: 0.6
-		};
-
-		const geoMetadata_mapLayerStyleHighlight = {
-			weight: 5,
-			color: 'red',
-			dashArray: '',
-			fillOpacity: 0.6
-		};
-
-		const geoMetadata_layerName = '{translate key="plugins.generic.geoMetadata.map.articleLayerName"}';
 		const geoMetadata_markerBaseUrl = '{$geoMetadata_markerBaseUrl}';
-		const geoMetadata_fullscreenTitle = '{translate key="plugins.generic.geoMetadata.map.fullscreen.title"}';
-		const geoMetadata_fullscreenTitleCancel = '{translate key="plugins.generic.geoMetadata.map.fullscreen.titleCancel"}';
 	</script>
 
     <{$heading}>{translate key="plugins.generic.geoMetadata.issue.title"}</{$heading}>

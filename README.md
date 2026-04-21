@@ -157,6 +157,16 @@ All help is welcome: asking questions, providing documentation, testing, or even
 Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md).
 By participating in this project you agree to abide by its terms.
 
+## External library translations
+
+User-facing strings from the bundled Leaflet libraries are localized by the plugin at runtime:
+
+- **Leaflet core** — zoom-button tooltips are localized by disabling the default `zoomControl` and adding a new `L.control.zoom({ zoomInTitle, zoomOutTitle })` with values from the plugin's locale files.
+- **leaflet-control-geocoder** — `placeholder`, `errorMessage`, and `iconLabel` are passed as options to `L.Control.geocoder({ ... })` in `js/article_details.js` and `js/submission.js`.
+- **Leaflet.Draw** — the toolbar/tooltip object `L.drawLocal` is deep-merged with the plugin's translated version (`$.extend(true, L.drawLocal, geoMetadata_drawLocal)`) in `js/submission.js` just before the draw control is instantiated.
+
+All strings are defined as `plugins.generic.geoMetadata.map.*` keys in `locale/<locale>/locale.po` and rendered into JS globals by the shared Smarty partial `templates/frontend/_map_js_globals.tpl`, which is `{include}`d from every template that renders a map. If Leaflet.Draw or the geocoder are ever upgraded, verify that the object shape used by `geoMetadata_drawLocal` / the geocoder option names still match the upstream library — missing keys silently fall back to the library's English defaults.
+
 ## Notes About Accuracy
 
 The spatial metadata is saved in GeoJSON format using the EPSG:4326 coordinate reference system (CRS) and the underlying dynamic WGS84 datum.

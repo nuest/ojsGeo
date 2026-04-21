@@ -126,6 +126,63 @@ class GeoMetadataPlugin extends GenericPlugin
 			$templateMgr->assign('geoMetadata_issueJS',           $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/issue.js');
 			$templateMgr->assign('geoMetadata_markerBaseUrl',     $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/leaflet-color-markers/img/');
 
+			// Smarty resource name for the shared map-JS-globals partial. Used as
+			// {include file=$geoMetadata_mapJsGlobalsTpl}. Plugin-local partials must be addressed via
+			// the plugin's PKP-template-resource because OJS hook-rendered plugin templates inherit the
+			// core Smarty template root, not the plugin's directory.
+			$templateMgr->assign('geoMetadata_mapJsGlobalsTpl',   $this->getTemplateResource('frontend/_map_js_globals.tpl'));
+
+			// Pre-translated strings for the shared JS globals. Done in PHP so the template can apply
+			// |escape:'javascript' to each value — the {translate} Smarty function doesn't chain
+			// modifiers on its own output, and raw translations with an apostrophe (e.g. fr_FR
+			// "Annuler l'édition, …") will close the surrounding JS string literal. See the header of
+			// templates/frontend/_map_js_globals.tpl.
+			$templateMgr->assign('geoMetadata_i18n', [
+				'articleLayerName'        => __('plugins.generic.geoMetadata.map.articleLayerName'),
+				'adminLayerName'          => __('plugins.generic.geoMetadata.map.administrativeLayerName'),
+				'overlayGeometry'         => __('plugins.generic.geoMetadata.map.overlay.geometry'),
+				'overlayAdminUnit'        => __('plugins.generic.geoMetadata.map.overlay.administrativeUnit'),
+				'fullscreenTitle'         => __('plugins.generic.geoMetadata.map.fullscreen.title'),
+				'fullscreenTitleCancel'   => __('plugins.generic.geoMetadata.map.fullscreen.titleCancel'),
+				'zoomInTitle'             => __('plugins.generic.geoMetadata.map.zoom.in'),
+				'zoomOutTitle'            => __('plugins.generic.geoMetadata.map.zoom.out'),
+				'geocoderPlaceholder'     => __('plugins.generic.geoMetadata.map.geocoder.placeholder'),
+				'geocoderError'           => __('plugins.generic.geoMetadata.map.geocoder.errorMessage'),
+				'geocoderButtonTitle'     => __('plugins.generic.geoMetadata.map.geocoder.buttonTitle'),
+				'drawActionCancelTitle'   => __('plugins.generic.geoMetadata.map.draw.actionCancelTitle'),
+				'drawActionCancel'        => __('plugins.generic.geoMetadata.map.draw.actionCancel'),
+				'drawFinishTitle'         => __('plugins.generic.geoMetadata.map.draw.finishTitle'),
+				'drawFinish'              => __('plugins.generic.geoMetadata.map.draw.finish'),
+				'drawUndoTitle'           => __('plugins.generic.geoMetadata.map.draw.undoTitle'),
+				'drawUndo'                => __('plugins.generic.geoMetadata.map.draw.undo'),
+				'drawPolyline'            => __('plugins.generic.geoMetadata.map.draw.polyline'),
+				'drawPolygon'             => __('plugins.generic.geoMetadata.map.draw.polygon'),
+				'drawRectangle'           => __('plugins.generic.geoMetadata.map.draw.rectangle'),
+				'drawMarker'              => __('plugins.generic.geoMetadata.map.draw.marker'),
+				'drawMarkerTipStart'      => __('plugins.generic.geoMetadata.map.draw.marker.tooltipStart'),
+				'drawPolygonTipStart'     => __('plugins.generic.geoMetadata.map.draw.polygon.tooltipStart'),
+				'drawPolygonTipCont'      => __('plugins.generic.geoMetadata.map.draw.polygon.tooltipCont'),
+				'drawPolygonTipEnd'       => __('plugins.generic.geoMetadata.map.draw.polygon.tooltipEnd'),
+				'drawPolylineTipStart'    => __('plugins.generic.geoMetadata.map.draw.polyline.tooltipStart'),
+				'drawPolylineTipCont'     => __('plugins.generic.geoMetadata.map.draw.polyline.tooltipCont'),
+				'drawPolylineTipEnd'      => __('plugins.generic.geoMetadata.map.draw.polyline.tooltipEnd'),
+				'drawRectangleTipStart'   => __('plugins.generic.geoMetadata.map.draw.rectangle.tooltipStart'),
+				'drawSimpleshapeTipEnd'   => __('plugins.generic.geoMetadata.map.draw.simpleshape.tooltipEnd'),
+				'editSaveTitle'           => __('plugins.generic.geoMetadata.map.edit.saveTitle'),
+				'editSave'                => __('plugins.generic.geoMetadata.map.edit.save'),
+				'editCancelTitle'         => __('plugins.generic.geoMetadata.map.edit.cancelTitle'),
+				'editCancel'              => __('plugins.generic.geoMetadata.map.edit.cancel'),
+				'editClearAllTitle'       => __('plugins.generic.geoMetadata.map.edit.clearAllTitle'),
+				'editClearAll'            => __('plugins.generic.geoMetadata.map.edit.clearAll'),
+				'editEdit'                => __('plugins.generic.geoMetadata.map.edit.edit'),
+				'editEditDisabled'        => __('plugins.generic.geoMetadata.map.edit.editDisabled'),
+				'editRemove'              => __('plugins.generic.geoMetadata.map.edit.remove'),
+				'editRemoveDisabled'      => __('plugins.generic.geoMetadata.map.edit.removeDisabled'),
+				'editHandlerText'         => __('plugins.generic.geoMetadata.map.edit.handlerText'),
+				'editHandlerSubtext'      => __('plugins.generic.geoMetadata.map.edit.handlerSubtext'),
+				'editRemoveHandlerText'   => __('plugins.generic.geoMetadata.map.edit.removeHandlerText'),
+			]);
+
 			$templateMgr->assign('geoMetadata_mapUrlPath', MAP_URL_PATH);
 			$templateMgr->assign('geoMetadata_metadataLicense', '<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener noreferrer">CC-0</a>');
 		}
