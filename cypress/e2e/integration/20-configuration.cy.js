@@ -83,6 +83,43 @@ describe('geoMetadata Configuration', function () {
   });
 
   it('Configure Geo Plugin - Download sidebar', function () {
-    this.skip(); // TODO implement
+    // issue #55: checkbox in plugin settings that toggles the GeoJSON download sidebar
+    // on article pages. Verifies the checkbox exists, can be toggled off and back on, and
+    // that the state persists across save/reload. Must end in the "on" state so later
+    // specs that rely on the sidebar being present are not affected.
+
+    var openSettings = () => {
+      cy.login('admin', 'admin', Cypress.env('contextPath'));
+      cy.get('nav[class="app__nav"] a:contains("Website")').click();
+      cy.get('button[id="plugins-button"]').click();
+      cy.get('tr[id="component-grid-settings-plugins-settingsplugingrid-category-generic-row-geometadataplugin"] a[class="show_extras"]').click();
+      cy.get('a[id^="component-grid-settings-plugins-settingsplugingrid-category-generic-row-geometadataplugin-settings-button"]').click();
+    };
+
+    // 1. Open settings — checkbox should exist in the new "Frontend" section and default to checked.
+    openSettings();
+    cy.get('form[id="geoMetadataSettings"] input[name="geoMetadata_showDownloadSidebar"]')
+      .should('exist')
+      .should('be.checked');
+
+    // 2. Uncheck, save.
+    cy.get('form[id="geoMetadataSettings"] input[name="geoMetadata_showDownloadSidebar"]').uncheck();
+    cy.get('form[id="geoMetadataSettings"] button[id^="submitFormButton"]').click();
+    cy.wait(1000);
+
+    // 3. Re-open settings — checkbox should persist as unchecked.
+    openSettings();
+    cy.get('form[id="geoMetadataSettings"] input[name="geoMetadata_showDownloadSidebar"]')
+      .should('not.be.checked');
+
+    // 4. Re-check, save — restores default state for subsequent specs.
+    cy.get('form[id="geoMetadataSettings"] input[name="geoMetadata_showDownloadSidebar"]').check();
+    cy.get('form[id="geoMetadataSettings"] button[id^="submitFormButton"]').click();
+    cy.wait(1000);
+
+    // 5. Confirm the "on" state is persisted.
+    openSettings();
+    cy.get('form[id="geoMetadataSettings"] input[name="geoMetadata_showDownloadSidebar"]')
+      .should('be.checked');
   });
 });

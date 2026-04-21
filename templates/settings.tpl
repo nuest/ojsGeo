@@ -11,7 +11,21 @@
     {csrf}
 
     {fbvFormArea id="geoMetadataSettingsArea"}
-    {fbvFormSection list=true}
+
+    {fbvFormSection title="plugins.generic.geoMetadata.settings.section.frontend" list=true}
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.showDownloadSidebar.description"}
+        {fbvElement
+        type="checkbox"
+        id="geoMetadata_showDownloadSidebar"
+        value="1"
+        checked=$geoMetadata_showDownloadSidebar
+        label="plugins.generic.geoMetadata.settings.showDownloadSidebar"
+        }
+    </p>
+    {/fbvFormSection}
+
+    {fbvFormSection title="plugins.generic.geoMetadata.settings.section.accounts" list=true}
     <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
         {translate key="plugins.generic.geoMetadata.settings.usernameGeonames.description"}
         {fbvElement
@@ -31,6 +45,7 @@
         }
     </p>
     {/fbvFormSection}
+
     {/fbvFormArea}
     {fbvFormButtons submitText="common.save"}
 </form>

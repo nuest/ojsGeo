@@ -33,7 +33,8 @@ class SettingsForm extends \Form
      */
     private $settings = [
         'geoMetadata_geonames_username',
-        'geoMetadata_geonames_baseurl'
+        'geoMetadata_geonames_baseurl',
+        'geoMetadata_showDownloadSidebar'
     ];
 
     public function __construct($plugin)
@@ -59,7 +60,14 @@ class SettingsForm extends \Form
         $context = Application::get()->getRequest()->getContext();
         $contextId = $context ? $context->getId() : CONTEXT_SITE;
         foreach($this->settings as $key){
-            $this->setData($key, $this->plugin->getSetting($contextId, $key));
+            $value = $this->plugin->getSetting($contextId, $key);
+            // Default the sidebar download toggle to "on" when it has never been saved,
+            // so the checkbox appears pre-ticked on first open and the frontend behavior
+            // matches pre-issue-#55 installs.
+            if ($key === 'geoMetadata_showDownloadSidebar' && $value === null) {
+                $value = true;
+            }
+            $this->setData($key, $value);
         }
 
         parent::initData();
@@ -72,6 +80,13 @@ class SettingsForm extends \Form
     {
         foreach($this->settings as $key){
             $this->readUserVars([$key]);
+        }
+        // Unchecked checkboxes are absent from the POST body, so readUserVars() leaves the
+        // value as null — indistinguishable at read time from "never saved". Coerce to '0'
+        // so the stored value after save is always definite ('0' or '1'), which lets the
+        // plugin hook treat null-from-getSetting() as "never saved, default on".
+        if ($this->getData('geoMetadata_showDownloadSidebar') === null) {
+            $this->setData('geoMetadata_showDownloadSidebar', '0');
         }
         parent::readInputData();
     }

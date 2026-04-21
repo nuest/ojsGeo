@@ -116,9 +116,12 @@ class GeoMetadataPlugin extends GenericPlugin
 			$templateMgr->addJavaScript("daterangepickerJS", $urlDaterangepickerJS, array('contexts' => array('frontend', 'backend')));
 			$templateMgr->addStyleSheet("daterangepickerCSS", $urlDaterangepickerCSS, array('contexts' => array('frontend', 'backend')));
 
-			// loading leaflet control geocoder (search), source: https://github.com/perliedman/leaflet-control-geocoder 
+			// loading leaflet control geocoder (search), source: https://github.com/perliedman/leaflet-control-geocoder
 			$templateMgr->addJavaScript("leafletControlGeocodeJS", $urlLeafletControlGeocodeJS, array('contexts' => array('frontend', 'backend')));
 			$templateMgr->addStyleSheet("leafletControlGeocodeCSS", $urlLeafletControlGeocodeCSS, array('contexts' => array('frontend', 'backend')));
+
+			$urlPluginCSS = $this->templateParameters['pluginStylesheetURL'] . '/styles.css';
+			$templateMgr->addStyleSheet("geoMetadataStyles", $urlPluginCSS, array('contexts' => array('frontend', 'backend')));
 
 			// plugins JS scripts and CSS
 			$templateMgr->assign('geoMetadata_submissionJS',      $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/submission.js');
@@ -421,6 +424,14 @@ class GeoMetadataPlugin extends GenericPlugin
 	{
 		$templateMgr = &$params[1];
 		$output = &$params[2];
+
+		// issue #55: per-journal toggle for the sidebar GeoJSON download section.
+		// Null (never saved) means "on" to preserve pre-#55 behavior on upgrade.
+		// Any other falsy value ('', '0', 0, false) means the admin turned it off.
+		$show = $this->getSetting($this->getCurrentContextId(), 'geoMetadata_showDownloadSidebar');
+		if ($show !== null && !$show) {
+			return false;
+		}
 
 		$templateMgr->assign($this->templateParameters);
 

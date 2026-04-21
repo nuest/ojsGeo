@@ -80,6 +80,18 @@ msgstr "URL de base des GeoNames, à utiliser pour basculer entre 'http' et 'htt
 msgid "plugins.generic.geoMetadata.settings.baseurlGeonames.description"
 msgstr "En fonction de votre configuration, sélectionnez une URL de base GeoNames appropriée. Il s'agit probablement de l'une des URL suivantes : <code>http://api.geonames.org</code>, <code>https://www.geonames.org</code>, ou <code>https://secure.geonames.org</code>. Si vous exécutez le plugin localement, vous devez utiliser <code>http://api.geonames.org</code>, le point de terminaison GeoNames sécurisé et valide CORS est <code>https://secure.geonames.org</code>. D'autres instructions peuvent être trouvées à l'adresse <a href=\"https://www.geonames.org/export/web-services.html\">https://www.geonames.org/export/web-services.html</a>."
 
+msgid "plugins.generic.geoMetadata.settings.section.frontend"
+msgstr "Interface publique"
+
+msgid "plugins.generic.geoMetadata.settings.section.accounts"
+msgstr "Comptes"
+
+msgid "plugins.generic.geoMetadata.settings.showDownloadSidebar"
+msgstr "Afficher le téléchargement GeoJSON dans la barre latérale de l'article."
+
+msgid "plugins.generic.geoMetadata.settings.showDownloadSidebar.description"
+msgstr "Lorsque cette option est activée, la barre latérale de la page de l'article contient une section permettant de télécharger les métadonnées géospatiales de l'article sous forme de fichier GeoJSON, accompagnée d'un lien vers des informations sur le format GeoJSON et la licence des métadonnées."
+
 msgid "plugins.generic.geoMetadata.name"
 msgstr "geoMetadata Plugin"
 
