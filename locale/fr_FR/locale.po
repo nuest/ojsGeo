@@ -50,6 +50,9 @@ msgstr "La ou les formes géométriques en bleu représentent les emplacements o
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.administrativeUnit"
 msgstr "Unité administrative"
 
+msgid "plugins.generic.geoMetadata.geospatialmetadata.gazetteer_unavailable"
+msgstr "Le service de répertoire géographique n'est pas disponible. Veuillez saisir les unités administratives manuellement, par exemple <code>\"Earth Europe Germany\"</code>, en tapant les noms des unités et en confirmant chacune avec \"Entrée\"."
+
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.administrativeUnit.description.submission"
 msgstr "Sur la base de votre saisie dans la carte, des unités administratives sont proposées en fonction de votre saisie sur la carte. Chaque fois que vous mettez à jour les entrées, les informations de couverture sont calculées et mises à jour en conséquence. Vous pouvez supprimer une ou plusieurs unités administratives en cliquant sur le bouton rouge \"x\". Si vous survolez la ou les unités administratives, la hiérarchie supérieure des unités administratives s'affiche si elle est disponible. En outre, vous pouvez ajouter d'autres unités administratives. Vous ne pouvez insérer une unité administrative supplémentaire que si elle correspond à la hiérarchie d'unités administratives déjà établie et aux formes géométriques de la carte. Si vous commencez à insérer, il y a quelques suggestions que vous pouvez accepter en cliquant, mais néanmoins vous pouvez entrer votre propre unité administrative en appuyant sur \"Enter\". L'unité administrative (en noir) qui est le plus petit dénominateur commun pour toutes les formes géométriques est affichée sur la carte. L'unité administrative n'est pas modifiable ou supprimable dans la carte, mais ici via le champ de saisie."
 
@@ -232,9 +235,6 @@ msgstr "Cliquez sur une entité pour la supprimer."
 
 msgid "plugins.generic.geoMetadata.submission.coverageDisabledHover"
 msgstr "Ce champ a été désactivé. Les informations seront remplies automatiquement en fonction des informations géospatiales saisies ci-dessous."
-
-msgid "plugins.generic.geoMetadata.geospatialmetadata.gazetteer_unavailable"
-msgstr "Le service de répertoire géographique n'est pas disponible. Veuillez saisir les unités administratives manuellement, par exemple <code>\"Earth Europe Germany\"</code>, en tapant les noms des unités et en confirmant chacune avec \"Entrée\"."
 
 msgid "plugins.generic.geoMetadata.license.submission"
 msgstr "Notez que les métadonnées temporelles et spatiales seront publiées sous la licence suivante : {$license}"
