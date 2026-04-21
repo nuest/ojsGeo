@@ -30,19 +30,16 @@ msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.descri
 msgstr "Definieren Sie die zeitlichen Eigenschaften des Artikelinhalts durch Angabe von Anfangs- und Enddatum. Die Eingabe ist sowohl über das Textfeld als auch über die Kalenderansicht möglich. Klicken Sie auf das Eingabefeld unter diesem Text, um die Kalenderansicht zu öffnen. Drücken Sie \"Übernehmen\", um die Kalendereinstellung zu speichern. Drücken Sie \"Löschen\", um die aktuellen Daten zu entfernen. Texteingaben müssen dem folgenden Format entsprechen und durch Klicken auf \"Anwenden\" bestätigt werden. Nutzen Sie bitte nicht die Enter-Taste. Bei manuellen Eingaben werden Anfang und Ende durch einen Bindestrich getrennt, der von Leerzeichen umgeben ist; Datumsangaben sind im Format \"JJJJ-MM-TT\" einzugeben, wobei \"JJJJ\" für Jahre, \"MM\" für Monate (mit einer führenden Null) und \"DD\" für Tage (mit einer führenden Null) steht. Darüber hinaus werden Eingaben wie \"XXXX\" und \"XXXX-DD\" auch akzeptiert und in der Folge formatiert in \"XXXX-01-01\" oder \"XXXX-DD-01\"."
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.description.article"
-msgstr "Zeitliche Eigenschaften des Artikelinhalts, angegeben in Tagen."
+msgstr "Zeitliche Eigenschaften des Artikelinhalts mit tagesgenauer Auflösung."
 
-msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.from"
-msgstr "Dieser Artikel umfasst einen Zeitraum von"
-
-msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.to"
-msgstr "bis"
+msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.coverage"
+msgstr "Dieser Artikel umfasst einen Zeitraum von {$from} bis {$to}."
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.spatial"
 msgstr "Ort(e) oder Gebiet(e)"
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.administrativeUnit"
-msgstr "Die Verwaltungseinheiten, welche die zum Artikel zugehörigen Orte umschließen, sind:"
+msgstr "Die Verwaltungseinheiten, welche die zum Artikel zugehörigen Orte umschließen, sind: {$units}"
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.description.submission"
 msgstr "Definieren Sie die Orte und Gebiete, die den Artikelinhalt beschreiben, durch eine oder mehrere geometrische Form(en). Sie können im <strong>Menü zur Erstellung verschiedener Geometrietypen</strong> auf der linken Seite zwischen Polylinie, Polygon, Rechteck und Punkt-Geometrie wählen. Über die Icons darunter können Sie die erstellte(n) geometrische(n) Form(en) <strong>bearbeiten oder löschen</strong> (\"Mülleimer\"). Mit den Symbolen \"-\" und \"+\" in der oberen linken Ecke können Sie die Ansicht vergrößern und verkleinern. In der oberen rechten Ecke können Sie die <strong>Hintergrundkarten</strong> wechseln. Sie können zwischen einer Straßenkarte (\"OpenStreetMap\"-Ebene) und Luftbildern (\"Esri World Imagery\"-Ebene) wählen. Sie können auch einstellen, ob die geometrische(n) Form(en) und die Verwaltungseinheit angezeigt werden sollen oder nicht. Für die Verwaltungseinheiten finden Sie eine genauere Beschreibung im nächsten Abschnitt dieses Formulars. Unterhalb der Ebenensteuerung auf der rechten Seite finden Sie eine <strong>Suchfunktion</strong> für die Karte. Nach Drücken von \"Enter\" werden Ihnen verschiedene Orte angeboten und wenn Sie auf einen Vorschlag klicken, wird er akzeptiert und ein passendes Rechteck, das die Grenzen des Ortes beschreibt, wird auf der Karte erstellt. Dieses Rechteck kann bearbeitet oder gelöscht indem Sie auf das Lösch-/Bearbeitungssymbol in der Menüleiste auf der linken Seite der Karte klicken. Zum <strong>Schützen sensibler Orte</strong> können sie einen gröberen Detaillierungsgrad für die Geometrien nutzen."
@@ -51,7 +48,7 @@ msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.descrip
 msgstr "Die blaue(n) geometrische(n) Form(en) stellen die Orte oder Gebiete des Artikelinhalts dar, wie sie von den Nutzer*innen angegeben wurden. Die in einem schwarzen Rechteck dargestellte Verwaltungseinheit stellt die kleinste Verwaltungseinheit dar, welche alle Orte und Gebiete umschließt, mit denen sich der Artikel befasst."
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.administrativeUnit"
-msgstr "Administrative Region"
+msgstr "Verwaltungseinheit"
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.gazetteer_unavailable"
 msgstr "Der Gazetteer-Dienst ist nicht verfügbar. Bitte geben sie die Verwaltungseinheiten manuell ein, z.B., <code>\"Earth Europe Germany\"</code>, und bestätigen sie jede Einheit mit \"Enter\"."
@@ -75,7 +72,7 @@ msgid "plugins.generic.geoMetadata.settings.usernameGeonames"
 msgstr "Erstellen Sie einen Benutzernamen unter https://www.geonames.org/login; der Benutzername muss einmalig aktiviert werden, um den kostenlosen Webservice zu nutzen ('free web services'), siehe https://www.geonames.org/manageaccount."
 
 msgid "plugins.generic.geoMetadata.settings.usernameGeonames.description"
-msgstr "Sie müssen Ihren Benutzernamen für die GeoNames API angeben, damit ein Abruf der Verwaltungseinheiten möglich ist: <a href=\"https://www.geonames.org/login\">https://www.geonames.org/login</a>."
+msgstr "Sie müssen Ihren Benutzernamen für die GeoNames API angeben, damit die Verwaltungseinheiten abgerufen werden können. Legen Sie ein Konto unter <a href=\"https://www.geonames.org/login\">https://www.geonames.org/login</a> an und tragen Sie den Benutzernamen hier ein."
 
 msgid "plugins.generic.geoMetadata.settings.baseurlGeonames"
 msgstr "Basis-URL von GeoNames, um zwischen 'http' und 'https' zu wechseln."
@@ -96,7 +93,7 @@ msgid "plugins.generic.geoMetadata.journal.pageTitle"
 msgstr "Zeiten & Orte aller Artikel"
 
 msgid "plugins.generic.geoMetadata.journal.title"
-msgstr "Zeiten & Orte aller Artikel in"
+msgstr "Zeiten & Orte aller Artikel in {$journal}"
 
 msgid "plugins.generic.geoMetadata.journal.breadcrump"
 msgstr "Karte"
@@ -240,13 +237,13 @@ msgid "plugins.generic.geoMetadata.submission.coverageDisabledHover"
 msgstr "Dieses Feld wurde deaktiviert. Die Informationen werden automatisch auf der Grundlage der unten eingegebenen Geodaten ausgefüllt."
 
 msgid "plugins.generic.geoMetadata.license.submission"
-msgstr "Die zeitlichen und räumlichen Metadaten werden unter der folgenden Lizenz veröffentlicht:"
+msgstr "Die zeitlichen und räumlichen Metadaten werden unter der folgenden Lizenz veröffentlicht: {$license}"
 
 msgid "plugins.generic.geoMetadata.license.download"
-msgstr "Geodaten-Lizenz:"
+msgstr "Geodaten-Lizenz: {$license}"
 
 msgid "plugins.generic.geoMetadata.license.frontend"
-msgstr "Die zeitlichen und räumlichen Metadaten sind unter der folgenden Lizenz veröffentlicht:"
+msgstr "Die zeitlichen und räumlichen Metadaten sind unter der folgenden Lizenz veröffentlicht: {$license}"
 
 msgid "plugins.generic.geoMetadata.publication.tab.raw"
 msgstr "Rohdaten"

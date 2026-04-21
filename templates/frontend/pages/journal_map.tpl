@@ -24,13 +24,13 @@ const geoMetadata_articleBaseUrl = '{if $journal}{url journal=$journal->getPath(
 
 <div class="page page_about_publishing_system">
 	{include file="frontend/components/breadcrumbs.tpl" currentTitleKey="plugins.generic.geoMetadata.journal.breadcrump"}
-	<h1>{translate key="plugins.generic.geoMetadata.journal.title"} {$context}</h1>
+	<h1>{translate key="plugins.generic.geoMetadata.journal.title" journal=$context}</h1>
 	<p>{translate key="plugins.generic.geoMetadata.journal.text"}</p>
 
 	<div id="mapdiv" style="width: 100%; height: 480px; z-index: 1;"></div>
 
 	<p class="geoMetadata_license">
-		{translate key="plugins.generic.geoMetadata.license.frontend"} {$geoMetadata_metadataLicense}
+		{translate key="plugins.generic.geoMetadata.license.frontend" license=$geoMetadata_metadataLicense}
 	</p>
 </div><!-- .page -->
 

@@ -32,17 +32,14 @@ msgstr "Define the temporal properties of the articles content by specifying the
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.description.article"
 msgstr "Temporal properties of the article's content specified with a day resolution."
 
-msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.from"
-msgstr "This article covers a time period from "
-
-msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.to"
-msgstr "to"
+msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.coverage"
+msgstr "This article covers a time period from {$from} to {$to}."
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.spatial"
 msgstr "Location(s) or Area(s)"
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.administrativeUnit"
-msgstr "The administrative units enclosing the article's places are: "
+msgstr "The administrative units enclosing the article's places are: {$units}"
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.description.submission"
 msgstr "Define the location and areas that further describe the article's content by one or more geometric shape(s). You can choose in the <strong>editing controls for geometry creation</strong> on the left to choose between polyline, polygon, rectangle and point. Use the icons below to <strong>edit or delete</strong> the geometric shape(s) created. Zoom in and out using the \"–\" and \"+\" in the upper left corner. In the upper right corner you can change the <strong>background maps</strong>. You can choose between a street map (\"OpenStreetMap\" layer) and aerial imagery (\"Esri World Imagery\" layer). You can also set whether the geometric shape(s) and the administrative unit should be displayed. You will find a more detailed description of the administrative unit in the next paragraph of this form. There is a <strong>search</strong> function below the layer control for the map. You can search for locations and by hitting \"Enter\" you will be offered different locations that match your input. Clicking on a suggestion will accept it and a matching rectangule describing the boundaries of the respective location will be added to the map. This rectangle can also be deleted/edited by clicking on the trash-/edit icons in the menu on the left side of the map. You can choose a coarser level of detail to <strong>protect sensitive locations</strong>."
@@ -96,7 +93,7 @@ msgid "plugins.generic.geoMetadata.journal.pageTitle"
 msgstr "Times & Locations of all articles"
 
 msgid "plugins.generic.geoMetadata.journal.title"
-msgstr "Times & Locations of all articles in"
+msgstr "Times & Locations of all articles in {$journal}"
 
 msgid "plugins.generic.geoMetadata.journal.breadcrump"
 msgstr "Map"
@@ -240,13 +237,13 @@ msgid "plugins.generic.geoMetadata.submission.coverageDisabledHover"
 msgstr "This field has been disabled. Information will be filled in automatically based on the location information entered below."
 
 msgid "plugins.generic.geoMetadata.license.submission"
-msgstr "Note that the temporal and spatial metadata will be published under the following license:"
+msgstr "Note that the temporal and spatial metadata will be published under the following license: {$license}"
 
 msgid "plugins.generic.geoMetadata.license.download"
-msgstr "Geodata License:"
+msgstr "Geodata License: {$license}"
 
 msgid "plugins.generic.geoMetadata.license.frontend"
-msgstr "Temporal and spatial metadata are published under the following license:"
+msgstr "Temporal and spatial metadata are published under the following license: {$license}"
 
 msgid "plugins.generic.geoMetadata.publication.tab.raw"
 msgstr "Raw data"
@@ -255,4 +252,4 @@ msgid "plugins.generic.geoMetadata.publication.tab.raw.description"
 msgstr "Edit raw data with care! Changes made to the raw data do <strong>not</strong> trigger changes in the above form fields and map."
 
 msgid "plugins.generic.geoMetadata.publication.success"
-msgstr "Metadata update succesful."
+msgstr "Metadata update successful."

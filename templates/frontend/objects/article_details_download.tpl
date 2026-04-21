@@ -27,7 +27,7 @@
                     </span>
                 </p>
                 <p class="geoMetadata_license">
-                    {translate key="plugins.generic.geoMetadata.license.download"} {$geoMetadata_metadataLicense}
+                    {translate key="plugins.generic.geoMetadata.license.download" license=$geoMetadata_metadataLicense}
                 </p>
             </div>
         </section>

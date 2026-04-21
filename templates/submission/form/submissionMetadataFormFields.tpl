@@ -42,7 +42,7 @@
         class="hiddenDataField" style="height: 0;">{${$smarty.const.GEOMETADATA_DB_FIELD_SPATIAL}}</textarea>
 
     <p align="justify" class="description">{translate
-        key="plugins.generic.geoMetadata.license.submission"} {$geoMetadata_metadataLicense}
+        key="plugins.generic.geoMetadata.license.submission" license=$geoMetadata_metadataLicense}
     </p>
     {/fbvFormSection}
 

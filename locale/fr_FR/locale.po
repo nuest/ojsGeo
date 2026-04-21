@@ -32,17 +32,14 @@ msgstr "Définit les propriétés temporelles du contenu des articles en spécif
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.description.article"
 msgstr "Propriétés temporelles du contenu de l'article spécifié avec une résolution en jours."
 
-msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.from"
-msgstr "Cet article couvre une période de temps de"
-
-msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.to"
-msgstr "à"
+msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.coverage"
+msgstr "Cet article couvre une période de temps de {$from} à {$to}."
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.spatial"
-msgstr "Lieu(x) ou la(les) zone(s)"
+msgstr "Lieu(x) ou zone(s)"
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.administrativeUnit"
-msgstr "Les unités administratives englobant les lieux de l'article sont : "
+msgstr "Les unités administratives englobant les lieux de l'article sont : {$units}"
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.description.submission"
 msgstr "Définir l'emplacement du contenu des articles par une ou plusieurs forme(s) géométrique(s). Vous pouvez choisir dans le contrôle sur le côté gauche entre polyline, polygone, rectangle et point. Les icônes ci-dessous vous permettent de modifier ou de supprimer la ou les formes géométriques créées. Les boutons - et + situés dans le coin supérieur gauche permettent d'effectuer un zoom avant et arrière. Dans le coin supérieur droit, vous pouvez modifier les cartes d'arrière-plan. Vous pouvez choisir entre un plan des rues (couche \"OpenStreetMap\") et des images aériennes (couche \"Esri World Imagery\"). Vous pouvez également définir si la ou les formes géométriques et l'unité administrative doivent être affichées ou non. Pour l'unité administrative, vous trouverez une description plus détaillée dans le paragraphe suivant de ce formulaire. Sous le contrôle de la couche, vous trouverez une recherche pour la carte. Vous pouvez rechercher des lieux et en appuyant sur \"Enter\", différents lieux correspondant à votre saisie vous seront proposés. En cliquant sur une suggestion, elle sera acceptée et un rectangle correspondant, décrivant les limites de l'emplacement, sera affiché sur la carte. Ce rectangle peut également être supprimé/modifié en cliquant sur l'icône de suppression/modification sur le côté gauche. Vous pouvez choisir un niveau de détail plus grossier pour protéger les lieux sensibles."
@@ -63,7 +60,7 @@ msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.adminis
 msgstr "Unités administratives"
 
 msgid "plugins.generic.geoMetadata.article.details.download"
-msgstr "Télécharger les métadonnées géospatiales."
+msgstr "Télécharger les métadonnées géospatiales"
 
 msgid "plugins.generic.geoMetadata.article.details.geoJSON.about"
 msgstr "A propos de GeoJSON"
@@ -93,7 +90,7 @@ msgid "plugins.generic.geoMetadata.journal.pageTitle"
 msgstr "Heures et lieux de tous les articles."
 
 msgid "plugins.generic.geoMetadata.journal.title"
-msgstr "Heures et emplacements de tous les articles dans"
+msgstr "Heures et emplacements de tous les articles dans {$journal}"
 
 msgid "plugins.generic.geoMetadata.journal.breadcrump"
 msgstr "Carte"
@@ -105,7 +102,7 @@ msgid "plugins.generic.geoMetadata.journal.text"
 msgstr "Cliquez sur une géométrie pour voir des informations sur l'article et suivez le lien vers la page de l'article."
 
 msgid "plugins.generic.geoMetadata.map.articleLayerName"
-msgstr "Des articles"
+msgstr "Articles"
 
 msgid "plugins.generic.geoMetadata.map.administrativeLayerName"
 msgstr "Unités administratives"
@@ -240,13 +237,13 @@ msgid "plugins.generic.geoMetadata.geospatialmetadata.gazetteer_unavailable"
 msgstr "Le service de répertoire géographique n'est pas disponible. Veuillez saisir les unités administratives manuellement, par exemple <code>\"Earth Europe Germany\"</code>, en tapant les noms des unités et en confirmant chacune avec \"Entrée\"."
 
 msgid "plugins.generic.geoMetadata.license.submission"
-msgstr "Notez que les métadonnées temporelles et spatiales seront publiées sous la licence suivante:"
+msgstr "Notez que les métadonnées temporelles et spatiales seront publiées sous la licence suivante : {$license}"
 
 msgid "plugins.generic.geoMetadata.license.download"
-msgstr "Licence métadonnées spatiales:"
+msgstr "Licence métadonnées spatiales : {$license}"
 
 msgid "plugins.generic.geoMetadata.license.frontend"
-msgstr "Les métadonnées temporelles et spatiales sont publiées sous la licence suivante:"
+msgstr "Les métadonnées temporelles et spatiales sont publiées sous la licence suivante : {$license}"
 
 msgid "plugins.generic.geoMetadata.publication.tab.raw"
 msgstr "Données brutes"
