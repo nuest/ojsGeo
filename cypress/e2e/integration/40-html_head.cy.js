@@ -40,6 +40,18 @@ describe('geoMetadata Geospatial Metadata in HTML Head', function () {
     ], 'GeoJSON');
   });
 
+  it('DC.SpatialCoverage GeoJSON includes the article time period and provenance (issue #106)', function () {
+    // The temporal range entered in 32-submission.cy.js (2022-01-01 — 2022-12-31) is
+    // written into the stored GeoJSON by js/submission.js:1256 as `{YYYY-MM-DD..YYYY-MM-DD}`
+    // inside `temporalProperties.timePeriods`, with a user-provenance record emitted by
+    // submission.js:836-837. The DC.SpatialCoverage meta tag ships that blob verbatim
+    // (GeoMetadataPlugin.inc.php:227), so both values must appear here exactly.
+    metaContains('DC.SpatialCoverage', [
+      /"timePeriods":\["\{2022-01-01\.\.2022-12-31\}"\]/,
+      /"provenance":\{"description":"temporal properties created by user","id":31\}/
+    ], 'GeoJSON');
+  });
+
   it('has geo.placename with the correct place name', function () {
     metaContains('geo.placename', /^Federal Republic of Germany$/);
   });
@@ -67,6 +79,41 @@ describe('geoMetadata Temporal Metadata in HTML Head', function () {
 
   it('has DC.PeriodOfTime with the correct scheme and content', function () {
     metaContains('DC.PeriodOfTime', /2022-01-01\/2022-12-31/, 'ISO8601');
+  });
+
+});
+
+describe('geoMetadata HTML Head - Article Without Time Period (issue #106)', function () {
+
+  // Uses the "Timeless Isle" article published by 34-submission-no-timeperiod.cy.js:
+  // spatial data present, no temporal range entered.
+
+  beforeEach(() => {
+    cy.visit('/');
+    cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
+    cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
+    cy.get('a:contains("Timeless Isle")').last().click();
+  });
+
+  it('DC.SpatialCoverage GeoJSON has empty timePeriods and "not available" provenance', function () {
+    // js/submission.js:826-829 writes these exact defaults when the time period
+    // textarea is unset ("no data"); GeoMetadataPlugin.inc.php:227 then ships the
+    // resulting GeoJSON verbatim into DC.SpatialCoverage.
+    metaContains('DC.SpatialCoverage', [
+      /"timePeriods":\[\]/,
+      /"provenance":\{"description":"not available","id":"not available"\}/
+    ], 'GeoJSON');
+  });
+
+  it('does not emit a DC.temporal meta tag', function () {
+    // GeoMetadataPlugin.inc.php:272 only adds the DC.temporal header when timePeriods
+    // is set; the schema-link <link rel="schema.DC"> shares the same addHeader key,
+    // so after registration the meta[name="DC.temporal"] tag should be absent.
+    cy.get('meta[name="DC.temporal"]').should('not.exist');
+  });
+
+  it('does not emit a DC.PeriodOfTime meta tag', function () {
+    cy.get('meta[name="DC.PeriodOfTime"]').should('not.exist');
   });
 
 });
