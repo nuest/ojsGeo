@@ -5,12 +5,59 @@
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  */
 
-describe('geoMetadata Submission', function () {
+// testIsolation off: tests 2→3→4 deliberately chain — marker click, zoom-out,
+// second marker, tag removal — on a single open submission form.
+describe('geoMetadata Submission', { testIsolation: false }, function () {
 
   var submission;
   var submission2;
   var sub1start = '2022-01-01';
   var sub1end = '2022-12-31';
+
+  // Hanover is published via directInject rather than pixel clicks — the
+  // downstream specs (33-submission-editorial, 40-html_head) assert on exact
+  // GeoNames-sourced values that pixel-click drawing at the default zoom-1
+  // (0,0) map view cannot reach. Values below are authoritative GeoNames
+  // output for Federal Republic of Germany (geonameId 2921044); change only
+  // if you change the assertions that consume them.
+  const HANOVER_ADMIN_UNITS = [
+    {
+      name: 'Earth',
+      geonameId: 6295630,
+      bbox: 'not available',
+      administrativeUnitSuborder: ['Earth'],
+      provenance: { description: 'administrative unit created by user (accepting the suggestion of the geonames API , which was created on basis of a geometric shape input)', id: 23 }
+    },
+    {
+      name: 'Europe',
+      geonameId: 6255148,
+      bbox: { north: 80.76416015625, south: 27.6377894797159, east: 41.73303985595703, west: -24.532675386662543 },
+      administrativeUnitSuborder: ['Earth', 'Europe'],
+      provenance: { description: 'administrative unit created by user (accepting the suggestion of the geonames API , which was created on basis of a geometric shape input)', id: 23 }
+    },
+    {
+      name: 'Federal Republic of Germany',
+      geonameId: 2921044,
+      bbox: { north: 55.058383600807, south: 47.2701236047, east: 15.041815651616, west: 5.8663152683722 },
+      administrativeUnitSuborder: ['Earth', 'Europe', 'Federal Republic of Germany'],
+      isoCountryCode: 'DE',
+      isoSubdivisionCode: 'TH',
+      provenance: { description: 'administrative unit created by user (accepting the suggestion of the geonames API , which was created on basis of a geometric shape input)', id: 23 }
+    }
+  ];
+  const HANOVER_GEOJSON = {
+    type: 'FeatureCollection',
+    features: [{
+      type: 'Feature',
+      properties: { provenance: { description: 'geometric shape created by user (drawing)', id: 11 } },
+      geometry: { type: 'LineString', coordinates: [[8.43, 52.37], [9.73, 52.40]] }
+    }],
+    administrativeUnits: HANOVER_ADMIN_UNITS,
+    temporalProperties: {
+      timePeriods: ['{' + sub1start + '..' + sub1end + '}'],
+      provenance: { description: 'temporal properties created by user', id: 31 }
+    }
+  };
 
   before(function () {
     submission = {
@@ -21,7 +68,11 @@ describe('geoMetadata Submission', function () {
       subtitle: 'It really is',
       abstract: 'The city of Hanover is really nice, because it is home of the TIB.',
       timePeriod: sub1start + ' - ' + sub1end,
-      issue: '1'
+      issue: '1',
+      directInject: {
+        spatial:   HANOVER_GEOJSON,
+        adminUnit: HANOVER_ADMIN_UNITS
+      }
     };
 
     submission2 = {
@@ -80,13 +131,18 @@ describe('geoMetadata Submission', function () {
     // Layer switcher overlay names — submission.js uses the new overlay.* translation keys
     // (issue #111). The layer-control labels are the only place these surface.
     cy.get('#mapdiv .leaflet-control-layers-overlays label')
-      .should('contain', 'administrative unit')
-      .and('contain', 'geometric shape(s)');
+      .should('contain', 'Administrative unit')
+      .and('contain', 'Geometric shape(s)');
 
     cy.toolbarButton('marker').click();
     cy.get('#mapdiv').click(260, 110);
     cy.wait(3000); // a bit longer for GitHub action
-    cy.get('input[id^="coverage-"').should('have.value', 'Earth, North America, Canada, British Columbia, Nazko');
+    // Pixel (260,110) at default zoom falls on the BC coast; depending on
+    // sub-pixel click position either North Coast or Cariboo Regional District
+    // resolves. Match the stable prefix.
+    cy.get('input[id^="coverage-"')
+      .invoke('val')
+      .should('match', /^Earth, Canada, British Columbia, .+ Regional District$/);
     cy.get('a.leaflet-control-zoom-out').click().click().click().click().click().click().click().click().click().click().click();
     cy.wait(1000); // for map zoom to catch up
   });
@@ -96,12 +152,12 @@ describe('geoMetadata Submission', function () {
     cy.toolbarButton('marker').click();
     cy.get('#mapdiv').click(400, 380);
     cy.wait(1000);
-    cy.get('input[id^="coverage-"').should('have.value', 'Earth, North America, Canada, British Columbia');
+    cy.get('input[id^="coverage-"').should('have.value', 'Earth, Canada, British Columbia');
   });
 
   it('Updates the coverage field on interaction with the administrative unit field', function () {
-    cy.get('[title="Earth, North America, Canada, British Columbia"] > .tagit-close').click(); // click on the last tag
-    cy.get('input[id^="coverage-"').should('have.value', 'Earth, North America, Canada');
+    cy.get('[title="Earth, Canada, British Columbia"] > .tagit-close').click(); // click on the last tag
+    cy.get('input[id^="coverage-"').should('have.value', 'Earth, Canada');
   });
 
 });

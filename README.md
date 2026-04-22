@@ -173,6 +173,32 @@ The spatial metadata is saved in GeoJSON format using the EPSG:4326 coordinate r
 This means that even the same coordinates can point to different locations on Earth over time, as the so called "epoch" is not saved.
 However, this only leads to an uncertainty of about +/- 2 m, which is generally _no problem at all_ for the use case of global dataset discovery.
 
+The `ICBM` and `geo.position` meta tags (see below) are emitted with **5 decimal places** (~1.1 m at the equator).
+This is deliberately coarser than the input geometry: a single representative point should not suggest more certainty than is warranted for post-hoc curated metadata, and research locations can be sensitive (endangered species habitats, protected field sites).
+If you need higher precision, parse the `DC.SpatialCoverage` GeoJSON directly.
+
+## Emitted HTML meta tags
+
+For every article page with spatio-temporal metadata the plugin injects the following tags into `<head>`, alongside the standard OJS Dublin Core set.
+They are intended to be consumed by academic search engines, discovery services, and generic crawlers.
+
+| Tag | Source | Purpose |
+|---|---|---|
+| `DC.SpatialCoverage` | full stored GeoJSON FeatureCollection | machine-readable spatial coverage |
+| `DC.box` | bbox of the most specific admin unit | [DCMI Box](https://www.dublincore.org/specifications/dublin-core/dcmi-box/) encoding |
+| `ISO 19139` | bbox of the most specific admin unit | `gmd:EX_GeographicBoundingBox` fragment |
+| `geo.placename` | name of the most specific admin unit | human-readable place name |
+| `geo.region` | ISO 3166-1 + ISO 3166-2 of the most specific admin unit (e.g. `DE-SN`) | discovery by country / subdivision |
+| `ICBM` | centroid of combined GeoJSON geometry (fallback: admin-unit bbox centroid) | [ICBM address](https://en.wikipedia.org/wiki/ICBM_address) convention, 5-decimal precision |
+| `geo.position` | same centroid as `ICBM` | widely used `lat;lon` convention, 5-decimal precision |
+| `DC.temporal` / `DC.PeriodOfTime` | stored temporal range | ISO 8601 interval |
+
+The centroid for `ICBM` / `geo.position` is computed server-side either via `ST_Centroid(ST_Envelope(...))` on the OJS database (using [brick/geo](https://github.com/brick/geo) against MariaDB/MySQL) or, if the database engine cannot satisfy the query, via a pure-PHP bounding-box midpoint — both paths produce the same number.
+Immediately before the tags the plugin writes an HTML comment documenting which source was used for the point (`<!-- geoMetadata: next meta tags based on combined centroid of N feature(s) -->` or `... admin unit bbox ("NAME") -->`) so readers of the page source can trace the provenance.
+
+The ISO 3166 codes backing `geo.region` are captured at submission time from the GeoNames API (`hierarchyJSON` for ISO 3166-1, `countrySubdivisionJSON?type=ISO3166-2` for ISO 3166-2).
+Articles submitted before this feature shipped carry no codes and therefore omit the `geo.region` tag until the author edits and re-saves the publication metadata.
+
 ## Testing
 
 Tests are run with [Cypress](https://www.cypress.io/), for which dependencies are installed with npm using the `package.json`.

@@ -418,6 +418,7 @@ function initAdminunits() {
                     // store the administrativeUnitSuborder, so the parent hierarchical structure of administrative units in the administrative Unit
                     var administrativeUnitSuborder = getAdministrativeUnitSuborderForAdministrativeUnit(administrativeUnitAuthorInput.geonameId);
                     administrativeUnitAuthorInput.administrativeUnitSuborder = administrativeUnitSuborder;
+                    attachIsoCodesToAdministrativeUnit(administrativeUnitAuthorInput);
                     administrativeUnit.push(administrativeUnitAuthorInput);
 
                     // check if the input tag is valid: does it fit in the current hierarchy of administrative units with the lowest common denominator
@@ -964,6 +965,78 @@ function ajaxRequestGeonamesGeonamesIdBbox(id) {
 }
 
 /**
+ * Return the first ISO 3166-1 alpha-2 country code found in a GeoNames
+ * hierarchyJSON response, or null.
+ */
+function extractIsoCountryCodeFromHierarchy(hierarchyResponse) {
+    if (!hierarchyResponse || !hierarchyResponse.geonames) return null;
+    for (var i = 0; i < hierarchyResponse.geonames.length; i++) {
+        if (hierarchyResponse.geonames[i].countryCode) {
+            return hierarchyResponse.geonames[i].countryCode;
+        }
+    }
+    return null;
+}
+
+/**
+ * Fetch the ISO 3166-2 subdivision code for a lat/lng from GeoNames'
+ * countrySubdivisionJSON; returns the subdivision part only (e.g. "CA") or
+ * null on failure.
+ */
+function ajaxRequestGeonamesIso3166Subdivision(lat, lng) {
+    if (!baseurlGeonames || lat == null || lng == null) return null;
+    var result = null;
+    $.ajax({
+        url: baseurlGeonames.concat("/countrySubdivisionJSON"),
+        async: false,
+        data: {
+            lat: lat,
+            lng: lng,
+            level: 1,
+            type: "ISO3166-2",
+            username: usernameGeonames,
+            formatted: true
+        },
+        success: function (resp) {
+            if (resp && resp.codes) {
+                for (var i = 0; i < resp.codes.length; i++) {
+                    if (resp.codes[i].type === "ISO3166-2" && typeof resp.codes[i].code === "string") {
+                        var dash = resp.codes[i].code.indexOf("-");
+                        // preserve multi-part codes like "GB-ENG"; strip only the first segment
+                        result = dash >= 0 ? resp.codes[i].code.substring(dash + 1) : resp.codes[i].code;
+                    }
+                }
+            }
+        }
+    });
+    return result;
+}
+
+/**
+ * Attach `isoCountryCode` and `isoSubdivisionCode` to an administrative-unit
+ * object in place (no-op on failure; codes are optional).
+ */
+function attachIsoCodesToAdministrativeUnit(unit) {
+    if (!unit || !unit.geonameId || unit.geonameId === 'not available') return;
+
+    var hierarchy = ajaxRequestGeonamesGeonameIdHierarchicalStructure(unit.geonameId);
+    var country = extractIsoCountryCodeFromHierarchy(hierarchy);
+    if (country) unit.isoCountryCode = country;
+
+    var lat = null, lng = null;
+    if (unit.bbox && typeof unit.bbox === 'object'
+        && unit.bbox.north != null && unit.bbox.south != null
+        && unit.bbox.east  != null && unit.bbox.west  != null) {
+        lat = (unit.bbox.north + unit.bbox.south) / 2;
+        lng = (unit.bbox.east  + unit.bbox.west)  / 2;
+    }
+    if (lat != null && lng != null) {
+        var sub = ajaxRequestGeonamesIso3166Subdivision(lat, lng);
+        if (sub) unit.isoSubdivisionCode = sub;
+    }
+}
+
+/**
  * Function to proof if all positions in an array are the same.
  * @param {*} el
  * @param {*} index
@@ -1163,6 +1236,8 @@ function storeCreatedGeoJSONAndAdministrativeUnitInHiddenForms(drawnItems) {
                 }
 
                 administrativeUnitForAllFeatures[i].administrativeUnitSuborder = administrativeUnitSuborder;
+                // ISO 3166-1 + ISO 3166-2 for meta tag #88 (geo.region)
+                attachIsoCodesToAdministrativeUnit(administrativeUnitForAllFeatures[i]);
                 administrativeUnitForAllFeatures[i].provenance = {
                     'description': 'administrative unit created by user (accepting the suggestion of the geonames API , which was created on basis of a geometric shape input)',
                     'id': 23

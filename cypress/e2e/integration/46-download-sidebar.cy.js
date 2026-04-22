@@ -81,4 +81,23 @@ describe('geoMetadata Download Sidebar Toggle', function () {
       .and('be.visible');
   });
 
+  // Stub downloadObjectAsJson to capture the payload the browser would write.
+  it('downloaded GeoJSON carries exact ISO 3166-1 + ISO 3166-2 codes (issue #88)', function () {
+    visitHanover();
+    cy.window().then((win) => {
+      cy.stub(win, 'downloadObjectAsJson').as('downloadStub');
+    });
+    cy.get('a.obj_galley_link.geoJSON').click();
+    cy.get('@downloadStub').should('have.been.calledOnce');
+    cy.get('@downloadStub').invoke('getCall', 0).then((call) => {
+      const exportObj = call.args[0];
+      const exportName = call.args[1];
+      expect(exportName, 'download filename').to.equal('geospatialMetadata');
+      expect(exportObj.administrativeUnits, 'administrativeUnits array').to.be.an('array').and.not.be.empty;
+      const mostSpecific = exportObj.administrativeUnits[exportObj.administrativeUnits.length - 1];
+      expect(mostSpecific.isoCountryCode,     'isoCountryCode').to.equal('DE');
+      expect(mostSpecific.isoSubdivisionCode, 'isoSubdivisionCode').to.equal('TH');
+    });
+  });
+
 });

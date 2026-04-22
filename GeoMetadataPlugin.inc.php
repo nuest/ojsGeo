@@ -26,9 +26,11 @@ import('lib.pkp.classes.plugins.GenericPlugin');
 
 import('plugins.generic.geoMetadata.classes.Components.Forms.PublicationForm');
 import('plugins.generic.geoMetadata.classes.Components.Forms.SettingsForm');
+import('plugins.generic.geoMetadata.classes.Geo.Centroid');
 
 use geoMetadata\classes\Components\Forms\PublicationForm;
 use geoMetadata\classes\Components\Forms\SettingsForm;
+use geoMetadata\classes\Geo\Centroid;
 
 class GeoMetadataPlugin extends GenericPlugin
 {
@@ -209,6 +211,21 @@ class GeoMetadataPlugin extends GenericPlugin
 	}
 
 	/**
+	 * Fetch the native PDO handle OJS is already using so brick/geo's
+	 * PDOEngine can issue ST_Centroid / ST_Envelope against the same DB.
+	 * Returns null on any failure — callers must fall back gracefully.
+	 */
+	private static function getOjsPdo(): ?\PDO
+	{
+		try {
+			return \Illuminate\Database\Capsule\Manager::getPdo();
+		} catch (\Throwable $e) {
+			error_log('[geoMetadata] could not obtain PDO (falling back to pure-PHP centroid): ' . $e->getMessage());
+			return null;
+		}
+	}
+
+	/**
 	 * Inject metadata into article HTML head
 	 * @param $hookName string
 	 * @param $args array
@@ -225,30 +242,84 @@ class GeoMetadataPlugin extends GenericPlugin
 
 		$templateMgr->addHeader('dublinCoreTemporal', '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />');
 
-		// https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/spatial/
-		if ($spatial = $publication->getData(GEOMETADATA_DB_FIELD_SPATIAL)) {
-			$templateMgr->addHeader('dublinCoreSpatialCoverage', '<meta name="DC.SpatialCoverage" scheme="GeoJSON" content="' . htmlspecialchars(strip_tags($spatial)) . '" />');
-		}
-
+		$spatial            = $publication->getData(GEOMETADATA_DB_FIELD_SPATIAL);
 		$administrativeUnit = $publication->getData(GEOMETADATA_DB_FIELD_ADMINUNIT);
-		if ($administrativeUnit !== "no data" && $administrativeUnit !== null && $administrativeUnit !== "") {
-			$administrativeUnitNames = array_map(function ($unit) {
-				return $unit->name;
-			}, json_decode($administrativeUnit) ?? []);
-			$administrativeUnitNames = implode(', ', $administrativeUnitNames);
 
-			$lowestAdministrativeUnitName = null;
-			$lowestAdministrativeUnitBBox = null;
-			foreach (json_decode($administrativeUnit) as $unit) {
-				if ($unit->bbox != 'not available') {
+		// Most specific admin unit feeds both the DC.box / ISO 19139 tags
+		// below and the ICBM / geo.position fallback.
+		$lowestAdministrativeUnit     = null;
+		$lowestAdministrativeUnitName = null;
+		$lowestAdministrativeUnitBBox = null;
+		$decodedAdminUnits            = [];
+		$hasAdminUnits = ($administrativeUnit !== "no data" && $administrativeUnit !== null && $administrativeUnit !== "");
+		if ($hasAdminUnits) {
+			$decodedAdminUnits = json_decode($administrativeUnit) ?? [];
+			foreach ($decodedAdminUnits as $unit) {
+				if (isset($unit->bbox) && $unit->bbox != 'not available') {
+					$lowestAdministrativeUnit     = $unit;
 					$lowestAdministrativeUnitName = $unit->name;
 					$lowestAdministrativeUnitBBox = $unit->bbox;
 				}
 			}
+		}
+
+		// https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/spatial/
+		if ($spatial) {
+			$templateMgr->addHeader('dublinCoreSpatialCoverage', '<meta name="DC.SpatialCoverage" scheme="GeoJSON" content="' . htmlspecialchars(strip_tags($spatial)) . '" />');
+		}
+
+		// ICBM + geo.position: 5-decimal precision (~1.1 m); see README.
+		// Prefer the combined-feature centroid; fall back to admin-unit bbox
+		// centre. Provenance is emitted as an HTML comment next to the tags.
+		$centroid = null;
+		$provenance = null;
+		if ($spatial) {
+			$centroid = Centroid::fromGeoJson($spatial, self::getOjsPdo());
+			if ($centroid) {
+				$featureCount = count(json_decode($spatial)->features ?? []);
+				$provenance = 'combined centroid of ' . $featureCount . ' feature(s)';
+			}
+		}
+		if (!$centroid && $lowestAdministrativeUnitBBox) {
+			$centroid = Centroid::fromBbox($lowestAdministrativeUnitBBox);
+			$provenance = 'centroid of most precise admin unit bbox ("' . $lowestAdministrativeUnitName . '")';
+		}
+		if ($centroid) {
+			$lat = number_format($centroid[0], 5, '.', '');
+			$lon = number_format($centroid[1], 5, '.', '');
+			$templateMgr->addHeader('geoMetadataCentroidProvenance',
+				'<!-- geoMetadata: next meta tags based on ' . htmlspecialchars($provenance) . ' -->');
+			$templateMgr->addHeader('icbm',
+				'<meta name="ICBM" content="' . $lat . ', ' . $lon . '" />');
+			$templateMgr->addHeader('geoPosition',
+				'<meta name="geo.position" content="' . $lat . ';' . $lon . '" />');
+		}
+
+		if ($hasAdminUnits) {
+			$administrativeUnitNames = implode(', ', array_map(function ($unit) {
+				return $unit->name;
+			}, $decodedAdminUnits));
 
 			if ($lowestAdministrativeUnitName) {
 				// https://dohmaindesigns.com/adding-geo-meta-tags-to-your-website/
 				$templateMgr->addHeader('geoPlacename', '<meta name="geo.placename" content="' . htmlspecialchars(strip_tags($lowestAdministrativeUnitName)) . '" />');
+			}
+
+			// geo.region: ISO 3166-1 + ISO 3166-2 of the most specific admin
+			// unit. Codes are captured at submission by js/submission.js;
+			// pre-existing records without them are skipped silently and pick
+			// up the codes on the next re-save.
+			if ($lowestAdministrativeUnit) {
+				$isoCountry     = $lowestAdministrativeUnit->isoCountryCode    ?? null;
+				$isoSubdivision = $lowestAdministrativeUnit->isoSubdivisionCode ?? null;
+				if ($isoCountry) {
+					$region = $isoSubdivision ? ($isoCountry . '-' . $isoSubdivision) : $isoCountry;
+					$templateMgr->addHeader('geoRegion',
+						'<meta name="geo.region" content="' . htmlspecialchars($region) . '" />');
+				} else {
+					error_log('[geoMetadata] geo.region skipped (no ISO codes stored) for admin unit geonameId='
+						. ($lowestAdministrativeUnit->geonameId ?? '?'));
+				}
 			}
 
 			if ($lowestAdministrativeUnitName && $lowestAdministrativeUnitBBox) {
@@ -441,7 +512,7 @@ class GeoMetadataPlugin extends GenericPlugin
 	}
 
 	/**
-	 * Function which extends the issue TOC with a timeline and map view 
+	 * Function which extends the issue TOC with a timeline and map view
 	 * @param hook Templates::Issue::TOC::Main
 	 */
 	public function extendIssueTocTemplate($hookName, $params)
@@ -449,10 +520,42 @@ class GeoMetadataPlugin extends GenericPlugin
 		$templateMgr = &$params[1];
 		$output = &$params[2];
 
+		$publishedSubmissions = $templateMgr->getTemplateVars('publishedSubmissions');
+		if (!self::issueHasAnySpatialData($publishedSubmissions)) {
+			return false;
+		}
+
 		$templateMgr->assign($this->templateParameters);
 
 		$output .= $templateMgr->fetch($this->getTemplateResource('frontend/objects/issue_map.tpl'));
 
+		return false;
+	}
+
+	/**
+	 * Does any article in the issue have non-empty spatial metadata?
+	 * Returns on the first match so an issue with many articles doesn't pay
+	 * for a full walk.
+	 */
+	private static function issueHasAnySpatialData($publishedSubmissions): bool
+	{
+		if (empty($publishedSubmissions)) {
+			return false;
+		}
+		foreach ($publishedSubmissions as $section) {
+			$articles = (is_array($section) ? ($section['articles'] ?? []) : []);
+			foreach ($articles as $article) {
+				$publication = $article->getCurrentPublication();
+				if (!$publication) continue;
+				$raw = $publication->getData(GEOMETADATA_DB_FIELD_SPATIAL);
+				if (!$raw || $raw === 'no data') continue;
+				$decoded = json_decode($raw);
+				if (!$decoded) continue;
+				if (!empty($decoded->features)) return true;
+				$units = $decoded->administrativeUnits ?? null;
+				if (is_array($units) && count($units) > 0) return true;
+			}
+		}
 		return false;
 	}
 

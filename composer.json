@@ -8,7 +8,8 @@
         "geo"
     ],
     "require": {
-        "php": ">=7.3",
+        "php": ">=7.4",
+        "brick/geo": "^0.7.2",
         "npm-asset/daterangepicker": "3.1",
         "npm-asset/leaflet-control-geocoder": "3.1.0",
         "npm-asset/leaflet": "1.9.4",

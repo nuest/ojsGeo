@@ -20,7 +20,10 @@ describe('geoMetadata Submission without Geonames', function () {
       subtitle: 'Surely',
       abstract: 'The city of Vancouver is home.',
       timePeriod: sub1start + ' - ' + sub1end,
-      issue: '1'
+      issue: '1',
+      // Gazetteer is intentionally not configured for this spec; don't draw
+      // any geometry so the "no map on the issue page" assertion holds.
+      spatial: null
     };
   });
 
