@@ -34,6 +34,9 @@
     <{$heading}>{translate key="plugins.generic.geoMetadata.issue.title"}</{$heading}>
 
 	<div id="mapdiv" style="width: 100%; height: 360px; z-index: 1;"></div>
+	<p class="geoMetadata_privacyNotice description">
+		{translate key="plugins.generic.geoMetadata.privacy.mapNotice"}
+	</p>
 	
 	<p class="geoMetadata_license">
 		{translate key="plugins.generic.geoMetadata.license.frontend" license=$geoMetadata_metadataLicense}

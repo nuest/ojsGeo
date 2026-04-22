@@ -34,7 +34,17 @@ class SettingsForm extends \Form
     private $settings = [
         'geoMetadata_geonames_username',
         'geoMetadata_geonames_baseurl',
-        'geoMetadata_showDownloadSidebar'
+        'geoMetadata_showDownloadSidebar',
+        'geoMetadata_showEsriBaseLayer'
+    ];
+
+    /**
+     * Settings that are booleans defaulting to ON when no value has been saved yet.
+     * Keeps initData/readInputData/plugin-hook null-handling consistent.
+     */
+    private $booleanDefaultOnSettings = [
+        'geoMetadata_showDownloadSidebar',
+        'geoMetadata_showEsriBaseLayer'
     ];
 
     public function __construct($plugin)
@@ -61,10 +71,7 @@ class SettingsForm extends \Form
         $contextId = $context ? $context->getId() : CONTEXT_SITE;
         foreach($this->settings as $key){
             $value = $this->plugin->getSetting($contextId, $key);
-            // Default the sidebar download toggle to "on" when it has never been saved,
-            // so the checkbox appears pre-ticked on first open and the frontend behavior
-            // matches pre-issue-#55 installs.
-            if ($key === 'geoMetadata_showDownloadSidebar' && $value === null) {
+            if ($value === null && in_array($key, $this->booleanDefaultOnSettings, true)) {
                 $value = true;
             }
             $this->setData($key, $value);
@@ -81,12 +88,12 @@ class SettingsForm extends \Form
         foreach($this->settings as $key){
             $this->readUserVars([$key]);
         }
-        // Unchecked checkboxes are absent from the POST body, so readUserVars() leaves the
-        // value as null — indistinguishable at read time from "never saved". Coerce to '0'
-        // so the stored value after save is always definite ('0' or '1'), which lets the
-        // plugin hook treat null-from-getSetting() as "never saved, default on".
-        if ($this->getData('geoMetadata_showDownloadSidebar') === null) {
-            $this->setData('geoMetadata_showDownloadSidebar', '0');
+        // Unchecked checkboxes are absent from POST; coerce to '0' so null-from-getSetting()
+        // later unambiguously means "never saved, default on".
+        foreach ($this->booleanDefaultOnSettings as $key) {
+            if ($this->getData($key) === null) {
+                $this->setData($key, '0');
+            }
         }
         parent::readInputData();
     }

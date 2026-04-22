@@ -82,8 +82,9 @@ describe('geoMetadata Fullscreen Control', function () {
   });
 
   it('renders the fullscreen button on the journal map page', function () {
-    cy.visit('/');
-    cy.get('nav[class="pkp_site_nav_menu"] a:contains("Map")').click();
+    // Reach the journal map by URL — the primary-nav "Map" menu item is an
+    // optional manual OJS setup step (README §3) not automated in CI.
+    cy.visit('/' + Cypress.env('contextPath') + '/map');
     cy.get('#mapdiv').should('exist');
     expectButton(titleEnter);
   });

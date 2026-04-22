@@ -28,6 +28,9 @@ const geoMetadata_articleBaseUrl = '{if $journal}{url journal=$journal->getPath(
 	<p>{translate key="plugins.generic.geoMetadata.journal.text"}</p>
 
 	<div id="mapdiv" style="width: 100%; height: 480px; z-index: 1;"></div>
+	<p class="geoMetadata_privacyNotice description">
+		{translate key="plugins.generic.geoMetadata.privacy.mapNotice"}
+	</p>
 
 	<p class="geoMetadata_license">
 		{translate key="plugins.generic.geoMetadata.license.frontend" license=$geoMetadata_metadataLicense}

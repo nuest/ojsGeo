@@ -92,6 +92,30 @@ msgstr "GeoJSON-Download in der Artikel-Seitenleiste anzeigen."
 msgid "plugins.generic.geoMetadata.settings.showDownloadSidebar.description"
 msgstr "Wenn aktiviert, enthält die Seitenleiste der Artikelseite einen Bereich, in dem die räumlichen Metadaten des Artikels als GeoJSON-Datei heruntergeladen werden können, zusammen mit einem Link zu Informationen über das GeoJSON-Format sowie der Metadaten-Lizenz."
 
+msgid "plugins.generic.geoMetadata.settings.section.maps"
+msgstr "Karten"
+
+msgid "plugins.generic.geoMetadata.settings.showEsriBaseLayer"
+msgstr "Esri World Imagery als Hintergrundkarte auf Leser*innen-Seiten anbieten"
+
+msgid "plugins.generic.geoMetadata.settings.showEsriBaseLayer.description"
+msgstr "Wenn aktiviert, bieten alle Karten des Plugins (Artikel-, Ausgaben-, Journalkarte und Einreichungsformular) OpenStreetMap und Esri World Imagery als Hintergrundkarten an. Wenn deaktiviert, wird ausschließlich OpenStreetMap geladen, sodass keine Kachel-Anfragen an Esri gesendet werden."
+
+msgid "plugins.generic.geoMetadata.settings.privacy.info"
+msgstr "Karten laden Kacheln von Drittanbieter-Servern, die dabei die IP-Adressen der Leser*innen erhalten. Unter jeder Karte wird ein kurzer Hinweis angezeigt. Zusätzlich empfehlen wir, einen Absatz in die Datenschutzerklärung des Journals aufzunehmen — der folgende Text spiegelt die aktuell aktivierten Hintergrundkarten wider und kann dort als Ausgangspunkt eingefügt werden."
+
+msgid "plugins.generic.geoMetadata.privacy.mapNotice"
+msgstr "Kartenkacheln werden von Drittanbieter-Servern geladen. Einzelheiten finden Sie in der Datenschutzerklärung des Journals."
+
+msgid "plugins.generic.geoMetadata.privacy.snippet.osm"
+msgstr "<p>Diese Website nutzt Kartendienste der OpenStreetMap Foundation (OSMF), St John's Innovation Centre, Cowley Road, Cambridge, CB4 0WS, Vereinigtes Königreich. Ihr Browser verbindet sich mit Servern der OSMF im Vereinigten Königreich und in anderen Ländern. Der Betreiber dieser Seite hat keinen Einfluss auf diese Verbindungen oder die Verarbeitung Ihrer Daten durch die OSMF; Einzelheiten entnehmen Sie bitte der <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">Datenschutzerklärung der OSMF</a>.</p>"
+
+msgid "plugins.generic.geoMetadata.privacy.snippet.esri"
+msgstr "<p>Zusätzlich werden Kartenkacheln von Esri-Servern geladen (Hintergrundebene World Imagery). Ihr Browser verbindet sich mit von Esri betriebenen Servern; Einzelheiten entnehmen Sie bitte dem <a href=\"https://www.esri.com/en-us/privacy/overview\">Esri-Datenschutzhinweis</a>.</p>"
+
+msgid "plugins.generic.geoMetadata.privacy.snippet.legitimateInterest"
+msgstr "<p>Diese Dienste werden ausschließlich zum Zweck des berechtigten Interesses (Art. 6 Abs. 1 lit. f DSGVO) eingebunden, den Leser*innen interaktive Karten der räumlichen Abdeckung der Artikel anzuzeigen.</p>"
+
 msgid "plugins.generic.geoMetadata.name"
 msgstr "geoMetadata Plugin"
 

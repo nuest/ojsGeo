@@ -33,6 +33,9 @@
         </p>
 
         <div id="mapdiv" style="width: 100%; height: 300px; z-index: 1;"></div>
+        <p class="geoMetadata_privacyNotice description">
+            {translate key="plugins.generic.geoMetadata.privacy.mapNotice"}
+        </p>
 
         {capture assign="geoMetadata_administrativeUnits"}<span id="geoMetadata_span_admnistrativeUnit" class="geoMetadata_coverage"></span>{/capture}
         <p id="geoMetadata_article_administrativeUnit" class="description">

@@ -38,6 +38,9 @@
         key="plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.description.submission"}
     </p>
     <div id="mapdiv" style="width: 100%; height: 400px; z-index: 0;"></div>
+    <p align="justify" class="description geoMetadata_privacyNotice">{translate
+        key="plugins.generic.geoMetadata.privacy.mapNotice"}
+    </p>
     <textarea id="spatialProperties" name="{$smarty.const.GEOMETADATA_DB_FIELD_SPATIAL}"
         class="hiddenDataField" style="height: 0;">{${$smarty.const.GEOMETADATA_DB_FIELD_SPATIAL}}</textarea>
 

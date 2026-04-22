@@ -92,6 +92,30 @@ msgstr "Show GeoJSON download in the article sidebar."
 msgid "plugins.generic.geoMetadata.settings.showDownloadSidebar.description"
 msgstr "When enabled, the article page sidebar includes a section offering the article's geospatial metadata as a downloadable GeoJSON file, along with a link to information about the GeoJSON format and the metadata license."
 
+msgid "plugins.generic.geoMetadata.settings.section.maps"
+msgstr "Maps"
+
+msgid "plugins.generic.geoMetadata.settings.showEsriBaseLayer"
+msgstr "Offer the Esri World Imagery base layer on reader-facing maps"
+
+msgid "plugins.generic.geoMetadata.settings.showEsriBaseLayer.description"
+msgstr "When enabled, every map in the plugin (article, issue, journal map, and submission form) offers OpenStreetMap and Esri World Imagery as base layers. When disabled, only OpenStreetMap is loaded, so no tile requests are sent to Esri."
+
+msgid "plugins.generic.geoMetadata.settings.privacy.info"
+msgstr "Maps load tiles from third-party servers, which receive readers' IP addresses. A short notice is shown below every map. We also recommend adding a paragraph to your journal's privacy policy — the text below reflects the currently enabled base layers and can be pasted there as a starting point."
+
+msgid "plugins.generic.geoMetadata.privacy.mapNotice"
+msgstr "Map tiles are loaded from third-party servers. See the journal's privacy policy for details."
+
+msgid "plugins.generic.geoMetadata.privacy.snippet.osm"
+msgstr "<p>This website uses map services provided by the OpenStreetMap Foundation (OSMF), St John's Innovation Centre, Cowley Road, Cambridge, CB4 0WS, United Kingdom. Your browser will connect to servers operated by the OSMF located in the United Kingdom and other countries. The operator of this site has no control over those connections or the processing of your data by the OSMF; see the <a href=\"https://wiki.osmfoundation.org/wiki/Privacy_Policy\">OSMF privacy policy</a> for details.</p>"
+
+msgid "plugins.generic.geoMetadata.privacy.snippet.esri"
+msgstr "<p>Map tiles are additionally loaded from Esri's servers (World Imagery base layer). Your browser will connect to servers operated by Esri; see the <a href=\"https://www.esri.com/en-us/privacy/overview\">Esri privacy notice</a> for details.</p>"
+
+msgid "plugins.generic.geoMetadata.privacy.snippet.legitimateInterest"
+msgstr "<p>These services are integrated exclusively for the legitimate interest (Art. 6(1)(f) GDPR) of displaying interactive maps of the articles' spatial coverage to readers.</p>"
+
 msgid "plugins.generic.geoMetadata.name"
 msgstr "geoMetadata Plugin"
 

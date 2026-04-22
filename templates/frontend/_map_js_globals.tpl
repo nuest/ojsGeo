@@ -36,6 +36,9 @@ const geoMetadata_mapLayerStyleHighlight = {
     fillOpacity: 0.6
 };
 
+// issue #124: base-layer toggle from plugin settings
+const geoMetadata_showEsriBaseLayer = {if $geoMetadata_showEsriBaseLayer}true{else}false{/if};
+
 // layer switcher labels
 const geoMetadata_articleLayerName = '{$geoMetadata_i18n.articleLayerName|escape:'javascript'}';
 const geoMetadata_layerName        = geoMetadata_articleLayerName; // legacy alias used by issue.js / journal.js
