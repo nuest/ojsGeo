@@ -81,14 +81,12 @@ $(function () {
                         ${articleIssue}
                     </div>`
 
-                if (articleTemporal !== "no data" && articleTemporal !== null) {
-                    let articleTemporalStart = articleTemporal.split('{')[1].split('..')[0];
-                    let articleTemporalEnd = articleTemporal.split('{')[1].split('..')[1].split('}')[0];
-
+                let ranges = window.geoMetadataTemporal.parseTimePeriods(articleTemporal);
+                if (ranges.length > 0) {
                     let popupTemporal = `<br/>
                     <div class="authors">
                         <i class="fa fa-calendar pkpIcon--inline"></i>
-                        <i>${articleTemporalStart} – ${articleTemporalEnd}</i>
+                        <i>${ranges[0].start} – ${ranges[0].end}</i>
                     </div>`
 
                     popupTemplate = popupTemplate.concat(popupTemporal);
@@ -117,4 +115,28 @@ $(function () {
         }
         // TODO load temporal properties and add them to a timeline
     });
+});
+
+// aggregate time periods across publications and render the appropriate sentence
+$(function () {
+    var rangeEl = document.getElementById('geoMetadata_journalTemporalRange');
+    var singleEl = document.getElementById('geoMetadata_journalTemporalSingle');
+    if (!rangeEl || !singleEl) return;
+
+    var data = JSON.parse($('.geoMetadata_data.publications')[0].value);
+    var rawValues = data.map(function (p) { return p.temporal; });
+    var aggregate = window.geoMetadataTemporal.aggregateRange(rawValues);
+    if (!aggregate) return;
+
+    var fromYear = window.geoMetadataTemporal.yearOf(aggregate.minStart);
+    var toYear = window.geoMetadataTemporal.yearOf(aggregate.maxEnd);
+
+    if (fromYear === toYear) {
+        document.getElementById('geoMetadata_journalTemporalYear').textContent = fromYear;
+        singleEl.style.display = '';
+    } else {
+        document.getElementById('geoMetadata_journalTemporalFrom').textContent = fromYear;
+        document.getElementById('geoMetadata_journalTemporalTo').textContent = toYear;
+        rangeEl.style.display = '';
+    }
 });

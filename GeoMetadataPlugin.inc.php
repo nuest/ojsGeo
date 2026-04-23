@@ -138,6 +138,9 @@ class GeoMetadataPlugin extends GenericPlugin
 			$templateMgr->addStyleSheet("geoMetadataStyles", $urlPluginCSS, array('contexts' => array('frontend', 'backend')));
 
 			// plugins JS scripts and CSS
+			$urlTemporalLibJS = $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/temporal.js';
+			$templateMgr->addJavaScript('geoMetadataTemporalLibJS', $urlTemporalLibJS, array('contexts' => array('frontend', 'backend')));
+
 			$templateMgr->assign('geoMetadata_submissionJS',      $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/submission.js');
 			$templateMgr->assign('geoMetadata_article_detailsJS', $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/article_details.js');
 			$templateMgr->assign('geoMetadata_issueJS',           $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/issue.js');
@@ -546,9 +549,13 @@ class GeoMetadataPlugin extends GenericPlugin
 		$output = &$params[2];
 
 		$publishedSubmissions = $templateMgr->getTemplateVars('publishedSubmissions');
-		if (!self::issueHasAnySpatialData($publishedSubmissions)) {
+		$hasSpatial = self::issueHasAnySpatialData($publishedSubmissions);
+		$hasTemporal = self::issueHasAnyTemporalData($publishedSubmissions);
+		if (!$hasSpatial && !$hasTemporal) {
 			return false;
 		}
+		$templateMgr->assign('geoMetadata_issueHasSpatial', $hasSpatial);
+		$templateMgr->assign('geoMetadata_issueHasTemporal', $hasTemporal);
 
 		$templateMgr->assign($this->templateParameters);
 
@@ -579,6 +586,29 @@ class GeoMetadataPlugin extends GenericPlugin
 				if (!empty($decoded->features)) return true;
 				$units = $decoded->administrativeUnits ?? null;
 				if (is_array($units) && count($units) > 0) return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Does any article in the issue have a non-empty time period?
+	 */
+	private static function issueHasAnyTemporalData($publishedSubmissions): bool
+	{
+		if (empty($publishedSubmissions)) {
+			return false;
+		}
+		foreach ($publishedSubmissions as $section) {
+			$articles = (is_array($section) ? ($section['articles'] ?? []) : []);
+			foreach ($articles as $article) {
+				$publication = $article->getCurrentPublication();
+				if (!$publication) continue;
+				$raw = $publication->getData(GEOMETADATA_DB_FIELD_TIME_PERIODS);
+				if ($raw === null || $raw === '' || $raw === 'no data') continue;
+				if (preg_match('/\{\s*-?\d+-\d{2}-\d{2}\s*\.\.\s*-?\d+-\d{2}-\d{2}\s*\}/', $raw)) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -616,11 +646,11 @@ class GeoMetadataPlugin extends GenericPlugin
 
 		$templateMgr->assign('journal', Application::get()->getRequest()->getJournal()); // access primary locale
 
-		//$temporalProperties = $publication->getData(GEOMETADATA_DB_FIELD_TIME_PERIODS);
-		//if ($temporalProperties === null || $temporalProperties === '') {
-		//	$temporalProperties = 'no data';
-		//}
-		//$templateMgr->assign(GEOMETADATA_DB_FIELD_TIME_PERIODS, $temporalProperties);
+		$temporalProperties = $publication->getData(GEOMETADATA_DB_FIELD_TIME_PERIODS);
+		if ($temporalProperties === null || $temporalProperties === '') {
+			$temporalProperties = 'no data';
+		}
+		$templateMgr->assign(GEOMETADATA_DB_FIELD_TIME_PERIODS, $temporalProperties);
 
 		//$administrativeUnit = $publication->getLocalizedData('coverage', $journal->getPrimaryLocale());
 		//if ($administrativeUnit === null || $administrativeUnit === '') {

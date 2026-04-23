@@ -257,6 +257,12 @@ msgstr "Collectez et fournissez des métadonnées géospatiales pour une meilleu
 msgid "plugins.generic.geoMetadata.issue.title"
 msgstr "Heures et lieux de publication"
 
+msgid "plugins.generic.geoMetadata.issue.temporalCoverage"
+msgstr "Ce numéro contient des articles couvrant la période de {$from} à {$to}."
+
+msgid "plugins.generic.geoMetadata.issue.temporalCoverage.singleYear"
+msgstr "Ce numéro contient des articles couvrant l'année {$year}."
+
 msgid "plugins.generic.geoMetadata.journal.pageTitle"
 msgstr "Heures et lieux de tous les articles."
 
@@ -271,6 +277,12 @@ msgstr "Carte"
 
 msgid "plugins.generic.geoMetadata.journal.text"
 msgstr "Cliquez sur une géométrie pour voir des informations sur l'article et suivez le lien vers la page de l'article."
+
+msgid "plugins.generic.geoMetadata.journal.temporalCoverage"
+msgstr "Cette revue contient des articles couvrant la période de {$from} à {$to}."
+
+msgid "plugins.generic.geoMetadata.journal.temporalCoverage.singleYear"
+msgstr "Cette revue contient des articles couvrant l'année {$year}."
 
 msgid "plugins.generic.geoMetadata.map.articleLayerName"
 msgstr "Articles"

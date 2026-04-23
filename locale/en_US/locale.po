@@ -257,6 +257,12 @@ msgstr "Collect and provide geospatial metadata for enhanced discovery of articl
 msgid "plugins.generic.geoMetadata.issue.title"
 msgstr "Times & Locations"
 
+msgid "plugins.generic.geoMetadata.issue.temporalCoverage"
+msgstr "This issue contains articles covering the time period from {$from} to {$to}."
+
+msgid "plugins.generic.geoMetadata.issue.temporalCoverage.singleYear"
+msgstr "This issue contains articles covering the year {$year}."
+
 msgid "plugins.generic.geoMetadata.journal.pageTitle"
 msgstr "Times & Locations of all articles"
 
@@ -271,6 +277,12 @@ msgstr "Map"
 
 msgid "plugins.generic.geoMetadata.journal.text"
 msgstr "Click on any geometry to see information about the article and follow the link to the article page."
+
+msgid "plugins.generic.geoMetadata.journal.temporalCoverage"
+msgstr "This journal contains articles covering the time period from {$from} to {$to}."
+
+msgid "plugins.generic.geoMetadata.journal.temporalCoverage.singleYear"
+msgstr "This journal contains articles covering the year {$year}."
 
 msgid "plugins.generic.geoMetadata.map.articleLayerName"
 msgstr "Articles"

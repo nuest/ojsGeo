@@ -27,6 +27,16 @@ const geoMetadata_articleBaseUrl = '{if $journal}{url journal=$journal->getPath(
 	<h1>{translate key="plugins.generic.geoMetadata.journal.title" journal=$context}</h1>
 	<p>{translate key="plugins.generic.geoMetadata.journal.text"}</p>
 
+	{capture assign="geoMetadata_journalFrom"}<span id="geoMetadata_journalTemporalFrom"></span>{/capture}
+	{capture assign="geoMetadata_journalTo"}<span id="geoMetadata_journalTemporalTo"></span>{/capture}
+	{capture assign="geoMetadata_journalYear"}<span id="geoMetadata_journalTemporalYear"></span>{/capture}
+	<p id="geoMetadata_journalTemporalRange" class="description" style="display:none">
+		{translate key="plugins.generic.geoMetadata.journal.temporalCoverage" from=$geoMetadata_journalFrom to=$geoMetadata_journalTo}
+	</p>
+	<p id="geoMetadata_journalTemporalSingle" class="description" style="display:none">
+		{translate key="plugins.generic.geoMetadata.journal.temporalCoverage.singleYear" year=$geoMetadata_journalYear}
+	</p>
+
 	<div id="mapdiv" style="width: 100%; height: 480px; z-index: 1;"></div>
 	<p class="geoMetadata_privacyNotice description">
 		{translate key="plugins.generic.geoMetadata.privacy.mapNotice"}

@@ -257,6 +257,12 @@ msgstr "Recopile y proporcione metadatos geoespaciales para mejorar el descubrim
 msgid "plugins.generic.geoMetadata.issue.title"
 msgstr "Tiempos y ubicaciones"
 
+msgid "plugins.generic.geoMetadata.issue.temporalCoverage"
+msgstr "Este número contiene artículos que cubren el período de {$from} a {$to}."
+
+msgid "plugins.generic.geoMetadata.issue.temporalCoverage.singleYear"
+msgstr "Este número contiene artículos que cubren el año {$year}."
+
 msgid "plugins.generic.geoMetadata.journal.pageTitle"
 msgstr "Tiempos y ubicaciones de todos los artículos"
 
@@ -271,6 +277,12 @@ msgstr "Mapa"
 
 msgid "plugins.generic.geoMetadata.journal.text"
 msgstr "Haga clic en cualquier geometría para ver información sobre el artículo y siga el enlace a la página del artículo."
+
+msgid "plugins.generic.geoMetadata.journal.temporalCoverage"
+msgstr "Esta revista contiene artículos que cubren el período de {$from} a {$to}."
+
+msgid "plugins.generic.geoMetadata.journal.temporalCoverage.singleYear"
+msgstr "Esta revista contiene artículos que cubren el año {$year}."
 
 msgid "plugins.generic.geoMetadata.map.articleLayerName"
 msgstr "Artículos"

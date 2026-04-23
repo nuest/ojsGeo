@@ -165,11 +165,13 @@ $(function () {
         $("#geoMetadata_article_temporal").hide();
     }
     else {
-        let start = temporalProperties.split('{')[1].split('..')[0];
-        let end = temporalProperties.split('{')[1].split('..')[1].split('}')[0];
-
-        $("#geoMetadata_span_start").html(start);
-        $("#geoMetadata_span_end").html(end);
+        let ranges = window.geoMetadataTemporal.parseTimePeriods(temporalProperties);
+        if (ranges.length === 0) {
+            $("#geoMetadata_article_temporal").hide();
+        } else {
+            $("#geoMetadata_span_start").text(ranges[0].start);
+            $("#geoMetadata_span_end").text(ranges[0].end);
+        }
     }
 });
 

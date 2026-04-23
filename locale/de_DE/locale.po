@@ -257,6 +257,12 @@ msgstr "Sammeln und Bereitstellen von räumlichen Metadaten für verbesserte Art
 msgid "plugins.generic.geoMetadata.issue.title"
 msgstr "Zeiten & Orte"
 
+msgid "plugins.generic.geoMetadata.issue.temporalCoverage"
+msgstr "Diese Ausgabe enthält Artikel, die den Zeitraum von {$from} bis {$to} abdecken."
+
+msgid "plugins.generic.geoMetadata.issue.temporalCoverage.singleYear"
+msgstr "Diese Ausgabe enthält Artikel, die das Jahr {$year} abdecken."
+
 msgid "plugins.generic.geoMetadata.journal.pageTitle"
 msgstr "Zeiten & Orte aller Artikel"
 
@@ -271,6 +277,12 @@ msgstr "Karte"
 
 msgid "plugins.generic.geoMetadata.journal.text"
 msgstr "Klicken Sie auf eine beliebige Geometrie, um Informationen über den Artikel zu sehen und dem Link zur Artikelseite zu folgen."
+
+msgid "plugins.generic.geoMetadata.journal.temporalCoverage"
+msgstr "Dieses Journal enthält Artikel, die den Zeitraum von {$from} bis {$to} abdecken."
+
+msgid "plugins.generic.geoMetadata.journal.temporalCoverage.singleYear"
+msgstr "Dieses Journal enthält Artikel, die das Jahr {$year} abdecken."
 
 msgid "plugins.generic.geoMetadata.map.articleLayerName"
 msgstr "Artikel"
