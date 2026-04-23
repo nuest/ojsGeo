@@ -56,23 +56,25 @@ if (geoMetadata_mapEnabled) {
 
     L.control.layers(baseLayers, overlayMaps).addTo(map);
 
-    L.Control.geocoder({
-        defaultMarkGeocode: false,
-        placeholder:  geoMetadata_geocoderPlaceholder,
-        errorMessage: geoMetadata_geocoderError,
-        iconLabel:    geoMetadata_geocoderButtonTitle
-    })
-        .on('markgeocode', function (e) {
-            var bbox = e.geocode.bbox;
-            var poly = L.polygon([
-                bbox.getSouthEast(),
-                bbox.getNorthEast(),
-                bbox.getNorthWest(),
-                bbox.getSouthWest()
-            ]);
-            map.fitBounds(poly.getBounds());
+    if (geoMetadata_showGeocoder) {
+        L.Control.geocoder({
+            defaultMarkGeocode: false,
+            placeholder:  geoMetadata_geocoderPlaceholder,
+            errorMessage: geoMetadata_geocoderError,
+            iconLabel:    geoMetadata_geocoderButtonTitle
         })
-        .addTo(map);
+            .on('markgeocode', function (e) {
+                var bbox = e.geocode.bbox;
+                var poly = L.polygon([
+                    bbox.getSouthEast(),
+                    bbox.getNorthEast(),
+                    bbox.getNorthWest(),
+                    bbox.getSouthWest()
+                ]);
+                map.fitBounds(poly.getBounds());
+            })
+            .addTo(map);
+    }
 }
 
 $(function () {

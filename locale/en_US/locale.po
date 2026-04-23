@@ -134,6 +134,84 @@ msgstr "Provide the journal-wide map page at /map."
 msgid "plugins.generic.geoMetadata.settings.showJournalMap.description"
 msgstr "When enabled, the plugin registers a public /map route on the journal that renders an interactive map of every published article's spatial metadata. When disabled, the route returns 404 and any menu link pointing to it will break."
 
+msgid "plugins.generic.geoMetadata.settings.section.submission"
+msgstr "Submission form (author)"
+
+msgid "plugins.generic.geoMetadata.settings.section.submission.intro"
+msgstr "Toggle which spatio-temporal fields appear in the author's submission form. Disabling a field here does not remove it from the editorial publication tab — that is controlled separately."
+
+msgid "plugins.generic.geoMetadata.settings.submission_enableSpatial"
+msgstr "Offer spatial (map) input in the submission form."
+
+msgid "plugins.generic.geoMetadata.settings.submission_enableSpatial.description"
+msgstr "When enabled, the submission form includes an interactive map where the author draws the article's geometry. Disable to collect geospatial metadata only during the editorial workflow."
+
+msgid "plugins.generic.geoMetadata.settings.submission_enableTemporal"
+msgstr "Offer temporal (date range) input in the submission form."
+
+msgid "plugins.generic.geoMetadata.settings.submission_enableTemporal.description"
+msgstr "When enabled, the submission form includes a date range picker for the article's temporal coverage. Disable to collect temporal metadata only during the editorial workflow."
+
+msgid "plugins.generic.geoMetadata.settings.submission_enableAdminUnit"
+msgstr "Offer administrative-unit (GeoNames) input in the submission form."
+
+msgid "plugins.generic.geoMetadata.settings.submission_enableAdminUnit.description"
+msgstr "When enabled, the submission form offers a GeoNames-backed administrative-unit autocomplete. Requires a configured GeoNames account; without one, the widget falls back to free-text entry. Disable to collect administrative-unit metadata only during the editorial workflow."
+
+msgid "plugins.generic.geoMetadata.settings.section.workflow"
+msgstr "Publication workflow (editor)"
+
+msgid "plugins.generic.geoMetadata.settings.section.workflow.intro"
+msgstr "Toggle which spatio-temporal fields appear on the publication tab for editors and copyeditors. Disabling a field here does not remove it from the author's submission form — that is controlled separately."
+
+msgid "plugins.generic.geoMetadata.settings.workflow_enableSpatial"
+msgstr "Offer spatial (map) editing in the publication tab."
+
+msgid "plugins.generic.geoMetadata.settings.workflow_enableSpatial.description"
+msgstr "When enabled, the publication tab in the editorial workflow includes an interactive map to edit the article's geometry. Disable if authors are solely responsible for geospatial metadata."
+
+msgid "plugins.generic.geoMetadata.settings.workflow_enableTemporal"
+msgstr "Offer temporal (date range) editing in the publication tab."
+
+msgid "plugins.generic.geoMetadata.settings.workflow_enableTemporal.description"
+msgstr "When enabled, the publication tab includes a date range picker for the article's temporal coverage. Disable if authors are solely responsible for temporal metadata."
+
+msgid "plugins.generic.geoMetadata.settings.workflow_enableAdminUnit"
+msgstr "Offer administrative-unit (GeoNames) editing in the publication tab."
+
+msgid "plugins.generic.geoMetadata.settings.workflow_enableAdminUnit.description"
+msgstr "When enabled, the publication tab offers a GeoNames-backed administrative-unit autocomplete for editors and copyeditors. Disable if authors are solely responsible for administrative-unit metadata."
+
+msgid "plugins.generic.geoMetadata.settings.section.discovery"
+msgstr "Discovery meta tags (HTML head)"
+
+msgid "plugins.generic.geoMetadata.settings.section.discovery.intro"
+msgstr "Control which metadata families the plugin injects into the HTML <head> of article pages. These tags do not appear visually but are consumed by harvesters, search engines, and machine-readability tooling."
+
+msgid "plugins.generic.geoMetadata.settings.emitMetaDublinCore"
+msgstr "Emit Dublin Core meta tags."
+
+msgid "plugins.generic.geoMetadata.settings.emitMetaDublinCore.description"
+msgstr "When enabled, injects the Dublin Core schema declaration and DC.SpatialCoverage, DC.box, and DC.temporal meta tags. Widely consumed by OAI-PMH harvesters and scholarly indexes."
+
+msgid "plugins.generic.geoMetadata.settings.emitMetaGeoNames"
+msgstr "Emit geo.placename and geo.region meta tags."
+
+msgid "plugins.generic.geoMetadata.settings.emitMetaGeoNames.description"
+msgstr "When enabled, injects the informal geo.placename (lowest admin unit name) and geo.region (ISO 3166 country + subdivision) tags. Name- and code-based; used by some SEO and mapping tooling."
+
+msgid "plugins.generic.geoMetadata.settings.emitMetaGeoCoords"
+msgstr "Emit ICBM and geo.position meta tags."
+
+msgid "plugins.generic.geoMetadata.settings.emitMetaGeoCoords.description"
+msgstr "When enabled, injects the ICBM and geo.position meta tags with a 5-decimal centroid (~1.1 m precision), accompanied by an HTML comment describing how the centroid was derived. Disable if you do not want precise coordinates exposed in the head — name-based discovery (geo.placename / geo.region) remains available through the other toggle."
+
+msgid "plugins.generic.geoMetadata.settings.emitMetaISO19139"
+msgstr "Emit ISO 19139 EX_GeographicBoundingBox meta tag."
+
+msgid "plugins.generic.geoMetadata.settings.emitMetaISO19139.description"
+msgstr "When enabled, injects the article's admin-unit bounding box as an inline ISO 19139 XML fragment in the head. Niche; disable for stricter HTML head hygiene (the tag embeds gmd:/gco: namespaces that are not declared in HTML)."
+
 msgid "plugins.generic.geoMetadata.settings.section.services"
 msgstr "Third-party services"
 
@@ -146,6 +224,12 @@ msgstr "Offer the Esri World Imagery base layer on reader-facing maps"
 msgid "plugins.generic.geoMetadata.settings.showEsriBaseLayer.description"
 msgstr "When enabled, every map in the plugin (article, issue, journal map, and submission form) offers OpenStreetMap and Esri World Imagery as base layers. When disabled, only OpenStreetMap is loaded, so no tile requests are sent to Esri."
 
+msgid "plugins.generic.geoMetadata.settings.enableGeocoderSearch"
+msgstr "Offer the geocoder search box on reader-facing maps."
+
+msgid "plugins.generic.geoMetadata.settings.enableGeocoderSearch.description"
+msgstr "When enabled, every map in the plugin includes a search box that lets readers jump to named locations. Queries are sent to the Nominatim service operated by the OpenStreetMap Foundation. When disabled, no search requests are sent."
+
 msgid "plugins.generic.geoMetadata.settings.privacy.info"
 msgstr "Maps load tiles from third-party servers, which receive readers' IP addresses. A short notice is shown below every map. We also recommend adding a paragraph to your journal's privacy policy — the text below reflects the currently enabled base layers and can be pasted there as a starting point."
 
@@ -157,6 +241,9 @@ msgstr "<p>This website uses map services provided by the OpenStreetMap Foundati
 
 msgid "plugins.generic.geoMetadata.privacy.snippet.esri"
 msgstr "<p>Map tiles are additionally loaded from Esri's servers (World Imagery base layer). Your browser will connect to servers operated by Esri; see the <a href=\"https://www.esri.com/en-us/privacy/overview\">Esri privacy notice</a> for details.</p>"
+
+msgid "plugins.generic.geoMetadata.privacy.snippet.geocoder"
+msgstr "<p>When the reader types into the search box on a map, the query text is sent to the Nominatim geocoding service operated by the OpenStreetMap Foundation (OSMF). See the <a href=\"https://operations.osmfoundation.org/policies/nominatim/\">Nominatim usage policy</a> for details.</p>"
 
 msgid "plugins.generic.geoMetadata.privacy.snippet.legitimateInterest"
 msgstr "<p>These services are integrated exclusively for the legitimate interest (Art. 6(1)(f) GDPR) of displaying interactive maps of the articles' spatial coverage to readers.</p>"

@@ -22,7 +22,7 @@
 <div style="clear:both;">
     {fbvFormArea id="spatioTemporalFields"}
 
-    {*temporal*}
+    {if $geoMetadata_submission_enableTemporal}
     {fbvFormSection title="plugins.generic.geoMetadata.geospatialmetadata.properties.temporal" for="timePeriodsWithDatepicker" inline=true}
     <p align="justify" class="description">{translate
         key="plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.description.submission"}
@@ -31,8 +31,9 @@
     <textarea id="timePeriods" name="{$smarty.const.GEOMETADATA_DB_FIELD_TIME_PERIODS}"
         class="hiddenDataField" style="height: 0;">{${$smarty.const.GEOMETADATA_DB_FIELD_TIME_PERIODS}}</textarea>
     {/fbvFormSection}
+    {/if}
 
-    {*spatial*}
+    {if $geoMetadata_submission_enableSpatial}
     {fbvFormSection title="plugins.generic.geoMetadata.geospatialmetadata.properties.spatial" for="spatialProperties" inline=true}
     <p align="justify" class="description">{translate
         key="plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.description.submission"}
@@ -48,8 +49,9 @@
         key="plugins.generic.geoMetadata.license.submission" license=$geoMetadata_metadataLicense}
     </p>
     {/fbvFormSection}
+    {/if}
 
-    {*administrativeUnit*}
+    {if $geoMetadata_submission_enableAdminUnit}
     {fbvFormSection title="plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.administrativeUnit" for="administrativeUnitInput"
     inline=true}
     <p align="justify" class="description geoMetadata_warning" id="geoMetadata_gazetteer_unavailable" style="display:none;">{translate
@@ -63,6 +65,7 @@
     <textarea id="administrativeUnit" name="{$smarty.const.GEOMETADATA_DB_FIELD_ADMINUNIT}"
         class="hiddenDataField" style="height: 0;">{${$smarty.const.GEOMETADATA_DB_FIELD_ADMINUNIT}}</textarea>
     {/fbvFormSection}
+    {/if}
     {/fbvFormArea}
 </div>
 

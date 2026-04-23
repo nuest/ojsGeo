@@ -134,6 +134,84 @@ msgstr "Journal-weite Kartenseite unter /map bereitstellen."
 msgid "plugins.generic.geoMetadata.settings.showJournalMap.description"
 msgstr "Wenn aktiviert, registriert das Plugin eine öffentliche /map-Route des Journals, welche eine interaktive Karte aller veröffentlichten Artikel mit ihren räumlichen Metadaten darstellt. Wenn deaktiviert, liefert die Route 404 und Menüverweise darauf funktionieren nicht mehr."
 
+msgid "plugins.generic.geoMetadata.settings.section.submission"
+msgstr "Einreichungsformular (Autor*innen)"
+
+msgid "plugins.generic.geoMetadata.settings.section.submission.intro"
+msgstr "Legen Sie fest, welche raum-zeitlichen Felder im Einreichungsformular erscheinen. Ein hier deaktiviertes Feld entfernt es nicht aus dem Publikations-Tab im redaktionellen Workflow — dieser wird separat gesteuert."
+
+msgid "plugins.generic.geoMetadata.settings.submission_enableSpatial"
+msgstr "Räumliche Eingabe (Karte) im Einreichungsformular anbieten."
+
+msgid "plugins.generic.geoMetadata.settings.submission_enableSpatial.description"
+msgstr "Wenn aktiviert, enthält das Einreichungsformular eine interaktive Karte, in der Autor*innen die Geometrie des Artikels zeichnen. Deaktivieren Sie diese Option, um räumliche Metadaten erst im redaktionellen Workflow zu erheben."
+
+msgid "plugins.generic.geoMetadata.settings.submission_enableTemporal"
+msgstr "Zeitliche Eingabe (Zeitraumauswahl) im Einreichungsformular anbieten."
+
+msgid "plugins.generic.geoMetadata.settings.submission_enableTemporal.description"
+msgstr "Wenn aktiviert, enthält das Einreichungsformular einen Zeitraum-Picker für die zeitliche Abdeckung des Artikels. Deaktivieren Sie diese Option, um zeitliche Metadaten erst im redaktionellen Workflow zu erheben."
+
+msgid "plugins.generic.geoMetadata.settings.submission_enableAdminUnit"
+msgstr "Verwaltungseinheit-Eingabe (GeoNames) im Einreichungsformular anbieten."
+
+msgid "plugins.generic.geoMetadata.settings.submission_enableAdminUnit.description"
+msgstr "Wenn aktiviert, bietet das Einreichungsformular eine GeoNames-gestützte Autovervollständigung für Verwaltungseinheiten. Erfordert ein konfiguriertes GeoNames-Konto; ohne dieses fällt das Widget auf freie Texteingabe zurück. Deaktivieren Sie diese Option, um Verwaltungseinheiten erst im redaktionellen Workflow zu erheben."
+
+msgid "plugins.generic.geoMetadata.settings.section.workflow"
+msgstr "Publikationsworkflow (Redaktion)"
+
+msgid "plugins.generic.geoMetadata.settings.section.workflow.intro"
+msgstr "Legen Sie fest, welche raum-zeitlichen Felder im Publikations-Tab für Redakteur*innen und Korrekturleser*innen erscheinen. Ein hier deaktiviertes Feld entfernt es nicht aus dem Einreichungsformular der Autor*innen — dieses wird separat gesteuert."
+
+msgid "plugins.generic.geoMetadata.settings.workflow_enableSpatial"
+msgstr "Räumliche Bearbeitung (Karte) im Publikations-Tab anbieten."
+
+msgid "plugins.generic.geoMetadata.settings.workflow_enableSpatial.description"
+msgstr "Wenn aktiviert, enthält der Publikations-Tab im redaktionellen Workflow eine interaktive Karte zur Bearbeitung der Artikelgeometrie. Deaktivieren Sie diese Option, wenn ausschließlich Autor*innen die räumlichen Metadaten pflegen."
+
+msgid "plugins.generic.geoMetadata.settings.workflow_enableTemporal"
+msgstr "Zeitliche Bearbeitung (Zeitraumauswahl) im Publikations-Tab anbieten."
+
+msgid "plugins.generic.geoMetadata.settings.workflow_enableTemporal.description"
+msgstr "Wenn aktiviert, enthält der Publikations-Tab einen Zeitraum-Picker für die zeitliche Abdeckung des Artikels. Deaktivieren Sie diese Option, wenn ausschließlich Autor*innen die zeitlichen Metadaten pflegen."
+
+msgid "plugins.generic.geoMetadata.settings.workflow_enableAdminUnit"
+msgstr "Verwaltungseinheit-Bearbeitung (GeoNames) im Publikations-Tab anbieten."
+
+msgid "plugins.generic.geoMetadata.settings.workflow_enableAdminUnit.description"
+msgstr "Wenn aktiviert, bietet der Publikations-Tab eine GeoNames-gestützte Autovervollständigung für Verwaltungseinheiten für Redakteur*innen und Korrekturleser*innen. Deaktivieren Sie diese Option, wenn ausschließlich Autor*innen die Verwaltungseinheiten pflegen."
+
+msgid "plugins.generic.geoMetadata.settings.section.discovery"
+msgstr "Discovery-Meta-Tags (HTML-Head)"
+
+msgid "plugins.generic.geoMetadata.settings.section.discovery.intro"
+msgstr "Legen Sie fest, welche Metadaten-Familien das Plugin in den HTML-<head> der Artikelseiten einfügt. Diese Tags werden nicht sichtbar dargestellt, sondern von Harvester-Diensten, Suchmaschinen und maschinenlesbaren Werkzeugen ausgewertet."
+
+msgid "plugins.generic.geoMetadata.settings.emitMetaDublinCore"
+msgstr "Dublin-Core-Meta-Tags ausgeben."
+
+msgid "plugins.generic.geoMetadata.settings.emitMetaDublinCore.description"
+msgstr "Wenn aktiviert, wird die Dublin-Core-Schema-Deklaration sowie DC.SpatialCoverage, DC.box und DC.temporal ausgegeben. Wird von OAI-PMH-Harvestern und wissenschaftlichen Indizes breit genutzt."
+
+msgid "plugins.generic.geoMetadata.settings.emitMetaGeoNames"
+msgstr "Meta-Tags geo.placename und geo.region ausgeben."
+
+msgid "plugins.generic.geoMetadata.settings.emitMetaGeoNames.description"
+msgstr "Wenn aktiviert, werden die informellen Tags geo.placename (niedrigste Verwaltungseinheit) und geo.region (ISO-3166 Land + Unterteilung) ausgegeben. Name- und codebasiert; genutzt von einigen SEO- und Kartentools."
+
+msgid "plugins.generic.geoMetadata.settings.emitMetaGeoCoords"
+msgstr "Meta-Tags ICBM und geo.position ausgeben."
+
+msgid "plugins.generic.geoMetadata.settings.emitMetaGeoCoords.description"
+msgstr "Wenn aktiviert, werden ICBM und geo.position mit einem 5-Nachkommastellen-Zentroid (~1,1 m Genauigkeit) ausgegeben, begleitet von einem HTML-Kommentar zur Herkunft. Deaktivieren Sie diese Option, wenn exakte Koordinaten nicht im Head erscheinen sollen — namensbasierte Auffindbarkeit (geo.placename / geo.region) bleibt über den anderen Schalter verfügbar."
+
+msgid "plugins.generic.geoMetadata.settings.emitMetaISO19139"
+msgstr "Meta-Tag ISO-19139 EX_GeographicBoundingBox ausgeben."
+
+msgid "plugins.generic.geoMetadata.settings.emitMetaISO19139.description"
+msgstr "Wenn aktiviert, wird die Bounding Box der Verwaltungseinheit als inline ISO-19139-XML-Fragment in den Head eingefügt. Nische; deaktivieren Sie dies für strikte HTML-Head-Hygiene (das Tag enthält gmd:/gco:-Namespaces, die in HTML nicht deklariert sind)."
+
 msgid "plugins.generic.geoMetadata.settings.section.services"
 msgstr "Drittanbieterdienste"
 
@@ -146,6 +224,12 @@ msgstr "Esri World Imagery als Hintergrundkarte auf Leser*innen-Seiten anbieten"
 msgid "plugins.generic.geoMetadata.settings.showEsriBaseLayer.description"
 msgstr "Wenn aktiviert, bieten alle Karten des Plugins (Artikel-, Ausgaben-, Journalkarte und Einreichungsformular) OpenStreetMap und Esri World Imagery als Hintergrundkarten an. Wenn deaktiviert, wird ausschließlich OpenStreetMap geladen, sodass keine Kachel-Anfragen an Esri gesendet werden."
 
+msgid "plugins.generic.geoMetadata.settings.enableGeocoderSearch"
+msgstr "Geocoder-Suchfeld auf Leser*innen-Seiten anbieten."
+
+msgid "plugins.generic.geoMetadata.settings.enableGeocoderSearch.description"
+msgstr "Wenn aktiviert, enthält jede Karte im Plugin ein Suchfeld, mit dem Leser*innen zu benannten Orten springen können. Anfragen werden an den Nominatim-Dienst der OpenStreetMap Foundation gesendet. Wenn deaktiviert, werden keine Suchanfragen gesendet."
+
 msgid "plugins.generic.geoMetadata.settings.privacy.info"
 msgstr "Karten laden Kacheln von Drittanbieter-Servern, die dabei die IP-Adressen der Leser*innen erhalten. Unter jeder Karte wird ein kurzer Hinweis angezeigt. Zusätzlich empfehlen wir, einen Absatz in die Datenschutzerklärung des Journals aufzunehmen — der folgende Text spiegelt die aktuell aktivierten Hintergrundkarten wider und kann dort als Ausgangspunkt eingefügt werden."
 
@@ -157,6 +241,9 @@ msgstr "<p>Diese Website nutzt Kartendienste der OpenStreetMap Foundation (OSMF)
 
 msgid "plugins.generic.geoMetadata.privacy.snippet.esri"
 msgstr "<p>Zusätzlich werden Kartenkacheln von Esri-Servern geladen (Hintergrundebene World Imagery). Ihr Browser verbindet sich mit von Esri betriebenen Servern; Einzelheiten entnehmen Sie bitte dem <a href=\"https://www.esri.com/en-us/privacy/overview\">Esri-Datenschutzhinweis</a>.</p>"
+
+msgid "plugins.generic.geoMetadata.privacy.snippet.geocoder"
+msgstr "<p>Wenn Leser*innen in das Suchfeld einer Karte eingeben, wird der Suchtext an den Nominatim-Geocoding-Dienst der OpenStreetMap Foundation (OSMF) gesendet. Details siehe <a href=\"https://operations.osmfoundation.org/policies/nominatim/\">Nominatim-Nutzungsrichtlinie</a>.</p>"
 
 msgid "plugins.generic.geoMetadata.privacy.snippet.legitimateInterest"
 msgstr "<p>Diese Dienste werden ausschließlich zum Zweck des berechtigten Interesses (Art. 6 Abs. 1 lit. f DSGVO) eingebunden, den Leser*innen interaktive Karten der räumlichen Abdeckung der Artikel anzuzeigen.</p>"

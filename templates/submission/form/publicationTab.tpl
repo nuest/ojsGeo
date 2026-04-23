@@ -22,7 +22,7 @@
 
 <tab id="timeLocation" label="{translate key="plugins.generic.geoMetadata.publication.label"}">
 
-    {*temporal*}
+    {if $geoMetadata_workflow_enableTemporal}
     <div class="pkpFormGroup__locale pkpFormGroup__locale--isVisible geoMetadata_formGroupMargin">
         <div class="pkpFormField">
             <div class="pkpFormField__heading">
@@ -40,8 +40,9 @@
             </div>
         </div>
     </div>
+    {/if}
 
-    {*spatial*}
+    {if $geoMetadata_workflow_enableSpatial}
     <div class="pkpFormGroup__locale pkpFormGroup__locale--isVisible geoMetadata_formGroupMargin">
         <div class="pkpFormField">
             <div class="pkpFormField__heading">
@@ -52,12 +53,13 @@
             <div id="geoMetadata-spatial-description" class="pkpFormField__description">
                 {translate key="plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.description.submission"}
             </div>
-            
+
             <div id="mapdiv" aria-describedby="geoMetadata-spatial-description" style="width: 100%; height: 400px; z-index: 0;"></div>
         </div>
     </div>
+    {/if}
 
-    {*administrativeUnit*}
+    {if $geoMetadata_workflow_enableAdminUnit}
     <div class="pkpFormGroup__locale pkpFormGroup__locale--isVisible geoMetadata_formGroupMargin">
         <div class="pkpFormField">
             <div class="pkpFormField__heading">
@@ -79,6 +81,7 @@
             </div>
         </div>
     </div>
+    {/if}
 
     {*z-index must be changed for the daterangepicker*}
     <style>

@@ -23,6 +23,7 @@ class JournalMapHandler extends Handler
         $templateMgr->assign('geoMetadata_journalJS', $request->getBaseUrl() . '/' . $plugin->getPluginPath() . '/js/journal.js');
         $templateMgr->assign('pluginStylesheetURL', $request->getBaseUrl() . '/' . $plugin->getPluginPath() . '/css/');
         $templateMgr->assign('geoMetadata_showEsriBaseLayer', $plugin->isEsriBaseLayerEnabled());
+        $templateMgr->assign('geoMetadata_showGeocoder', $plugin->isFeatureEnabled('geoMetadata_enableGeocoderSearch'));
         
         $context = $request->getContext();
         if (!$context) return false;

@@ -65,6 +65,7 @@ function checkGeonames() {
 }
 
 function initMap() {
+    if (!document.getElementById('mapdiv')) return;
     //var mapView =  document.getElementById("geoMetadata_mapView").value; // TODO make configurable
     var mapView = "0, 0, 1".split(",");
     map = L.map('mapdiv', { zoomControl: false }).setView([mapView[0], mapView[1]], mapView[2]);
@@ -213,33 +214,35 @@ function initMap() {
      * When the user searches for a location, a bounding box with the corresponding administrative unit is automatically suggested.
      * This can be edited or deleted and further elements can be added.
      */
-    L.Control.geocoder({
-        defaultMarkGeocode: false,
-        placeholder:  geoMetadata_geocoderPlaceholder,
-        errorMessage: geoMetadata_geocoderError,
-        iconLabel:    geoMetadata_geocoderButtonTitle
-    })
-        .on('markgeocode', function (e) {
-            var bbox = e.geocode.bbox;
-            var layer = L.polygon([
-                bbox.getSouthEast(),
-                bbox.getNorthEast(),
-                bbox.getNorthWest(),
-                bbox.getSouthWest()
-            ]);
-
-            // this way information about the origin of the geometric shape is stored
-            layer.provenance = {
-                "description": "geometric shape created by user (accepting the suggestion of the leaflet-control-geocoder)",
-                "id": 13
-            };
-
-            drawnItems.addLayer(layer);
-
-            storeCreatedGeoJSONAndAdministrativeUnitInHiddenForms(drawnItems);
-            highlightHTMLElement("mapdiv");
+    if (geoMetadata_showGeocoder) {
+        L.Control.geocoder({
+            defaultMarkGeocode: false,
+            placeholder:  geoMetadata_geocoderPlaceholder,
+            errorMessage: geoMetadata_geocoderError,
+            iconLabel:    geoMetadata_geocoderButtonTitle
         })
-        .addTo(map);
+            .on('markgeocode', function (e) {
+                var bbox = e.geocode.bbox;
+                var layer = L.polygon([
+                    bbox.getSouthEast(),
+                    bbox.getNorthEast(),
+                    bbox.getNorthWest(),
+                    bbox.getSouthWest()
+                ]);
+
+                // this way information about the origin of the geometric shape is stored
+                layer.provenance = {
+                    "description": "geometric shape created by user (accepting the suggestion of the leaflet-control-geocoder)",
+                    "id": 13
+                };
+
+                drawnItems.addLayer(layer);
+
+                storeCreatedGeoJSONAndAdministrativeUnitInHiddenForms(drawnItems);
+                highlightHTMLElement("mapdiv");
+            })
+            .addTo(map);
+    }
 }
 
 /**
@@ -247,6 +250,7 @@ function initMap() {
  * Either there is a geoJSON which gets loaded from the db and correspondingly displayed, otherwise there is an empty one created.
  */
 function createInitialGeojson() {
+    if ($('textarea[name="geoMetadata::spatialProperties"]').length === 0) return;
     //load spatial properties which got already stored in database from submissionMetadataFormFields.tpl
     let spatialProperties = $('textarea[name="geoMetadata::spatialProperties"]').val();
 
@@ -292,6 +296,7 @@ function createInitialGeojson() {
  * tag-it.js is available with the default theme plugin
  */
 function initAdminunits() {
+    if (!document.getElementById('administrativeUnitInput')) return;
     $("#administrativeUnitInput").tagit({
         allowSpaces: true,
         readOnly: false
@@ -1293,6 +1298,7 @@ function storeCreatedGeoJSONAndAdministrativeUnitInHiddenForms(drawnItems) {
  * Furthermore data from db is loaded and displayed if available.
  */
 function initDaterangepicker() {
+    if ($('input[name="datetimes"]').length === 0) return;
     // load temporal properties which got already stored in database from submissionMetadataFormFields.tpl
     let timePeriods = $('textarea[name="geoMetadata::timePeriods"]').val();
 

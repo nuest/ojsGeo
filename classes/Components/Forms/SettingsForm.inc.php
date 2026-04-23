@@ -40,6 +40,17 @@ class SettingsForm extends \Form
         'geoMetadata_showArticleAdminUnit',
         'geoMetadata_showIssueMap',
         'geoMetadata_showJournalMap',
+        'geoMetadata_submission_enableSpatial',
+        'geoMetadata_submission_enableTemporal',
+        'geoMetadata_submission_enableAdminUnit',
+        'geoMetadata_workflow_enableSpatial',
+        'geoMetadata_workflow_enableTemporal',
+        'geoMetadata_workflow_enableAdminUnit',
+        'geoMetadata_emitMetaDublinCore',
+        'geoMetadata_emitMetaGeoNames',
+        'geoMetadata_emitMetaGeoCoords',
+        'geoMetadata_emitMetaISO19139',
+        'geoMetadata_enableGeocoderSearch',
         'geoMetadata_showEsriBaseLayer'
     ];
 
@@ -54,6 +65,17 @@ class SettingsForm extends \Form
         'geoMetadata_showArticleAdminUnit',
         'geoMetadata_showIssueMap',
         'geoMetadata_showJournalMap',
+        'geoMetadata_submission_enableSpatial',
+        'geoMetadata_submission_enableTemporal',
+        'geoMetadata_submission_enableAdminUnit',
+        'geoMetadata_workflow_enableSpatial',
+        'geoMetadata_workflow_enableTemporal',
+        'geoMetadata_workflow_enableAdminUnit',
+        'geoMetadata_emitMetaDublinCore',
+        'geoMetadata_emitMetaGeoNames',
+        'geoMetadata_emitMetaGeoCoords',
+        'geoMetadata_emitMetaISO19139',
+        'geoMetadata_enableGeocoderSearch',
         'geoMetadata_showEsriBaseLayer'
     ];
 

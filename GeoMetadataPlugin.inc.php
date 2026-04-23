@@ -205,6 +205,7 @@ class GeoMetadataPlugin extends GenericPlugin
 
 			// issue #124: propagate to every map-rendering template via $this->templateParameters.
 			$this->templateParameters['geoMetadata_showEsriBaseLayer'] = $this->isEsriBaseLayerEnabled();
+			$this->templateParameters['geoMetadata_showGeocoder'] = $this->isFeatureEnabled('geoMetadata_enableGeocoderSearch');
 		}
 
 		return $success;
@@ -251,17 +252,21 @@ class GeoMetadataPlugin extends GenericPlugin
 		$request = $args[0];
 		$article = $args[2];
 		$publication = $article->getCurrentPublication();
-		$journal = $request->getContext();
+
+		$emitDC        = $this->isFeatureEnabled('geoMetadata_emitMetaDublinCore');
+		$emitGeoNames  = $this->isFeatureEnabled('geoMetadata_emitMetaGeoNames');
+		$emitGeoCoords = $this->isFeatureEnabled('geoMetadata_emitMetaGeoCoords');
+		$emitISO19139  = $this->isFeatureEnabled('geoMetadata_emitMetaISO19139');
+		if (!$emitDC && !$emitGeoNames && !$emitGeoCoords && !$emitISO19139) {
+			return false;
+		}
 
 		$templateMgr = TemplateManager::getManager($request);
-
-		$templateMgr->addHeader('dublinCoreTemporal', '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />');
 
 		$spatial            = $publication->getData(GEOMETADATA_DB_FIELD_SPATIAL);
 		$administrativeUnit = $publication->getData(GEOMETADATA_DB_FIELD_ADMINUNIT);
 
-		// Most specific admin unit feeds both the DC.box / ISO 19139 tags
-		// below and the ICBM / geo.position fallback.
+		// Most specific admin unit feeds DC.box / ISO 19139 and the ICBM / geo.position fallback.
 		$lowestAdministrativeUnit     = null;
 		$lowestAdministrativeUnitName = null;
 		$lowestAdministrativeUnitBBox = null;
@@ -278,53 +283,46 @@ class GeoMetadataPlugin extends GenericPlugin
 			}
 		}
 
-		// https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/spatial/
-		if ($spatial) {
+		$dcTagAdded = false;
+
+		if ($emitDC && $spatial) {
 			$templateMgr->addHeader('dublinCoreSpatialCoverage', '<meta name="DC.SpatialCoverage" scheme="GeoJSON" content="' . htmlspecialchars(strip_tags($spatial)) . '" />');
+			$dcTagAdded = true;
 		}
 
-		// ICBM + geo.position: 5-decimal precision (~1.1 m); see README.
-		// Prefer the combined-feature centroid; fall back to admin-unit bbox
-		// centre. Provenance is emitted as an HTML comment next to the tags.
-		$centroid = null;
-		$provenance = null;
-		if ($spatial) {
-			$centroid = Centroid::fromGeoJson($spatial, self::getOjsPdo());
-			if ($centroid) {
-				$featureCount = count(json_decode($spatial)->features ?? []);
-				$provenance = 'combined centroid of ' . $featureCount . ' feature(s)';
+		if ($emitGeoCoords) {
+			$centroid = null;
+			$provenance = null;
+			if ($spatial) {
+				$centroid = Centroid::fromGeoJson($spatial, self::getOjsPdo());
+				if ($centroid) {
+					$featureCount = count(json_decode($spatial)->features ?? []);
+					$provenance = 'combined centroid of ' . $featureCount . ' feature(s)';
+				}
 			}
-		}
-		if (!$centroid && $lowestAdministrativeUnitBBox) {
-			$centroid = Centroid::fromBbox($lowestAdministrativeUnitBBox);
-			$provenance = 'centroid of most precise admin unit bbox ("' . $lowestAdministrativeUnitName . '")';
-		}
-		if ($centroid) {
-			$lat = number_format($centroid[0], 5, '.', '');
-			$lon = number_format($centroid[1], 5, '.', '');
-			$templateMgr->addHeader('geoMetadataCentroidProvenance',
-				'<!-- geoMetadata: next meta tags based on ' . htmlspecialchars($provenance) . ' -->');
-			$templateMgr->addHeader('icbm',
-				'<meta name="ICBM" content="' . $lat . ', ' . $lon . '" />');
-			$templateMgr->addHeader('geoPosition',
-				'<meta name="geo.position" content="' . $lat . ';' . $lon . '" />');
+			if (!$centroid && $lowestAdministrativeUnitBBox) {
+				$centroid = Centroid::fromBbox($lowestAdministrativeUnitBBox);
+				$provenance = 'centroid of most precise admin unit bbox ("' . $lowestAdministrativeUnitName . '")';
+			}
+			if ($centroid) {
+				$lat = number_format($centroid[0], 5, '.', '');
+				$lon = number_format($centroid[1], 5, '.', '');
+				$templateMgr->addHeader('geoMetadataCentroidProvenance',
+					'<!-- geoMetadata: next meta tags based on ' . htmlspecialchars($provenance) . ' -->');
+				$templateMgr->addHeader('icbm',
+					'<meta name="ICBM" content="' . $lat . ', ' . $lon . '" />');
+				$templateMgr->addHeader('geoPosition',
+					'<meta name="geo.position" content="' . $lat . ';' . $lon . '" />');
+			}
 		}
 
 		if ($hasAdminUnits) {
-			$administrativeUnitNames = implode(', ', array_map(function ($unit) {
-				return $unit->name;
-			}, $decodedAdminUnits));
-
-			if ($lowestAdministrativeUnitName) {
-				// https://dohmaindesigns.com/adding-geo-meta-tags-to-your-website/
+			if ($emitGeoNames && $lowestAdministrativeUnitName) {
 				$templateMgr->addHeader('geoPlacename', '<meta name="geo.placename" content="' . htmlspecialchars(strip_tags($lowestAdministrativeUnitName)) . '" />');
 			}
 
-			// geo.region: ISO 3166-1 + ISO 3166-2 of the most specific admin
-			// unit. Codes are captured at submission by js/submission.js;
-			// pre-existing records without them are skipped silently and pick
-			// up the codes on the next re-save.
-			if ($lowestAdministrativeUnit) {
+			// geo.region: ISO 3166-1 [+ -2] codes captured at submission; records predating that capture are skipped until they re-save.
+			if ($emitGeoNames && $lowestAdministrativeUnit) {
 				$isoCountry     = $lowestAdministrativeUnit->isoCountryCode    ?? null;
 				$isoSubdivision = $lowestAdministrativeUnit->isoSubdivisionCode ?? null;
 				if ($isoCountry) {
@@ -338,39 +336,42 @@ class GeoMetadataPlugin extends GenericPlugin
 			}
 
 			if ($lowestAdministrativeUnitName && $lowestAdministrativeUnitBBox) {
-				// DCMI Box Encoding Scheme - https://www.dublincore.org/specifications/dublin-core/dcmi-box/
-				$templateMgr->addHeader('dublincCoreBox', '<meta name="DC.box" content="name=' .
-					$lowestAdministrativeUnitName .
-					'; northlimit=' . $lowestAdministrativeUnitBBox->north .
-					'; southlimit=' . $lowestAdministrativeUnitBBox->south .
-					'; westlimit='  . $lowestAdministrativeUnitBBox->west  .
-					'; eastlimit='  . $lowestAdministrativeUnitBBox->east  .
-					'; projection=EPSG3857" />');
+				if ($emitDC) {
+					$templateMgr->addHeader('dublincCoreBox', '<meta name="DC.box" content="name=' .
+						$lowestAdministrativeUnitName .
+						'; northlimit=' . $lowestAdministrativeUnitBBox->north .
+						'; southlimit=' . $lowestAdministrativeUnitBBox->south .
+						'; westlimit='  . $lowestAdministrativeUnitBBox->west  .
+						'; eastlimit='  . $lowestAdministrativeUnitBBox->east  .
+						'; projection=EPSG3857" />');
+					$dcTagAdded = true;
+				}
 
-				// ISO 19139 - https://boundingbox.klokantech.com/
-				$templateMgr->addHeader('isoGeographicBoundingBox', '<meta name="ISO 19139" content="' .
-					'<gmd:EX_GeographicBoundingBox>' .
-					'<gmd:westBoundLongitude><gco:Decimal>' . $lowestAdministrativeUnitBBox->west . '</gco:Decimal></gmd:westBoundLongitude>' .
-					'<gmd:eastBoundLongitude><gco:Decimal>' . $lowestAdministrativeUnitBBox->east . '</gco:Decimal></gmd:eastBoundLongitude>' .
-					'<gmd:southBoundLatitude><gco:Decimal>' . $lowestAdministrativeUnitBBox->south . '</gco:Decimal></gmd:southBoundLatitude>' .
-					'<gmd:northBoundLatitude><gco:Decimal>' . $lowestAdministrativeUnitBBox->north . '</gco:Decimal></gmd:northBoundLatitude></gmd:EX_GeographicBoundingBox>" />');
+				if ($emitISO19139) {
+					$templateMgr->addHeader('isoGeographicBoundingBox', '<meta name="ISO 19139" content="' .
+						'<gmd:EX_GeographicBoundingBox>' .
+						'<gmd:westBoundLongitude><gco:Decimal>' . $lowestAdministrativeUnitBBox->west . '</gco:Decimal></gmd:westBoundLongitude>' .
+						'<gmd:eastBoundLongitude><gco:Decimal>' . $lowestAdministrativeUnitBBox->east . '</gco:Decimal></gmd:eastBoundLongitude>' .
+						'<gmd:southBoundLatitude><gco:Decimal>' . $lowestAdministrativeUnitBBox->south . '</gco:Decimal></gmd:southBoundLatitude>' .
+						'<gmd:northBoundLatitude><gco:Decimal>' . $lowestAdministrativeUnitBBox->north . '</gco:Decimal></gmd:northBoundLatitude></gmd:EX_GeographicBoundingBox>" />');
+				}
 			}
 		}
 
-		$timePeriods = $publication->getData(GEOMETADATA_DB_FIELD_TIME_PERIODS); 
-		if ($timePeriods !== 'no data' && $timePeriods !== null) {
-			// FIXME crazy use of explode makes more sense when we support multiple periods			
+		$timePeriods = $publication->getData(GEOMETADATA_DB_FIELD_TIME_PERIODS);
+		if ($emitDC && $timePeriods !== 'no data' && $timePeriods !== null) {
 			$begin = explode('..', explode('{', $timePeriods)[1])[0];
 			$end = explode('}', explode('..', explode('{', $timePeriods)[1])[1])[0];
 
-			// / is the ISO8601 time interval separator, see https://en.wikipedia.org/wiki/ISO_8601
-			$templateMgr->addHeader('dublinCoreTemporal', '<meta name="DC.temporal" scheme="ISO8601" content="' .  
-				$begin. '/' . $end .
+			// / is the ISO8601 time-interval separator.
+			$templateMgr->addHeader('dublinCoreTemporal', '<meta name="DC.temporal" scheme="ISO8601" content="' .
+				$begin . '/' . $end .
 				'"/>');
+			$dcTagAdded = true;
+		}
 
-			$templateMgr->addHeader('dublinCorePeriodOfTime', '<meta name="DC.PeriodOfTime" scheme="ISO8601" content="' . 
-			$begin. '/' . $end .
-			'"/>');
+		if ($dcTagAdded) {
+			$templateMgr->addHeader('dublinCoreSchemaDecl', '<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />');
 		}
 
 		return false;
@@ -397,8 +398,12 @@ class GeoMetadataPlugin extends GenericPlugin
 		$templateMgr = &$params[1];
 		$output = &$params[2];
 
-		// example: the arrow is used to access the attribute smarty of the variable smarty 
-		// $templateMgr = $smarty->smarty; 
+		$submissionSpatial     = $this->isFeatureEnabled('geoMetadata_submission_enableSpatial');
+		$submissionTemporal    = $this->isFeatureEnabled('geoMetadata_submission_enableTemporal');
+		$submissionAdminUnit   = $this->isFeatureEnabled('geoMetadata_submission_enableAdminUnit');
+		if (!$submissionSpatial && !$submissionTemporal && !$submissionAdminUnit) {
+			return false;
+		}
 
 		$request = Application::get()->getRequest();
 		$context = $request->getContext();
@@ -444,14 +449,15 @@ class GeoMetadataPlugin extends GenericPlugin
 			$administrativeUnit = 'no data';
 		}
 
-		//assign data as variables to the template 
 		$templateMgr->assign(GEOMETADATA_DB_FIELD_TIME_PERIODS, $timePeriods);
 		$templateMgr->assign(GEOMETADATA_DB_FIELD_SPATIAL, $spatialProperties);
 		$templateMgr->assign(GEOMETADATA_DB_FIELD_ADMINUNIT, $administrativeUnit);
+		$templateMgr->assign('geoMetadata_submission_enableSpatial', $submissionSpatial);
+		$templateMgr->assign('geoMetadata_submission_enableTemporal', $submissionTemporal);
+		$templateMgr->assign('geoMetadata_submission_enableAdminUnit', $submissionAdminUnit);
 
 		$templateMgr->assign($this->templateParameters);
 
-		// here the original template is extended by the additional template for entering geospatial metadata  
 		$output .= $templateMgr->fetch($this->getTemplateResource('submission/form/submissionMetadataFormFields.tpl'));
 
 		return false;
@@ -633,15 +639,22 @@ class GeoMetadataPlugin extends GenericPlugin
 	{
 		$templateMgr = &$args[1];
 
+		$workflowSpatial   = $this->isFeatureEnabled('geoMetadata_workflow_enableSpatial');
+		$workflowTemporal  = $this->isFeatureEnabled('geoMetadata_workflow_enableTemporal');
+		$workflowAdminUnit = $this->isFeatureEnabled('geoMetadata_workflow_enableAdminUnit');
+		if (!$workflowSpatial && !$workflowTemporal && !$workflowAdminUnit) {
+			return;
+		}
+
 		$request = $this->getRequest();
 		$context = $request->getContext();
 		$submission = $templateMgr->getTemplateVars('submission');
 		$submissionId = $submission->getId();
 		$latestPublication = $submission->getLatestPublication();
-		
+
 		$dispatcher = $request->getDispatcher();
 		$apiBaseUrl = $dispatcher->url($request, ROUTE_API, $context->getData('urlPath'), '');
-		
+
 		$usernameGeonames = $this->getSetting($context->getId(), 'geoMetadata_geonames_username');
 		$templateMgr->assign('usernameGeonames', $usernameGeonames);
 		$baseurlGeonames = $this->getSetting($context->getId(), 'geoMetadata_geonames_baseurl');
@@ -655,8 +668,11 @@ class GeoMetadataPlugin extends GenericPlugin
 		$state = $templateMgr->getTemplateVars($this->versionSpecificNameState);
 		$state['components'][GEOMETADATA_FORM_NAME] = $form->getConfig();
 		$templateMgr->assign($this->versionSpecificNameState, $state);
-		
+
 		$templateMgr->assign('submissionId', $submissionId);
+		$templateMgr->assign('geoMetadata_workflow_enableSpatial', $workflowSpatial);
+		$templateMgr->assign('geoMetadata_workflow_enableTemporal', $workflowTemporal);
+		$templateMgr->assign('geoMetadata_workflow_enableAdminUnit', $workflowAdminUnit);
 
 		$templateMgr->assign($this->templateParameters);
 

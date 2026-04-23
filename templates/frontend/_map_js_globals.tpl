@@ -38,6 +38,7 @@ const geoMetadata_mapLayerStyleHighlight = {
 
 // issue #124: base-layer toggle from plugin settings
 const geoMetadata_showEsriBaseLayer = {if $geoMetadata_showEsriBaseLayer}true{else}false{/if};
+const geoMetadata_showGeocoder      = {if $geoMetadata_showGeocoder}true{else}false{/if};
 
 // layer switcher labels
 const geoMetadata_articleLayerName = '{$geoMetadata_i18n.articleLayerName|escape:'javascript'}';
