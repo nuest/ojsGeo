@@ -58,6 +58,9 @@
             </div>
 
             <div id="mapdiv" aria-describedby="geoMetadata-spatial-description" style="width: 100%; height: 400px; z-index: 0;"></div>
+            <div class="pkpFormField__description geoMetadata_antimeridian_note">
+                {translate key="plugins.generic.geoMetadata.submission.spatialProperties.antimeridianNote"}
+            </div>
         </div>
     </div>
     {/if}

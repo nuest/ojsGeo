@@ -27,30 +27,36 @@ class Centroid
      */
     public static function fromGeoJson(string $geoJson, ?\PDO $pdo = null): ?array
     {
-        if ($pdo !== null) {
+        $decoded = json_decode($geoJson);
+        if ($decoded === null) {
+            return null;
+        }
+        $bbox = self::bboxFromGeoJson($decoded);
+        if ($bbox === null) {
+            return null;
+        }
+
+        // PDOEngine::envelope() is Cartesian (MySQL ST_Envelope); it returns a
+        // world-spanning box for antimeridian-crossing geometries. Fall straight
+        // through to the pure-PHP midpoint in that case.
+        $crossing = $bbox->east < $bbox->west;
+
+        if ($pdo !== null && !$crossing) {
             try {
                 $reader    = new \Brick\Geo\IO\GeoJSONReader();
                 $parsed    = $reader->read($geoJson);
                 $geometry  = self::extractGeometry($parsed);
                 if ($geometry !== null) {
                     $engine = new \Brick\Geo\Engine\PDOEngine($pdo);
-                    // Envelope first so the centroid semantics match the pure-PHP fallback.
                     $point  = $engine->centroid($engine->envelope($geometry));
                     return [(float)$point->y(), (float)$point->x()];
                 }
             } catch (\Throwable $e) {
-                // Missing class, unsupported geometry, DB without ST_Centroid,
-                // connection lost — any of these falls through to pure PHP.
                 error_log('[geoMetadata] brick/geo centroid failed, using fallback: ' . $e->getMessage());
             }
         }
 
-        $decoded = json_decode($geoJson);
-        if ($decoded === null) {
-            return null;
-        }
-        $bbox = self::bboxFromGeoJson($decoded);
-        return $bbox ? self::fromBbox($bbox) : null;
+        return self::fromBbox($bbox);
     }
 
     /**
@@ -88,34 +94,45 @@ class Centroid
     /**
      * Midpoint of a {north, south, east, west} bbox object (the shape used
      * throughout this plugin for stored admin-unit bounding boxes).
+     * `east < west` indicates a bbox that crosses the antimeridian — the
+     * midpoint unwraps east across the dateline and wraps back into [-180, 180].
      *
      * @return array{0: float, 1: float} [lat, lon]
      */
     public static function fromBbox(object $bbox): array
     {
-        return [
-            (float)(($bbox->north + $bbox->south) / 2),
-            (float)(($bbox->east  + $bbox->west)  / 2),
-        ];
+        $lat = ((float)$bbox->north + (float)$bbox->south) / 2.0;
+        $west = (float)$bbox->west;
+        $east = (float)$bbox->east;
+        if ($east < $west) {
+            $midUnwrapped = ($west + $east + 360.0) / 2.0;
+            $lon = $midUnwrapped > 180.0 ? $midUnwrapped - 360.0 : $midUnwrapped;
+        } else {
+            $lon = ($east + $west) / 2.0;
+        }
+        return [$lat, $lon];
     }
 
     /**
      * Walk a decoded GeoJSON tree and return the envelope of every coordinate
-     * pair found across all features / geometries, as a {north,south,east,west}
-     * object. Returns null if no coordinates were found.
+     * pair, as a {north, south, east, west} object. `east < west` indicates
+     * an antimeridian-crossing envelope (the cluster is separated from its
+     * empty hemisphere by the widest longitudinal gap).
+     * Returns null if no coordinates were found.
      */
     public static function bboxFromGeoJson($decoded): ?object
     {
-        $bounds = ['n' => null, 's' => null, 'e' => null, 'w' => null];
+        $bounds = ['n' => null, 's' => null, 'lngs' => []];
         self::collectBounds($decoded, $bounds);
         if ($bounds['n'] === null) {
             return null;
         }
+        [$west, $east] = self::lngExtent($bounds['lngs']);
         return (object)[
             'north' => $bounds['n'],
             'south' => $bounds['s'],
-            'east'  => $bounds['e'],
-            'west'  => $bounds['w'],
+            'east'  => $east,
+            'west'  => $west,
         ];
     }
 
@@ -164,7 +181,42 @@ class Centroid
     {
         $bounds['n'] = $bounds['n'] === null ? $lat : max($bounds['n'], $lat);
         $bounds['s'] = $bounds['s'] === null ? $lat : min($bounds['s'], $lat);
-        $bounds['e'] = $bounds['e'] === null ? $lon : max($bounds['e'], $lon);
-        $bounds['w'] = $bounds['w'] === null ? $lon : min($bounds['w'], $lon);
+        $bounds['lngs'][] = $lon;
+    }
+
+    /**
+     * Compute [west, east] from a list of longitudes, detecting an antimeridian-
+     * crossing cluster via the widest-gap heuristic: if the largest "empty" arc
+     * between consecutive sorted longitudes is bigger than the wrap arc
+     * (360° − (max − min)), the cluster straddles ±180° and the returned
+     * extent has east < west.
+     *
+     * @param float[] $lngs
+     * @return array{0: float, 1: float}  [west, east]
+     */
+    private static function lngExtent(array $lngs): array
+    {
+        $n = count($lngs);
+        if ($n === 0) {
+            return [0.0, 0.0];
+        }
+        if ($n === 1) {
+            return [$lngs[0], $lngs[0]];
+        }
+        sort($lngs);
+        $wrap = 360.0 - ($lngs[$n - 1] - $lngs[0]);
+        $maxGap = $wrap;
+        $maxGapIdx = -1;
+        for ($i = 0; $i < $n - 1; $i++) {
+            $gap = $lngs[$i + 1] - $lngs[$i];
+            if ($gap > $maxGap) {
+                $maxGap = $gap;
+                $maxGapIdx = $i;
+            }
+        }
+        if ($maxGapIdx === -1) {
+            return [$lngs[0], $lngs[$n - 1]];
+        }
+        return [$lngs[$maxGapIdx + 1], $lngs[$maxGapIdx]];
     }
 }

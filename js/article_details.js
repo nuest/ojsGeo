@@ -12,8 +12,24 @@
 var geoMetadata_mapEnabled = !!document.getElementById('mapdiv');
 var map, drawnItems, administrativeUnitsMap;
 
+// Build admin-unit overlay layers from a {north, south, east, west} bbox,
+// emitting two rectangles when east < west (antimeridian-crossing; see issue #60).
+function bboxToLeafletLayers(bbox, styleOpts) {
+    var layers = L.featureGroup();
+    var bounds;
+    if (bbox.east >= bbox.west) {
+        L.polygon([[bbox.north, bbox.west], [bbox.south, bbox.west], [bbox.south, bbox.east], [bbox.north, bbox.east]], styleOpts).addTo(layers);
+        bounds = L.latLngBounds([bbox.south, bbox.west], [bbox.north, bbox.east]);
+    } else {
+        L.polygon([[bbox.north, bbox.west], [bbox.south, bbox.west], [bbox.south, 180], [bbox.north, 180]], styleOpts).addTo(layers);
+        L.polygon([[bbox.north, -180], [bbox.south, -180], [bbox.south, bbox.east], [bbox.north, bbox.east]], styleOpts).addTo(layers);
+        bounds = L.latLngBounds([bbox.south, bbox.west], [bbox.north, bbox.east + 360]);
+    }
+    return { layers: layers, bounds: bounds };
+}
+
 if (geoMetadata_mapEnabled) {
-    map = L.map('mapdiv', { zoomControl: false });
+    map = L.map('mapdiv', { zoomControl: false, worldCopyJump: true });
 
     L.control.zoom({
         zoomInTitle:  geoMetadata_zoomInTitle,
@@ -125,6 +141,7 @@ $(function () {
             latFirstCoordinateGeojson = spatialPropertiesParsed.features[0].geometry.coordinates[1];
         }
 
+        spatialPropertiesParsed.features = geoMetadata_prepareFeaturesForDisplay(spatialPropertiesParsed.features);
         let layer = L.geoJSON(spatialPropertiesParsed);
         layer.setStyle(geoMetadata_mapLayerStyle);
         drawnItems.addLayer(layer);
@@ -201,33 +218,13 @@ function displayBboxOfAdministrativeUnitWithLowestCommonDenominatorOfASetOfAdmin
         }
     }
 
-    // creation of the corresponding leaflet layer 
+    // creation of the corresponding leaflet layer
     if (bboxAdministrativeUnitLowestCommonDenominator !== undefined) {
-        var layer = L.polygon([
-            [bboxAdministrativeUnitLowestCommonDenominator.north, bboxAdministrativeUnitLowestCommonDenominator.west],
-            [bboxAdministrativeUnitLowestCommonDenominator.south, bboxAdministrativeUnitLowestCommonDenominator.west],
-            [bboxAdministrativeUnitLowestCommonDenominator.south, bboxAdministrativeUnitLowestCommonDenominator.east],
-            [bboxAdministrativeUnitLowestCommonDenominator.north, bboxAdministrativeUnitLowestCommonDenominator.east],
-        ]);
+        var helper = bboxToLeafletLayers(bboxAdministrativeUnitLowestCommonDenominator, { color: 'black', fillOpacity: 0.15 });
 
-        layer.setStyle({
-            color: 'black',
-            fillOpacity: 0.15
-        })
-
-        // To ensure that only the lowest layer is displayed, the previous layers are deleted 
         administrativeUnitsMap.clearLayers();
-
-        administrativeUnitsMap.addLayer(layer);
-
-        // the map is fitted to the given layer 
-        map.fitBounds(administrativeUnitsMap.getBounds(), {
-            padding: [20, 20] 
-        });
-
-        if (geojson.administrativeUnits == {}) {
-            administrativeUnitsMap.clearLayers();
-        }
+        helper.layers.eachLayer(function (l) { administrativeUnitsMap.addLayer(l); });
+        map.fitBounds(helper.bounds, { padding: [20, 20] });
     }
     else {
         administrativeUnitsMap.clearLayers();

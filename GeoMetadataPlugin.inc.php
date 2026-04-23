@@ -26,10 +26,12 @@ import('lib.pkp.classes.plugins.GenericPlugin');
 
 import('plugins.generic.geoMetadata.classes.Components.Forms.PublicationForm');
 import('plugins.generic.geoMetadata.classes.Components.Forms.SettingsForm');
+import('plugins.generic.geoMetadata.classes.Geo.AntimeridianSplitter');
 import('plugins.generic.geoMetadata.classes.Geo.Centroid');
 
 use geoMetadata\classes\Components\Forms\PublicationForm;
 use geoMetadata\classes\Components\Forms\SettingsForm;
+use geoMetadata\classes\Geo\AntimeridianSplitter;
 use geoMetadata\classes\Geo\Centroid;
 
 class GeoMetadataPlugin extends GenericPlugin
@@ -335,6 +337,7 @@ class GeoMetadataPlugin extends GenericPlugin
 			}
 
 			if ($lowestAdministrativeUnitName && $lowestAdministrativeUnitBBox) {
+				// DCMI Box / ISO 19139 both accept east<west as a valid antimeridian-crossing bbox.
 				if ($emitDC) {
 					$templateMgr->addHeader('dublincCoreBox', '<meta name="DC.box" content="name=' .
 						$lowestAdministrativeUnitName .
@@ -822,8 +825,9 @@ class GeoMetadataPlugin extends GenericPlugin
 		$spatialProperties =  $_POST[GEOMETADATA_DB_FIELD_SPATIAL] ?? null;
 		$administrativeUnit = $_POST[GEOMETADATA_DB_FIELD_ADMINUNIT] ?? null;
 		
-		// "no data" can not be excluded for the following 3 clauses - if the user had created data and it was already stored in the database but then decides to remove it again, the database needs to be updated triggered by "no data". 
+		// "no data" can not be excluded for the following 3 clauses - if the user had created data and it was already stored in the database but then decides to remove it again, the database needs to be updated triggered by "no data".
 		if ($spatialProperties !== null) {
+			$spatialProperties = AntimeridianSplitter::splitGeoJson($spatialProperties);
 			$newPublication->setData(GEOMETADATA_DB_FIELD_SPATIAL, $spatialProperties);
 		}
 

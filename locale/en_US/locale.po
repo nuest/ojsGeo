@@ -425,6 +425,9 @@ msgstr "Click on a feature to remove."
 msgid "plugins.generic.geoMetadata.submission.coverageDisabledHover"
 msgstr "This field has been disabled. Information will be filled in automatically based on the location information entered below."
 
+msgid "plugins.generic.geoMetadata.submission.spatialProperties.antimeridianNote"
+msgstr "Features crossing the antimeridian (180° meridian) are split into two parts on save. The map may display the preview flipped until the record is saved and reloaded."
+
 msgid "plugins.generic.geoMetadata.license.submission"
 msgstr "Note that the temporal and spatial metadata will be published under the following license: {$license}"
 

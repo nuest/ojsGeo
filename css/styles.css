@@ -108,7 +108,8 @@
 }
 
 /* issue #124: match the muted .label color in the OJS default theme (@text-light) */
-.geoMetadata_privacyNotice {
+.geoMetadata_privacyNotice,
+.geoMetadata_antimeridian_note {
 	color: rgba(0, 0, 0, 0.54);
 	font-size: 0.85em;
 	margin-top: 0.25rem;

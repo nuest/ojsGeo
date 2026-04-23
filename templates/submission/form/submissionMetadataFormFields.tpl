@@ -41,6 +41,9 @@
         key="plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.description.submission"}
     </p>
     <div id="mapdiv" style="width: 100%; height: 400px; z-index: 0;"></div>
+    <p align="justify" class="description geoMetadata_antimeridian_note">{translate
+        key="plugins.generic.geoMetadata.submission.spatialProperties.antimeridianNote"}
+    </p>
     <p align="justify" class="description geoMetadata_privacyNotice">{translate
         key="plugins.generic.geoMetadata.privacy.mapNotice"}
     </p>

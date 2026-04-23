@@ -425,6 +425,9 @@ msgstr "Cliquez sur une entité pour la supprimer."
 msgid "plugins.generic.geoMetadata.submission.coverageDisabledHover"
 msgstr "Ce champ a été désactivé. Les informations seront remplies automatiquement en fonction des informations géospatiales saisies ci-dessous."
 
+msgid "plugins.generic.geoMetadata.submission.spatialProperties.antimeridianNote"
+msgstr "Les entités qui traversent l'antiméridien (méridien 180°) sont divisées en deux parties lors de l'enregistrement. La carte peut afficher l'aperçu inversé jusqu'à ce que l'enregistrement soit sauvegardé et rechargé."
+
 msgid "plugins.generic.geoMetadata.license.submission"
 msgstr "Notez que les métadonnées temporelles et spatiales seront publiées sous la licence suivante : {$license}"
 

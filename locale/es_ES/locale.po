@@ -425,6 +425,9 @@ msgstr "Haga clic en un objeto para eliminarlo."
 msgid "plugins.generic.geoMetadata.submission.coverageDisabledHover"
 msgstr "Este campo ha sido deshabilitado. La información se rellenará automáticamente basándose en la información geoespacial introducida a continuación."
 
+msgid "plugins.generic.geoMetadata.submission.spatialProperties.antimeridianNote"
+msgstr "Los objetos que cruzan el antimeridiano (meridiano 180°) se dividen en dos partes al guardar. El mapa puede mostrar la previsualización invertida hasta que el registro se guarde y se vuelva a cargar."
+
 msgid "plugins.generic.geoMetadata.license.submission"
 msgstr "Tenga en cuenta que los metadatos temporales y espaciales se publicarán bajo la siguiente licencia: {$license}"
 

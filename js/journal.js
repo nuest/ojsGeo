@@ -8,7 +8,7 @@
  */
 
 var mapView = "0, 0, 1".split(",");
-var map = L.map('mapdiv', { zoomControl: false }).setView([mapView[0], mapView[1]], mapView[2]);
+var map = L.map('mapdiv', { zoomControl: false, worldCopyJump: true }).setView([mapView[0], mapView[1]], mapView[2]);
 
 // translated zoom control (issue #151)
 L.control.zoom({
@@ -63,6 +63,7 @@ $(function () {
             let spatialParsed = JSON.parse(publication['spatial']);
 
             if(spatialParsed.features.length !== 0) {
+                spatialParsed.features = geoMetadata_prepareFeaturesForDisplay(spatialParsed.features);
                 let articleTitle = publication['title'];
                 let articleAuthors = publication['authors'];
                 let articleIssue = publication['issue'];

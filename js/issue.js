@@ -12,7 +12,7 @@ var map, articleLocations, iconStyle, iconStyleHighlight;
 
 if (geoMetadata_issueMapEnabled) {
     var mapView = "0, 0, 1".split(",");
-    map = L.map('mapdiv', { zoomControl: false }).setView([mapView[0], mapView[1]], mapView[2]);
+    map = L.map('mapdiv', { zoomControl: false, worldCopyJump: true }).setView([mapView[0], mapView[1]], mapView[2]);
 
     // translated zoom control (issue #151)
     L.control.zoom({
@@ -139,6 +139,7 @@ $(function () {
 
         if(spatialProperty.features.length !== 0) {
             spatialInputsAvailable = true;
+            spatialProperty.features = geoMetadata_prepareFeaturesForDisplay(spatialProperty.features);
 
             // Array to store all layers for this article
             if (!articleLayersMap.has(articleId)) {

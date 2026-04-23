@@ -425,6 +425,9 @@ msgstr "Klicken Sie auf ein Objekt, um es zu entfernen."
 msgid "plugins.generic.geoMetadata.submission.coverageDisabledHover"
 msgstr "Dieses Feld wurde deaktiviert. Die Informationen werden automatisch auf der Grundlage der unten eingegebenen Geodaten ausgefüllt."
 
+msgid "plugins.generic.geoMetadata.submission.spatialProperties.antimeridianNote"
+msgstr "Objekte, die den Antimeridian (180° Meridian) überqueren, werden beim Speichern in zwei Teile geteilt. Die Karte zeigt die Vorschau möglicherweise gespiegelt an, bis der Datensatz gespeichert und neu geladen wird."
+
 msgid "plugins.generic.geoMetadata.license.submission"
 msgstr "Die zeitlichen und räumlichen Metadaten werden unter der folgenden Lizenz veröffentlicht: {$license}"
 

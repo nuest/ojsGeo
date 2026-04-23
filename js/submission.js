@@ -16,7 +16,23 @@ var baseurlGeonames = document.getElementById("geoMetadata_baseurlGeonames").val
 var map = null;
 var drawnItems = null;
 var administrativeUnitsMap = null;
-var gazetterDisabled = false; 
+var gazetterDisabled = false;
+
+// Build admin-unit overlay layers from a {north, south, east, west} bbox,
+// emitting two rectangles when east < west (antimeridian-crossing; see issue #60).
+function bboxToLeafletLayers(bbox, styleOpts) {
+    var layers = L.featureGroup();
+    var bounds;
+    if (bbox.east >= bbox.west) {
+        L.polygon([[bbox.south, bbox.east], [bbox.north, bbox.east], [bbox.north, bbox.west], [bbox.south, bbox.west]], styleOpts).addTo(layers);
+        bounds = L.latLngBounds([bbox.south, bbox.west], [bbox.north, bbox.east]);
+    } else {
+        L.polygon([[bbox.south, 180], [bbox.north, 180], [bbox.north, bbox.west], [bbox.south, bbox.west]], styleOpts).addTo(layers);
+        L.polygon([[bbox.south, bbox.east], [bbox.north, bbox.east], [bbox.north, -180], [bbox.south, -180]], styleOpts).addTo(layers);
+        bounds = L.latLngBounds([bbox.south, bbox.west], [bbox.north, bbox.east + 360]);
+    }
+    return { layers: layers, bounds: bounds };
+}
 
 $(function () {
     checkGeonames();
@@ -68,7 +84,7 @@ function initMap() {
     if (!document.getElementById('mapdiv')) return;
     //var mapView =  document.getElementById("geoMetadata_mapView").value; // TODO make configurable
     var mapView = "0, 0, 1".split(",");
-    map = L.map('mapdiv', { zoomControl: false }).setView([mapView[0], mapView[1]], mapView[2]);
+    map = L.map('mapdiv', { zoomControl: false, worldCopyJump: true }).setView([mapView[0], mapView[1]], mapView[2]);
 
     // translated zoom control (issue #151) — default zoomControl disabled above so we can set tooltips
     L.control.zoom({
@@ -274,6 +290,7 @@ function createInitialGeojson() {
         var spatialPropertiesParsed = JSON.parse(spatialProperties);
 
         if (spatialPropertiesParsed.features.length !== 0) {
+            spatialPropertiesParsed.features = geoMetadata_prepareFeaturesForDisplay(spatialPropertiesParsed.features);
             var geojsonLayer = L.geoJson(spatialPropertiesParsed);
             geojsonLayer.eachLayer(
                 function (l) {
@@ -615,26 +632,11 @@ function displayBboxOfAdministrativeUnitWithLowestCommonDenominatorOfASetOfAdmin
 
     // creation of the corresponding leaflet layer
     if (bboxAdministrativeUnitLowestCommonDenominator !== undefined) {
-        // TODO handle crossing dateline
+        var helper = bboxToLeafletLayers(bboxAdministrativeUnitLowestCommonDenominator, { color: 'black', fillOpacity: 0.15 });
 
-        var layer = L.polygon([
-            [bboxAdministrativeUnitLowestCommonDenominator.south, bboxAdministrativeUnitLowestCommonDenominator.east],
-            [bboxAdministrativeUnitLowestCommonDenominator.north, bboxAdministrativeUnitLowestCommonDenominator.east],
-            [bboxAdministrativeUnitLowestCommonDenominator.north, bboxAdministrativeUnitLowestCommonDenominator.west],
-            [bboxAdministrativeUnitLowestCommonDenominator.south, bboxAdministrativeUnitLowestCommonDenominator.west],
-        ]);
-
-        layer.setStyle({
-            color: 'black',
-            fillOpacity: 0.15
-        })
-
-        // to ensure that only the lowest layer is displayed, the previous layers are deleted
         administrativeUnitsMap.clearLayers();
-
-        administrativeUnitsMap.addLayer(layer);
-
-        map.fitBounds(administrativeUnitsMap.getBounds());
+        helper.layers.eachLayer(function (l) { administrativeUnitsMap.addLayer(l); });
+        map.fitBounds(helper.bounds);
 
         highlightHTMLElement("mapdiv");
 
@@ -807,7 +809,7 @@ function updateGeojsonWithLeafletOutput(drawnItems) {
 
         // marker
         if (leafletLayers[key] instanceof L.Marker) {
-            pureLayers.push(['Point', [leafletLayers[key]._latlng.lng, leafletLayers[key]._latlng.lat], provenance]);
+            pureLayers.push(['Point', [geoMetadata_normalizeLng(leafletLayers[key]._latlng.lng), leafletLayers[key]._latlng.lat], provenance]);
         }
 
         // polygon + rectangle (rectangle is a subclass of polygon but the name is the same in geoJSON)
@@ -815,14 +817,14 @@ function updateGeojsonWithLeafletOutput(drawnItems) {
             var coordinates = [];
 
             Object.keys(leafletLayers[key]._latlngs[0]).forEach(function (key2) {
-                coordinates.push([leafletLayers[key]._latlngs[0][key2].lng, leafletLayers[key]._latlngs[0][key2].lat]);
+                coordinates.push([geoMetadata_normalizeLng(leafletLayers[key]._latlngs[0][key2].lng), leafletLayers[key]._latlngs[0][key2].lat]);
             });
 
             /*
             the first and last object coordinates in a polygon must be the same, thats why the first element
             needs to be pushed again at the end because leaflet is not creating both
             */
-            coordinates.push([leafletLayers[key]._latlngs[0][0].lng, leafletLayers[key]._latlngs[0][0].lat]);
+            coordinates.push([geoMetadata_normalizeLng(leafletLayers[key]._latlngs[0][0].lng), leafletLayers[key]._latlngs[0][0].lat]);
             pureLayers.push(['Polygon', coordinates, provenance]);
         }
 
@@ -831,7 +833,7 @@ function updateGeojsonWithLeafletOutput(drawnItems) {
             var coordinates = [];
 
             Object.keys(leafletLayers[key]._latlngs).forEach(function (key3) {
-                coordinates.push([leafletLayers[key]._latlngs[key3].lng, leafletLayers[key]._latlngs[key3].lat]);
+                coordinates.push([geoMetadata_normalizeLng(leafletLayers[key]._latlngs[key3].lng), leafletLayers[key]._latlngs[key3].lat]);
             });
 
             pureLayers.push(['LineString', coordinates, provenance]);

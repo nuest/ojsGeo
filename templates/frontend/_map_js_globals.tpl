@@ -22,6 +22,124 @@
  * bind to the `key` parameter instead of the output.
  *}
 <script type="text/javascript">
+// Antimeridian helpers (issue #60). Split happens PHP-side on save; these run on
+// the read path to keep legacy pre-fix single-Polygon / single-LineString records
+// rendering correctly, and on the write path to keep Leaflet's post-drag lngs
+// (which may exceed ±180) in range before the hidden form is submitted.
+function geoMetadata_normalizeLng(lng) {
+    if (lng >= -180 && lng <= 180) return lng;
+    var x = ((lng + 180) % 360 + 360) % 360;
+    if (x === 0) x = 360;
+    return x - 180;
+}
+function geoMetadata_splitLine(coords) {
+    if (!Array.isArray(coords) || coords.length < 2) {
+        if (coords && coords[0] !== undefined) {
+            coords[0][0] = geoMetadata_normalizeLng(coords[0][0]);
+        }
+        return [coords];
+    }
+    var pts = coords.map(function (p) { return [geoMetadata_normalizeLng(p[0]), p[1]]; });
+    var parts = [];
+    var current = [pts[0]];
+    for (var i = 1; i < pts.length; i++) {
+        var a = pts[i - 1], b = pts[i];
+        var dLng = b[0] - a[0];
+        if (Math.abs(dLng) > 180) {
+            var lngSign = a[0] >= 0 ? 180 : -180;
+            var unwrappedB = b[0] + (dLng > 0 ? -360 : 360);
+            var span = unwrappedB - a[0];
+            var frac = span === 0 ? 0.5 : (lngSign - a[0]) / span;
+            var lat = a[1] + (b[1] - a[1]) * frac;
+            current.push([lngSign, lat]);
+            parts.push(current);
+            current = [[-lngSign, lat], b];
+        } else {
+            current.push(b);
+        }
+    }
+    parts.push(current);
+    return parts;
+}
+function geoMetadata_splitRings(polyCoords) {
+    if (!polyCoords || !polyCoords[0]) return null;
+    var parts = geoMetadata_splitLine(polyCoords[0]);
+    if (parts.length === 1) return [parts[0]];
+    if (parts.length < 3 || parts.length % 2 === 0) return null;
+    var head = parts[0];
+    var tail = parts[parts.length - 1];
+    var merged = tail.concat(head.slice(1));
+    merged.push(merged[0]);
+    var rings = [merged];
+    for (var i = 1; i < parts.length - 1; i++) {
+        var r = parts[i];
+        r.push(r[0]);
+        rings.push(r);
+    }
+    return rings;
+}
+function geoMetadata_splitLegacyPolygonForDisplay(feature) {
+    if (!feature || !feature.geometry) return feature;
+    var g = feature.geometry;
+    if (g.type === 'Point' && Array.isArray(g.coordinates)) {
+        g.coordinates[0] = geoMetadata_normalizeLng(g.coordinates[0]);
+    } else if (g.type === 'LineString') {
+        var parts = geoMetadata_splitLine(g.coordinates);
+        if (parts.length > 1) {
+            g.type = 'MultiLineString';
+            g.coordinates = parts;
+        } else {
+            g.coordinates = parts[0];
+        }
+    } else if (g.type === 'Polygon') {
+        var rings = geoMetadata_splitRings(g.coordinates);
+        if (rings !== null && rings.length > 1) {
+            g.type = 'MultiPolygon';
+            g.coordinates = rings.map(function (r) { return [r]; });
+        }
+    }
+    return feature;
+}
+
+// Split Multi* geometries have parts sitting at lng~180 and lng~-180. Leaflet
+// renders each part at its raw longitude, so the two halves appear at opposite
+// edges of the world map with ~340° of empty world between them. For display,
+// shift negative longitudes by +360 on features that clearly straddle ±180
+// (i.e. have vertices exactly on both +180 and -180 — the splitter's signature)
+// so the combined shape renders as a single contiguous region crossing the
+// dateline. Stored GeoJSON is untouched (mutation is in-memory before L.geoJSON).
+function geoMetadata_unwrapForDisplay(feature) {
+    if (!feature || !feature.geometry) return feature;
+    var g = feature.geometry;
+    if (g.type !== 'MultiPolygon' && g.type !== 'MultiLineString') return feature;
+    var hasPos180 = false, hasNeg180 = false;
+    (function walk(a) {
+        for (var i = 0; i < a.length; i++) {
+            var it = a[i];
+            if (Array.isArray(it) && typeof it[0] === 'number') {
+                if (it[0] === 180) hasPos180 = true;
+                else if (it[0] === -180) hasNeg180 = true;
+            } else if (Array.isArray(it)) {
+                walk(it);
+            }
+        }
+    })(g.coordinates);
+    if (!hasPos180 || !hasNeg180) return feature;
+    g.coordinates = (function unwrap(a) {
+        return a.map(function (it) {
+            if (Array.isArray(it) && typeof it[0] === 'number') {
+                return [it[0] < 0 ? it[0] + 360 : it[0], it[1]];
+            }
+            return unwrap(it);
+        });
+    })(g.coordinates);
+    return feature;
+}
+
+function geoMetadata_prepareFeaturesForDisplay(features) {
+    return features.map(geoMetadata_splitLegacyPolygonForDisplay).map(geoMetadata_unwrapForDisplay);
+}
+
 // map style (shared by article_details.js, issue.js, journal.js)
 const geoMetadata_mapLayerStyle = {
     weight: 5,
