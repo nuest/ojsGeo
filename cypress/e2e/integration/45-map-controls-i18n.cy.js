@@ -61,10 +61,11 @@ describe('geoMetadata Map Controls — en_US strings + no JS errors on map pages
 
     // Geocoder control (issue #151). leaflet-control-geocoder renders a collapsed
     // icon + an input that becomes visible on click; the attrs are set regardless
-    // of the expanded/collapsed state.
+    // of the expanded/collapsed state. Library v3 sets `iconLabel` as the
+    // button's aria-label, not title.
     cy.get('#mapdiv .leaflet-control-geocoder').should('exist');
     cy.get('#mapdiv .leaflet-control-geocoder-icon')
-      .should('have.attr', 'title', 'Search on the map');
+      .should('have.attr', 'aria-label', 'Search on the map');
     cy.get('#mapdiv .leaflet-control-geocoder-form input')
       .should('have.attr', 'placeholder', 'Search');
 

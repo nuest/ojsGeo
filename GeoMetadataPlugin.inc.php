@@ -367,6 +367,9 @@ class GeoMetadataPlugin extends GenericPlugin
 			$templateMgr->addHeader('dublinCoreTemporal', '<meta name="DC.temporal" scheme="ISO8601" content="' .
 				$begin . '/' . $end .
 				'"/>');
+			$templateMgr->addHeader('dublinCorePeriodOfTime', '<meta name="DC.PeriodOfTime" scheme="ISO8601" content="' .
+				$begin . '/' . $end .
+				'"/>');
 			$dcTagAdded = true;
 		}
 

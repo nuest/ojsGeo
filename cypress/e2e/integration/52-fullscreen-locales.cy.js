@@ -32,32 +32,29 @@ describe('geoMetadata Fullscreen Control — localized titles (via user menu)', 
     fr_FR: { label: 'Français', enter: 'Afficher en plein écran',  exit: 'Quitter le plein écran',     zoomIn: 'Zoom avant',   zoomOut: 'Zoom arrière' },
   };
 
+  // URL-direct locale switch — more deterministic than driving the user-menu
+  // dropdown (which races the session cookie write against the next cy.visit).
+  const switchLocale = (locale) => {
+    cy.visit('/index.php/index/user/setLocale/' + locale);
+  };
+
   beforeEach(() => {
     cy.login('aauthor');
-    cy.get('a:contains("aauthor")').click();
-    cy.get('a:contains("Dashboard"), a:contains("Panel de control"), a:contains("Tableau de bord")').click();
   });
 
   afterEach(() => {
-    // mirror 50-locales.cy.js teardown: go back to Dashboard (label is localized),
-    // switch language back to English, log out — leaves no session locale behind.
-    cy.get('a:contains("aauthor")').click();
-    cy.get('a:contains("Dashboard"), a:contains("Panel de control"), a:contains("Tableau de bord")').click();
-    cy.get('.pkpDropdown > .pkpButton').click();
-    cy.get('a:contains("English")').click();
+    switchLocale('en_US');
     cy.logout();
   });
 
   Object.entries(localized).forEach(([locale, strings]) => {
-    it(`${locale}: user picks "${strings.label}" from the top-right menu and the fullscreen button title becomes "${strings.enter}"`, function () {
-      // switch display language via the user-menu dropdown (same DOM path as 50-locales)
-      cy.get('.pkpDropdown > .pkpButton').click();
-      cy.get(`a:contains("${strings.label}")`).click();
+    it(`${locale}: fullscreen button title becomes "${strings.enter}" after switching locale`, function () {
+      switchLocale(locale);
 
-      // Test against the journal map page directly — it also uses the
-      // _map_js_globals.tpl + L.control.fullscreen pipeline, is rendered by
-      // journal.js, and is reachable by URL without depending on the
-      // optional "Map" nav-menu item (README §3, not automated).
+      // Test against the journal map page directly — it uses the same
+      // _map_js_globals.tpl + L.control.fullscreen pipeline as the other
+      // maps, is rendered by journal.js, and is reachable by URL without
+      // depending on the optional "Map" nav-menu item.
       cy.visit('/' + Cypress.env('contextPath') + '/map');
       cy.get('#mapdiv').should('exist');
       cy.get(fsBtnSelector).as('fsBtn');

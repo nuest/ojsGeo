@@ -16,9 +16,10 @@ describe('geoMetadata Map Privacy Notice', function () {
   const enText = 'Map tiles are loaded from third-party servers. See the journal\'s privacy policy for details.';
   const deText = 'Kartenkacheln werden von Drittanbieter-Servern geladen. Einzelheiten finden Sie in der Datenschutzerklärung des Journals.';
 
+  // Navigate via URL rather than the "Archive" nav link (whose label
+  // is localized) so this works under any UI locale.
   const visitHanover = () => {
-    cy.visit('/');
-    cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive"), nav[class="pkp_site_nav_menu"] a:contains("Archiv")').click();
+    cy.visit('/' + Cypress.env('contextPath') + '/issue/archive');
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
     cy.get('a:contains("Hanover is nice")').last().click();
   };
@@ -35,20 +36,16 @@ describe('geoMetadata Map Privacy Notice', function () {
     cy.get(noticeSelector).should('be.visible').and('contain.text', enText);
   });
 
-  it('switches the notice text when the user picks Deutsch from the top-right menu', function () {
+  it('switches the notice text when the UI locale is German', function () {
+    // URL-direct locale switch — more deterministic than the user-menu
+    // dropdown (which races the session cookie write against cy.visit).
     cy.login('aauthor');
-    cy.get('a:contains("aauthor")').click();
-    cy.get('a:contains("Dashboard"), a:contains("Panel de control"), a:contains("Tableau de bord")').click();
-    cy.get('.pkpDropdown > .pkpButton').click();
-    cy.get('a:contains("Deutsch")').click();
+    cy.visit('/index.php/index/user/setLocale/de_DE');
 
     visitHanover();
     cy.get(noticeSelector).should('be.visible').and('contain.text', deText);
 
-    cy.get('a:contains("aauthor")').click();
-    cy.get('a:contains("Dashboard"), a:contains("Panel de control"), a:contains("Tableau de bord")').click();
-    cy.get('.pkpDropdown > .pkpButton').click();
-    cy.get('a:contains("English")').click();
+    cy.visit('/index.php/index/user/setLocale/en_US');
     cy.logout();
   });
 
