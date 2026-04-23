@@ -9,7 +9,7 @@
  *        path — used by issue #106 to check that the GeoJSON embedded in the
  *        DC.SpatialCoverage HTML-head meta tag still carries the empty
  *        timePeriods array and "not available" provenance block, and that no
- *        DC.temporal / DC.PeriodOfTime meta tags are emitted for such articles.
+ *        DC.temporal meta tag is emitted for such articles.
  */
 
 describe('geoMetadata Submission Without Time Period', function () {

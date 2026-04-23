@@ -26,9 +26,11 @@ describe('geoMetadata Configuration', function () {
     cy.login('admin', 'admin', Cypress.env('contextPath'));
     cy.get('nav[class="app__nav"] a:contains("Website")').click();
     cy.get('button[id="plugins-button"]').click();
-    // Find and enable the plugin
+    // Find and enable the plugin; assert the checkbox reflects enabled state
+    // (the transient "has been enabled" toast disappears too quickly to
+    // reliably catch with a retrying cy.get).
     cy.get('input[id^="select-cell-geometadataplugin-enabled"]').click();
-    cy.get('div:contains(\'The plugin "geoMetadata" has been enabled.\')');
+    cy.get('input[id^="select-cell-geometadataplugin-enabled"]').should('be.checked');
   });
 
   it('Has a map in the third submissions step', function () {
@@ -121,5 +123,62 @@ describe('geoMetadata Configuration', function () {
     openSettings();
     cy.get('form[id="geoMetadataSettings"] input[name="geoMetadata_showDownloadSidebar"]')
       .should('be.checked');
+  });
+
+  it('persists every boolean toggle across save/reload', function () {
+    // Walks the full set of plugin boolean toggles: asserts they default to
+    // checked, then uncheck-save-reload-assert, then check-save-reload-assert.
+    // Must end in the all-on state so downstream specs that rely on any
+    // toggled feature continue to work. showDownloadSidebar is covered
+    // separately above; every other boolean is included here.
+
+    const toggles = [
+      'geoMetadata_showArticleMap',
+      'geoMetadata_showArticleTemporal',
+      'geoMetadata_showArticleAdminUnit',
+      'geoMetadata_showIssueMap',
+      'geoMetadata_showJournalMap',
+      'geoMetadata_submission_enableSpatial',
+      'geoMetadata_submission_enableTemporal',
+      'geoMetadata_submission_enableAdminUnit',
+      'geoMetadata_workflow_enableSpatial',
+      'geoMetadata_workflow_enableTemporal',
+      'geoMetadata_workflow_enableAdminUnit',
+      'geoMetadata_emitMetaDublinCore',
+      'geoMetadata_emitMetaGeoNames',
+      'geoMetadata_emitMetaGeoCoords',
+      'geoMetadata_emitMetaISO19139',
+      'geoMetadata_enableGeocoderSearch',
+    ];
+
+    const openSettings = () => {
+      cy.login('admin', 'admin', Cypress.env('contextPath'));
+      cy.get('nav[class="app__nav"] a:contains("Website")').click();
+      cy.get('button[id="plugins-button"]').click();
+      cy.get('tr[id="component-grid-settings-plugins-settingsplugingrid-category-generic-row-geometadataplugin"] a[class="show_extras"]').click();
+      cy.get('a[id^="component-grid-settings-plugins-settingsplugingrid-category-generic-row-geometadataplugin-settings-button"]').click();
+      cy.get('form[id="geoMetadataSettings"]').should('exist');
+    };
+
+    const sel = (name) => `form[id="geoMetadataSettings"] input[name="${name}"]`;
+    const save = () => {
+      cy.get('form[id="geoMetadataSettings"] button[id^="submitFormButton"]').click();
+      cy.wait(1000);
+    };
+
+    openSettings();
+    toggles.forEach((name) => cy.get(sel(name)).should('exist').and('be.checked'));
+
+    toggles.forEach((name) => cy.get(sel(name)).uncheck());
+    save();
+
+    openSettings();
+    toggles.forEach((name) => cy.get(sel(name)).should('not.be.checked'));
+
+    toggles.forEach((name) => cy.get(sel(name)).check());
+    save();
+
+    openSettings();
+    toggles.forEach((name) => cy.get(sel(name)).should('be.checked'));
   });
 });

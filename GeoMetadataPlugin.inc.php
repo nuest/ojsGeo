@@ -204,7 +204,7 @@ class GeoMetadataPlugin extends GenericPlugin
 			$templateMgr->assign('geoMetadata_metadataLicense', '<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener noreferrer">CC-0</a>');
 
 			// issue #124: propagate to every map-rendering template via $this->templateParameters.
-			$this->templateParameters['geoMetadata_showEsriBaseLayer'] = $this->isEsriBaseLayerEnabled();
+			$this->templateParameters['geoMetadata_showEsriBaseLayer'] = $this->isFeatureEnabled('geoMetadata_showEsriBaseLayer');
 			$this->templateParameters['geoMetadata_showGeocoder'] = $this->isFeatureEnabled('geoMetadata_enableGeocoderSearch');
 		}
 
@@ -871,13 +871,4 @@ class GeoMetadataPlugin extends GenericPlugin
 		return is_null($context) ? 0 : $context->getId();
 	}
 
-	/**
-	 * Is the Esri World Imagery base layer enabled for the current context?
-	 * Null (never saved) means ON so pre-issue-#124 installs keep their behaviour.
-	 */
-	public function isEsriBaseLayerEnabled(): bool
-	{
-		$val = $this->getSetting($this->getCurrentContextId(), 'geoMetadata_showEsriBaseLayer');
-		return $val === null ? true : (bool)$val;
-	}
 }

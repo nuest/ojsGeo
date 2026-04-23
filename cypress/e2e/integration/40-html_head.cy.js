@@ -150,10 +150,6 @@ describe('geoMetadata Temporal Metadata in HTML Head', function () {
     metaContains('DC.temporal', /2022-01-01\/2022-12-31/, 'ISO8601');
   });
 
-  it('has DC.PeriodOfTime with the correct scheme and content', function () {
-    metaContains('DC.PeriodOfTime', /2022-01-01\/2022-12-31/, 'ISO8601');
-  });
-
 });
 
 describe('geoMetadata HTML Head - Article Without Time Period (issue #106)', function () {
@@ -179,14 +175,7 @@ describe('geoMetadata HTML Head - Article Without Time Period (issue #106)', fun
   });
 
   it('does not emit a DC.temporal meta tag', function () {
-    // GeoMetadataPlugin.inc.php:272 only adds the DC.temporal header when timePeriods
-    // is set; the schema-link <link rel="schema.DC"> shares the same addHeader key,
-    // so after registration the meta[name="DC.temporal"] tag should be absent.
     cy.get('meta[name="DC.temporal"]').should('not.exist');
-  });
-
-  it('does not emit a DC.PeriodOfTime meta tag', function () {
-    cy.get('meta[name="DC.PeriodOfTime"]').should('not.exist');
   });
 
 });

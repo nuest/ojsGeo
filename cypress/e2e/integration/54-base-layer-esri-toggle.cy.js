@@ -42,10 +42,10 @@ describe('geoMetadata Esri Base Layer Toggle', function () {
     cy.get('a:contains("Hanover is nice")').last().click();
   };
 
-  it('setting exists in the Maps section and defaults to checked', function () {
+  it('setting exists in the Third-party services section and defaults to checked', function () {
     openSettings();
     cy.get(checkboxSelector).should('exist').and('be.checked');
-    cy.contains('form[id="geoMetadataSettings"]', 'Maps').should('exist');
+    cy.contains('form[id="geoMetadataSettings"]', 'Third-party services').should('exist');
   });
 
   it('shows both OpenStreetMap and Esri World Imagery base layers by default', function () {
