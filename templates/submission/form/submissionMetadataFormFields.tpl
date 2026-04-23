@@ -64,6 +64,9 @@
     </p>
     <ul id="administrativeUnitInput">
     </ul>
+    <p class="description geoMetadata_warning geoMetadata-manual-admin-unit-notice" style="display:none;">{translate
+        key="plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.administrativeUnit.manualOverrideNotice"}
+    </p>
     <textarea id="administrativeUnit" name="{$smarty.const.GEOMETADATA_DB_FIELD_ADMINUNIT}"
         class="hiddenDataField" style="height: 0;">{${$smarty.const.GEOMETADATA_DB_FIELD_ADMINUNIT}}</textarea>
     {/fbvFormSection}

@@ -33,6 +33,7 @@ Internationalisation, configurability, and HTML-head metadata — target release
 - Issue-page hover: point markers now highlight when hovering the article div, not just polygons ([#83](https://github.com/TIBHannover/geoMetadata/issues/83)).
 - Locale switching in tests; restored `DC.PeriodOfTime` HTML meta emission.
 - Removed dead `isEsriBaseLayerEnabled` helper.
+- Administrative-unit field now resets coherently when all map features are removed and no longer validates user-typed tags against a stale hierarchy. Manually typed tags survive map edits, and removing any auto-derived tag switches the field into full manual-override mode — the remaining tags freeze and map edits no longer re-derive administrative units until every manual tag is cleared. A warning-styled notice next to the field explains when manual curation is blocking auto-updates; the "gazetteer unavailable" warning now also suggests refreshing the page ([#112](https://github.com/TIBHannover/geoMetadata/issues/112)).
 
 ## [1.0.1.0] - 2025-10-14
 

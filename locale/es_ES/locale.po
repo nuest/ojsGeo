@@ -57,10 +57,13 @@ msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.adminis
 msgstr "Unidad administrativa"
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.gazetteer_unavailable"
-msgstr "El servicio de gaceta geográfica no está disponible. Introduzca las unidades administrativas manualmente, por ejemplo <code>\"Earth Europe Germany\"</code>, escribiendo los nombres de las unidades y confirmando cada una con \"Enter\"."
+msgstr "El servicio de gaceta geográfica no está disponible. Introduzca las unidades administrativas manualmente, por ejemplo <code>\"Earth Europe Germany\"</code>, escribiendo los nombres de las unidades y confirmando cada una con \"Enter\". Actualice la página para volver a intentarlo."
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.administrativeUnit.description.submission"
 msgstr "En base a su entrada en el mapa, las unidades administrativas son propuestas de acuerdo a su entrada en el mapa. Cada vez que usted actualiza las entradas, la información de cobertura es calculada y actualizada correspondientemente. Puede eliminar las unidades administrativas con el botón rojo \"x\". Si pasa el ratón por encima de la(s) unidad(es) administrativa(s), se mostrará la jerarquía superior de la(s) unidad(es) administrativa(s), si está disponible. Además, puede añadir más unidades administrativas. Sólo podrá insertar una unidad administrativa más si se ajusta a la jerarquía de unidades administrativas ya dada, y a la(s) forma(s) geométrica(s) dada(s) en el mapa. Si comienza a insertar, hay algunas sugerencias que puede aceptar haciendo clic, pero sin embargo puede introducir su propia unidad administrativa pulsando \"Introducir\". La unidad administrativa (en negro) que es el mínimo común denominador para todas las formas geométricas se muestra en el mapa. La unidad administrativa no es editable o borrable en el mapa, sino aquí a través del campo de entrada."
+
+msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.administrativeUnit.manualOverrideNotice"
+msgstr "Una o más unidades administrativas se introdujeron manualmente y dejarán de actualizarse automáticamente con las ediciones del mapa. Elimine la(s) etiqueta(s) manual(es) si desea que la próxima edición del mapa vuelva a determinar el valor."
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.administrativeUnit.description.article"
 msgstr "Aquí se listan las unidades administrativas superiores a la(s) localidad(es) que trata el artículo, con el nivel más alto a la izquierda y el más bajo a la derecha."

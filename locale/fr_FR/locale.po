@@ -57,10 +57,13 @@ msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.adminis
 msgstr "Unité administrative"
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.gazetteer_unavailable"
-msgstr "Le service de répertoire géographique n'est pas disponible. Veuillez saisir les unités administratives manuellement, par exemple <code>\"Earth Europe Germany\"</code>, en tapant les noms des unités et en confirmant chacune avec \"Entrée\"."
+msgstr "Le service de répertoire géographique n'est pas disponible. Veuillez saisir les unités administratives manuellement, par exemple <code>\"Earth Europe Germany\"</code>, en tapant les noms des unités et en confirmant chacune avec \"Entrée\". Actualisez la page pour réessayer."
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.administrativeUnit.description.submission"
 msgstr "Sur la base de votre saisie dans la carte, des unités administratives sont proposées en fonction de votre saisie sur la carte. Chaque fois que vous mettez à jour les entrées, les informations de couverture sont calculées et mises à jour en conséquence. Vous pouvez supprimer une ou plusieurs unités administratives en cliquant sur le bouton rouge \"x\". Si vous survolez la ou les unités administratives, la hiérarchie supérieure des unités administratives s'affiche si elle est disponible. En outre, vous pouvez ajouter d'autres unités administratives. Vous ne pouvez insérer une unité administrative supplémentaire que si elle correspond à la hiérarchie d'unités administratives déjà établie et aux formes géométriques de la carte. Si vous commencez à insérer, il y a quelques suggestions que vous pouvez accepter en cliquant, mais néanmoins vous pouvez entrer votre propre unité administrative en appuyant sur \"Enter\". L'unité administrative (en noir) qui est le plus petit dénominateur commun pour toutes les formes géométriques est affichée sur la carte. L'unité administrative n'est pas modifiable ou supprimable dans la carte, mais ici via le champ de saisie."
+
+msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.administrativeUnit.manualOverrideNotice"
+msgstr "Une ou plusieurs unités administratives ont été saisies manuellement et ne seront plus mises à jour automatiquement à partir des modifications de la carte. Supprimez le(s) tag(s) manuel(s) pour que la prochaine modification de la carte pilote à nouveau la valeur."
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.administrativeUnit.description.article"
 msgstr "Ici sont listées les unités administratives qui sont supérieures au(x) lieu(x) dont traite l'article, avec le niveau le plus élevé à gauche et le plus bas à droite."

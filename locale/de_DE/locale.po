@@ -57,10 +57,13 @@ msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.adminis
 msgstr "Verwaltungseinheit"
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.gazetteer_unavailable"
-msgstr "Der Gazetteer-Dienst ist nicht verfügbar. Bitte geben sie die Verwaltungseinheiten manuell ein, z.B., <code>\"Earth Europe Germany\"</code>, und bestätigen sie jede Einheit mit \"Enter\"."
+msgstr "Der Gazetteer-Dienst ist nicht verfügbar. Bitte geben sie die Verwaltungseinheiten manuell ein, z.B., <code>\"Earth Europe Germany\"</code>, und bestätigen sie jede Einheit mit \"Enter\". Aktualisieren Sie die Seite, um es erneut zu versuchen."
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.administrativeUnit.description.submission"
 msgstr "Auf Basis Ihrer Eingaben in der Karte werden Verwaltungseinheiten vorgeschlagen, die entsprechend Ihrer Eingaben in der Karte ausgewählt wurden, sofern ein Gazetter-Dienst verfügbar ist. Jedes Mal, wenn Sie die Eingaben aktualisieren, werden die Erfassungsinformationen neu berechnet und entsprechend aktualisiert. Mit dem roten \"x\" können Sie die Verwaltungseinheit(en) löschen. Wenn Sie den Mauszeiger über die Verwaltungseinheit(en) bewegen, wird die übergeordnete Hierarchie der Verwaltungseinheit(en) angezeigt, sofern vorhanden. Außerdem können Sie weitere Verwaltungseinheiten hinzufügen. Sie können nur dann eine weitere Verwaltungseinheit einfügen, wenn diese zu der bereits vorgegebenen Hierarchie der Verwaltungseinheiten und der vorgegebenen geometrischen Form in der Karte passt. Wenn Sie mit dem Einfügen beginnen, gibt es einige Vorschläge, die Sie durch Anklicken akzeptieren können, aber Sie können trotzdem Ihre eigene Verwaltungseinheit eingeben, indem Sie \"Enter\" drücken. Die Verwaltungseinheit (in Schwarz), die den kleinsten gemeinsamen Nenner für alle geometrischen Formen darstellt, wird in der Karte angezeigt. Die Verwaltungseinheit ist nicht direkt in der Karte, sondern über das Eingabefeld editierbar oder löschbar."
+
+msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.administrativeUnit.manualOverrideNotice"
+msgstr "Eine oder mehrere Verwaltungseinheiten wurden manuell eingegeben und werden bei Kartenbearbeitungen nicht mehr automatisch aktualisiert. Entfernen Sie den/die manuellen Tag(s), damit die nächste Kartenbearbeitung den Wert wieder steuert."
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.administrativeUnit.description.article"
 msgstr "Hier werden die administrativen Einheiten aufgelistet, die dem Ort bzw. den Orten übergeordnet sind, um die es in dem Artikel geht, wobei die höchste Ebene links und die niedrigste rechts steht."

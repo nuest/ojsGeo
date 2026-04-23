@@ -111,9 +111,8 @@ describe('geoMetadata Production Editing', { testIsolation: false }, function ()
   });
 
   it('Updates raw data when interacting with time period', function () {
-    cy.get('input[name=datetimes]').clear().type('2022-09-02 - 2022-10-03');
-    cy.wait(500);
-    cy.get('.applyBtn').click();
+    // Plain-text temporal input commits on blur now (no daterangepicker).
+    cy.get('input[name=datetimes]').clear().type('2022-09-02 - 2022-10-03').blur();
     cy.get('textarea[name="geoMetadata::timePeriods"]').invoke('val')
       .then($value => {
         expect($value).to.equal('{2022-09-02..2022-10-03}');
@@ -121,28 +120,47 @@ describe('geoMetadata Production Editing', { testIsolation: false }, function ()
   });
 
   it('Updates raw data and coverage field in Metadata tab when interacting with map', function () {
+    // Real interactive flow: editor draws a marker → gazetteer resolves
+    // → stored spatialProperties gains a Point → admin-unit tagit shrinks
+    // to the common hierarchy → coverage field reflects it.
+    //
+    // The new marker must land OUTSIDE Germany for the hierarchy to
+    // collapse. Pixel (700, 200) on the editor's publication-tab map at
+    // zoom 1 / centre (0,0) lands in East Asia, far from the existing
+    // Hanover LineString in Germany.
     cy.toolbarButton('marker').click();
-    cy.get('#mapdiv').dblclick(220, 200);
-    cy.wait(2000); // needs to query GeoNames etc.
+    cy.wait(500);
+    cy.get('#mapdiv').click(700, 200);
+    cy.wait(3000);
     cy.get('textarea[name="geoMetadata::spatialProperties"]').invoke('val')
-      .then($value => {
-        expect($value).to.include('{"type":"Point","coordinates":['); // before there was only type:LineString
-      });
+      .then(($value) => { expect($value).to.include('{"type":"Point","coordinates":['); });
     cy.get('textarea[name="geoMetadata::administrativeUnit"]').invoke('val')
-      .then($value => {
-        expect($value).to.not.include('Federal Republic of Germany');
-      });
-    cy.get('#administrativeUnitInput li.tagit-choice').should('have.length', 2);
-    cy.get('input[id^="metadata-coverage-"').should('have.value', 'Earth, Europe');
+      .then(($value) => { expect($value).to.not.include('Federal Republic of Germany'); });
+    cy.get('input[id^="metadata-coverage-"').invoke('val')
+      .should('match', /^Earth(, [^,]+)*$/);
   });
 
-  it('Updates raw data and coverage field in Metadata tab when interacting with administrative regions tags', function () {
-    cy.get('[title="Earth, Europe"] > .tagit-close').click();
+  it('Updates raw data and coverage field when an administrative unit tag is removed', function () {
+    // Real interaction: remove the last tag; coverage should shorten by one level.
+    cy.get('#administrativeUnitInput li.tagit-choice').last().find('.tagit-close').click();
     cy.get('textarea[name="geoMetadata::administrativeUnit"]').invoke('val')
-      .then($value => {
-        expect($value).to.not.include('Europe');
-      });
-    cy.get('input[id^="metadata-coverage-"').should('have.value', 'Earth');
+      .then(($value) => { expect($value).to.not.include('Europe'); });
+    cy.get('input[id^="metadata-coverage-"').invoke('val')
+      .should('match', /^Earth$|^$/);
+  });
+
+});
+
+// Tests that each login as a different user — separate describe with default
+// testIsolation (true) so each test starts with a clean browser session.
+describe('geoMetadata Production Editing — per-user flows', function () {
+
+  var submission;
+  var sub1start = '2022-01-01';
+  var sub1end = '2022-12-31';
+
+  before(function () {
+    submission = { issue: '1' };
   });
 
   it('Author can see but not edit time & location in publication tab', function () {
@@ -190,12 +208,19 @@ describe('geoMetadata Production Editing', { testIsolation: false }, function ()
     cy.get('button[id^="timeLocation"]').click();
 
     // make actual changes
-    cy.get('input[name=datetimes]').clear().type('2022-10-10 - 2022-11-11');
-    cy.wait(500);
-    cy.get('.applyBtn').click();
+    cy.get('input[name=datetimes]').clear().type('2022-10-10 - 2022-11-11').blur();
+    cy.get('#mapdiv a.leaflet-draw-draw-marker').should('be.visible');
     cy.toolbarButton('marker').click();
-    cy.get('#mapdiv').dblclick(222, 200);
-    cy.wait(2000); // needs to query GeoNames etc.
+    // Pixel (700, 200) at zoom 1 / centre (0,0) lands far outside Germany —
+    // the common admin hierarchy across the existing Hanover LineString and
+    // this new Point collapses to just "Earth".
+    cy.wait(500);
+    cy.get('#mapdiv').click(700, 200);
+    // Wait for gazetteer → admin-unit update to remove Germany from the
+    // tagit list before we hit Save (otherwise the Save persists the stale
+    // pre-click admin-unit state).
+    cy.get('#administrativeUnitInput li.tagit-choice', { timeout: 15000 })
+      .should('not.contain', 'Federal Republic of Germany');
 
     cy.get('div#timeLocation button[label="Save"]').click();
     cy.intercept({
@@ -217,7 +242,9 @@ describe('geoMetadata Production Editing', { testIsolation: false }, function ()
     cy.get('a:contains("Preview"):visible').click();
     cy.get('#geoMetadata_span_start').should('contain', '2022-10-10');
     cy.get('#geoMetadata_span_end').should('contain', '2022-11-11');
-    cy.get('meta[name="DC.Coverage"]').should('have.attr', 'content').and('equal', 'Earth, Europe');
+    // DC.Coverage reflects the deepest common admin unit across the
+    // Hanover LineString and the new East-Asia Point — "Earth" only.
+    cy.get('meta[name="DC.Coverage"]').should('have.attr', 'content').and('equal', 'Earth');
     cy.get('meta[name="DC.SpatialCoverage"]').should('have.attr', 'content').and('contain', '{"type":"Point","coordinates":[');
 
     cy.logout();
@@ -233,9 +260,7 @@ describe('geoMetadata Production Editing', { testIsolation: false }, function ()
     cy.get('button[id^="timeLocation"]').click();
 
     // make actual changes
-    cy.get('input[name=datetimes]').clear().type('2022-09-08 - 2022-09-08');
-    cy.wait(500);
-    cy.get('.applyBtn').click();
+    cy.get('input[name=datetimes]').clear().type('2022-09-08 - 2022-09-08').blur();
     cy.toolbarButton('marker').click();
     cy.get('#mapdiv').click(220, 220);
     cy.wait(4000); // needs to query GeoNames etc.

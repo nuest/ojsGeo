@@ -498,7 +498,8 @@ function initAdminunits() {
             return input;
         },
         afterTagAdded: function () {
-            notValidTag(); 
+            notValidTag();
+            updateManualAdminUnitNotice();
         }
     });
 
@@ -522,11 +523,28 @@ function initAdminunits() {
                 var administrativeUnit = JSON.parse(administrativeUnitRaw);
 
                 // the corresponding element is removed
+                var removedWasAutoDerived = false;
                 for (var i = 0; i < administrativeUnit.length; i++) {
                     if (currentTag === administrativeUnit[i].name) {
+                        if (administrativeUnit[i].provenance && administrativeUnit[i].provenance.id === 23) {
+                            removedWasAutoDerived = true;
+                        }
                         // needs to be deleted twice, because im some cases otherwise the element does not get deleted
                         administrativeUnit.splice(i, 1);
                         administrativeUnit.splice(i, 1);
+                    }
+                }
+
+                // Removing an auto-derived tag is user curation — promote remaining
+                // auto-derived siblings so they survive the next Leaflet event.
+                if (removedWasAutoDerived) {
+                    for (var i = 0; i < administrativeUnit.length; i++) {
+                        if (administrativeUnit[i].provenance && administrativeUnit[i].provenance.id === 23) {
+                            administrativeUnit[i].provenance = {
+                                description: 'administrative unit retained by user after removing an auto-derived sibling tag',
+                                id: 21
+                            };
+                        }
                     }
                 }
 
@@ -547,6 +565,7 @@ function initAdminunits() {
             updateVueElement('textarea[name="geoMetadata::spatialProperties"]', JSON.stringify(geojson));
 
             displayBboxOfAdministrativeUnitWithLowestCommonDenominatorOfASetOfAdministrativeUnitsGivenInAGeojson(geojson);
+            updateManualAdminUnitNotice();
         }
     });
 
@@ -563,6 +582,8 @@ function initAdminunits() {
             $("#administrativeUnitInput").tagit("createTag", administrativeUnitParsed[i].name);
         }
     }
+
+    updateManualAdminUnitNotice();
 };
 
 
@@ -1202,6 +1223,21 @@ function updateAdministrativeUnits(adminUnits) {
 function storeCreatedGeoJSONAndAdministrativeUnitInHiddenForms(drawnItems) {
     var geojson = updateGeojsonWithLeafletOutput(drawnItems);
 
+    var authorTypedUnits = snapshotAuthorTypedAdminUnits();
+
+    // Full manual override: when only author-curated (21/22) entries remain,
+    // skip GeoNames derivation; clearing every curated tag re-enables it.
+    if (authorTypedUnits.length > 0 && !hasAutoDerivedAdminUnits()) {
+        geojson.administrativeUnits = authorTypedUnits;
+        updateVueElement('textarea[name="geoMetadata::spatialProperties"]', JSON.stringify(geojson));
+        updateManualAdminUnitNotice();
+        return;
+    }
+
+    // Reset hidden state up front so preprocessTag never reads stale hierarchy
+    // while an author is typing a tag between a Leaflet event and its re-lookup.
+    geojson.administrativeUnits = {};
+    updateVueElement('textarea[name="geoMetadata::spatialProperties"]', JSON.stringify(geojson));
     $("#administrativeUnitInput").tagit("removeAll");
     updateVueElement('textarea[name="geoMetadata::administrativeUnit"]', 'no data');
 
@@ -1285,12 +1321,85 @@ function storeCreatedGeoJSONAndAdministrativeUnitInHiddenForms(drawnItems) {
         }
     }
     else {
-        // empty spatialProperties and administrativeUnit when "Clear All" is used 
+        // empty spatialProperties and administrativeUnit when "Clear All" is used
         geojson.features = [];
         geojson.administrativeUnits = {};
         updateVueElement('textarea[name="geoMetadata::spatialProperties"]', JSON.stringify(geojson));
-        updateVueElement('textarea[name="geoMetadata::administrativeUnit"]', null);
+        updateVueElement('textarea[name="geoMetadata::administrativeUnit"]', 'no data');
     }
+
+    reapplyAuthorTypedAdminUnits(authorTypedUnits);
+    updateManualAdminUnitNotice();
+}
+
+// True when any stored admin-unit entry has auto-derived provenance (id 23).
+function hasAutoDerivedAdminUnits() {
+    var raw = $('textarea[name="geoMetadata::administrativeUnit"]').val();
+    if (!raw || raw === 'no data') return false;
+    try {
+        var arr = JSON.parse(raw);
+    } catch (e) {
+        return false;
+    }
+    if (!Array.isArray(arr)) return false;
+    return arr.some(function (u) {
+        return u && u.provenance && u.provenance.id === 23;
+    });
+}
+
+// Returns admin-unit entries with author-typed provenance (ids 21, 22) from
+// the hidden textarea; empty array if the sentinel or unparseable JSON.
+function snapshotAuthorTypedAdminUnits() {
+    var raw = $('textarea[name="geoMetadata::administrativeUnit"]').val();
+    if (!raw || raw === 'no data') return [];
+    try {
+        var arr = JSON.parse(raw);
+    } catch (e) {
+        return [];
+    }
+    if (!Array.isArray(arr)) return [];
+    return arr.filter(function (u) {
+        return u && u.provenance && (u.provenance.id === 21 || u.provenance.id === 22);
+    });
+}
+
+// Merges author-typed entries back into the hidden state and re-creates
+// their tags in the widget. Author-curated entries win name collisions.
+function reapplyAuthorTypedAdminUnits(authorTypedUnits) {
+    if (!authorTypedUnits || authorTypedUnits.length === 0) return;
+
+    var raw = $('textarea[name="geoMetadata::administrativeUnit"]').val();
+    var current = (raw && raw !== 'no data') ? JSON.parse(raw) : [];
+
+    var authorNames = authorTypedUnits.map(function (u) { return u.name; });
+    current = current.filter(function (u) { return authorNames.indexOf(u.name) === -1; });
+
+    var merged = current.concat(authorTypedUnits);
+
+    updateAdministrativeUnits(merged);
+
+    var spRaw = $('textarea[name="geoMetadata::spatialProperties"]').val();
+    if (spRaw) {
+        try {
+            var sp = JSON.parse(spRaw);
+            sp.administrativeUnits = merged;
+            updateVueElement('textarea[name="geoMetadata::spatialProperties"]', JSON.stringify(sp));
+        } catch (e) { /* spatialProperties unparseable, skip */ }
+    }
+
+    var existingTagLabels = $("#administrativeUnitInput").tagit("assignedTags");
+    for (var i = 0; i < authorTypedUnits.length; i++) {
+        if (existingTagLabels.indexOf(authorTypedUnits[i].name) === -1) {
+            $("#administrativeUnitInput").tagit("createTag", authorTypedUnits[i].name);
+        }
+    }
+}
+
+// Toggle the "manual edit prevents auto-update" hint on presence of any
+// author-typed tag.
+function updateManualAdminUnitNotice() {
+    var hasManual = snapshotAuthorTypedAdminUnits().length > 0;
+    $('.geoMetadata-manual-admin-unit-notice').toggle(hasManual);
 }
 
 /**

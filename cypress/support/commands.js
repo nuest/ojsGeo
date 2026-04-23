@@ -458,11 +458,7 @@ Cypress.Commands.add('createSubmission', (data, context) => {
 
     // === Submission Step 4 ===
     cy.waitJQuery();
-    // Step 4 form can take a moment to appear after the plugin's
-    // spatial/admin-unit hidden-field save round-trip; give the URL a beat
-    // to change to step-4 before proceeding.
-    cy.url({ timeout: 20000 }).should('include', 'step-4');
-    cy.get('form[id=submitStep4Form]', { timeout: 20000 }).find('button').contains('Finish Submission').click();
+    cy.get('form[id=submitStep4Form]', { timeout: 15000 }).find('button').contains('Finish Submission').click();
     cy.get('button.pkpModalConfirmButton').click();
     cy.waitJQuery();
     cy.get('h2:contains("Submission complete")');

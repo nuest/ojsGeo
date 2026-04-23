@@ -81,6 +81,9 @@
                     <ul id="administrativeUnitInput" aria-describedby="geoMetadata-adminunit-description" aria-invalid="0" class="pkpFormField__input pkpFormField--text__input">
                     </ul>
                 </div>
+                <div class="pkpFormField__description geoMetadata_warning geoMetadata-manual-admin-unit-notice" style="display:none;">
+                    {translate key="plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.administrativeUnit.manualOverrideNotice"}
+                </div>
             </div>
         </div>
     </div>

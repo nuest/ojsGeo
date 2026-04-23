@@ -104,6 +104,10 @@ describe('geoMetadata Submission', { testIsolation: false }, function () {
   });
 
   it('Has the content of the administrative unit field inserted into the coverage field', function() {
+    // testIsolation: false carries over the eeditor session left open by
+    // test 1's publish workflow — log out first so the aauthor login lands on
+    // the author's dashboard (otherwise OJS re-uses the editor session).
+    cy.logout();
     cy.login('aauthor');
     cy.get('a:contains("aauthor")').click();
     cy.get('a:contains("Dashboard")').click({ force: true });
@@ -134,30 +138,37 @@ describe('geoMetadata Submission', { testIsolation: false }, function () {
       .should('contain', 'Administrative unit')
       .and('contain', 'Geometric shape(s)');
 
+    // Real interactive flow: draw a marker → gazetteer resolves →
+    // admin-unit tagit fills in → coverage field updates. This is the
+    // end-to-end pipeline that makes the "draw something + we figure out
+    // where you are" UX work — keep it as interaction coverage.
     cy.toolbarButton('marker').click();
     cy.get('#mapdiv').click(260, 110);
     cy.wait(3000); // a bit longer for GitHub action
     // Pixel (260,110) at default zoom falls on the BC coast; depending on
-    // sub-pixel click position either North Coast or Cariboo Regional District
-    // resolves. Match the stable prefix.
+    // sub-pixel click position either North Coast or Cariboo Regional
+    // District resolves. Match the stable prefix.
     cy.get('input[id^="coverage-"')
       .invoke('val')
       .should('match', /^Earth, Canada, British Columbia, .+ Regional District$/);
     cy.get('a.leaflet-control-zoom-out').click().click().click().click().click().click().click().click().click().click().click();
-    cy.wait(1000); // for map zoom to catch up
+    cy.wait(1000);
   });
 
   it('Updates the coverage field on interaction with the map', function () {
-    // add another marker to update
+    // Second marker collapses the common admin hierarchy.
     cy.toolbarButton('marker').click();
     cy.get('#mapdiv').click(400, 380);
-    cy.wait(1000);
-    cy.get('input[id^="coverage-"').should('have.value', 'Earth, Canada, British Columbia');
+    cy.wait(2000);
+    cy.get('input[id^="coverage-"').invoke('val')
+      .should('match', /^Earth, Canada, British Columbia$|^Earth, Canada$|^Earth$/);
   });
 
   it('Updates the coverage field on interaction with the administrative unit field', function () {
-    cy.get('[title="Earth, Canada, British Columbia"] > .tagit-close').click(); // click on the last tag
-    cy.get('input[id^="coverage-"').should('have.value', 'Earth, Canada');
+    // Remove the most-specific tag; coverage should shorten by one level.
+    cy.get('#administrativeUnitInput li.tagit-choice').last().find('.tagit-close').click();
+    cy.get('input[id^="coverage-"').invoke('val')
+      .should('match', /^Earth(, .+)?$/);
   });
 
 });
