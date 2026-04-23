@@ -96,7 +96,7 @@ describe('geoMetadata Locales', function () {
     cy.wait(2000);
     cy.get('button.submitFormButton').click();
     cy.wait(2000);
-    cy.contains('#submitStep3Form', /Lieu\(x\) ou la\(les\) zone\(s\)/);
+    cy.contains('#submitStep3Form', /Lieu\(x\) ou zone\(s\)/);
 
     // home page
     cy.visit('/');

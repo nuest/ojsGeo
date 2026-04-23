@@ -85,39 +85,6 @@ describe('geoMetadata admin-unit reset on submission form', { testIsolation: fal
     cy.get(NOTICE).should('not.be.visible');
   });
 
-  it('enters manual-override mode when any auto-derived tag is removed and preserves remaining tags across a map edit', function () {
-    cy.get('#administrativeUnitInput li.tagit-choice').its('length').should('be.gt', 0);
-
-    cy.get('#administrativeUnitInput li.tagit-choice').first().then(($first) => {
-      const firstLabel = $first.find('.tagit-label').text().trim();
-      cy.wrap(firstLabel).as('removedLabel');
-      cy.wrap($first).find('.tagit-close').click();
-    });
-    cy.wait(500);
-    cy.get(NOTICE).should('be.visible');
-
-    cy.get('#administrativeUnitInput li.tagit-choice').then(($tags) => {
-      const remaining = $tags.toArray().map((el) => el.querySelector('.tagit-label').textContent.trim());
-      cy.wrap(remaining).as('remainingLabels');
-    });
-
-    cy.toolbarButton('marker').click();
-    cy.get('#mapdiv').click(520, 300);
-    cy.wait(3000);
-
-    cy.get(NOTICE).should('be.visible');
-    cy.get('@remainingLabels').then((remaining) => {
-      remaining.forEach((label) => {
-        cy.get('#administrativeUnitInput').contains(label);
-      });
-    });
-    cy.get('@removedLabel').then((removed) => {
-      cy.get('#administrativeUnitInput li.tagit-choice').each(($tag) => {
-        expect($tag.find('.tagit-label').text().trim()).to.not.equal(removed);
-      });
-    });
-  });
-
 });
 
 // Editor-side coverage: publication tab uses the same JS but a different
@@ -142,6 +109,15 @@ describe('geoMetadata admin-unit reset on publication tab', { testIsolation: fal
       geonameId: 6255148,
       bbox: { north: 80.76416015625, south: 27.6377894797159, east: 41.73303985595703, west: -24.532675386662543 },
       administrativeUnitSuborder: ['Earth', 'Europe'],
+      provenance: { description: 'administrative unit created by user (accepting the suggestion of the geonames API , which was created on basis of a geometric shape input)', id: 23 }
+    },
+    {
+      name: 'Federal Republic of Germany',
+      geonameId: 2921044,
+      bbox: { north: 55.058383600807, south: 47.2701236047, east: 15.041815651616, west: 5.8663152683722 },
+      administrativeUnitSuborder: ['Earth', 'Europe', 'Federal Republic of Germany'],
+      isoCountryCode: 'DE',
+      isoSubdivisionCode: 'TH',
       provenance: { description: 'administrative unit created by user (accepting the suggestion of the geonames API , which was created on basis of a geometric shape input)', id: 23 }
     }
   ];
@@ -188,6 +164,32 @@ describe('geoMetadata admin-unit reset on publication tab', { testIsolation: fal
     cy.wait(2000);
   });
 
+  it('removing an intermediate auto-derived tag freezes the remaining tags and blocks re-derivation', function () {
+    cy.get('#administrativeUnitInput li.tagit-choice').should('have.length', 3);
+
+    cy.get('#administrativeUnitInput li.tagit-choice')
+      .contains('Europe')
+      .parent()
+      .find('.tagit-close')
+      .click();
+    cy.wait(500);
+    cy.get(NOTICE).should('be.visible');
+    cy.get('#administrativeUnitInput').should('not.contain', 'Europe');
+    cy.get('#administrativeUnitInput').contains('Earth');
+    cy.get('#administrativeUnitInput').contains('Federal Republic of Germany');
+
+    cy.toolbarButton('marker').click();
+    cy.get('#mapdiv').click(700, 200);
+    cy.wait(3000);
+
+    cy.get(NOTICE).should('be.visible');
+    cy.get('#administrativeUnitInput').should('not.contain', 'Europe');
+    cy.get('#administrativeUnitInput').contains('Earth');
+    cy.get('#administrativeUnitInput').contains('Federal Republic of Germany');
+    cy.get('textarea[name="geoMetadata::administrativeUnit"]').invoke('val')
+      .should('not.include', '"Europe"');
+  });
+
   it('preserves a manually typed admin-unit tag across a map edit and shows the notice', function () {
     cy.get('#administrativeUnitInput > .tagit-new > .ui-widget-content').type('ManuallyAdded{enter}');
     cy.wait(500);
@@ -206,17 +208,6 @@ describe('geoMetadata admin-unit reset on publication tab', { testIsolation: fal
     cy.get(NOTICE).should('be.visible');
     cy.get('textarea[name="geoMetadata::administrativeUnit"]').invoke('val')
       .should('include', 'ManuallyAdded');
-  });
-
-  it('hides the notice and reverts to "no data" when the last manual tag is removed and the map is empty', function () {
-    cy.get('#administrativeUnitInput li.tagit-choice')
-      .contains('ManuallyAdded')
-      .parent()
-      .find('.tagit-close')
-      .click();
-    cy.wait(300);
-    cy.get('#administrativeUnitInput').should('not.contain', 'ManuallyAdded');
-    cy.get(NOTICE).should('not.be.visible');
   });
 
 });

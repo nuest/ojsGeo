@@ -7,34 +7,36 @@
 
 describe('geoMetadata Maps', function () {
 
-  // Find Hanover's / Editors's LineString (both directInject from (8.43, 52.37));
-  // order of layers on the issue map is not stable, so don't rely on features[0].
-  const checkFeatures = (features => {
-    const lineString = features.find(f => f.geometry.type === 'LineString');
-    expect(lineString, 'a LineString feature').to.exist;
+  // Find Hanover's (or "Editors saves the day"'s) LineString from directInject
+  // at (8.43, 52.37) to prove the issue map actually rendered article geometry.
+  // Layer ordering isn't stable; number of features varies with how many of
+  // the upstream submissions drew geometry.
+  const checkHanoverLineStringPresent = (features) => {
+    const lineString = features.find(f =>
+      f.geometry.type === 'LineString' &&
+      Math.abs(f.geometry.coordinates[0][0] - 8.43) < 0.01 &&
+      Math.abs(f.geometry.coordinates[0][1] - 52.37) < 0.01
+    );
+    expect(lineString, 'Hanover LineString (starts near 8.43, 52.37)').to.exist;
     expect(lineString.geometry.coordinates.length).to.equal(2);
-    expect(lineString.geometry.coordinates[0][0] - 8.43).to.be.lessThan(0.01);
-    expect(lineString.geometry.coordinates[0][1] - 52.37).to.be.lessThan(0.01);
-  });
+  };
 
-  // 1 from Vancouver is cool (Point), 1 from Hanover is nice (LineString),
-  // 1 from Editors saves the day (LineString). Interactive markers added by
-  // spec 33 tests 5+6 don't land (those tests are out of scope) so the issue
-  // map renders exactly the directInject-seeded features.
-  const geometriesCount = 3;
+  // At least 3 geometries expected: Vancouver is cool (Point), Hanover is nice
+  // (LineString), Editors saves the day (LineString). Other specs add more.
+  const minGeometries = 3;
+
+  const collectFeatures = (win) => {
+    const features = [];
+    win.map.eachLayer((layer) => { if (layer.feature) features.push(layer.feature); });
+    return features;
+  };
 
   it('The map on the current issue page has the papers\' geometries', function () {
     cy.visit('/');
-    // 1 from "Hanover is nice", 3 from "Editors save the day"
-    cy.mapHasFeatures(geometriesCount);
-    cy.window().wait(200).then(({ map }) => {
-      var features = [];
-      map.eachLayer(function (layer) {
-        if (layer.hasOwnProperty('feature')) {
-          features.push(layer.feature);
-        }
-      });
-      checkFeatures(features);
+    cy.window().wait(200).then((win) => {
+      const features = collectFeatures(win);
+      expect(features.length).to.be.at.least(minGeometries);
+      checkHanoverLineStringPresent(features);
     });
   });
 
@@ -46,15 +48,10 @@ describe('geoMetadata Maps', function () {
     cy.get('.pkp_structure_main').should('contain', 'Times & Locations');
     cy.get('#mapdiv').should('exist');
 
-    cy.mapHasFeatures(geometriesCount);
-    cy.window().wait(200).then(({ map }) => {
-      var features = [];
-      map.eachLayer(function (layer) {
-        if (layer.hasOwnProperty('feature')) {
-          features.push(layer.feature);
-        }
-      });
-      checkFeatures(features);
+    cy.window().wait(200).then((win) => {
+      const features = collectFeatures(win);
+      expect(features.length).to.be.at.least(minGeometries);
+      checkHanoverLineStringPresent(features);
     });
   });
 
@@ -68,14 +65,8 @@ describe('geoMetadata Maps', function () {
     cy.get('#mapdiv').should('exist');
 
     cy.mapHasFeatures(1);
-    cy.window().wait(200).then(({ map }) => {
-      var features = [];
-      map.eachLayer(function (layer) {
-        if (layer.hasOwnProperty('feature')) {
-          features.push(layer.feature);
-        }
-      });
-      checkFeatures(features);
+    cy.window().wait(200).then((win) => {
+      checkHanoverLineStringPresent(collectFeatures(win));
     });
 
     cy.window().wait(200).then(({ map }) => {

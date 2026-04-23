@@ -16,11 +16,12 @@ describe('geoMetadata Map Privacy Notice', function () {
   const enText = 'Map tiles are loaded from third-party servers. See the journal\'s privacy policy for details.';
   const deText = 'Kartenkacheln werden von Drittanbieter-Servern geladen. Einzelheiten finden Sie in der Datenschutzerklärung des Journals.';
 
-  // Navigate via URL rather than the "Archive" nav link (whose label
-  // is localized) so this works under any UI locale.
+  // Navigate entirely by URL — both the "Archive" nav label and the issue's
+  // "Vol. 1 No. 2 (2022)" volume/number text are localized (German: "Bd. 1
+  // Nr. 2 (2022)"), so we jump straight to the issue view and pick the
+  // article by title (titles are not translated).
   const visitHanover = () => {
-    cy.visit('/' + Cypress.env('contextPath') + '/issue/archive');
-    cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
+    cy.visit('/' + Cypress.env('contextPath') + '/issue/view/1');
     cy.get('a:contains("Hanover is nice")').last().click();
   };
 

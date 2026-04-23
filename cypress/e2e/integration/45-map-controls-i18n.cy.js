@@ -69,10 +69,11 @@ describe('geoMetadata Map Controls — en_US strings + no JS errors on map pages
     cy.get('#mapdiv .leaflet-control-geocoder-form input')
       .should('have.attr', 'placeholder', 'Search');
 
-    // Layer switcher overlays — article_details.js uses articleLayerName + adminLayerName
+    // Layer switcher overlays — article_details.js uses articleLayerName +
+    // adminLayerName from the locale file (plugins.generic.geoMetadata.map.*).
     cy.get('#mapdiv .leaflet-control-layers-overlays label')
-      .should('contain', 'Article spatial properties')
-      .and('contain', 'Administrative units');
+      .should('contain', 'Articles')
+      .and('contain', 'Administrative Units');
   });
 
   it('geoMetadata_drawLocal parses cleanly and contains every nested string', function () {

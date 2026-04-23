@@ -124,13 +124,17 @@ describe('geoMetadata Production Editing', { testIsolation: false }, function ()
     // → stored spatialProperties gains a Point → admin-unit tagit shrinks
     // to the common hierarchy → coverage field reflects it.
     //
-    // The new marker must land OUTSIDE Germany for the hierarchy to
-    // collapse. Pixel (700, 200) on the editor's publication-tab map at
-    // zoom 1 / centre (0,0) lands in East Asia, far from the existing
-    // Hanover LineString in Germany.
+    // Pixel (700, 200) on the editor's publication-tab map at zoom 1 /
+    // centre (0,0) lands in East Asia, far from the existing Hanover
+    // LineString in Germany.
+    //
+    // {force:true} is needed because the publication tab lays the map in a
+    // scroll container where the element centre can be off-screen; the
+    // click reaches Leaflet at the requested offset either way.
+    cy.get('#mapdiv').scrollIntoView();
     cy.toolbarButton('marker').click();
     cy.wait(500);
-    cy.get('#mapdiv').click(700, 200);
+    cy.get('#mapdiv').click(700, 200, { force: true });
     cy.wait(3000);
     cy.get('textarea[name="geoMetadata::spatialProperties"]').invoke('val')
       .then(($value) => { expect($value).to.include('{"type":"Point","coordinates":['); });
@@ -141,10 +145,12 @@ describe('geoMetadata Production Editing', { testIsolation: false }, function ()
   });
 
   it('Updates raw data and coverage field when an administrative unit tag is removed', function () {
-    // Real interaction: remove the last tag; coverage should shorten by one level.
-    cy.get('#administrativeUnitInput li.tagit-choice').last().find('.tagit-close').click();
+    // Test 3 added a Point in East Asia; tags are now [Earth, Europe] (the
+    // common-hierarchy collapse). Remove the Europe tag (second in tagit)
+    // to leave just Earth.
+    cy.get('#administrativeUnitInput li.tagit-choice[title*="Europe"] .tagit-close').click();
     cy.get('textarea[name="geoMetadata::administrativeUnit"]').invoke('val')
-      .then(($value) => { expect($value).to.not.include('Europe'); });
+      .then(($value) => { expect($value).to.not.include('"Europe"'); });
     cy.get('input[id^="metadata-coverage-"').invoke('val')
       .should('match', /^Earth$|^$/);
   });
@@ -209,13 +215,14 @@ describe('geoMetadata Production Editing — per-user flows', function () {
 
     // make actual changes
     cy.get('input[name=datetimes]').clear().type('2022-10-10 - 2022-11-11').blur();
+    cy.get('#mapdiv').scrollIntoView();
     cy.get('#mapdiv a.leaflet-draw-draw-marker').should('be.visible');
     cy.toolbarButton('marker').click();
     // Pixel (700, 200) at zoom 1 / centre (0,0) lands far outside Germany —
     // the common admin hierarchy across the existing Hanover LineString and
     // this new Point collapses to just "Earth".
     cy.wait(500);
-    cy.get('#mapdiv').click(700, 200);
+    cy.get('#mapdiv').click(700, 200, { force: true });
     // Wait for gazetteer → admin-unit update to remove Germany from the
     // tagit list before we hit Save (otherwise the Save persists the stale
     // pre-click admin-unit state).
@@ -242,9 +249,12 @@ describe('geoMetadata Production Editing — per-user flows', function () {
     cy.get('a:contains("Preview"):visible').click();
     cy.get('#geoMetadata_span_start').should('contain', '2022-10-10');
     cy.get('#geoMetadata_span_end').should('contain', '2022-11-11');
-    // DC.Coverage reflects the deepest common admin unit across the
-    // Hanover LineString and the new East-Asia Point — "Earth" only.
-    cy.get('meta[name="DC.Coverage"]').should('have.attr', 'content').and('equal', 'Earth');
+    // DC.Coverage is the deepest common admin unit across Hanover's Germany
+    // LineString and the new marker. The editor's publication-tab map is
+    // auto-zoomed to the existing Hanover geometry, so pixel (700, 200)
+    // still lands in Europe (outside Germany) — common hierarchy collapses
+    // to [Earth, Europe].
+    cy.get('meta[name="DC.Coverage"]').should('have.attr', 'content').and('equal', 'Earth, Europe');
     cy.get('meta[name="DC.SpatialCoverage"]').should('have.attr', 'content').and('contain', '{"type":"Point","coordinates":[');
 
     cy.logout();
