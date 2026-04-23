@@ -192,13 +192,28 @@ Both configs (docker `ojs_dump` on 3307 and native `ojs_geometadata_330` on 3306
 
 **Recommended path for this plugin**: the `cypress/docker-compose-mysql.yml` stack above is the path of least resistance — it bind-mounts `../` (this plugin's root) into the running OJS container at `/var/www/html/plugins/generic/geoMetadata`, so edits are live without any further wiring. OJS runs at http://localhost:8080 and the first run goes through the web installer (DB host `db`, user `ojs`, password `ojs`, database `ojs`, driver `mysqli` — values in `cypress/.env`). Default admin credentials after install are `admin`/`admin` (per the Makefile comment).
 
+### Changelog (mandatory)
+
+**Every user-visible change must be recorded in `CHANGELOG.md` in the same commit that introduces it.** Code changes without a corresponding changelog entry are incomplete — do not open a PR or ask the user to commit until the changelog is updated. The only exemptions are changes with zero user-visible effect: internal refactors, dev-tooling tweaks, CLAUDE.md edits, test-only changes that don't shift behaviour, comment/formatting changes.
+
+The file follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/). The rules that matter:
+
+- **Append to the `## [X.Y.Z.Z] - unreleased` section at the top.** If no unreleased section exists, create one for the next version. Do not edit past release sections — they are frozen history.
+- **Group entries under the standard category headings**, in this order: `### Added`, `### Changed`, `### Deprecated`, `### Removed`, `### Fixed`, `### Security`. Omit categories that have no entries. Pick the category that matches the change's effect on users, not the implementation kind.
+- **Fence every heading with blank lines on both sides** — a blank line before and after each `##` version heading and each `###` category heading, including between a heading and the first bullet underneath it.
+- **Reverse chronological order between versions** (newest on top). Within a category, order is not strict — group related entries together.
+- **One bullet per change, written for humans.** State what changed from the user's perspective, not the implementation. Link the tracking issue(s) as `[#NN](https://github.com/TIBHannover/geoMetadata/issues/NN)` whenever one exists — if a change has no issue, the entry still goes in without a link rather than being skipped.
+- **Don't dump commit messages.** Multiple commits that together deliver one user-visible change get one entry. Internal churn (fix-up commits, rebases, merge commits) is invisible here.
+- **On release**: rename `## [X.Y.Z.Z] - unreleased` to `## [X.Y.Z.Z] - YYYY-MM-DD` with the tag date, then open a fresh unreleased section above it for the next cycle.
+
 ### Release Process
 
 1. Update version in `version.xml`
 2. Run `composer update` and `composer install`
-3. Create git tag: `git tag -a vX.X.X.X-beta -m "release vX.X.X.X-beta"`
-4. Push tag: `git push origin tag vX.X.X.X-beta`
-5. Create release archives excluding development files
+3. Finalise `CHANGELOG.md`: rename the `unreleased` section to `## [X.Y.Z.Z] - YYYY-MM-DD`
+4. Create git tag: `git tag -a vX.X.X.X-beta -m "release vX.X.X.X-beta"`
+5. Push tag: `git push origin tag vX.X.X.X-beta`
+6. Create release archives excluding development files
 
 ## Plugin Integration
 
