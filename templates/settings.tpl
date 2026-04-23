@@ -10,9 +10,41 @@
     <!-- Always add the csrf token to secure your form -->
     {csrf}
 
-    {fbvFormArea id="geoMetadataSettingsArea"}
-
-    {fbvFormSection title="plugins.generic.geoMetadata.settings.section.frontend" list=true}
+    {fbvFormArea id="geoMetadataSettingsArticlePage" title="plugins.generic.geoMetadata.settings.section.articlePage"}
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.section.articlePage.intro"}
+    </p>
+    {fbvFormSection list=true}
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.showArticleMap.description"}
+        {fbvElement
+        type="checkbox"
+        id="geoMetadata_showArticleMap"
+        value="1"
+        checked=$geoMetadata_showArticleMap
+        label="plugins.generic.geoMetadata.settings.showArticleMap"
+        }
+    </p>
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.showArticleTemporal.description"}
+        {fbvElement
+        type="checkbox"
+        id="geoMetadata_showArticleTemporal"
+        value="1"
+        checked=$geoMetadata_showArticleTemporal
+        label="plugins.generic.geoMetadata.settings.showArticleTemporal"
+        }
+    </p>
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.showArticleAdminUnit.description"}
+        {fbvElement
+        type="checkbox"
+        id="geoMetadata_showArticleAdminUnit"
+        value="1"
+        checked=$geoMetadata_showArticleAdminUnit
+        label="plugins.generic.geoMetadata.settings.showArticleAdminUnit"
+        }
+    </p>
     <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
         {translate key="plugins.generic.geoMetadata.settings.showDownloadSidebar.description"}
         {fbvElement
@@ -24,8 +56,41 @@
         }
     </p>
     {/fbvFormSection}
+    {/fbvFormArea}
 
-    {fbvFormSection title="plugins.generic.geoMetadata.settings.section.maps" list=true}
+    {fbvFormArea id="geoMetadataSettingsIssueAndJournal" title="plugins.generic.geoMetadata.settings.section.issueAndJournal"}
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.section.issueAndJournal.intro"}
+    </p>
+    {fbvFormSection list=true}
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.showIssueMap.description"}
+        {fbvElement
+        type="checkbox"
+        id="geoMetadata_showIssueMap"
+        value="1"
+        checked=$geoMetadata_showIssueMap
+        label="plugins.generic.geoMetadata.settings.showIssueMap"
+        }
+    </p>
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.showJournalMap.description"}
+        {fbvElement
+        type="checkbox"
+        id="geoMetadata_showJournalMap"
+        value="1"
+        checked=$geoMetadata_showJournalMap
+        label="plugins.generic.geoMetadata.settings.showJournalMap"
+        }
+    </p>
+    {/fbvFormSection}
+    {/fbvFormArea}
+
+    {fbvFormArea id="geoMetadataSettingsServices" title="plugins.generic.geoMetadata.settings.section.services"}
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.section.services.intro"}
+    </p>
+    {fbvFormSection list=true}
     <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
         {translate key="plugins.generic.geoMetadata.settings.showEsriBaseLayer.description"}
         {fbvElement
@@ -63,8 +128,13 @@
     {rdelim})();
     </script>
     {/fbvFormSection}
+    {/fbvFormArea}
 
-    {fbvFormSection title="plugins.generic.geoMetadata.settings.section.accounts" list=true}
+    {fbvFormArea id="geoMetadataSettingsAccounts" title="plugins.generic.geoMetadata.settings.section.accounts"}
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.section.accounts.intro"}
+    </p>
+    {fbvFormSection list=true}
     <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
         {translate key="plugins.generic.geoMetadata.settings.usernameGeonames.description"}
         {fbvElement
@@ -84,7 +154,7 @@
         }
     </p>
     {/fbvFormSection}
-
     {/fbvFormArea}
+
     {fbvFormButtons submitText="common.save"}
 </form>

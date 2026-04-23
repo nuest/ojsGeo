@@ -80,11 +80,17 @@ msgstr "Basis-URL von GeoNames, um zwischen 'http' und 'https' zu wechseln."
 msgid "plugins.generic.geoMetadata.settings.baseurlGeonames.description"
 msgstr "Geben Sie hier in Abhängigkeit zu Ihrem Setup die passende GeoNames Base URL ein. Diese ist voraussichtlich eine der folgenden: <code>http://api.geonames.org</code>, <code>https://www.geonames.org</code>, oder <code>https://secure.geonames.org</code>. Wenn Sie das Plugin lokal testen sollten Sie <code>http://api.geonames.org</code> nutzen, der sichere und CORS-valide GeoNames endpoint ist <code>https://secure.geonames.org</code>. Weitere Informationen sind verfügbar unter <a href=\"https://www.geonames.org/export/web-services.html\">https://www.geonames.org/export/web-services.html</a>."
 
-msgid "plugins.generic.geoMetadata.settings.section.frontend"
-msgstr "Frontend"
+msgid "plugins.generic.geoMetadata.settings.section.articlePage"
+msgstr "Artikelseite"
+
+msgid "plugins.generic.geoMetadata.settings.section.articlePage.intro"
+msgstr "Steuern Sie, welche Blöcke das Plugin auf der Artikelseite hinzufügt."
 
 msgid "plugins.generic.geoMetadata.settings.section.accounts"
 msgstr "Konten"
+
+msgid "plugins.generic.geoMetadata.settings.section.accounts.intro"
+msgstr "Zugangsdaten für externe Dienste, die das Plugin aufruft."
 
 msgid "plugins.generic.geoMetadata.settings.showDownloadSidebar"
 msgstr "GeoJSON-Download in der Artikel-Seitenleiste anzeigen."
@@ -92,8 +98,47 @@ msgstr "GeoJSON-Download in der Artikel-Seitenleiste anzeigen."
 msgid "plugins.generic.geoMetadata.settings.showDownloadSidebar.description"
 msgstr "Wenn aktiviert, enthält die Seitenleiste der Artikelseite einen Bereich, in dem die räumlichen Metadaten des Artikels als GeoJSON-Datei heruntergeladen werden können, zusammen mit einem Link zu Informationen über das GeoJSON-Format sowie der Metadaten-Lizenz."
 
-msgid "plugins.generic.geoMetadata.settings.section.maps"
-msgstr "Karten"
+msgid "plugins.generic.geoMetadata.settings.showArticleMap"
+msgstr "Interaktive Karte auf der Artikelseite anzeigen."
+
+msgid "plugins.generic.geoMetadata.settings.showArticleMap.description"
+msgstr "Wenn aktiviert, enthält die Artikelseite eine interaktive Leaflet-Karte, welche die Geometrie des Artikels und die Bounding Box der Verwaltungseinheit darstellt. Deaktivieren Sie diese Option, um nur die textuellen Metadaten (zeitlich und administrativ) ohne die Karte darzustellen."
+
+msgid "plugins.generic.geoMetadata.settings.showArticleTemporal"
+msgstr "Zeitliche Abdeckung auf der Artikelseite anzeigen."
+
+msgid "plugins.generic.geoMetadata.settings.showArticleTemporal.description"
+msgstr "Wenn aktiviert, zeigt die Artikelseite den ISO-8601-Zeitraum an, den der Artikelinhalt abdeckt. Deaktivieren Sie diese Option, um diesen Abschnitt auch dann wegzulassen, wenn zeitliche Metadaten hinterlegt sind."
+
+msgid "plugins.generic.geoMetadata.settings.showArticleAdminUnit"
+msgstr "Verwaltungseinheiten auf der Artikelseite anzeigen."
+
+msgid "plugins.generic.geoMetadata.settings.showArticleAdminUnit.description"
+msgstr "Wenn aktiviert, listet die Artikelseite die Verwaltungseinheiten (Land, Region, …) auf, die die im Artikel behandelten Orte umschließen, in hierarchischer Reihenfolge. Deaktivieren Sie diese Option, um diesen Abschnitt wegzulassen."
+
+msgid "plugins.generic.geoMetadata.settings.section.issueAndJournal"
+msgstr "Ausgaben- und Journalseiten"
+
+msgid "plugins.generic.geoMetadata.settings.section.issueAndJournal.intro"
+msgstr "Aktivieren oder deaktivieren Sie die aggregierten Kartenansichten, die das Plugin in Ausgaben-Inhaltsverzeichnissen und auf der Journalweiten Kartenseite einfügt."
+
+msgid "plugins.generic.geoMetadata.settings.showIssueMap"
+msgstr "Aggregierte Karte im Inhaltsverzeichnis jeder Ausgabe anzeigen."
+
+msgid "plugins.generic.geoMetadata.settings.showIssueMap.description"
+msgstr "Wenn aktiviert, enthält das Inhaltsverzeichnis einer Ausgabe eine interaktive Karte, die die räumlichen Metadaten aller Artikel in der Ausgabe zusammenführt. Wenn deaktiviert, wird die Ausgabenkarte auch dann nicht gerendert, wenn Artikel räumliche Daten enthalten. Erfordert den Hook Templates::Issue::TOC::Main in issue_toc.tpl (siehe README)."
+
+msgid "plugins.generic.geoMetadata.settings.showJournalMap"
+msgstr "Journal-weite Kartenseite unter /map bereitstellen."
+
+msgid "plugins.generic.geoMetadata.settings.showJournalMap.description"
+msgstr "Wenn aktiviert, registriert das Plugin eine öffentliche /map-Route des Journals, welche eine interaktive Karte aller veröffentlichten Artikel mit ihren räumlichen Metadaten darstellt. Wenn deaktiviert, liefert die Route 404 und Menüverweise darauf funktionieren nicht mehr."
+
+msgid "plugins.generic.geoMetadata.settings.section.services"
+msgstr "Drittanbieterdienste"
+
+msgid "plugins.generic.geoMetadata.settings.section.services.intro"
+msgstr "Vom Plugin verwendete Drittanbieter-Kartendienste und die entsprechenden Datenschutzhinweise für Leser*innen."
 
 msgid "plugins.generic.geoMetadata.settings.showEsriBaseLayer"
 msgstr "Esri World Imagery als Hintergrundkarte auf Leser*innen-Seiten anbieten"

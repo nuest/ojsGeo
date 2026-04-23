@@ -80,11 +80,17 @@ msgstr "Base URL of GeoNames, use to switch between 'http' and 'https'."
 msgid "plugins.generic.geoMetadata.settings.baseurlGeonames.description"
 msgstr "Depending on your setup, select a suitable GeoNames Base URL. This is probably one of the following: <code>http://api.geonames.org</code>, <code>https://www.geonames.org</code>, or <code>https://secure.geonames.org</code>. If you are running the plugin locally, you should use <code>http://api.geonames.org</code>, the secure and CORS valid GeoNames endpoint is <code>https://secure.geonames.org</code>. Further instructions can be found at <a href=\"https://www.geonames.org/export/web-services.html\">https://www.geonames.org/export/web-services.html</a>."
 
-msgid "plugins.generic.geoMetadata.settings.section.frontend"
-msgstr "Frontend"
+msgid "plugins.generic.geoMetadata.settings.section.articlePage"
+msgstr "Article page"
+
+msgid "plugins.generic.geoMetadata.settings.section.articlePage.intro"
+msgstr "Toggle what the plugin adds to the article reader page."
 
 msgid "plugins.generic.geoMetadata.settings.section.accounts"
 msgstr "Accounts"
+
+msgid "plugins.generic.geoMetadata.settings.section.accounts.intro"
+msgstr "Credentials for external services the plugin calls."
 
 msgid "plugins.generic.geoMetadata.settings.showDownloadSidebar"
 msgstr "Show GeoJSON download in the article sidebar."
@@ -92,8 +98,47 @@ msgstr "Show GeoJSON download in the article sidebar."
 msgid "plugins.generic.geoMetadata.settings.showDownloadSidebar.description"
 msgstr "When enabled, the article page sidebar includes a section offering the article's geospatial metadata as a downloadable GeoJSON file, along with a link to information about the GeoJSON format and the metadata license."
 
-msgid "plugins.generic.geoMetadata.settings.section.maps"
-msgstr "Maps"
+msgid "plugins.generic.geoMetadata.settings.showArticleMap"
+msgstr "Show the interactive map on the article page."
+
+msgid "plugins.generic.geoMetadata.settings.showArticleMap.description"
+msgstr "When enabled, the article page includes an interactive Leaflet map that visualises the article's geometry and administrative unit bounding box. Disable to render only the textual metadata (temporal and administrative unit) without the map widget."
+
+msgid "plugins.generic.geoMetadata.settings.showArticleTemporal"
+msgstr "Show the temporal coverage on the article page."
+
+msgid "plugins.generic.geoMetadata.settings.showArticleTemporal.description"
+msgstr "When enabled, the article page displays the ISO 8601 time period covered by the article's content. Disable to omit this block even when temporal metadata is set."
+
+msgid "plugins.generic.geoMetadata.settings.showArticleAdminUnit"
+msgstr "Show the administrative units on the article page."
+
+msgid "plugins.generic.geoMetadata.settings.showArticleAdminUnit.description"
+msgstr "When enabled, the article page lists the administrative units (country, region, …) enclosing the article's places, in hierarchical order. Disable to omit this block."
+
+msgid "plugins.generic.geoMetadata.settings.section.issueAndJournal"
+msgstr "Issue and journal pages"
+
+msgid "plugins.generic.geoMetadata.settings.section.issueAndJournal.intro"
+msgstr "Toggle the aggregated map views that the plugin adds to issue tables of contents and to the journal-wide map page."
+
+msgid "plugins.generic.geoMetadata.settings.showIssueMap"
+msgstr "Show an aggregated map on each issue's table of contents."
+
+msgid "plugins.generic.geoMetadata.settings.showIssueMap.description"
+msgstr "When enabled, an issue's table of contents renders an interactive map combining the spatial metadata of every article in the issue. When disabled, the issue map is not rendered even when articles carry spatial data. Requires the Templates::Issue::TOC::Main hook added via issue_toc.tpl (see README)."
+
+msgid "plugins.generic.geoMetadata.settings.showJournalMap"
+msgstr "Provide the journal-wide map page at /map."
+
+msgid "plugins.generic.geoMetadata.settings.showJournalMap.description"
+msgstr "When enabled, the plugin registers a public /map route on the journal that renders an interactive map of every published article's spatial metadata. When disabled, the route returns 404 and any menu link pointing to it will break."
+
+msgid "plugins.generic.geoMetadata.settings.section.services"
+msgstr "Third-party services"
+
+msgid "plugins.generic.geoMetadata.settings.section.services.intro"
+msgstr "Third-party map services used by the plugin and the corresponding privacy information shown to readers."
 
 msgid "plugins.generic.geoMetadata.settings.showEsriBaseLayer"
 msgstr "Offer the Esri World Imagery base layer on reader-facing maps"

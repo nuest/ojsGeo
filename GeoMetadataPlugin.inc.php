@@ -49,6 +49,15 @@ class GeoMetadataPlugin extends GenericPlugin
 		'admin' => GEOMETADATA_DB_FIELD_ADMINUNIT,
 	];
 
+	/**
+	 * Boolean plugin-setting read with "never saved" = on semantics.
+	 */
+	public function isFeatureEnabled(string $key): bool
+	{
+		$value = $this->getSetting($this->getCurrentContextId(), $key);
+		return $value === null || (bool) $value;
+	}
+
 	public function register($category, $path, $mainContextId = NULL)
 	{
 		// Register the plugin even when it is not enabled
@@ -61,22 +70,25 @@ class GeoMetadataPlugin extends GenericPlugin
 		$this->templateParameters['pluginStylesheetURL'] = $request->getBaseUrl() . '/' . $this->getPluginPath() . '/css';
 		$this->templateParameters['pluginJavaScriptURL'] = $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js';
 
-		// important to check if plugin is enabled before registering the hook, cause otherwise plugin will always run no matter enabled or disabled! 
+		// important to check if plugin is enabled before registering the hook, cause otherwise plugin will always run no matter enabled or disabled!
 		if ($success && $this->getEnabled()) {
-			// custom page handler, see https://docs.pkp.sfu.ca/dev/plugin-guide/en/examples-custom-page
-			HookRegistry::register('LoadHandler', array($this, 'setPageHandler'));
+			if ($this->isFeatureEnabled('geoMetadata_showJournalMap')) {
+				// custom page handler, see https://docs.pkp.sfu.ca/dev/plugin-guide/en/examples-custom-page
+				HookRegistry::register('LoadHandler', array($this, 'setPageHandler'));
+			}
 
-			// Hooks for changing the frontent Submit an Article 3. Enter Metadata 
+			// Hooks for changing the frontent Submit an Article 3. Enter Metadata
 			HookRegistry::register('Templates::Submission::SubmissionMetadataForm::AdditionalMetadata', array($this, 'extendSubmissionMetadataFormTemplate'));
 
-			// Hooks for changing the article page 
+			// Hooks for changing the article page
 			HookRegistry::register('Templates::Article::Main', array(&$this, 'extendArticleMainTemplate'));
 			HookRegistry::register('Templates::Article::Details', array(&$this, 'extendArticleDetailsTemplate'));
 			HookRegistry::register('ArticleHandler::view', array(&$this, 'extendArticleView')); //
 
-			// Hooks for changing the issue page 
-			HookRegistry::register('Templates::Issue::TOC::Main', array(&$this, 'extendIssueTocTemplate'));
-			HookRegistry::register('Templates::Issue::Issue::Article', array(&$this, 'extendIssueTocArticleTemplate'));
+			if ($this->isFeatureEnabled('geoMetadata_showIssueMap')) {
+				HookRegistry::register('Templates::Issue::TOC::Main', array(&$this, 'extendIssueTocTemplate'));
+				HookRegistry::register('Templates::Issue::Issue::Article', array(&$this, 'extendIssueTocArticleTemplate'));
+			}
 
 			// Hook for adding a tab to the publication phase
 			HookRegistry::register('Template::Workflow::Publication', array($this, 'extendPublicationTab'));
@@ -456,16 +468,19 @@ class GeoMetadataPlugin extends GenericPlugin
 		$templateMgr = &$params[1];
 		$output = &$params[2];
 
-		$publication = $templateMgr->getTemplateVars('publication');
-		//$journal = Application::get()->getRequest()->getJournal();
+		$showMap       = $this->isFeatureEnabled('geoMetadata_showArticleMap');
+		$showTemporal  = $this->isFeatureEnabled('geoMetadata_showArticleTemporal');
+		$showAdminUnit = $this->isFeatureEnabled('geoMetadata_showArticleAdminUnit');
+		if (!$showMap && !$showTemporal && !$showAdminUnit) {
+			return false;
+		}
 
-		// get data from database 
+		$publication = $templateMgr->getTemplateVars('publication');
+
 		$temporalProperties = $publication->getData(GEOMETADATA_DB_FIELD_TIME_PERIODS);
 		$spatialProperties =  $publication->getData(GEOMETADATA_DB_FIELD_SPATIAL);
 		$administrativeUnit = $publication->getData(GEOMETADATA_DB_FIELD_ADMINUNIT);
-		//$publication->getLocalizedData('coverage', $journal->getPrimaryLocale());
 
-		// for the case that no data is available 
 		if ($temporalProperties === null || $temporalProperties === '') {
 			$temporalProperties = 'no data';
 		}
@@ -478,10 +493,12 @@ class GeoMetadataPlugin extends GenericPlugin
 			$administrativeUnit = 'no data';
 		}
 
-		//assign data as variables to the template 
 		$templateMgr->assign(GEOMETADATA_DB_FIELD_TIME_PERIODS, $temporalProperties);
 		$templateMgr->assign(GEOMETADATA_DB_FIELD_SPATIAL, $spatialProperties);
 		$templateMgr->assign(GEOMETADATA_DB_FIELD_ADMINUNIT, $administrativeUnit);
+		$templateMgr->assign('geoMetadata_showArticleMap', $showMap);
+		$templateMgr->assign('geoMetadata_showArticleTemporal', $showTemporal);
+		$templateMgr->assign('geoMetadata_showArticleAdminUnit', $showAdminUnit);
 
 		$templateMgr->assign($this->templateParameters);
 
@@ -499,11 +516,7 @@ class GeoMetadataPlugin extends GenericPlugin
 		$templateMgr = &$params[1];
 		$output = &$params[2];
 
-		// issue #55: per-journal toggle for the sidebar GeoJSON download section.
-		// Null (never saved) means "on" to preserve pre-#55 behavior on upgrade.
-		// Any other falsy value ('', '0', 0, false) means the admin turned it off.
-		$show = $this->getSetting($this->getCurrentContextId(), 'geoMetadata_showDownloadSidebar');
-		if ($show !== null && !$show) {
+		if (!$this->isFeatureEnabled('geoMetadata_showDownloadSidebar')) {
 			return false;
 		}
 

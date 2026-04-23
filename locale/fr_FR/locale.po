@@ -80,11 +80,17 @@ msgstr "URL de base des GeoNames, à utiliser pour basculer entre 'http' et 'htt
 msgid "plugins.generic.geoMetadata.settings.baseurlGeonames.description"
 msgstr "En fonction de votre configuration, sélectionnez une URL de base GeoNames appropriée. Il s'agit probablement de l'une des URL suivantes : <code>http://api.geonames.org</code>, <code>https://www.geonames.org</code>, ou <code>https://secure.geonames.org</code>. Si vous exécutez le plugin localement, vous devez utiliser <code>http://api.geonames.org</code>, le point de terminaison GeoNames sécurisé et valide CORS est <code>https://secure.geonames.org</code>. D'autres instructions peuvent être trouvées à l'adresse <a href=\"https://www.geonames.org/export/web-services.html\">https://www.geonames.org/export/web-services.html</a>."
 
-msgid "plugins.generic.geoMetadata.settings.section.frontend"
-msgstr "Interface publique"
+msgid "plugins.generic.geoMetadata.settings.section.articlePage"
+msgstr "Page de l'article"
+
+msgid "plugins.generic.geoMetadata.settings.section.articlePage.intro"
+msgstr "Choisissez ce que le plugin ajoute à la page de lecture de l'article."
 
 msgid "plugins.generic.geoMetadata.settings.section.accounts"
 msgstr "Comptes"
+
+msgid "plugins.generic.geoMetadata.settings.section.accounts.intro"
+msgstr "Identifiants pour les services externes appelés par le plugin."
 
 msgid "plugins.generic.geoMetadata.settings.showDownloadSidebar"
 msgstr "Afficher le téléchargement GeoJSON dans la barre latérale de l'article."
@@ -92,8 +98,47 @@ msgstr "Afficher le téléchargement GeoJSON dans la barre latérale de l'articl
 msgid "plugins.generic.geoMetadata.settings.showDownloadSidebar.description"
 msgstr "Lorsque cette option est activée, la barre latérale de la page de l'article contient une section permettant de télécharger les métadonnées géospatiales de l'article sous forme de fichier GeoJSON, accompagnée d'un lien vers des informations sur le format GeoJSON et la licence des métadonnées."
 
-msgid "plugins.generic.geoMetadata.settings.section.maps"
-msgstr "Cartes"
+msgid "plugins.generic.geoMetadata.settings.showArticleMap"
+msgstr "Afficher la carte interactive sur la page de l'article."
+
+msgid "plugins.generic.geoMetadata.settings.showArticleMap.description"
+msgstr "Lorsque cette option est activée, la page de l'article contient une carte Leaflet interactive qui illustre la géométrie de l'article et le cadre englobant de l'unité administrative. Désactivez pour n'afficher que les métadonnées textuelles (temporelles et administratives) sans la carte."
+
+msgid "plugins.generic.geoMetadata.settings.showArticleTemporal"
+msgstr "Afficher la couverture temporelle sur la page de l'article."
+
+msgid "plugins.generic.geoMetadata.settings.showArticleTemporal.description"
+msgstr "Lorsque cette option est activée, la page de l'article affiche la période ISO 8601 couverte par le contenu de l'article. Désactivez pour omettre ce bloc même lorsque des métadonnées temporelles sont définies."
+
+msgid "plugins.generic.geoMetadata.settings.showArticleAdminUnit"
+msgstr "Afficher les unités administratives sur la page de l'article."
+
+msgid "plugins.generic.geoMetadata.settings.showArticleAdminUnit.description"
+msgstr "Lorsque cette option est activée, la page de l'article liste les unités administratives (pays, région, …) englobant les lieux traités par l'article, dans l'ordre hiérarchique. Désactivez pour omettre ce bloc."
+
+msgid "plugins.generic.geoMetadata.settings.section.issueAndJournal"
+msgstr "Pages de numéro et de revue"
+
+msgid "plugins.generic.geoMetadata.settings.section.issueAndJournal.intro"
+msgstr "Activez ou désactivez les cartes agrégées que le plugin ajoute aux sommaires de numéro et à la page cartographique de la revue."
+
+msgid "plugins.generic.geoMetadata.settings.showIssueMap"
+msgstr "Afficher une carte agrégée dans le sommaire de chaque numéro."
+
+msgid "plugins.generic.geoMetadata.settings.showIssueMap.description"
+msgstr "Lorsque cette option est activée, le sommaire d'un numéro contient une carte interactive combinant les métadonnées spatiales de tous les articles du numéro. Lorsqu'elle est désactivée, la carte du numéro n'est pas affichée, même si les articles ont des données spatiales. Requiert le hook Templates::Issue::TOC::Main dans issue_toc.tpl (voir README)."
+
+msgid "plugins.generic.geoMetadata.settings.showJournalMap"
+msgstr "Fournir la page cartographique de la revue à /map."
+
+msgid "plugins.generic.geoMetadata.settings.showJournalMap.description"
+msgstr "Lorsque cette option est activée, le plugin enregistre une route publique /map de la revue qui affiche une carte interactive de toutes les métadonnées spatiales des articles publiés. Lorsqu'elle est désactivée, la route renvoie 404 et tout lien de menu la ciblant sera rompu."
+
+msgid "plugins.generic.geoMetadata.settings.section.services"
+msgstr "Services tiers"
+
+msgid "plugins.generic.geoMetadata.settings.section.services.intro"
+msgstr "Services cartographiques tiers utilisés par le plugin et informations de confidentialité affichées aux lecteur·ice·s."
 
 msgid "plugins.generic.geoMetadata.settings.showEsriBaseLayer"
 msgstr "Proposer la couche de fond Esri World Imagery sur les cartes publiques"

@@ -5,11 +5,43 @@
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  */
 
-describe('geoMetadata Production Editing', function () {
+// testIsolation off: tests 1→4 chain on the same open publication tab
+// (map interactions, time-period edits, tag removals). Tests 5+ handle their
+// own login and navigation, so they still work under shared-state mode.
+describe('geoMetadata Production Editing', { testIsolation: false }, function () {
 
   var submission;
   var sub1start = '2022-01-01';
   var sub1end = '2022-12-31';
+
+  // Same directInject pattern as spec 32's Hanover — pixel-click drawing
+  // at zoom-1 (0,0) cannot reach the Federal Republic of Germany admin unit
+  // this spec's assertions rely on.
+  const ADMIN_UNITS = [
+    {
+      name: 'Earth',
+      geonameId: 6295630,
+      bbox: 'not available',
+      administrativeUnitSuborder: ['Earth'],
+      provenance: { description: 'administrative unit created by user (accepting the suggestion of the geonames API , which was created on basis of a geometric shape input)', id: 23 }
+    },
+    {
+      name: 'Europe',
+      geonameId: 6255148,
+      bbox: { north: 80.76416015625, south: 27.6377894797159, east: 41.73303985595703, west: -24.532675386662543 },
+      administrativeUnitSuborder: ['Earth', 'Europe'],
+      provenance: { description: 'administrative unit created by user (accepting the suggestion of the geonames API , which was created on basis of a geometric shape input)', id: 23 }
+    },
+    {
+      name: 'Federal Republic of Germany',
+      geonameId: 2921044,
+      bbox: { north: 55.058383600807, south: 47.2701236047, east: 15.041815651616, west: 5.8663152683722 },
+      administrativeUnitSuborder: ['Earth', 'Europe', 'Federal Republic of Germany'],
+      isoCountryCode: 'DE',
+      isoSubdivisionCode: 'TH',
+      provenance: { description: 'administrative unit created by user (accepting the suggestion of the geonames API , which was created on basis of a geometric shape input)', id: 23 }
+    }
+  ];
 
   before(function () {
     submission = {
@@ -20,7 +52,23 @@ describe('geoMetadata Production Editing', function () {
       subtitle: 'Nothing without her!',
       abstract: 'The publicatin process needs editors.',
       timePeriod: sub1start + ' - ' + sub1end,
-      issue: '1'
+      issue: '1',
+      directInject: {
+        spatial: {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            properties: { provenance: { description: 'geometric shape created by user (drawing)', id: 11 } },
+            geometry: { type: 'LineString', coordinates: [[8.43, 52.37], [9.73, 52.40]] }
+          }],
+          administrativeUnits: ADMIN_UNITS,
+          temporalProperties: {
+            timePeriods: ['{' + sub1start + '..' + sub1end + '}'],
+            provenance: { description: 'temporal properties created by user', id: 31 }
+          }
+        },
+        adminUnit: ADMIN_UNITS
+      }
     };
 
     cy.login('aauthor');

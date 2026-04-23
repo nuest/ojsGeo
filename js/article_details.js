@@ -7,74 +7,73 @@
  * @brief Display spatio-temporal metadata in the article view.
  */
 
-// create map
-var map = L.map('mapdiv', { zoomControl: false });
+// Map is skipped entirely when the admin has disabled the article map block;
+// #mapdiv is then absent from the DOM and L.map() would throw.
+var geoMetadata_mapEnabled = !!document.getElementById('mapdiv');
+var map, drawnItems, administrativeUnitsMap;
 
-// translated zoom control (issue #151)
-L.control.zoom({
-    zoomInTitle:  geoMetadata_zoomInTitle,
-    zoomOutTitle: geoMetadata_zoomOutTitle
-}).addTo(map);
+if (geoMetadata_mapEnabled) {
+    map = L.map('mapdiv', { zoomControl: false });
 
-var osmlayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Map data: &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
-    maxZoom: 18
-}).addTo(map);
+    L.control.zoom({
+        zoomInTitle:  geoMetadata_zoomInTitle,
+        zoomOutTitle: geoMetadata_zoomOutTitle
+    }).addTo(map);
 
-var baseLayers = {
-    "OpenStreetMap": osmlayer
-};
-if (geoMetadata_showEsriBaseLayer) {
-    baseLayers["Esri World Imagery"] = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+    var osmlayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data: &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
         maxZoom: 18
-    });
-}
+    }).addTo(map);
 
-// add scale to the map
-L.control.scale({ position: 'bottomright' }).addTo(map);
+    var baseLayers = {
+        "OpenStreetMap": osmlayer
+    };
+    if (geoMetadata_showEsriBaseLayer) {
+        baseLayers["Esri World Imagery"] = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+            maxZoom: 18
+        });
+    }
 
-// add fullscreen control
-L.control.fullscreen({
-    position: 'topleft',
-    title: geoMetadata_fullscreenTitle,
-    titleCancel: geoMetadata_fullscreenTitleCancel
-}).addTo(map);
+    L.control.scale({ position: 'bottomright' }).addTo(map);
 
-// FeatureGroup for the items drawn or inserted by the search
-var drawnItems = new L.FeatureGroup();
-map.addLayer(drawnItems);
+    L.control.fullscreen({
+        position: 'topleft',
+        title: geoMetadata_fullscreenTitle,
+        titleCancel: geoMetadata_fullscreenTitleCancel
+    }).addTo(map);
 
-// FeatureGroup for the administrativeUnits 
-var administrativeUnitsMap = new L.FeatureGroup();
-map.addLayer(administrativeUnitsMap);
+    drawnItems = new L.FeatureGroup();
+    map.addLayer(drawnItems);
 
-var overlayMaps = {
-    [geoMetadata_articleLayerName]: drawnItems,
-    [geoMetadata_adminLayerName]: administrativeUnitsMap
-};
+    administrativeUnitsMap = new L.FeatureGroup();
+    map.addLayer(administrativeUnitsMap);
 
-// add layerControl to the map to the map 
-L.control.layers(baseLayers, overlayMaps).addTo(map);
+    var overlayMaps = {
+        [geoMetadata_articleLayerName]: drawnItems,
+        [geoMetadata_adminLayerName]: administrativeUnitsMap
+    };
 
-// add a search to the map
-var geocoder = L.Control.geocoder({
-    defaultMarkGeocode: false,
-    placeholder:  geoMetadata_geocoderPlaceholder,
-    errorMessage: geoMetadata_geocoderError,
-    iconLabel:    geoMetadata_geocoderButtonTitle
-})
-    .on('markgeocode', function (e) {
-        var bbox = e.geocode.bbox;
-        var poly = L.polygon([
-            bbox.getSouthEast(),
-            bbox.getNorthEast(),
-            bbox.getNorthWest(),
-            bbox.getSouthWest()
-        ])/*.addTo(map);*/
-        map.fitBounds(poly.getBounds());
+    L.control.layers(baseLayers, overlayMaps).addTo(map);
+
+    L.Control.geocoder({
+        defaultMarkGeocode: false,
+        placeholder:  geoMetadata_geocoderPlaceholder,
+        errorMessage: geoMetadata_geocoderError,
+        iconLabel:    geoMetadata_geocoderButtonTitle
     })
-    .addTo(map);
+        .on('markgeocode', function (e) {
+            var bbox = e.geocode.bbox;
+            var poly = L.polygon([
+                bbox.getSouthEast(),
+                bbox.getNorthEast(),
+                bbox.getNorthWest(),
+                bbox.getSouthWest()
+            ]);
+            map.fitBounds(poly.getBounds());
+        })
+        .addTo(map);
+}
 
 $(function () {
     // load spatial properties from article_details.tpl 
@@ -106,10 +105,10 @@ $(function () {
         $("#geoMetadata_article_spatial_download").hide();
         $("#mapdiv").hide();
     }
-    else {
+    else if (geoMetadata_mapEnabled) {
         /*
-        Depending on the object type, the geoJSON object is structured slightly differently, 
-        so that the coordinates are at different locations and must be queried differently. 
+        Depending on the object type, the geoJSON object is structured slightly differently,
+        so that the coordinates are at different locations and must be queried differently.
         */
         if (spatialPropertiesParsed.features[0].geometry.type === 'Polygon') {
             lngFirstCoordinateGeojson = spatialPropertiesParsed.features[0].geometry.coordinates[0][0][0];
@@ -149,8 +148,10 @@ $(function () {
 
         $("#geoMetadata_span_admnistrativeUnit").html(administrativeUnitsNameList.join(', '));
 
-        let spatialPropertiesParsed = JSON.parse(spatialProperties);
-        displayBboxOfAdministrativeUnitWithLowestCommonDenominatorOfASetOfAdministrativeUnitsGivenInAGeojson(spatialPropertiesParsed);
+        if (geoMetadata_mapEnabled) {
+            let spatialPropertiesParsed = JSON.parse(spatialProperties);
+            displayBboxOfAdministrativeUnitWithLowestCommonDenominatorOfASetOfAdministrativeUnitsGivenInAGeojson(spatialPropertiesParsed);
+        }
     }
 
     /*

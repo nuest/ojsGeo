@@ -15,7 +15,7 @@
     <section id="geoMetadata_article_geospatialmetadata" class="item geospatialmetadata">
         <h2 class="label">{translate key="plugins.generic.geoMetadata.article.metadata.long"}</h2>
 
-        {*temporal*}
+        {if $geoMetadata_showArticleTemporal}
         {capture assign="geoMetadata_temporalFrom"}<span id="geoMetadata_span_start" class="geoMetadata_timestamp"></span>{/capture}
         {capture assign="geoMetadata_temporalTo"}<span id="geoMetadata_span_end" class="geoMetadata_timestamp"></span>{/capture}
         <p id="geoMetadata_article_temporal" class="description">
@@ -24,8 +24,9 @@
                 key="plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.description.article"}</span>
             </span>
         </p>
+        {/if}
 
-        {*spatial*} {*administrativeUnit*}
+        {if $geoMetadata_showArticleMap}
         <p id="geoMetadata_article_spatial" class="description">
             {translate key="plugins.generic.geoMetadata.geospatialmetadata.properties.spatial"}&nbsp;<span class="fa fa-question-circle tooltip">
                 <span class="tooltiptext">{translate
@@ -36,7 +37,9 @@
         <p class="geoMetadata_privacyNotice description">
             {translate key="plugins.generic.geoMetadata.privacy.mapNotice"}
         </p>
+        {/if}
 
+        {if $geoMetadata_showArticleAdminUnit}
         {capture assign="geoMetadata_administrativeUnits"}<span id="geoMetadata_span_admnistrativeUnit" class="geoMetadata_coverage"></span>{/capture}
         <p id="geoMetadata_article_administrativeUnit" class="description">
             {translate key="plugins.generic.geoMetadata.geospatialmetadata.properties.administrativeUnit" units=$geoMetadata_administrativeUnits}&nbsp;<span class="fa fa-question-circle tooltip">
@@ -44,6 +47,7 @@
                 key="plugins.generic.geoMetadata.geospatialmetadata.properties.administrativeUnit.description.article"}</span>
             </span>
         </p>
+        {/if}
 
         <p class="geoMetadata_license">
             {translate key="plugins.generic.geoMetadata.license.frontend" license=$geoMetadata_metadataLicense}

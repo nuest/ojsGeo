@@ -54,8 +54,11 @@ describe('geoMetadata Fullscreen Control — localized titles (via user menu)', 
       cy.get('.pkpDropdown > .pkpButton').click();
       cy.get(`a:contains("${strings.label}")`).click();
 
-      // navigate to the homepage — current-issue map is always rendered here
-      cy.visit('/');
+      // Test against the journal map page directly — it also uses the
+      // _map_js_globals.tpl + L.control.fullscreen pipeline, is rendered by
+      // journal.js, and is reachable by URL without depending on the
+      // optional "Map" nav-menu item (README §3, not automated).
+      cy.visit('/' + Cypress.env('contextPath') + '/map');
       cy.get('#mapdiv').should('exist');
       cy.get(fsBtnSelector).as('fsBtn');
 

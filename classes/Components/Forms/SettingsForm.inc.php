@@ -35,6 +35,11 @@ class SettingsForm extends \Form
         'geoMetadata_geonames_username',
         'geoMetadata_geonames_baseurl',
         'geoMetadata_showDownloadSidebar',
+        'geoMetadata_showArticleMap',
+        'geoMetadata_showArticleTemporal',
+        'geoMetadata_showArticleAdminUnit',
+        'geoMetadata_showIssueMap',
+        'geoMetadata_showJournalMap',
         'geoMetadata_showEsriBaseLayer'
     ];
 
@@ -44,6 +49,11 @@ class SettingsForm extends \Form
      */
     private $booleanDefaultOnSettings = [
         'geoMetadata_showDownloadSidebar',
+        'geoMetadata_showArticleMap',
+        'geoMetadata_showArticleTemporal',
+        'geoMetadata_showArticleAdminUnit',
+        'geoMetadata_showIssueMap',
+        'geoMetadata_showJournalMap',
         'geoMetadata_showEsriBaseLayer'
     ];
 
