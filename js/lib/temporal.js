@@ -6,22 +6,39 @@
  *
  * @brief Shared parser and aggregator for stored time-period strings.
  *
- * Stored format is `{YYYY-MM-DD..YYYY-MM-DD}`; a value may contain multiple
- * concatenated ranges to allow future multi-period entries (issue #57).
- * Year is any integer (negative allowed for BCE, any width for deep history);
- * comparison is numeric so mixed widths sort chronologically.
+ * Stored format is `{start..end}` where each side is one of:
+ *   - bare year         e.g.  2020  or  -10000  (BCE)
+ *   - year-month        e.g.  2020-06
+ *   - full ISO date     e.g.  2020-06-15
+ * A value may contain multiple concatenated `{…}` ranges (forward-compat
+ * with #57 multi-period). Comparison is numeric so mixed widths / BCE
+ * values sort chronologically. Missing month/day in a side expand to
+ * Jan 1 for start-sides and Dec 31 for end-sides.
  */
 
 (function (global) {
-    var RANGE_RE = /\{\s*(-?\d+-\d{2}-\d{2})\s*\.\.\s*(-?\d+-\d{2}-\d{2})\s*\}/g;
-    var DATE_RE = /^(-?\d+)-(\d{2})-(\d{2})$/;
+    var BLOCK_RE = /\{([^{}]+)\}/g;
+    var DAY_RE   = /^(-?\d+)-(\d{2})-(\d{2})$/;
+    var MONTH_RE = /^(-?\d+)-(\d{2})$/;
+    var YEAR_RE  = /^(-?\d+)$/;
 
-    function parseDate(s) {
-        var m = DATE_RE.exec(s);
-        if (!m) return null;
-        var mo = +m[2], d = +m[3];
-        if (mo < 1 || mo > 12 || d < 1 || d > 31) return null;
-        return { year: +m[1], month: mo, day: d, raw: s };
+    function parseSide(s, isEnd) {
+        s = s.trim();
+        var m;
+        if ((m = DAY_RE.exec(s))) {
+            var mo = +m[2], d = +m[3];
+            if (mo < 1 || mo > 12 || d < 1 || d > 31) return null;
+            return { year: +m[1], month: mo, day: d, precision: 'day', raw: s };
+        }
+        if ((m = MONTH_RE.exec(s))) {
+            var mo2 = +m[2];
+            if (mo2 < 1 || mo2 > 12) return null;
+            return { year: +m[1], month: mo2, day: isEnd ? 31 : 1, precision: 'month', raw: s };
+        }
+        if ((m = YEAR_RE.exec(s))) {
+            return { year: +m[1], month: isEnd ? 12 : 1, day: isEnd ? 31 : 1, precision: 'year', raw: s };
+        }
+        return null;
     }
 
     function cmp(a, b) {
@@ -39,16 +56,15 @@
         if (raw == null || raw === '' || raw === 'no data') return [];
         var out = [];
         var m;
-        RANGE_RE.lastIndex = 0;
-        while ((m = RANGE_RE.exec(raw)) !== null) {
-            var startD = parseDate(m[1]);
-            var endD   = parseDate(m[2]);
-            if (!startD || !endD) {
-                warn('geoMetadata: skipped malformed time period', m[0]);
-                continue;
-            }
-            if (cmp(startD, endD) > 0) { var t = startD; startD = endD; endD = t; }
-            out.push({ start: startD.raw, end: endD.raw });
+        BLOCK_RE.lastIndex = 0;
+        while ((m = BLOCK_RE.exec(raw)) !== null) {
+            var parts = m[1].split('..');
+            if (parts.length !== 2) { warn('geoMetadata: skipped malformed time period', m[0]); continue; }
+            var s = parseSide(parts[0], false);
+            var e = parseSide(parts[1], true);
+            if (!s || !e) { warn('geoMetadata: skipped malformed time period', m[0]); continue; }
+            if (cmp(s, e) > 0) { var t = s; s = e; e = t; }
+            out.push({ start: s.raw, end: e.raw });
         }
         if (out.length === 0 && raw.length > 0 && raw !== 'no data') {
             warn('geoMetadata: no parseable time period in value', raw);
@@ -61,8 +77,8 @@
         for (var i = 0; i < rawValues.length; i++) {
             var ranges = parseTimePeriods(rawValues[i]);
             for (var j = 0; j < ranges.length; j++) {
-                var s = parseDate(ranges[j].start);
-                var e = parseDate(ranges[j].end);
+                var s = parseSide(ranges[j].start, false);
+                var e = parseSide(ranges[j].end, true);
                 if (minD === null || cmp(s, minD) < 0) minD = s;
                 if (maxD === null || cmp(e, maxD) > 0) maxD = e;
             }
@@ -72,13 +88,20 @@
     }
 
     function yearOf(s) {
-        var m = DATE_RE.exec(s);
+        var m = /^(-?\d+)(?:-|$)/.exec((s || '').trim());
         return m ? m[1] : '';
+    }
+
+    // used by the submission form for inline validation; returns true if the
+    // string is one of: -?digits, -?YYYY-MM, -?YYYY-MM-DD.
+    function validateSide(s) {
+        return parseSide(s, false) !== null;
     }
 
     global.geoMetadataTemporal = {
         parseTimePeriods: parseTimePeriods,
         aggregateRange: aggregateRange,
-        yearOf: yearOf
+        yearOf: yearOf,
+        validateSide: validateSide
     };
 })(window);

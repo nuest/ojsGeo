@@ -27,7 +27,13 @@ msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal"
 msgstr "Propriétés temporelles"
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.description.submission"
-msgstr "Définit les propriétés temporelles du contenu des articles en spécifiant les dates de début et de fin. La saisie est possible via le champ de texte ainsi que via la vue calendrier. Cliquez sur le champ de saisie situé sous ce texte pour ouvrir le calendrier. Appuyez sur \"Appliquer\" pour enregistrer les paramètres du calendrier. Appuyez sur \"Effacer\" pour supprimer les données actuelles. La saisie de texte doit respecter le format suivant et être confirmée en cliquant sur \"Appliquer\" (et non sur Entrée !) : le début et la fin sont séparés par un tiret entouré d'espaces ; les dates sont indiquées sous la forme \"AAAA-MM-JJ\", où \"AAAA\" correspond aux années, \"MM\" aux mois (avec un zéro en tête) et \"JJ\" aux jours (avec un zéro en tête). En outre, les entrées de texte telles que \"XXXX\" et \"XXXX-DD\" sont également acceptées et seront formatées en \"XXXX-01-01\" ou \"XXXX-DD-01\"."
+msgstr "Saisissez le début et la fin de la période couverte par l'article, séparés par \"..\", par exemple \"2020..2023\", \"2020-06..2023-12\" ou \"2020-06-15..2023-09-20\". Chaque côté peut indépendamment utiliser une précision à l'année, à l'année-mois ou à l'année-mois-jour. Les entiers négatifs désignent les années avant l'an 1 (par exemple \"-10000..-5000\"). Si l'article ne concerne qu'un instant précis, saisissez la même valeur pour le début et la fin, par exemple \"2026..2026\" ou \"2000-01-01..2000-01-01\". Laissez le champ vide si l'article n'a pas de référence temporelle."
+
+msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.placeholder"
+msgstr "par exemple 2020..2023"
+
+msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.error"
+msgstr "Période invalide. Saisissez deux côtés séparés par \"..\", chacun au format AAAA, AAAA-MM ou AAAA-MM-JJ (ou un entier négatif pour les années avant l'an 1)."
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.description.article"
 msgstr "Propriétés temporelles du contenu de l'article spécifié avec une résolution en jours."

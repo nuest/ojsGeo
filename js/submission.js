@@ -23,7 +23,7 @@ $(function () {
     initMap();
     createInitialGeojson();
     initAdminunits();
-    initDaterangepicker();
+    initPlainTemporalInput();
 
     // Disable the input field for Coverage Information, if it is present
     let coverageInput = $('input[id^=coverage], input[id^=metadata-coverage]');
@@ -1294,71 +1294,58 @@ function storeCreatedGeoJSONAndAdministrativeUnitInHiddenForms(drawnItems) {
 }
 
 /**
- * Function to enable the daterangepicker.
- * Furthermore data from db is loaded and displayed if available.
+ * Plain-text temporal input: user types a range directly in the stored
+ * format, e.g. "2020..2023", "2020-06-15..2023-09-20", "-10000..-5000".
+ * The visible input is mirrored verbatim into the hidden textarea wrapped
+ * in braces; empty input becomes "no data". Validation is server-side via
+ * the submissionsubmitstep3form::Constructor hook in the main plugin class
+ * — on failure OJS re-renders the form with the user's input preserved.
  */
-function initDaterangepicker() {
-    if ($('input[name="datetimes"]').length === 0) return;
-    // load temporal properties which got already stored in database from submissionMetadataFormFields.tpl
-    let timePeriods = $('textarea[name="geoMetadata::timePeriods"]').val();
+function initPlainTemporalInput() {
+    var $input = $('input[name="datetimes"]');
+    if ($input.length === 0) return;
 
-    /*
-    In case the user repeats the step "3. Enter Metadata" in the process "Submit to article" and comes back to this step to make changes again,
-    the already entered data is read from the database, added to the template and loaded here from the template and gets displayed accordingly.
-    Otherwise, the field is empty.
-    */
-    let locale = {
-        cancelLabel: 'Clear',
-        format: 'YYYY-MM-DD'
-    };
+    var $textarea = $('textarea[name="geoMetadata::timePeriods"]');
 
-    if (timePeriods !== 'no data' && timePeriods !== '') {
-        let start = timePeriods.split('{')[1].split('..')[0];
-        let end = timePeriods.split('{')[1].split('..')[1].split('}')[0];
-
-        $('input[name="datetimes"]').daterangepicker({
-            startDate: start,
-            endDate: end,
-            locale: locale, 
-            showDropdowns: true
-        });
-    } else {
-        $('input[name="datetimes"]').daterangepicker({
-            autoUpdateInput: false,
-            locale: locale,
-            showDropdowns: true
-        });
+    // Load: strip braces from stored value for display. Unbraced values
+    // (server-rejected input on re-render) are shown verbatim.
+    var stored = ($textarea.val() || '').trim();
+    if (stored && stored !== 'no data') {
+        var m = /^\{(.+)\}$/.exec(stored);
+        $input.val(m ? m[1] : stored);
     }
 
-    $('input[name="datetimes"]').on('apply.daterangepicker', function (ev, picker) {
-        $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
+    function syncTemporal(raw) {
+        // "2020-01-01 - 2020-12-31" → "2020-01-01..2020-12-31": accepted as an
+        // alternate separator since that is what the removed daterangepicker
+        // used to render, and copy-paste from the old UI should keep working.
+        if (raw.indexOf('..') === -1) {
+            var m = raw.match(/^(.+?)\s+-\s+(.+)$/);
+            if (m) raw = m[1] + '..' + m[2];
+        }
+        var stored = (raw === '') ? 'no data' : '{' + raw + '}';
+        updateVueElement('textarea[name="geoMetadata::timePeriods"]', stored);
 
-        // https://www.loc.gov/standards/datetime/ defines inclusive list of datest as {1800..1880,2000..2020}
-        var timePeriods = '{' + picker.startDate.format('YYYY-MM-DD') + '..' + picker.endDate.format('YYYY-MM-DD') + '}';
-        updateVueElement('textarea[name="geoMetadata::timePeriods"]', timePeriods);
+        var spatialRaw = $('textarea[name="geoMetadata::spatialProperties"]').val();
+        if (!spatialRaw) return;
+        try {
+            var geojson = JSON.parse(spatialRaw);
+            geojson.temporalProperties = geojson.temporalProperties || {};
+            if (raw === '') {
+                geojson.temporalProperties.timePeriods = [];
+                geojson.temporalProperties.provenance = { description: 'not available', id: 'not available' };
+            } else {
+                geojson.temporalProperties.timePeriods = [raw];
+                geojson.temporalProperties.provenance = { description: 'temporal properties created by user', id: 31 };
+            }
+            updateVueElement('textarea[name="geoMetadata::spatialProperties"]', JSON.stringify(geojson));
+        } catch (e) { /* spatial not yet initialized — ignore */ }
+    }
 
-        // the geojson is updated accordingly
-        var geojson = JSON.parse($('textarea[name="geoMetadata::spatialProperties"]').val());
-        geojson.temporalProperties.timePeriods = [
-            picker.startDate.format('YYYY-MM-DD') + '..' + picker.endDate.format('YYYY-MM-DD')
-        ];
-        geojson.temporalProperties.provenance.description = "temporal properties created by user";
-        geojson.temporalProperties.provenance.id = 31;
-        updateVueElement('textarea[name="geoMetadata::spatialProperties"]', JSON.stringify(geojson));
+    $input.on('change blur input', function () {
+        syncTemporal(($input.val() || '').trim());
     });
-
-    $('input[name="datetimes"]').on('cancel.daterangepicker', function (ev, picker) {
-        $(this).val('');
-        updateVueElement('textarea[name="geoMetadata::timePeriods"]', 'no data');
-
-        // the geojson is updated accordingly
-        var geojson = JSON.parse($('textarea[name="geoMetadata::spatialProperties"]').val());
-        geojson.temporalProperties.timePeriods = [];
-        geojson.temporalProperties.provenance.description = 'not available';
-        geojson.temporalProperties.provenance.id = 'not available';
-        updateVueElement('textarea[name="geoMetadata::spatialProperties"]', JSON.stringify(geojson));
-    });
-};
+}
 
 // https://api.jquery.com/val/#val
 $.valHooks.textarea = {

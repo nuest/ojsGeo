@@ -14,8 +14,6 @@ $cwd = getcwd() . '/js/lib'; // IMPORTANT!
 
 # list of download URLs and files that need to be kept
 $keep_files = [
-    $cwd . '/daterangepicker/daterangepicker.css',
-    $cwd . '/daterangepicker/daterangepicker.js',
     $cwd . '/leaflet/dist/leaflet.css',
     $cwd . '/leaflet/dist/leaflet.js',
     $cwd . '/leaflet/dist/leaflet.js.map',
@@ -40,7 +38,6 @@ $keep_files = [
     $cwd . '/leaflet.fullscreen/Control.FullScreen.css',
     $cwd . '/leaflet.fullscreen/Control.FullScreen.js',
     $cwd . '/leaflet.fullscreen/icon-fullscreen.svg',
-    $cwd . '/moment/moment.js',
     $cwd . '/leaflet-color-markers/img/marker-icon-2x-red.png',
     $cwd . '/leaflet-color-markers/img/marker-icon-2x-blue.png',
     $cwd . '/leaflet-color-markers/img/marker-shadow.png',

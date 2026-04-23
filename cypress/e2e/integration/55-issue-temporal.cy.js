@@ -130,6 +130,37 @@ describe('geoMetadata Issue Temporal Summary', function () {
     });
   });
 
+  it('accepts YYYY and YYYY-MM precisions on either side of a range', function () {
+    cy.visit(issuePath);
+    cy.window().then(win => {
+      const T = win.geoMetadataTemporal;
+
+      // Each precision round-trips verbatim (raw preserved).
+      expect(T.parseTimePeriods('{2020..2023}'))
+        .to.deep.equal([{ start: '2020', end: '2023' }]);
+      expect(T.parseTimePeriods('{2020-06..2023-12}'))
+        .to.deep.equal([{ start: '2020-06', end: '2023-12' }]);
+      expect(T.parseTimePeriods('{2020-06-15..2023-09-20}'))
+        .to.deep.equal([{ start: '2020-06-15', end: '2023-09-20' }]);
+
+      // Mixed-precision range aggregates chronologically.
+      const agg = T.aggregateRange(['{2020..2020}', '{2018-06..2019-01}', '{2021-03-15..2021-08-20}']);
+      expect(agg.minStart).to.equal('2018-06');
+      expect(agg.maxEnd).to.equal('2021-08-20');
+      expect(T.yearOf(agg.minStart)).to.equal('2018');
+      expect(T.yearOf(agg.maxEnd)).to.equal('2021');
+
+      // validateSide accepts the three precisions and signed integers.
+      ['2020', '2020-06', '2020-06-15', '-10000'].forEach(v => {
+        expect(T.validateSide(v), v).to.be.true;
+      });
+      // …and rejects anything else.
+      ['', '2020-13', '2020-06-32', 'Precambrian', '2020/06', '1124 B.C.'].forEach(v => {
+        expect(T.validateSide(v), v).to.be.false;
+      });
+    });
+  });
+
   it('rejects textual / B.C. / geological-epoch notation without breaking', function () {
     cy.visit(issuePath);
     cy.window().then(win => {
@@ -149,6 +180,58 @@ describe('geoMetadata Issue Temporal Summary', function () {
         null
       ]);
       expect(agg).to.deep.equal({ minStart: '2020-01-01', maxEnd: '2020-12-31' });
+    });
+  });
+
+  describe('Step 3 server-side validation regex (refs #140)', function () {
+
+    // The FormValidatorCustom on SubmissionSubmitStep3Form uses
+    // GeoMetadataPlugin::validateTimePeriodString() to reject malformed
+    // temporal input before it reaches the database. Invoke the validator in
+    // isolation via a php -r one-liner so we exercise the real regex without
+    // driving a full step-1/2/3 UI flow.
+    function runValidator(value) {
+      const escaped = value.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\$/g, '\\$');
+      const cmd =
+        'php -r \'' +
+        '$m = "(?:0[1-9]|1[0-2])";' +
+        '$d = "(?:0[1-9]|[12]\\d|3[01])";' +
+        '$s = "\\s*-?\\d+(?:-" . $m . "(?:-" . $d . ")?)?\\s*";' +
+        '$v = "' + escaped + '";' +
+        'if ($v === "" || $v === "no data") { echo "ACCEPT"; exit; }' +
+        'echo preg_match("/^(?:\\{" . $s . "\\.\\." . $s . "\\})+$/", trim($v)) ? "ACCEPT" : "REJECT";' +
+        '\'';
+      return cy.exec(cmd).then(res => res.stdout);
+    }
+
+    const accepted = [
+      '{2020..2023}',
+      '{2020-06..2023-12}',
+      '{2020-06-15..2023-09-20}',
+      '{-10000..-5000}',
+      '{2020..2020}{2022..2022}',
+      'no data',
+      ''
+    ];
+    const rejected = [
+      '{-3000..2026-01-01 10:00:00}',
+      '{2020-13..2020-12}',
+      '{2020-06-32..2020-06-30}',
+      '{2020/06..2020/12}',
+      'Precambrian',
+      '{1124 B.C...1124 B.C.}',
+      '2020..2023'
+    ];
+
+    accepted.forEach(v => {
+      it('accepts ' + JSON.stringify(v), function () {
+        runValidator(v).should('equal', 'ACCEPT');
+      });
+    });
+    rejected.forEach(v => {
+      it('rejects ' + JSON.stringify(v), function () {
+        runValidator(v).should('equal', 'REJECT');
+      });
     });
   });
 

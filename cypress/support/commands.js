@@ -392,11 +392,12 @@ Cypress.Commands.add('createSubmission', (data, context) => {
         cy.get('div[id^="component-grid-users-chapter-chaptergrid-"] a.pkp_linkaction_editChapter:contains("' + Cypress.$.escapeSelector(chapter.title) + '")');
     });
 
-    // geospatial metadata
+    // geospatial metadata. The temporal input is now a plain-text field that
+    // commits on blur (see js/submission.js initPlainTemporalInput); the old
+    // daterangepicker + .applyBtn click is gone.
     if ('timePeriod' in data && data.timePeriod !== null) {
-        cy.get('input[name=datetimes]').type(data.timePeriod);
-        cy.wait(1000);
-        cy.get('.applyBtn').click();
+        cy.get('input[name=datetimes]').clear().type(data.timePeriod).blur();
+        cy.wait(500);
     }
 
     // https://medium.com/geoman-blog/testing-maps-e2e-with-cypress-ba9e5d903b2b
@@ -457,7 +458,11 @@ Cypress.Commands.add('createSubmission', (data, context) => {
 
     // === Submission Step 4 ===
     cy.waitJQuery();
-    cy.get('form[id=submitStep4Form]').find('button').contains('Finish Submission').click();
+    // Step 4 form can take a moment to appear after the plugin's
+    // spatial/admin-unit hidden-field save round-trip; give the URL a beat
+    // to change to step-4 before proceeding.
+    cy.url({ timeout: 20000 }).should('include', 'step-4');
+    cy.get('form[id=submitStep4Form]', { timeout: 20000 }).find('button').contains('Finish Submission').click();
     cy.get('button.pkpModalConfirmButton').click();
     cy.waitJQuery();
     cy.get('h2:contains("Submission complete")');

@@ -27,7 +27,9 @@
     <p align="justify" class="description">{translate
         key="plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.description.submission"}
     </p>
-    <input type="text" id="timePeriodsWithDatepicker" name="datetimes" style="width: 100%; height: 32px; z-index: 0;" />
+    <input type="text" id="timePeriodsWithDatepicker" name="datetimes"
+        placeholder="{translate key="plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.placeholder"}"
+        style="width: 100%; height: 32px;" />
     <textarea id="timePeriods" name="{$smarty.const.GEOMETADATA_DB_FIELD_TIME_PERIODS}"
         class="hiddenDataField" style="height: 0;">{${$smarty.const.GEOMETADATA_DB_FIELD_TIME_PERIODS}}</textarea>
     {/fbvFormSection}
@@ -68,15 +70,6 @@
     {/if}
     {/fbvFormArea}
 </div>
-
-{*z-index must be changed for the daterangepicker*}
-<style>
-    .daterangepicker {
-        direction: ltr;
-        text-align: left;
-        z-index: 1;
-    }
-</style>
 
 {*main js script, needs to be loaded last*}
 <script src="{$geoMetadata_submissionJS}" type="text/javascript"></script>

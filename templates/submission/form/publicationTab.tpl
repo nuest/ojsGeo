@@ -35,7 +35,10 @@
             </div>
             <div class="pkpFormField__control">
                 <div class="pkpFormField__control_top">
-                    <input id="geoMetadata-temporal" name="datetimes" aria-describedby="geoMetadata-temporal-description" aria-invalid="0" type="text" class="pkpFormField__input pkpFormField--text__input" />
+                    <input id="geoMetadata-temporal" name="datetimes"
+                        aria-describedby="geoMetadata-temporal-description"
+                        placeholder="{translate key="plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.placeholder"}"
+                        type="text" class="pkpFormField__input pkpFormField--text__input" />
                 </div>
             </div>
         </div>
@@ -82,15 +85,6 @@
         </div>
     </div>
     {/if}
-
-    {*z-index must be changed for the daterangepicker*}
-    <style>
-        .daterangepicker {
-            direction: ltr;
-            text-align: left;
-            z-index: 1;
-        }
-    </style>
 
     <div class="pkpFormField__heading geoMetadata_formGroupMargin">
         <label class="pkpFormFieldLabel">

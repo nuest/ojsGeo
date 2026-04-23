@@ -80,6 +80,10 @@ class GeoMetadataPlugin extends GenericPlugin
 			// Hooks for changing the frontent Submit an Article 3. Enter Metadata
 			HookRegistry::register('Templates::Submission::SubmissionMetadataForm::AdditionalMetadata', array($this, 'extendSubmissionMetadataFormTemplate'));
 
+			// Server-side validation of the temporal field on step 3 (refs #140).
+			HookRegistry::register('submissionsubmitstep3form::readuservars', array($this, 'step3TemporalReadUserVars'));
+			HookRegistry::register('submissionsubmitstep3form::Constructor', array($this, 'step3TemporalAddValidator'));
+
 			// Hooks for changing the article page
 			HookRegistry::register('Templates::Article::Main', array(&$this, 'extendArticleMainTemplate'));
 			HookRegistry::register('Templates::Article::Details', array(&$this, 'extendArticleDetailsTemplate'));
@@ -107,9 +111,6 @@ class GeoMetadataPlugin extends GenericPlugin
 			$urlLeafletDrawJS =            $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/leaflet-draw/dist/leaflet.draw.js';
 			$urlLeafletFullscreenCSS =     $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/leaflet.fullscreen/Control.FullScreen.css';
 			$urlLeafletFullscreenJS =      $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/leaflet.fullscreen/Control.FullScreen.js';
-			$urlMomentJS =                 $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/moment/moment.js';
-			$urlDaterangepickerJS =        $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/daterangepicker/daterangepicker.js';
-			$urlDaterangepickerCSS =       $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/daterangepicker/daterangepicker.css';
 			$urlLeafletControlGeocodeJS =  $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/leaflet-control-geocoder/dist/Control.Geocoder.js';
 			$urlLeafletControlGeocodeCSS = $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/leaflet-control-geocoder/dist/Control.Geocoder.css';
 
@@ -124,11 +125,6 @@ class GeoMetadataPlugin extends GenericPlugin
 			// loading the leaflet fullscreen control, source: https://github.com/brunob/leaflet.fullscreen
 			$templateMgr->addStyleSheet("leafletFullscreenCSS", $urlLeafletFullscreenCSS, array('contexts' => array('frontend', 'backend')));
 			$templateMgr->addJavaScript("leafletFullscreenJS", $urlLeafletFullscreenJS, array('contexts' => array('frontend', 'backend')));
-
-			// loading the daterangepicker scripts, source: https://www.daterangepicker.com/#example2
-			$templateMgr->addJavaScript("momentJS", $urlMomentJS, array('contexts' => array('frontend', 'backend')));
-			$templateMgr->addJavaScript("daterangepickerJS", $urlDaterangepickerJS, array('contexts' => array('frontend', 'backend')));
-			$templateMgr->addStyleSheet("daterangepickerCSS", $urlDaterangepickerCSS, array('contexts' => array('frontend', 'backend')));
 
 			// loading leaflet control geocoder (search), source: https://github.com/perliedman/leaflet-control-geocoder
 			$templateMgr->addJavaScript("leafletControlGeocodeJS", $urlLeafletControlGeocodeJS, array('contexts' => array('frontend', 'backend')));
@@ -442,7 +438,15 @@ class GeoMetadataPlugin extends GenericPlugin
 			$administrativeUnit = $publication->getData(GEOMETADATA_DB_FIELD_ADMINUNIT);
 		}
 
-		// for the case that no data is available 
+		// On re-render after a failed validation, prefer the user's submitted
+		// value so the input stays visible for correction rather than silently
+		// reverting to the last-persisted value.
+		$postedTimePeriods = $request->getUserVar(GEOMETADATA_DB_FIELD_TIME_PERIODS);
+		if ($postedTimePeriods !== null) {
+			$timePeriods = $postedTimePeriods;
+		}
+
+		// for the case that no data is available
 		if ($timePeriods === null) {
 			$timePeriods = 'no data';
 		}
@@ -757,9 +761,57 @@ class GeoMetadataPlugin extends GenericPlugin
 	}
 
 	/**
-	 * Function which fills the new fields (created by the function addToSchema) in the schema. 
+	 * Inject the temporal field into SubmissionSubmitStep3Form::readUserVars so
+	 * the POSTed value lands in the form's _data array and is available for
+	 * validation and template re-render after a validation failure.
+	 */
+	public function step3TemporalReadUserVars($hookName, $args)
+	{
+		$vars =& $args[1];
+		$vars[] = GEOMETADATA_DB_FIELD_TIME_PERIODS;
+		return false;
+	}
+
+	/**
+	 * Add a FormValidatorCustom to SubmissionSubmitStep3Form for the temporal
+	 * field. Accepts an empty value, the "no data" sentinel, or
+	 * `{side..side}` where each side is a signed integer year, YYYY-MM, or
+	 * YYYY-MM-DD. The full-featured replacement (multi-period UI, calendar
+	 * fallback, geological time) remains tracked in #140.
+	 */
+	public function step3TemporalAddValidator($hookName, $args)
+	{
+		$form = $args[0];
+		import('lib.pkp.classes.form.validation.FormValidatorCustom');
+		$form->addCheck(new FormValidatorCustom(
+			$form,
+			GEOMETADATA_DB_FIELD_TIME_PERIODS,
+			'optional',
+			'plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.error',
+			array(get_class($this), 'validateTimePeriodString')
+		));
+		return false;
+	}
+
+	/**
+	 * Validator callback: the stored format is either empty, the "no data"
+	 * sentinel, or one or more concatenated `{side..side}` ranges where each
+	 * side is a signed integer year, YYYY-MM, or YYYY-MM-DD. Month is 01-12,
+	 * day is 01-31. Mirrors js/lib/temporal.js#parseSide.
+	 */
+	public static function validateTimePeriodString($value)
+	{
+		if ($value === null || $value === '' || $value === 'no data') return true;
+		$month = '(?:0[1-9]|1[0-2])';
+		$day   = '(?:0[1-9]|[12]\d|3[01])';
+		$side  = '\s*-?\d+(?:-' . $month . '(?:-' . $day . ')?)?\s*';
+		return (bool) preg_match('/^(?:\{' . $side . '\.\.' . $side . '\})+$/', trim($value));
+	}
+
+	/**
+	 * Function which fills the new fields (created by the function addToSchema) in the schema.
 	 * The data is collected using the 'submission.js', then passed as input to the 'submissionMetadataFormFields.tpl'
-	 * and requested from it in this php script by a POST-method. 
+	 * and requested from it in this php script by a POST-method.
 	 * @param hook Publication::edit
 	 */
 	function editPublication(string $hookname, array $params)

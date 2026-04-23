@@ -27,7 +27,13 @@ msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal"
 msgstr "Zeitliche Eigenschaften"
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.description.submission"
-msgstr "Definieren Sie die zeitlichen Eigenschaften des Artikelinhalts durch Angabe von Anfangs- und Enddatum. Die Eingabe ist sowohl über das Textfeld als auch über die Kalenderansicht möglich. Klicken Sie auf das Eingabefeld unter diesem Text, um die Kalenderansicht zu öffnen. Drücken Sie \"Übernehmen\", um die Kalendereinstellung zu speichern. Drücken Sie \"Löschen\", um die aktuellen Daten zu entfernen. Texteingaben müssen dem folgenden Format entsprechen und durch Klicken auf \"Anwenden\" bestätigt werden. Nutzen Sie bitte nicht die Enter-Taste. Bei manuellen Eingaben werden Anfang und Ende durch einen Bindestrich getrennt, der von Leerzeichen umgeben ist; Datumsangaben sind im Format \"JJJJ-MM-TT\" einzugeben, wobei \"JJJJ\" für Jahre, \"MM\" für Monate (mit einer führenden Null) und \"DD\" für Tage (mit einer führenden Null) steht. Darüber hinaus werden Eingaben wie \"XXXX\" und \"XXXX-DD\" auch akzeptiert und in der Folge formatiert in \"XXXX-01-01\" oder \"XXXX-DD-01\"."
+msgstr "Geben Sie Anfang und Ende des Zeitraums des Artikels, getrennt durch \"..\", ein, z. B. \"2020..2023\", \"2020-06..2023-12\" oder \"2020-06-15..2023-09-20\". Jede Seite kann unabhängig Jahr, Jahr-Monat oder Jahr-Monat-Tag als Präzision verwenden. Negative ganze Zahlen bezeichnen Jahre vor dem Jahr 1 (z. B. \"-10000..-5000\"). Betrachtet der Artikel nur einen bestimmten Zeitpunkt, geben Sie bitte denselben Wert für Anfang und Ende ein, z. B. \"2026..2026\" oder \"2000-01-01..2000-01-01\". Lassen Sie das Feld leer, wenn der Artikel keinen zeitlichen Bezug hat."
+
+msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.placeholder"
+msgstr "z. B. 2020..2023"
+
+msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.error"
+msgstr "Ungültiger Zeitraum. Geben Sie zwei Seiten getrennt durch \"..\" ein, jeweils im Format JJJJ, JJJJ-MM oder JJJJ-MM-TT (oder eine negative ganze Zahl für Jahre vor dem Jahr 1)."
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.description.article"
 msgstr "Zeitliche Eigenschaften des Artikelinhalts mit tagesgenauer Auflösung."

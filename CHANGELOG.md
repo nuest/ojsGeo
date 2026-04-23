@@ -16,16 +16,21 @@ Internationalisation, configurability, and HTML-head metadata — target release
 - Admin toggles for article, issue, and journal map visibility ([#23](https://github.com/TIBHannover/geoMetadata/issues/23)).
 - Admin toggles for the submission form, editorial workflow tab, HTML meta tags, and map geocoder ([#23](https://github.com/TIBHannover/geoMetadata/issues/23)).
 - Admin toggle to show/hide the GeoJSON download button in the article sidebar ([#55](https://github.com/TIBHannover/geoMetadata/issues/55)).
+- Overall time-period summary above the issue-TOC map and the journal-wide map, with a single-year special case and support for BCE / deep-history years via numeric comparison ([#105](https://github.com/TIBHannover/geoMetadata/issues/105)).
+- Shared `js/lib/temporal.js` parser/aggregator; replaces the fragile inline split in `article_details.js` / `issue.js` / `journal.js` and is forward-compatible with multi-period per article ([#57](https://github.com/TIBHannover/geoMetadata/issues/57)).
 - Cypress coverage for all admin toggles and for the time-period field in the HTML-head GeoJSON export ([#106](https://github.com/TIBHannover/geoMetadata/issues/106)).
 
 ### Changed
 
+- Replaced the daterangepicker on both submission forms with a plain-text field accepting `YYYY`, `YYYY-MM`, or `YYYY-MM-DD` on each side (signed integers for BCE). Validation runs server-side via OJS `FormValidatorCustom` on `SubmissionSubmitStep3Form`; invalid input is preserved in the field for correction instead of being silently dropped. Preliminary — full replacement tracked in [#140](https://github.com/TIBHannover/geoMetadata/issues/140).
+- Dropped `npm-asset/daterangepicker` and `npm-asset/moment` (and transitively `npm-asset/jquery`) from composer; removed the JS/CSS include wiring and the `.daterangepicker` CSS overrides from submission templates.
 - Translated remaining Leaflet controls — zoom, geocoder, and draw toolbar ([#109](https://github.com/TIBHannover/geoMetadata/issues/109), [#111](https://github.com/TIBHannover/geoMetadata/issues/111), [#151](https://github.com/TIBHannover/geoMetadata/issues/151)).
 - Cleaned up i18n antipatterns ([#152](https://github.com/TIBHannover/geoMetadata/issues/152)).
 - Aligned msgid order across `en_US` / `de_DE` / `fr_FR` / `es_ES` locales and regenerated `messages.mo`.
 
 ### Fixed
 
+- Issue-page hover: point markers now highlight when hovering the article div, not just polygons ([#83](https://github.com/TIBHannover/geoMetadata/issues/83)).
 - Locale switching in tests; restored `DC.PeriodOfTime` HTML meta emission.
 - Removed dead `isEsriBaseLayerEnabled` helper.
 

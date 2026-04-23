@@ -27,7 +27,13 @@ msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal"
 msgstr "Temporal Properties"
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.description.submission"
-msgstr "Define the temporal properties of the articles content by specifying the begin and end dates. The input is possible via the text field as well as via the calendar view. Click the input field below this text to open the calendar. Press \"Apply\" to save the calender setting. Press \"Clear\" to remove the current data. Textual input must be confirmed by clicking \"Apply\" (not Enter!) and match the following format: begin and end are seperated by a hyphen surrounded by spaces; dates are given as \"YYYY-MM-DD\", whereby \"YYYY\" stands for years, \"MM\" for months (with a leading zero), and \"DD\" for days (with a leading zero). Moreover text input like \"XXXX\" and \"XXXX-DD\" is also accepted and will be formatted to \"XXXX-01-01\" or \"XXXX-DD-01\"."
+msgstr "Enter the start and end of the article's time period separated by \"..\", e.g. \"2020..2023\", \"2020-06..2023-12\", or \"2020-06-15..2023-09-20\". Each side may independently use year, year-month, or year-month-day precision. Negative integers denote years before year 1 (e.g. \"-10000..-5000\"). If the article only considers a specific point in time, please enter the same value as begin and end, e.g. \"2026..2026\" or \"2000-01-01..2000-01-01\". Leave the field empty if the article has no temporal reference."
+
+msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.placeholder"
+msgstr "e.g. 2020..2023"
+
+msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.error"
+msgstr "Invalid time period. Use two sides separated by \"..\", each in YYYY, YYYY-MM, or YYYY-MM-DD format (or a negative integer for BCE years)."
 
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.temporal.description.article"
 msgstr "Temporal properties of the article's content specified with a day resolution."
