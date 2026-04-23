@@ -37,6 +37,15 @@ The plugin uses several JavaScript libraries managed via Composer + Asset Packag
 - Daterangepicker (temporal range selection)
 - Font Awesome (icons)
 
+### Submission vs. publication-tab templates
+
+The plugin renders two editable forms for spatio-temporal metadata. They share element selectors but use different markup:
+
+- `templates/submission/form/submissionMetadataFormFields.tpl` — author-side submission form; classic `{fbvFormSection}` markup; temporal input id is `timePeriodsWithDatepicker`.
+- `templates/submission/form/publicationTab.tpl` — editor-side publication workflow tab; newer `pkpFormField` / Vue-adjacent markup; temporal input id is `geoMetadata-temporal`.
+
+Both share `js/submission.js`, which locates fields through the common selectors `input[name="datetimes"]`, `#mapdiv`, and `#administrativeUnitInput`. Changes to one form's fields usually need a mirror change in the other.
+
 ## Development Commands
 
 ### Dependency Management
@@ -66,6 +75,29 @@ npm run test_compose
 ```
 
 Cypress is the source of truth for regression coverage — self-bootstraps a fresh OJS (walks the web installer, creates users, submits articles), runs all specs in `cypress/e2e/integration/` in filename order, and is the only suite meant for CI. The fullscreen control (issue #61) is covered by `44-fullscreen.cy.js` (basic) and `52-fullscreen-locales.cy.js` (translations — depends on `50-locales.cy.js` having enabled the UI locales earlier in the run).
+
+**Fixture articles** — the suite creates a deterministic set of submissions, each shaped to exercise a different branch of the plugin. Pick the one that matches the code path a new spec needs:
+
+| Article | Spatial | Temporal | Admin unit | Exercises |
+|---|---|---|---|---|
+| Hanover is nice | LineString | 2022-01-01 … 12-31 | Germany (bbox + ISO codes) | Full happy path; every meta-tag family emits |
+| Vancouver is cool | Point | 2021-01-01 … 12-31 | Earth (`bbox: not available`) | No-bbox branch; `DC.box` / `ISO 19139` not emitted |
+| Timeless Isle | Polygon | — | Earth | Empty-`timePeriods` branch of `DC.SpatialCoverage` |
+| Atlas of Saxony | — | — | Saxony (bbox only) | Centroid-from-admin-unit-bbox fallback for `ICBM` / `geo.position` |
+
+**Tests must not recompute expected values.** When asserting on numeric metadata (centroids, bounding boxes, ISO codes, etc.) pin the expected value as a plain literal tied to a specific test record whose input data is fixed — do not port a mirror of the production algorithm into the spec. If you need deterministic numbers for an exact-value assertion, create or reuse a test record with known, fixed stored data (e.g. the spatial-free "Atlas of Saxony" record whose fallback ICBM is the exact centre of Saxony's GeoNames bbox), rather than deriving numbers from what the page renders. Reimplementing the computation makes the test a tautology; comparing against a known constant catches a regression.
+
+**Keep source code comments short and factual.** Prefer no comment over a weak one; good naming carries more weight. When a comment is needed, state the fact or invariant — not the alternatives that were explored, the historical motivation, the issue/plan that led to the change, or which decision number in a plan doc it implements. Those belong in the commit message or PR description where they can be found by `git blame`, not in the code where they rot. **More than two lines of consecutive comment requires explicit developer confirmation** — if an explanation really needs a paragraph, raise it with the developer instead of checking it in unilaterally.
+
+### Locale files (`.po` + `messages.mo`)
+
+`locale/<lang>/locale.po` holds per-language translations for `en_US`, `de_DE`, `fr_FR`, and `es_ES`. **msgid order must be aligned across all four locales** — `50-locales.cy.js` enforces identical translated-message counts via `msgfmt --statistics`, but misaligned ordering is silent. When adding or removing a key, insert or remove it at the same relative position in every `.po` file.
+
+`messages.mo` is a single compiled artifact at the repo root (not per-locale), built from `locale/fr_FR/locale.po`. Regenerate after any `.po` change:
+
+```bash
+msgfmt locale/fr_FR/locale.po -o messages.mo
+```
 
 ### Ad-hoc headless-browser inspection (not a test suite)
 
@@ -186,6 +218,27 @@ Both configs (docker `ojs_dump` on 3307 and native `ojs_geometadata_330` on 3306
 ### File Structure for OJS Installation
 
 Plugin should be installed in: `ojs/plugins/generic/geoMetadata/`
+
+### Adding an admin-configurable feature toggle
+
+Per-journal boolean settings follow a specific pattern designed to preserve behavior on upgrade:
+
+1. Register the key in both `SettingsForm::$settings` and `SettingsForm::$booleanDefaultOnSettings`.
+2. Read it at render time via `GeoMetadataPlugin::isFeatureEnabled($key)`. Null (never saved) is treated as on, so installs that predate the toggle see no visible change after the plugin is updated.
+3. Gate the rendering block with `{if $...}` in the Smarty template, or early-return in the hook callback for fully-gated features.
+4. Add a checkbox to the appropriate `{fbvFormArea}` in `templates/settings.tpl` plus a `<key>` / `<key>.description` msgid pair in all four `locale/*/locale.po` files.
+5. Regenerate `messages.mo`.
+
+### Adding a third-party service (privacy disclosure)
+
+Every external service the plugin calls (tile providers, gazetteers, geocoders) needs a reader-visible privacy snippet that the settings page composes live based on which services are toggled on. To add a service:
+
+1. Add the toggle via the admin-toggle pattern above.
+2. Add a `<script type="text/plain" id="geoMetadata_privacySnippet_<service>">` block in `templates/settings.tpl` that emits `{translate key="plugins.generic.geoMetadata.privacy.snippet.<service>"}`.
+3. Add an entry `['<checkboxId>', '<snippetId>']` to the `toggleables` array in the live-update `<script>` in the same file.
+4. Add the `privacy.snippet.<service>` msgid to all four `.po` files.
+
+Skipping step 3 leaves the live textarea out of sync with the stored state; skipping step 4 breaks the locale-count check.
 
 ## JavaScript Architecture
 
