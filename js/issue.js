@@ -93,12 +93,28 @@ function resetHighlightArticleFeatures(articleId) {
     });
 }
 
-function highlightArticle(id) {
-    $('#' + id).parent().closest('div').addClass('geoMetadata_title_hover');
+// Resolve the article-summary wrapper for a given articleId via the shared
+// theme resolver (js/lib/theme_resolvers.js); cache DOM refs in articleWrapperMap
+// so we don't re-walk on every hover event.
+var articleWrapperMap = new Map();
+function geoMetadata_wrapperFor(articleId) {
+    if (articleWrapperMap.has(articleId)) return articleWrapperMap.get(articleId);
+    var input = document.querySelector('.geoMetadata_data.articleId[value="' + articleId + '"]');
+    var resolved = typeof geoMetadata_resolveArticleAnchor === 'function'
+        ? geoMetadata_resolveArticleAnchor(input)
+        : null;
+    articleWrapperMap.set(articleId, resolved);
+    return resolved;
 }
 
-function resetHighlightArticle(id) {
-    $('#' + id).parent().closest('div').removeClass('geoMetadata_title_hover');
+function highlightArticle(articleId) {
+    var r = geoMetadata_wrapperFor(articleId);
+    if (r) r.wrapper.classList.add('geoMetadata_title_hover');
+}
+
+function resetHighlightArticle(articleId) {
+    var r = geoMetadata_wrapperFor(articleId);
+    if (r) r.wrapper.classList.remove('geoMetadata_title_hover');
 }
 
 var articleLayersMap = new Map();
@@ -111,13 +127,9 @@ $(function () {
 
     // load properties for each article from issue_details.tpl
     var spatialInputs = $('.geoMetadata_data.spatial').toArray().map(input => {
-        if (input.value === "no data") {
-            return { features: [] };
-        }
-        else {
-            let geojson = JSON.parse(input.value);
-            return (geojson);
-        }
+        if (!input.value) return { features: [] };
+        try { return JSON.parse(input.value); }
+        catch (e) { return { features: [] }; }
     });
     var articleIdInputs = $('.geoMetadata_data.articleId').toArray().map(input => {
         return (input.value);
@@ -171,15 +183,13 @@ $(function () {
             map.fitBounds(articleLocations.getBounds());
 
             if (geoMetadata_enableSyncedHighlight) {
-                let articleDiv = $('#' + articleId).parent().closest('div');
-                articleDiv.hover(
-                    (e) => {
-                        highlightArticleFeatures(articleId);
-                    },
-                    (e) => {
-                        resetHighlightArticleFeatures(articleId);
-                    }
-                );
+                let r = geoMetadata_wrapperFor(articleId);
+                if (r) {
+                    $(r.wrapper).hover(
+                        (e) => { highlightArticleFeatures(articleId); },
+                        (e) => { resetHighlightArticleFeatures(articleId); }
+                    );
+                }
             }
         }
     });

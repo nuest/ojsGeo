@@ -167,6 +167,9 @@ class GeoMetadataPlugin extends GenericPlugin
 			$urlTemporalLibJS = $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/temporal.js';
 			$templateMgr->addJavaScript('geoMetadataTemporalLibJS', $urlTemporalLibJS, array('contexts' => array('frontend', 'backend')));
 
+			$urlThemeResolversJS = $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/theme_resolvers.js';
+			$templateMgr->addJavaScript('geoMetadataThemeResolversJS', $urlThemeResolversJS, array('contexts' => array('frontend', 'backend')));
+
 			$templateMgr->assign('geoMetadata_submissionJS',      $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/submission.js');
 			$templateMgr->assign('geoMetadata_article_detailsJS', $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/article_details.js');
 			$templateMgr->assign('geoMetadata_issueJS',           $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/issue.js');
@@ -407,7 +410,7 @@ class GeoMetadataPlugin extends GenericPlugin
 		}
 
 		$timePeriods = $publication->getData(GEOMETADATA_DB_FIELD_TIME_PERIODS);
-		if ($emitDC && $timePeriods !== 'no data' && $timePeriods !== null) {
+		if ($emitDC && !empty($timePeriods)) {
 			$begin = explode('..', explode('{', $timePeriods)[1])[0];
 			$end = explode('}', explode('..', explode('{', $timePeriods)[1])[1])[0];
 
@@ -495,13 +498,12 @@ class GeoMetadataPlugin extends GenericPlugin
 			$timePeriods = $postedTimePeriods;
 		}
 
-		// for the case that no data is available
 		if ($timePeriods === null) {
-			$timePeriods = 'no data';
+			$timePeriods = '';
 		}
 
-		if ($spatialProperties === null || $spatialProperties === '{"type":"FeatureCollection","features":[],"administrativeUnits":{},"temporalProperties":{"timePeriods":[],"provenance":{"description":"not available","id":"not available"}}}') {
-			$spatialProperties = 'no data';
+		if ($spatialProperties === null) {
+			$spatialProperties = '{"type":"FeatureCollection","features":[],"administrativeUnits":{},"temporalProperties":{"timePeriods":[],"provenance":{"description":"not available","id":"not available"}}}';
 		}
 
 		if ($administrativeUnit === null || $administrativeUnit === '' || (is_array($administrativeUnit) && current($administrativeUnit) === '')) {
@@ -546,12 +548,12 @@ class GeoMetadataPlugin extends GenericPlugin
 		$spatialProperties =  $publication->getData(GEOMETADATA_DB_FIELD_SPATIAL);
 		$administrativeUnit = $publication->getData(GEOMETADATA_DB_FIELD_ADMINUNIT);
 
-		if ($temporalProperties === null || $temporalProperties === '') {
-			$temporalProperties = 'no data';
+		if ($temporalProperties === null) {
+			$temporalProperties = '';
 		}
 
-		if (($spatialProperties === null || $spatialProperties === '{"type":"FeatureCollection","features":[],"administrativeUnits":{},"temporalProperties":{"timePeriods":[],"provenance":"not available"}}')) {
-			$spatialProperties = 'no data';
+		if ($spatialProperties === null) {
+			$spatialProperties = '{"type":"FeatureCollection","features":[],"administrativeUnits":{},"temporalProperties":{"timePeriods":[],"provenance":{"description":"not available","id":"not available"}}}';
 		}
 
 		if ($administrativeUnit === null || $administrativeUnit === '') {
@@ -633,7 +635,7 @@ class GeoMetadataPlugin extends GenericPlugin
 				$publication = $article->getCurrentPublication();
 				if (!$publication) continue;
 				$raw = $publication->getData(GEOMETADATA_DB_FIELD_SPATIAL);
-				if (!$raw || $raw === 'no data') continue;
+				if (!$raw) continue;
 				$decoded = json_decode($raw);
 				if (!$decoded) continue;
 				if (!empty($decoded->features)) return true;
@@ -658,7 +660,7 @@ class GeoMetadataPlugin extends GenericPlugin
 				$publication = $article->getCurrentPublication();
 				if (!$publication) continue;
 				$raw = $publication->getData(GEOMETADATA_DB_FIELD_TIME_PERIODS);
-				if ($raw === null || $raw === '' || $raw === 'no data') continue;
+				if (empty($raw)) continue;
 				if (preg_match('/\{\s*-?\d+-\d{2}-\d{2}\s*\.\.\s*-?\d+-\d{2}-\d{2}\s*\}/', $raw)) {
 					return true;
 				}
@@ -692,16 +694,16 @@ class GeoMetadataPlugin extends GenericPlugin
 		}
 
 		$spatialProperties = $publication->getData(GEOMETADATA_DB_FIELD_SPATIAL);
-		if (($spatialProperties === null || $spatialProperties === '{"type":"FeatureCollection","features":[],"administrativeUnits":{},"temporalProperties":{"timePeriods":[],"provenance":"not available"}}')) {
-			$spatialProperties = 'no data';
+		if ($spatialProperties === null) {
+			$spatialProperties = '{"type":"FeatureCollection","features":[],"administrativeUnits":{},"temporalProperties":{"timePeriods":[],"provenance":{"description":"not available","id":"not available"}}}';
 		}
 		$templateMgr->assign(GEOMETADATA_DB_FIELD_SPATIAL, $spatialProperties);
 
 		$templateMgr->assign('journal', Application::get()->getRequest()->getJournal()); // access primary locale
 
 		$temporalProperties = $publication->getData(GEOMETADATA_DB_FIELD_TIME_PERIODS);
-		if ($temporalProperties === null || $temporalProperties === '') {
-			$temporalProperties = 'no data';
+		if ($temporalProperties === null) {
+			$temporalProperties = '';
 		}
 		$templateMgr->assign(GEOMETADATA_DB_FIELD_TIME_PERIODS, $temporalProperties);
 
@@ -824,10 +826,10 @@ class GeoMetadataPlugin extends GenericPlugin
 
 	/**
 	 * Add a FormValidatorCustom to SubmissionSubmitStep3Form for the temporal
-	 * field. Accepts an empty value, the "no data" sentinel, or
-	 * `{side..side}` where each side is a signed integer year, YYYY-MM, or
-	 * YYYY-MM-DD. The full-featured replacement (multi-period UI, calendar
-	 * fallback, geological time) remains tracked in #140.
+	 * field. Accepts an empty value or `{side..side}` where each side is a
+	 * signed integer year, YYYY-MM, or YYYY-MM-DD. The full-featured
+	 * replacement (multi-period UI, calendar fallback, geological time)
+	 * remains tracked in #140.
 	 */
 	public function step3TemporalAddValidator($hookName, $args)
 	{
@@ -844,14 +846,14 @@ class GeoMetadataPlugin extends GenericPlugin
 	}
 
 	/**
-	 * Validator callback: the stored format is either empty, the "no data"
-	 * sentinel, or one or more concatenated `{side..side}` ranges where each
-	 * side is a signed integer year, YYYY-MM, or YYYY-MM-DD. Month is 01-12,
-	 * day is 01-31. Mirrors js/lib/temporal.js#parseSide.
+	 * Validator callback: the stored format is either empty or one or more
+	 * concatenated `{side..side}` ranges where each side is a signed integer
+	 * year, YYYY-MM, or YYYY-MM-DD. Month is 01-12, day is 01-31. Mirrors
+	 * js/lib/temporal.js#parseSide.
 	 */
 	public static function validateTimePeriodString($value)
 	{
-		if ($value === null || $value === '' || $value === 'no data') return true;
+		if ($value === null || $value === '') return true;
 		$month = '(?:0[1-9]|1[0-2])';
 		$day   = '(?:0[1-9]|[12]\d|3[01])';
 		$side  = '\s*-?\d+(?:-' . $month . '(?:-' . $day . ')?)?\s*';
@@ -879,7 +881,7 @@ class GeoMetadataPlugin extends GenericPlugin
 			$newPublication->setData(GEOMETADATA_DB_FIELD_SPATIAL, $spatialProperties);
 		}
 
-		if ($temporalProperties !== null && $temporalProperties !== "") {
+		if ($temporalProperties !== null) {
 			$newPublication->setData(GEOMETADATA_DB_FIELD_TIME_PERIODS, $temporalProperties);
 		}
 

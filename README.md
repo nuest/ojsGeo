@@ -150,6 +150,28 @@ This map is always available via the URL, but you can carry out the following st
 
 Further information on the geoJSON specification is available via a [wiki](https://github.com/tomniers/geoOJS/wiki/geoJSON-Specification).
 
+### 4. Theme compatibility
+
+The plugin renders into the host theme via three Smarty hooks and a few DOM conventions. The table below records the state of each theme currently listed in the OJS plugin gallery against those requirements. **None of these themes are exercised in CI** — the Cypress suite runs against the bundled `default` theme only — so the rows below are best-effort audits of the theme sources, not verified end-to-end. If you use one of these themes and something is off (icon missing, hover doesn't sync, map doesn't render, sidebar misplaced), please [open an issue](https://github.com/TIBHannover/geoMetadata/issues).
+
+| Theme | Repo | Issue-TOC map | Article-page map | Article sidebar | TOC icon + hover sync |
+|---|---|:---:|:---:|:---:|:---:|
+| default (OJS core) | [pkp/ojs](https://github.com/pkp/ojs) | ✓ | ✓ | ✓ | ✓ |
+| Bootstrap3 | [pkp/bootstrap3](https://github.com/pkp/bootstrap3) | ✓ | ✓ | ✓ | ✓ |
+| Classic | [pkp/classic](https://github.com/pkp/classic) | ✓ | ✓ | ✓ | ✓ |
+| Health Sciences | [pkp/healthSciences](https://github.com/pkp/healthSciences) | ✓ | ✓ | ✓ | ✓ |
+| Manuscript | [pkp/defaultManuscript](https://github.com/pkp/defaultManuscript) | ✓ | ✓ | ✓ | ✓ |
+| Immersion | [pkp/immersion](https://github.com/pkp/immersion) | ✓ | ✓ | ✓ | ✓ |
+| Pragma | [pkp/pragma](https://github.com/pkp/pragma) | ✓ | ✓ | ✓ | ✓ |
+| Material | [madi-nuralin/material](https://github.com/madi-nuralin/material) | ✓ | ✓ | ✓ | ✓ |
+| Gopher | [UMNLibraries/ojs-gopher-theme](https://github.com/UMNLibraries/ojs-gopher-theme) | ✓ | ✓ | ✓ | ✓ |
+| Academic Free | [openjournalteam/academicFree](https://github.com/openjournalteam/academicFree) | ✓ | ✓ | ✓ | ✓ |
+| Individualize | [NateWr/individualizeTheme](https://github.com/NateWr/individualizeTheme) | ✓ | ✓ | ✓ | ✓ |
+
+The first three columns check that the theme preserves the Smarty hooks the plugin injects into (`Templates::Issue::Issue::Article`, `Templates::Article::Main`, `Templates::Article::Details`). The last column covers the issue-page map-icon and map↔TOC hover sync, which in addition need a resolver in `js/lib/theme_resolvers.js` that knows the theme's article-summary wrapper and title-anchor selectors. Five resolver families are built in and between them cover all themes above.
+
+**Adding support for a new theme.** If you maintain a theme that isn't in the table or that falls into a different markup family than the five built-in resolvers, copy the template comment at the top of [`js/lib/theme_resolvers.js`](js/lib/theme_resolvers.js) — it's a ~10-line function that maps a hidden-input element to the theme's wrapper + title anchor. A pull request adding it to the plugin is welcome; a drop-in snippet loaded from your theme also works.
+
 ## Contribute
 
 All help is welcome: asking questions, providing documentation, testing, or even development.
