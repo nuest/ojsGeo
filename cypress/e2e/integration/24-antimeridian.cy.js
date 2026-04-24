@@ -83,7 +83,11 @@ describe('geoMetadata Antimeridian', { testIsolation: false }, function () {
     // idempotent, so the already-split input round-trips unchanged.
     cy.logout();
     cy.login('eeditor');
-    cy.get('a:contains("eeditor"):visible').click();
+    // Land on the journal homepage first so the user menu is reliably rendered
+    // (post-login redirect from a deep editorial URL can leave us on a page
+    // that hydrates the menu slowly).
+    cy.visit('/');
+    cy.get('a:contains("eeditor"):visible', { timeout: 20000 }).click();
     cy.get('a:contains("Dashboard")').click({ force: true });
     cy.get('a:contains("View")').first().click();
     cy.get('div[role="tablist"]').find('button:contains("Publication")').click();

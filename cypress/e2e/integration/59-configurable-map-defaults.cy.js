@@ -17,8 +17,10 @@ describe('geoMetadata Configurable Map Defaults', function () {
 
   const submitBtnSelector = 'form[id="geoMetadataSettings"] button[id^="submitFormButton"]';
 
-  const DEFAULT_LAT  = '0';
-  const DEFAULT_LNG  = '0';
+  // Lat/Lng inputs are rendered as toFixed(6) even for the zero-value default
+  // so the mini-map's moveend handler and the settings form agree on format.
+  const DEFAULT_LAT  = '0.000000';
+  const DEFAULT_LNG  = '0.000000';
   const DEFAULT_ZOOM = '2';
   const DEFAULT_FEATURE_COLOR   = '#1e6292';
   const DEFAULT_HIGHLIGHT_COLOR = '#ff0000';
@@ -31,7 +33,9 @@ describe('geoMetadata Configurable Map Defaults', function () {
 
   const setToggle = (selector, checked) => {
     openSettings();
-    if (checked) { cy.get(selector).check(); } else { cy.get(selector).uncheck(); }
+    cy.get(selector).scrollIntoView();
+    if (checked) { cy.get(selector).check({ force: true }); }
+    else { cy.get(selector).uncheck({ force: true }); }
     saveSettings();
   };
 
@@ -50,7 +54,9 @@ describe('geoMetadata Configurable Map Defaults', function () {
 
   const setSubmissionDefaultView = (lat, lng, zoom) => {
     openSettings();
-    cy.get('#geoMetadata_defaultMapViewPreview').should('be.visible');
+    // The Map Appearance section sits below the fold in the fixed-position
+    // settings modal; scroll the preview into view before the visibility check.
+    cy.get('#geoMetadata_defaultMapViewPreview').scrollIntoView().should('be.visible');
     cy.window().then((win) => {
       expect(win.geoMetadata_settingsMiniMap, 'mini-map exposed on window').to.exist;
       win.geoMetadata_settingsMiniMap.setView([lat, lng], zoom);
@@ -75,9 +81,13 @@ describe('geoMetadata Configurable Map Defaults', function () {
     saveSettings();
   };
 
+  // Atlas of Saxony is published in Vol. 1 No. 2 (2022); the Archive page
+  // lists issues, not articles, so we must open the issue before clicking the
+  // article title.
   const visitSaxony = () => {
     cy.visit('/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
+    cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
     cy.get('a:contains("Atlas of Saxony")').last().click();
   };
 
@@ -86,6 +96,43 @@ describe('geoMetadata Configurable Map Defaults', function () {
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
   };
+
+  const visitArticle = (title) => {
+    cy.visit('/');
+    cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
+    cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
+    cy.get('a:contains("' + title + '")').last().click();
+  };
+
+  // Reset every appearance-related plugin setting straight via MySQL, so tests
+  // that assert the shipped defaults don't depend on a successful prior
+  // "restore" test. Deleting the rows lets SettingsForm::getDefault() fill in
+  // the per-key defaults at render time.
+  const resetAppearanceSettings = () => {
+    const host = Cypress.env('DBHOST');
+    const user = Cypress.env('DBUSERNAME');
+    const pw   = Cypress.env('DBPASSWORD');
+    const db   = Cypress.env('DBNAME');
+    const keys = [
+      'geoMetadata_submissionMapDefaultLat',
+      'geoMetadata_submissionMapDefaultLng',
+      'geoMetadata_submissionMapDefaultZoom',
+      'geoMetadata_mapFeatureColor',
+      'geoMetadata_mapFeatureColorHighlight',
+      'geoMetadata_adminUnitOverlayColor',
+      'geoMetadata_adminUnitOverlayFillOpacity',
+      'geoMetadata_markerHueRotation',
+      'geoMetadata_markerHueRotationHighlight',
+      'geoMetadata_enableSyncedHighlight',
+    ];
+    const inList = keys.map((k) => `'${k}'`).join(',');
+    cy.exec(
+      `docker exec ${host} mysql -u${user} -p${pw} ${db} ` +
+      `-e "DELETE FROM plugin_settings WHERE plugin_name='geometadataplugin' AND setting_name IN (${inList});"`
+    );
+  };
+  before(resetAppearanceSettings);
+  after(resetAppearanceSettings);
 
   it('exposes the Map Appearance section in plugin settings', function () {
     openSettings();
@@ -127,6 +174,11 @@ describe('geoMetadata Configurable Map Defaults', function () {
 
   it('mini-map writes lat/lng/zoom into the hidden inputs on moveend', function () {
     openSettings();
+    // Mini-map initialises asynchronously from the settings.tpl inline script;
+    // scroll the preview into view and wait until window.geoMetadata_settingsMiniMap
+    // is attached before driving it.
+    cy.get('#geoMetadata_defaultMapViewPreview').scrollIntoView().should('be.visible');
+    cy.window().should('have.property', 'geoMetadata_settingsMiniMap');
     cy.window().then((win) => {
       win.geoMetadata_settingsMiniMap.setView([51, 10], 5);
       win.geoMetadata_settingsMiniMap.fire('moveend');
@@ -139,10 +191,25 @@ describe('geoMetadata Configurable Map Defaults', function () {
   it('submission map opens at the configured centre and zoom', function () {
     setSubmissionDefaultView(51.0, 10.0, 5);
 
-    cy.login('tobler', 'tobler', Cypress.env('contextPath'));
-    cy.visit('/' + Cypress.env('contextPath') + '/submission/wizard');
+    // OJS 3.3's submission entry point is the author dashboard's "New
+    // Submission" button, not a direct /submission/wizard URL. Use aauthor
+    // (spec 10 registers this user); tobler only exists in the testData dump.
+    cy.logout();
+    cy.login('aauthor');
+    cy.get('a:contains("aauthor"):visible', { timeout: 20000 }).click();
+    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.get('div#myQueue a:contains("New Submission")').click();
+    cy.get('input[id^="checklist-"]').click({ multiple: true });
+    cy.get('input[id="privacyConsent"]').click();
+    cy.get('button.submitFormButton').click();
+    cy.wait(1000);
+    cy.get('button.submitFormButton').click();
     cy.get('#mapdiv', { timeout: 20000 }).should('be.visible');
-    cy.window().should('have.property', 'map');
+    // `var map = null` at submission.js:16 attaches to window but stays null
+    // until initMap runs; wait for the actual Leaflet instance.
+    cy.window({ timeout: 20000 }).should((win) => {
+      expect(win.map, 'window.map').to.not.be.null;
+    });
     cy.window().then((win) => {
       const center = win.map.getCenter();
       expect(center.lat, 'submission map lat').to.be.closeTo(51.0, 0.01);
@@ -153,24 +220,22 @@ describe('geoMetadata Configurable Map Defaults', function () {
 
   it('article map uses the configured geometry colour', function () {
     setColor('geoMetadata_mapFeatureColor', '#00ff00');
-
-    cy.visit('/');
-    cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
-    cy.get('a:contains("Hanover is nice")').last().click();
+    visitArticle('Hanover is nice');
     cy.get('#mapdiv path.leaflet-interactive').first().should('have.attr', 'stroke', '#00ff00');
   });
 
   it('point-geometry marker picks up the configured hue rotation', function () {
     setSlider('geoMetadata_markerHueRotation', 90);
-
     // "Vancouver is cool" has a Point geometry.
-    cy.visit('/');
-    cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
-    cy.get('a:contains("Vancouver is cool")').last().click();
+    visitArticle('Vancouver is cool');
     cy.get('#mapdiv img.leaflet-marker-icon.geoMetadata_marker_default')
       .should('have.length.at.least', 1);
-    cy.document().its('styleSheets').then(() => {
-      cy.get('head style').invoke('text').should('include', 'hue-rotate(90deg)');
+    // `_map_js_globals.tpl` is included inside the article body (because
+    // Leaflet loads at end-of-body), so the <style> block lives in <body>,
+    // not <head>. Query all <style> tags and concatenate.
+    cy.get('style').then(($styles) => {
+      const css = $styles.toArray().map((el) => el.textContent).join('\n');
+      expect(css).to.include('hue-rotate(90deg)');
     });
   });
 
@@ -178,7 +243,8 @@ describe('geoMetadata Configurable Map Defaults', function () {
     setColor('geoMetadata_mapFeatureColorHighlight', '#00ff00');
 
     visitCurrentIssue();
-    cy.get('head style').invoke('text').then((css) => {
+    cy.get('style').then(($styles) => {
+      const css = $styles.toArray().map((el) => el.textContent).join('\n');
       expect(css).to.include('.geoMetadata_title_hover');
       expect(css).to.include('border-left-color: #00ff00');
       expect(css).to.include('rgba(0, 255, 0, 0.15)');
@@ -186,12 +252,21 @@ describe('geoMetadata Configurable Map Defaults', function () {
   });
 
   it('synced-highlight toggle off skips the hover wiring; on by default', function () {
+    // The flag is emitted as a `const` in _map_js_globals.tpl and therefore
+    // does not attach to `window`; inspect the inline script's source text
+    // instead of window.geoMetadata_enableSyncedHighlight.
+    const scriptHas = (needle) =>
+      cy.get('script:not([src])').then(($scripts) => {
+        const text = $scripts.toArray().map((s) => s.textContent).join('\n');
+        expect(text).to.include(needle);
+      });
+
     visitCurrentIssue();
-    cy.window().its('geoMetadata_enableSyncedHighlight').should('eq', true);
+    scriptHas('geoMetadata_enableSyncedHighlight = true');
 
     setToggle(syncedHighlightCheckbox, false);
     visitCurrentIssue();
-    cy.window().its('geoMetadata_enableSyncedHighlight').should('eq', false);
+    scriptHas('geoMetadata_enableSyncedHighlight = false');
 
     setToggle(syncedHighlightCheckbox, true);
   });
@@ -199,13 +274,16 @@ describe('geoMetadata Configurable Map Defaults', function () {
   it('admin-unit overlay uses the configured colour and fill opacity', function () {
     setColor('geoMetadata_adminUnitOverlayColor', '#123456');
     openSettings();
-    cy.get('#geoMetadata_adminUnitOverlayFillOpacity').clear().type('0.4');
+    cy.get('#geoMetadata_adminUnitOverlayFillOpacity')
+      .invoke('val', '0.4').trigger('input').trigger('change');
     saveSettings();
 
     visitSaxony();
-    cy.get('#mapdiv path.leaflet-interactive')
-      .should('have.attr', 'stroke', '#123456')
-      .and('have.attr', 'fill-opacity', '0.4');
+    // Atlas of Saxony's map has an admin-unit overlay (polygon from GeoNames
+    // bbox) and a second path if it also has a geometry; pick the overlay
+    // path by stroke colour.
+    cy.get('#mapdiv path.leaflet-interactive[stroke="#123456"]')
+      .should('have.attr', 'fill-opacity', '0.4');
   });
 
   it('restores every Map Appearance setting to its default', function () {
@@ -218,7 +296,9 @@ describe('geoMetadata Configurable Map Defaults', function () {
     setToggle(syncedHighlightCheckbox, true);
 
     openSettings();
-    cy.get('#geoMetadata_adminUnitOverlayFillOpacity').clear().type(DEFAULT_OVERLAY_OPACITY);
+    // Number inputs: .clear() doesn't always empty the value; assign directly.
+    cy.get('#geoMetadata_adminUnitOverlayFillOpacity')
+      .invoke('val', DEFAULT_OVERLAY_OPACITY).trigger('input').trigger('change');
     saveSettings();
 
     openSettings();

@@ -70,9 +70,13 @@ describe('geoMetadata Maps', function () {
     });
 
     cy.window().wait(200).then(({ map }) => {
+      // The admin-unit overlay colour is the configurable
+      // geoMetadata_adminUnitOverlayColor (default #000000); match either the
+      // hex or the legacy CSS name so the test survives future default changes.
       var foundAdminLayerBasedOnColor = false;
       map.eachLayer(function (layer) {
-        if (layer.options.hasOwnProperty('color') && layer.options.color === 'black') {
+        if (layer.options.hasOwnProperty('color') &&
+            (layer.options.color === 'black' || layer.options.color === '#000000')) {
           foundAdminLayerBasedOnColor = true;
           expect(layer.options.fillOpacity).to.equal(0.15);
           expect(layer._latlngs[0]).to.have.lengthOf(4);

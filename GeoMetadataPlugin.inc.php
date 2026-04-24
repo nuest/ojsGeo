@@ -707,12 +707,6 @@ class GeoMetadataPlugin extends GenericPlugin
 		}
 		$templateMgr->assign(GEOMETADATA_DB_FIELD_TIME_PERIODS, $temporalProperties);
 
-		//$administrativeUnit = $publication->getLocalizedData('coverage', $journal->getPrimaryLocale());
-		//if ($administrativeUnit === null || $administrativeUnit === '') {
-		//	$administrativeUnit = 'no data';
-		//}
-		//$templateMgr->assign(GEOMETADATA_DB_FIELD_ADMINUNIT, $administrativeUnit);
-
 		$output .= $templateMgr->fetch($this->getTemplateResource('frontend/objects/issue_details.tpl'));
 
 		return false;

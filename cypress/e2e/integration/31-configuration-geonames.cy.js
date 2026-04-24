@@ -28,17 +28,24 @@ describe('geoMetadata Configuration Geonames', function () {
     cy.get('tr[id="component-grid-settings-plugins-settingsplugingrid-category-generic-row-geometadataplugin"] a[class="show_extras"]').click();
     cy.get('a[id^="component-grid-settings-plugins-settingsplugingrid-category-generic-row-geometadataplugin-settings-button"]').click();
 
-    // Fill out settings form
+    // Assign the value directly instead of .type(): some observed cases
+    // where the form persisted only the first character, likely a race
+    // between typed-input events and OJS's form hydration.
     cy.get('form[id="geoMetadataSettings"] input[name="geoMetadata_geonames_username"]')
-      .clear().invoke('val', '') // https://stackoverflow.com/a/61101054
-      .type(geonamesUsername);
+      .invoke('val', geonamesUsername).trigger('input').trigger('change');
     cy.get('form[id="geoMetadataSettings"] input[name="geoMetadata_geonames_baseurl"]')
-      .clear()
-      .type(geonamesBaseurl);
+      .invoke('val', geonamesBaseurl).trigger('input').trigger('change');
 
     // submit settings form
     cy.get('form[id="geoMetadataSettings"] button[id^="submitFormButton"]').click();
-    //cy.waitJQuery();
+    cy.wait(1000);
+
+    // Re-open the settings form and verify the full username persisted
+    // (guards against the regression where only the first character saved).
+    cy.get('tr[id="component-grid-settings-plugins-settingsplugingrid-category-generic-row-geometadataplugin"] a[class="show_extras"]').click();
+    cy.get('a[id^="component-grid-settings-plugins-settingsplugingrid-category-generic-row-geometadataplugin-settings-button"]').click();
+    cy.get('form[id="geoMetadataSettings"] input[name="geoMetadata_geonames_username"]')
+      .should('have.value', geonamesUsername);
   });
 
 });

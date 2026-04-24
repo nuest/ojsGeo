@@ -29,18 +29,35 @@ describe('geoMetadata Raw Fields Lock', function () {
 
   const setToggle = (name, checked) => {
     openSettings();
+    // Toggle can sit below the fixed-position modal's visible viewport, and the
+    // checkbox's <label> briefly reports visibility:hidden mid-render.
+    cy.get(toggleSelector(name)).scrollIntoView();
     if (checked) {
-      cy.get(toggleSelector(name)).check();
+      cy.get(toggleSelector(name)).check({ force: true });
     } else {
-      cy.get(toggleSelector(name)).uncheck();
+      cy.get(toggleSelector(name)).uncheck({ force: true });
     }
     cy.get(submitBtnSelector).click();
     cy.wait(1000);
   };
 
+  // Self-heal: guarantee the toggle starts ON (its shipped default) so test 1
+  // sees the locked state even after aborted prior runs.
+  const restoreLock = () => {
+    setToggle('geoMetadata_workflow_protectRawFields', true);
+    cy.logout();
+  };
+  before(restoreLock);
+  after(restoreLock);
+
   const openLatestPublicationTab = () => {
-    cy.login('admin', 'admin', Cypress.env('contextPath'));
-    cy.get('a:contains("Submissions")').click();
+    // Match the working Dashboard flow used by spec 33. Explicit logout drops
+    // the admin session setToggle() leaves us in; 20s timeout tolerates slow
+    // post-login hydration on first-navigation.
+    cy.logout();
+    cy.login('eeditor');
+    cy.get('a:contains("eeditor"):visible', { timeout: 20000 }).click();
+    cy.get('a:contains("Dashboard")').click({ force: true });
     cy.get('a:contains("View")').first().click();
     cy.get('div[role="tablist"]').find('button:contains("Publication")').click();
     cy.get('button[id^="timeLocation"]').click();
