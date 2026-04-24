@@ -251,6 +251,12 @@ msgstr "Verwaltungseinheit-Bearbeitung (GeoNames) im Publikations-Tab anbieten."
 msgid "plugins.generic.geoMetadata.settings.workflow_enableAdminUnit.description"
 msgstr "Wenn aktiviert, bietet der Publikations-Tab eine GeoNames-gestützte Autovervollständigung für Verwaltungseinheiten für Redakteur*innen und Korrekturleser*innen. Deaktivieren Sie diese Option, wenn ausschließlich Autor*innen die Verwaltungseinheiten pflegen."
 
+msgid "plugins.generic.geoMetadata.settings.workflow_protectRawFields"
+msgstr "Rohdatenfelder vor versehentlicher Bearbeitung schützen."
+
+msgid "plugins.generic.geoMetadata.settings.workflow_protectRawFields.description"
+msgstr "Wenn aktiviert, sind die Rohdaten-Textfelder im Publikations-Tab zunächst schreibgeschützt und müssen über die Schaltfläche „Bearbeiten freigeben“ entsperrt werden. Deaktivieren Sie diese Option, um die Textfelder dauerhaft bearbeitbar zu halten."
+
 msgid "plugins.generic.geoMetadata.settings.section.discovery"
 msgstr "Discovery-Meta-Tags (HTML-Head)"
 
@@ -501,7 +507,13 @@ msgid "plugins.generic.geoMetadata.publication.tab.raw"
 msgstr "Rohdaten"
 
 msgid "plugins.generic.geoMetadata.publication.tab.raw.description"
-msgstr "Bearbeitung der Rohdaten hat mit Vorsicht zu erfolgen! Änderungen in den Rohdaten verursachen <strong>kein</strong> update der obigen Formularfelder und Karte."
+msgstr "Bearbeitung der Rohdaten hat mit Vorsicht zu erfolgen! Änderungen in den Rohdaten verursachen <strong>kein</strong> update der obigen Formularfelder und Karte. Speichern Sie Änderungen und laden Sie diese Seite neu, um die obigen Informationen zu aktualisieren."
+
+msgid "plugins.generic.geoMetadata.publication.tab.raw.description.locked"
+msgstr "Die untenstehenden Felder sind schreibgeschützt, um versehentliche Änderungen zu vermeiden. Klicken Sie auf <em>Bearbeiten freigeben</em>, um sie zu entsperren. Bearbeitung der Rohdaten hat mit Vorsicht zu erfolgen! Änderungen in den Rohdaten verursachen <strong>kein</strong> update der obigen Formularfelder und Karte. Speichern Sie Änderungen und laden Sie diese Seite neu, um die obigen Informationen zu aktualisieren."
+
+msgid "plugins.generic.geoMetadata.publication.tab.raw.enable"
+msgstr "Bearbeiten freigeben"
 
 msgid "plugins.generic.geoMetadata.publication.success"
 msgstr "Die Metadaten wurden aktualisiert."

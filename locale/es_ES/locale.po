@@ -251,6 +251,12 @@ msgstr "Ofrecer edición de unidad administrativa (GeoNames) en la pestaña Publ
 msgid "plugins.generic.geoMetadata.settings.workflow_enableAdminUnit.description"
 msgstr "Cuando está activado, la pestaña Publicación ofrece un autocompletado de unidades administrativas respaldado por GeoNames para redactores/as y correctores/as. Desactive esta opción si los autores son los únicos responsables de estos metadatos."
 
+msgid "plugins.generic.geoMetadata.settings.workflow_protectRawFields"
+msgstr "Proteger los campos de datos sin procesar de ediciones accidentales."
+
+msgid "plugins.generic.geoMetadata.settings.workflow_protectRawFields.description"
+msgstr "Cuando está activado, las áreas de texto de datos sin procesar de la pestaña Publicación comienzan en modo de solo lectura y requieren pulsar el botón «Activar edición» para desbloquearse. Desactive esta opción para mantener las áreas de texto siempre editables."
+
 msgid "plugins.generic.geoMetadata.settings.section.discovery"
 msgstr "Etiquetas meta de descubrimiento (head HTML)"
 
@@ -501,7 +507,13 @@ msgid "plugins.generic.geoMetadata.publication.tab.raw"
 msgstr "Datos sin procesar"
 
 msgid "plugins.generic.geoMetadata.publication.tab.raw.description"
-msgstr "¡Edite los datos sin procesar con cuidado! Los cambios realizados en los datos sin procesar <strong>no</strong> desencadenan cambios en los campos de formulario y el mapa anteriores."
+msgstr "¡Edite los datos sin procesar con cuidado! Los cambios realizados en los datos sin procesar <strong>no</strong> desencadenan cambios en los campos de formulario y el mapa anteriores. Guarde los cambios y recargue esta página para actualizar la información anterior."
+
+msgid "plugins.generic.geoMetadata.publication.tab.raw.description.locked"
+msgstr "Los campos siguientes son de solo lectura para evitar ediciones accidentales. Pulse <em>Activar edición</em> para desbloquearlos. ¡Edite los datos sin procesar con cuidado! Los cambios realizados en los datos sin procesar <strong>no</strong> desencadenan cambios en los campos de formulario y el mapa anteriores. Guarde los cambios y recargue esta página para actualizar la información anterior."
+
+msgid "plugins.generic.geoMetadata.publication.tab.raw.enable"
+msgstr "Activar edición"
 
 msgid "plugins.generic.geoMetadata.publication.success"
 msgstr "Actualización de metadatos exitosa."

@@ -290,6 +290,16 @@
         label="plugins.generic.geoMetadata.settings.workflow_enableAdminUnit"
         }
     </p>
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.workflow_protectRawFields.description"}
+        {fbvElement
+        type="checkbox"
+        id="geoMetadata_workflow_protectRawFields"
+        value="1"
+        checked=$geoMetadata_workflow_protectRawFields
+        label="plugins.generic.geoMetadata.settings.workflow_protectRawFields"
+        }
+    </p>
     {/fbvFormSection}
     {/fbvFormArea}
 

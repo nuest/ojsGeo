@@ -251,6 +251,12 @@ msgstr "Proposer l'édition d'unité administrative (GeoNames) dans l'onglet Pub
 msgid "plugins.generic.geoMetadata.settings.workflow_enableAdminUnit.description"
 msgstr "Lorsque cette option est activée, l'onglet Publication propose une auto-complétion d'unités administratives via GeoNames pour les rédacteur·ice·s et réviseur·euse·s. Désactivez si seul·e l'auteur·ice est responsable de ces métadonnées."
 
+msgid "plugins.generic.geoMetadata.settings.workflow_protectRawFields"
+msgstr "Protéger les champs de données brutes contre les modifications accidentelles."
+
+msgid "plugins.generic.geoMetadata.settings.workflow_protectRawFields.description"
+msgstr "Lorsque cette option est activée, les zones de texte des données brutes de l'onglet Publication sont initialement en lecture seule et nécessitent un clic sur le bouton « Activer l'édition » pour être déverrouillées. Désactivez-la pour conserver les zones de texte toujours modifiables."
+
 msgid "plugins.generic.geoMetadata.settings.section.discovery"
 msgstr "Métadonnées de découverte (head HTML)"
 
@@ -501,7 +507,13 @@ msgid "plugins.generic.geoMetadata.publication.tab.raw"
 msgstr "Données brutes"
 
 msgid "plugins.generic.geoMetadata.publication.tab.raw.description"
-msgstr "Modifiez les données brutes avec soin! Les modifications apportées aux données brutes ne déclenchent <strong>pas</strong> de modifications dans les champs de formulaire et la carte ci-dessus."
+msgstr "Modifiez les données brutes avec soin! Les modifications apportées aux données brutes ne déclenchent <strong>pas</strong> de modifications dans les champs de formulaire et la carte ci-dessus. Enregistrez les modifications et rechargez cette page pour mettre à jour les informations ci-dessus."
+
+msgid "plugins.generic.geoMetadata.publication.tab.raw.description.locked"
+msgstr "Les champs ci-dessous sont en lecture seule pour éviter les modifications accidentelles. Cliquez sur <em>Activer l'édition</em> pour les déverrouiller. Modifiez les données brutes avec soin! Les modifications apportées aux données brutes ne déclenchent <strong>pas</strong> de modifications dans les champs de formulaire et la carte ci-dessus. Enregistrez les modifications et rechargez cette page pour mettre à jour les informations ci-dessus."
+
+msgid "plugins.generic.geoMetadata.publication.tab.raw.enable"
+msgstr "Activer l'édition"
 
 msgid "plugins.generic.geoMetadata.publication.success"
 msgstr "Mise à jour des métadonnées réussie."

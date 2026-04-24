@@ -21,6 +21,7 @@ Internationalisation, configurability, and HTML-head metadata — target release
 - Cypress coverage for all admin toggles and for the time-period field in the HTML-head GeoJSON export ([#106](https://github.com/TIBHannover/geoMetadata/issues/106)).
 - Map appearance settings: configurable default view for the submission map, and colours for article geometry, hover highlight, administrative-unit overlay, and point markers ([#39](https://github.com/TIBHannover/geoMetadata/issues/39), [#73](https://github.com/TIBHannover/geoMetadata/issues/73), [#145](https://github.com/TIBHannover/geoMetadata/issues/145)).
 - Hover highlighting on the issue page uses the configured highlight colour, with an admin toggle to synchronise (or disable) the two-way hover between map and article entries.
+- Raw-data textareas on the publication tab start read-only with an "Enable editing" button, to prevent accidental edits that can silently corrupt stored GeoJSON. An admin toggle under *Workflow settings* disables the lock for journals that prefer the previous always-editable behaviour ([#114](https://github.com/TIBHannover/geoMetadata/issues/114)).
 
 ### Changed
 
@@ -32,6 +33,8 @@ Internationalisation, configurability, and HTML-head metadata — target release
 
 ### Fixed
 
+- Journal map page (`/<journal>/map`) rendered invalid JS (`fillOpacity: }` syntax error) because `JournalMapHandler` did not propagate the plugin's shared map-template variables, leaving `_map_js_globals.tpl` to emit empty `const` declarations. The resulting crash took out every map script on the page, including the overall time-period summary.
+- Legacy 10-digit Unix-epoch values stored in the temporal field (from very old records) are now silently rejected by the shared parser instead of being misread as year-N; the 6-digit cap still accepts deep-history years like `-100000` for BCE.
 - Issue-page hover: point markers now highlight when hovering the article div, not just polygons ([#83](https://github.com/TIBHannover/geoMetadata/issues/83)).
 - Locale switching in tests; restored `DC.PeriodOfTime` HTML meta emission.
 - Removed dead `isEsriBaseLayerEnabled` helper.

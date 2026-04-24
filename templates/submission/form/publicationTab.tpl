@@ -98,13 +98,58 @@
         </label>
     </div>
     <div class="pkpFormField__description">
-        {translate key="plugins.generic.geoMetadata.publication.tab.raw.description"}
+        {if $geoMetadata_workflow_protectRawFields}
+            {translate key="plugins.generic.geoMetadata.publication.tab.raw.description.locked"}
+        {else}
+            {translate key="plugins.generic.geoMetadata.publication.tab.raw.description"}
+        {/if}
     </div>
 
-    <div>
+    {if $geoMetadata_workflow_protectRawFields}
+    <button type="button" id="geoMetadata_rawFields_enable" class="pkpButton pkpButton--isPrimary">
+        {translate key="plugins.generic.geoMetadata.publication.tab.raw.enable"}
+    </button>
+    {/if}
+
+    <div id="geoMetadata_rawFields"{if $geoMetadata_workflow_protectRawFields} class="geoMetadata_rawFields--locked"{/if}>
         <pkp-form v-bind="components.{$smarty.const.GEOMETADATA_FORM_NAME}" @set="set"/>
     </div>
-    
+
+    {if $geoMetadata_workflow_protectRawFields}
+    <script type="text/javascript">
+        $(function() {
+            var container = document.getElementById('geoMetadata_rawFields');
+            var button = document.getElementById('geoMetadata_rawFields_enable');
+            if (!container || !button) return;
+            function lock() {
+                container.querySelectorAll('textarea').forEach(function(t) {
+                    t.setAttribute('readonly', 'readonly');
+                    t.setAttribute('aria-readonly', 'true');
+                });
+            }
+            function unlock() {
+                container.classList.remove('geoMetadata_rawFields--locked');
+                container.querySelectorAll('textarea').forEach(function(t) {
+                    t.removeAttribute('readonly');
+                    t.removeAttribute('aria-readonly');
+                });
+                button.style.display = 'none';
+                var first = container.querySelector('textarea');
+                if (first) first.focus();
+            }
+            // pkp-form mounts asynchronously; poll briefly for the textareas to appear.
+            var attempts = 0;
+            var timer = setInterval(function() {
+                if (container.querySelectorAll('textarea').length > 0 || ++attempts > 40) {
+                    clearInterval(timer);
+                    lock();
+                }
+            }, 100);
+            button.addEventListener('click', unlock);
+        });
+    </script>
+    {/if}
+
     {* Fix Leaflet gray map issue when it is displayed later than page load. The script is included here and not in submission.js as submission.js is also used for submissionMetadataFormFields.tpl, which would throw errors with this function. *}
     <script type="text/javascript">
         // https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver

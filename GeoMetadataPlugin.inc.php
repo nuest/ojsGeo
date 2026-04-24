@@ -759,6 +759,7 @@ class GeoMetadataPlugin extends GenericPlugin
 		$templateMgr->assign('geoMetadata_workflow_enableSpatial', $workflowSpatial);
 		$templateMgr->assign('geoMetadata_workflow_enableTemporal', $workflowTemporal);
 		$templateMgr->assign('geoMetadata_workflow_enableAdminUnit', $workflowAdminUnit);
+		$templateMgr->assign('geoMetadata_workflow_protectRawFields', $this->isFeatureEnabled('geoMetadata_workflow_protectRawFields'));
 
 		$templateMgr->assign($this->templateParameters);
 

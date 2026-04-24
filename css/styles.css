@@ -114,6 +114,16 @@
 	margin-top: 0.25rem;
 }
 
+.geoMetadata_rawFields--locked textarea {
+	background-color: #f4f4f4;
+	color: #555;
+	cursor: not-allowed;
+}
+
+#geoMetadata_rawFields_enable {
+	margin-bottom: 0.5em;
+}
+
 .obj_galley_link {
 cursor: pointer;
 }

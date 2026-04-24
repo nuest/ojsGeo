@@ -251,6 +251,12 @@ msgstr "Offer administrative-unit (GeoNames) editing in the publication tab."
 msgid "plugins.generic.geoMetadata.settings.workflow_enableAdminUnit.description"
 msgstr "When enabled, the publication tab offers a GeoNames-backed administrative-unit autocomplete for editors and copyeditors. Disable if authors are solely responsible for administrative-unit metadata."
 
+msgid "plugins.generic.geoMetadata.settings.workflow_protectRawFields"
+msgstr "Protect raw data fields from accidental edits."
+
+msgid "plugins.generic.geoMetadata.settings.workflow_protectRawFields.description"
+msgstr "When enabled, the raw data textareas on the publication tab start read-only and require an \"Enable editing\" button to unlock. Disable to always keep the textareas editable."
+
 msgid "plugins.generic.geoMetadata.settings.section.discovery"
 msgstr "Discovery meta tags (HTML head)"
 
@@ -501,7 +507,13 @@ msgid "plugins.generic.geoMetadata.publication.tab.raw"
 msgstr "Raw data"
 
 msgid "plugins.generic.geoMetadata.publication.tab.raw.description"
-msgstr "Edit raw data with care! Changes made to the raw data do <strong>not</strong> trigger changes in the above form fields and map."
+msgstr "Edit raw data with care! Changes made to the raw data do <strong>not</strong> trigger changes in the above form fields and map. Save edits and reload this page to update the information above."
+
+msgid "plugins.generic.geoMetadata.publication.tab.raw.description.locked"
+msgstr "The fields below are read-only to prevent accidental edits. Click <em>Enable editing</em> to unlock them. Edit raw data with care! Changes made to the raw data do <strong>not</strong> trigger changes in the above form fields and map. Save edits and reload this page to update the information above."
+
+msgid "plugins.generic.geoMetadata.publication.tab.raw.enable"
+msgstr "Enable editing"
 
 msgid "plugins.generic.geoMetadata.publication.success"
 msgstr "Metadata update successful."
