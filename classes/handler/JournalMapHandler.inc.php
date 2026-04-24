@@ -76,6 +76,14 @@ class JournalMapHandler extends Handler
             'context' => $context->getLocalizedName(),
         ));
 
+        // Propagate the plugin's shared map-template variables (marker URLs,
+        // feature colours, overlay opacity, submission-map defaults, i18n) —
+        // the article/issue hooks do this via $templateMgr->assign($plugin
+        // ->templateParameters); the journal-map page serves through a custom
+        // handler and would otherwise emit _map_js_globals.tpl with empty
+        // values, breaking every map script on the page with a JS syntax error.
+        $templateMgr->assign($plugin->templateParameters);
+
         return $templateMgr->display($plugin->getTemplateResource('frontend/pages/journal_map.tpl'));
     }
 }

@@ -8,9 +8,10 @@
  */
 
 var geoMetadata_issueMapEnabled = !!document.getElementById('mapdiv');
-var map, articleLocations, iconStyle, iconStyleHighlight;
+var map, articleLocations, geoMetadata_iconStyle, geoMetadata_iconStyleHighlight;
 
 if (geoMetadata_issueMapEnabled) {
+    // Seed view; fitBounds() below overrides it once articles load.
     var mapView = "0, 0, 1".split(",");
     map = L.map('mapdiv', { zoomControl: false, worldCopyJump: true }).setView([mapView[0], mapView[1]], mapView[2]);
 
@@ -52,20 +53,14 @@ if (geoMetadata_issueMapEnabled) {
 
     L.control.layers(baseLayers, overlayMaps).addTo(map);
 
-    iconStyle = L.icon({
-        iconUrl: geoMetadata_markerBaseUrl + 'marker-icon-2x-blue.png',
-        shadowUrl: geoMetadata_markerBaseUrl + 'marker-shadow.png'
-    });
-    iconStyleHighlight = L.icon({
-        iconUrl: geoMetadata_markerBaseUrl + 'marker-icon-2x-red.png',
-        shadowUrl: geoMetadata_markerBaseUrl + 'marker-shadow.png'
-    });
+    geoMetadata_iconStyle          = L.icon(geoMetadata_iconStyleConfig);
+    geoMetadata_iconStyleHighlight = L.icon(geoMetadata_iconStyleHighlightConfig);
 }
 
 // highlighting features based on https://leafletjs.com/examples/choropleth/
 function highlightFeature(layer, feature) {
     if (feature && feature.geometry.type === "Point" && layer.options.icon) { // only setIcon on a layer that already has one
-        layer.setIcon(iconStyleHighlight);
+        layer.setIcon(geoMetadata_iconStyleHighlight);
     } else {
         layer.setStyle(geoMetadata_mapLayerStyleHighlight);
         if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
@@ -76,7 +71,7 @@ function highlightFeature(layer, feature) {
 
 function resetHighlightFeature(layer, feature) {
     if (feature && feature.geometry.type === "Point" && layer.options.icon) {
-        layer.setIcon(iconStyle);
+        layer.setIcon(geoMetadata_iconStyle);
     } else {
         layer.setStyle(geoMetadata_mapLayerStyleHighlight);
         // layer.resetStyle(); // e's layers is a geoJSON layer, so maybe access that function here somehow?
@@ -147,6 +142,7 @@ $(function () {
             }
 
             let layer = L.geoJSON(spatialProperty, {
+                pointToLayer: (feature, latlng) => L.marker(latlng, { icon: geoMetadata_iconStyle }),
                 onEachFeature: (feature, layer) => {
                     layer.bindPopup(popupInputs[index]);
                     feature.properties['articleId'] = articleId;
@@ -154,16 +150,18 @@ $(function () {
                     // Store layer reference for this article
                     articleLayersMap.get(articleId).push(layer);
 
-                    layer.on({
-                        mouseover: (e) => {
-                            highlightArticleFeatures(articleId);
-                            highlightArticle(feature.properties.articleId);
-                        },
-                        mouseout: (e) => {
-                            resetHighlightArticleFeatures(articleId);
-                            resetHighlightArticle(feature.properties.articleId);
-                        }
-                    });
+                    if (geoMetadata_enableSyncedHighlight) {
+                        layer.on({
+                            mouseover: (e) => {
+                                highlightArticleFeatures(articleId);
+                                highlightArticle(feature.properties.articleId);
+                            },
+                            mouseout: (e) => {
+                                resetHighlightArticleFeatures(articleId);
+                                resetHighlightArticle(feature.properties.articleId);
+                            }
+                        });
+                    }
                     features.push(feature);
                 },
                 style: geoMetadata_mapLayerStyle
@@ -172,16 +170,17 @@ $(function () {
             articleLocations.addLayer(layer);
             map.fitBounds(articleLocations.getBounds());
 
-            // add event listener to article div for highlighting the related layer
-            let articleDiv = $('#' + articleId).parent().closest('div');
-            articleDiv.hover(
-                (e) => {
-                    highlightArticleFeatures(articleId);
-                },
-                (e) => {
-                    resetHighlightArticleFeatures(articleId);
-                }
-            );
+            if (geoMetadata_enableSyncedHighlight) {
+                let articleDiv = $('#' + articleId).parent().closest('div');
+                articleDiv.hover(
+                    (e) => {
+                        highlightArticleFeatures(articleId);
+                    },
+                    (e) => {
+                        resetHighlightArticleFeatures(articleId);
+                    }
+                );
+            }
         }
     });
 

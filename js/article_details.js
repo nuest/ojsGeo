@@ -142,7 +142,9 @@ $(function () {
         }
 
         spatialPropertiesParsed.features = geoMetadata_prepareFeaturesForDisplay(spatialPropertiesParsed.features);
-        let layer = L.geoJSON(spatialPropertiesParsed);
+        let layer = L.geoJSON(spatialPropertiesParsed, {
+            pointToLayer: (feature, latlng) => L.marker(latlng, { icon: L.icon(geoMetadata_iconStyleConfig) })
+        });
         layer.setStyle(geoMetadata_mapLayerStyle);
         drawnItems.addLayer(layer);
         map.fitBounds(drawnItems.getBounds());
@@ -220,7 +222,7 @@ function displayBboxOfAdministrativeUnitWithLowestCommonDenominatorOfASetOfAdmin
 
     // creation of the corresponding leaflet layer
     if (bboxAdministrativeUnitLowestCommonDenominator !== undefined) {
-        var helper = bboxToLeafletLayers(bboxAdministrativeUnitLowestCommonDenominator, { color: 'black', fillOpacity: 0.15 });
+        var helper = bboxToLeafletLayers(bboxAdministrativeUnitLowestCommonDenominator, geoMetadata_adminUnitOverlayStyle);
 
         administrativeUnitsMap.clearLayers();
         helper.layers.eachLayer(function (l) { administrativeUnitsMap.addLayer(l); });

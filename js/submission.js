@@ -82,9 +82,10 @@ function checkGeonames() {
 
 function initMap() {
     if (!document.getElementById('mapdiv')) return;
-    //var mapView =  document.getElementById("geoMetadata_mapView").value; // TODO make configurable
-    var mapView = "0, 0, 1".split(",");
-    map = L.map('mapdiv', { zoomControl: false, worldCopyJump: true }).setView([mapView[0], mapView[1]], mapView[2]);
+    map = L.map('mapdiv', { zoomControl: false, worldCopyJump: true }).setView(
+        [geoMetadata_submissionMapDefaultLat, geoMetadata_submissionMapDefaultLng],
+        geoMetadata_submissionMapDefaultZoom
+    );
 
     // translated zoom control (issue #151) — default zoomControl disabled above so we can set tooltips
     L.control.zoom({
@@ -632,7 +633,7 @@ function displayBboxOfAdministrativeUnitWithLowestCommonDenominatorOfASetOfAdmin
 
     // creation of the corresponding leaflet layer
     if (bboxAdministrativeUnitLowestCommonDenominator !== undefined) {
-        var helper = bboxToLeafletLayers(bboxAdministrativeUnitLowestCommonDenominator, { color: 'black', fillOpacity: 0.15 });
+        var helper = bboxToLeafletLayers(bboxAdministrativeUnitLowestCommonDenominator, geoMetadata_adminUnitOverlayStyle);
 
         administrativeUnitsMap.clearLayers();
         helper.layers.eachLayer(function (l) { administrativeUnitsMap.addLayer(l); });

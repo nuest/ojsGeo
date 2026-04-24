@@ -21,6 +21,14 @@
  * because `{translate}` is a Smarty function tag, not a variable — the modifier would
  * bind to the `key` parameter instead of the output.
  *}
+<style>
+img.leaflet-marker-icon.geoMetadata_marker_default  {ldelim} filter: hue-rotate({$geoMetadata_markerHueRotation}deg); {rdelim}
+img.leaflet-marker-icon.geoMetadata_marker_highlight {ldelim} filter: hue-rotate({$geoMetadata_markerHueRotationHighlight}deg); {rdelim}
+.geoMetadata_title_hover {ldelim}
+    border-left-color: {$geoMetadata_mapFeatureColorHighlight};
+    background-color:  {$geoMetadata_mapFeatureColorHighlight_rgba15};
+{rdelim}
+</style>
 <script type="text/javascript">
 // Antimeridian helpers (issue #60). Split happens PHP-side on save; these run on
 // the read path to keep legacy pre-fix single-Polygon / single-LineString records
@@ -140,23 +148,59 @@ function geoMetadata_prepareFeaturesForDisplay(features) {
     return features.map(geoMetadata_splitLegacyPolygonForDisplay).map(geoMetadata_unwrapForDisplay);
 }
 
-// map style (shared by article_details.js, issue.js, journal.js)
+// map style (shared by article_details.js, issue.js, journal.js) — issue #73
 const geoMetadata_mapLayerStyle = {
     weight: 5,
-    color: '#1E6292',
+    color: '{$geoMetadata_mapFeatureColor|escape:'javascript'}',
     dashArray: '',
     fillOpacity: 0.6
 };
 const geoMetadata_mapLayerStyleHighlight = {
     weight: 5,
-    color: 'red',
+    color: '{$geoMetadata_mapFeatureColorHighlight|escape:'javascript'}',
     dashArray: '',
     fillOpacity: 0.6
 };
+const geoMetadata_adminUnitOverlayStyle = {
+    color: '{$geoMetadata_adminUnitOverlayColor|escape:'javascript'}',
+    fillOpacity: {$geoMetadata_adminUnitOverlayFillOpacity|escape:'javascript'}
+};
+
+// submission-map default view (issue #39 / #145)
+const geoMetadata_submissionMapDefaultLat  = {$geoMetadata_submissionMapDefaultLat|escape:'javascript'};
+const geoMetadata_submissionMapDefaultLng  = {$geoMetadata_submissionMapDefaultLng|escape:'javascript'};
+const geoMetadata_submissionMapDefaultZoom = {$geoMetadata_submissionMapDefaultZoom|escape:'javascript'};
+
+// Point-marker icon configs. Single blue base PNG + CSS hue-rotate (see <style> above)
+// so the colour is driven from plugin settings without bundling extra images.
+// Kept as plain data here (not L.icon instances) because this partial is rendered
+// inline in the page body, before Leaflet's <script> tag is loaded.
+// iconSize / iconAnchor / popupAnchor / shadowSize mirror L.Icon.Default — required
+// because L.Icon has no built-in defaults, so omitting them makes Leaflet use the PNG's
+// natural 50x82 and a centre anchor, which breaks both size and pan-correct positioning.
+const geoMetadata_iconStyleConfig = {ldelim}
+    iconUrl:     '{$geoMetadata_markerBaseUrl|escape:'javascript'}marker-icon-2x-blue.png',
+    shadowUrl:   '{$geoMetadata_markerBaseUrl|escape:'javascript'}marker-shadow.png',
+    iconSize:    [25, 41],
+    iconAnchor:  [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize:  [41, 41],
+    className:   'geoMetadata_marker_default'
+{rdelim};
+const geoMetadata_iconStyleHighlightConfig = {ldelim}
+    iconUrl:     '{$geoMetadata_markerBaseUrl|escape:'javascript'}marker-icon-2x-blue.png',
+    shadowUrl:   '{$geoMetadata_markerBaseUrl|escape:'javascript'}marker-shadow.png',
+    iconSize:    [25, 41],
+    iconAnchor:  [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize:  [41, 41],
+    className:   'geoMetadata_marker_highlight'
+{rdelim};
 
 // issue #124: base-layer toggle from plugin settings
 const geoMetadata_showEsriBaseLayer = {if $geoMetadata_showEsriBaseLayer}true{else}false{/if};
 const geoMetadata_showGeocoder      = {if $geoMetadata_showGeocoder}true{else}false{/if};
+const geoMetadata_enableSyncedHighlight = {if $geoMetadata_enableSyncedHighlight}true{else}false{/if};
 
 // layer switcher labels
 const geoMetadata_articleLayerName = '{$geoMetadata_i18n.articleLayerName|escape:'javascript'}';

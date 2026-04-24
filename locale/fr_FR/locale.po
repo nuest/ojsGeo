@@ -143,6 +143,66 @@ msgstr "Fournir la page cartographique de la revue à /map."
 msgid "plugins.generic.geoMetadata.settings.showJournalMap.description"
 msgstr "Lorsque cette option est activée, le plugin enregistre une route publique /map de la revue qui affiche une carte interactive de toutes les métadonnées spatiales des articles publiés. Lorsqu'elle est désactivée, la route renvoie 404 et tout lien de menu la ciblant sera rompu."
 
+msgid "plugins.generic.geoMetadata.settings.section.mapAppearance"
+msgstr "Apparence de la carte"
+
+msgid "plugins.generic.geoMetadata.settings.section.mapAppearance.intro"
+msgstr "Apparence des cartes destinées au lectorat et vue par défaut de la carte du formulaire de soumission."
+
+msgid "plugins.generic.geoMetadata.settings.subsection.submissionMapDefault"
+msgstr "Vue par défaut pour la soumission"
+
+msgid "plugins.generic.geoMetadata.settings.subsection.submissionMapDefault.description"
+msgstr "Déplacez et zoomez la carte ci-dessous sur la zone que la plupart des articles de cette revue décrivent. La carte du formulaire de soumission s'ouvrira sur cette vue."
+
+msgid "plugins.generic.geoMetadata.settings.subsection.featureColours"
+msgstr "Couleurs des géométries"
+
+msgid "plugins.generic.geoMetadata.settings.subsection.featureColours.description"
+msgstr "Couleurs utilisées pour afficher la géométrie des articles et la superposition de l'unité administrative sur les cartes destinées au lectorat."
+
+msgid "plugins.generic.geoMetadata.settings.mapFeatureColor"
+msgstr "Couleur de la géométrie"
+
+msgid "plugins.generic.geoMetadata.settings.mapFeatureColor.description"
+msgstr "Couleur du trait et du remplissage pour la géométrie des articles (points, lignes, polygones) sur les cartes de l'article, du numéro et de la revue."
+
+msgid "plugins.generic.geoMetadata.settings.markerHueRotation"
+msgstr "Rotation de teinte pour les marqueurs ponctuels"
+
+msgid "plugins.generic.geoMetadata.settings.markerHueRotation.description"
+msgstr "Les géométries ponctuelles utilisent une image matricielle comme marqueur ; déplacez le curseur jusqu'à ce que l'aperçu corresponde à la couleur de géométrie choisie ci-dessus."
+
+msgid "plugins.generic.geoMetadata.settings.mapFeatureColorHighlight"
+msgstr "Couleur de surbrillance"
+
+msgid "plugins.generic.geoMetadata.settings.mapFeatureColorHighlight.description"
+msgstr "Couleur utilisée sur la carte du numéro lorsque le lectorat survole l'entrée d'un article ou sa géométrie."
+
+msgid "plugins.generic.geoMetadata.settings.markerHueRotationHighlight"
+msgstr "Rotation de teinte pour les marqueurs ponctuels en surbrillance"
+
+msgid "plugins.generic.geoMetadata.settings.markerHueRotationHighlight.description"
+msgstr "Rotation de teinte appliquée au marqueur au survol ; déplacez le curseur jusqu'à ce que l'aperçu corresponde à la couleur de surbrillance choisie ci-dessus."
+
+msgid "plugins.generic.geoMetadata.settings.enableSyncedHighlight"
+msgstr "Synchroniser la surbrillance entre la carte du numéro et les entrées d'articles."
+
+msgid "plugins.generic.geoMetadata.settings.enableSyncedHighlight.description"
+msgstr "Lorsque cette option est activée, survoler la géométrie d'un article sur la carte du numéro met en évidence son entrée dans la table des matières, et inversement. Utilise la couleur de surbrillance configurée ci-dessus."
+
+msgid "plugins.generic.geoMetadata.settings.adminUnitOverlayColor"
+msgstr "Couleur de la superposition d'unité administrative"
+
+msgid "plugins.generic.geoMetadata.settings.adminUnitOverlayColor.description"
+msgstr "Couleur du trait et du remplissage pour la boîte englobante dessinée autour de l'unité administrative d'un article."
+
+msgid "plugins.generic.geoMetadata.settings.adminUnitOverlayFillOpacity"
+msgstr "Opacité de la superposition d'unité administrative"
+
+msgid "plugins.generic.geoMetadata.settings.adminUnitOverlayFillOpacity.description"
+msgstr "Opacité du remplissage (0 = transparent, 1 = opaque) pour la superposition d'unité administrative."
+
 msgid "plugins.generic.geoMetadata.settings.section.submission"
 msgstr "Formulaire de soumission (auteur·ice)"
 

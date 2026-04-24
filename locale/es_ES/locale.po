@@ -143,6 +143,66 @@ msgstr "Proporcionar la página cartográfica de la revista en /map."
 msgid "plugins.generic.geoMetadata.settings.showJournalMap.description"
 msgstr "Cuando está activado, el plugin registra una ruta pública /map de la revista que muestra un mapa interactivo de todos los metadatos espaciales de los artículos publicados. Cuando está desactivado, la ruta devuelve 404 y cualquier enlace de menú que apunte a ella quedará roto."
 
+msgid "plugins.generic.geoMetadata.settings.section.mapAppearance"
+msgstr "Apariencia del mapa"
+
+msgid "plugins.generic.geoMetadata.settings.section.mapAppearance.intro"
+msgstr "Apariencia de los mapas mostrados a los lectores y vista por defecto del mapa en el formulario de envío."
+
+msgid "plugins.generic.geoMetadata.settings.subsection.submissionMapDefault"
+msgstr "Vista por defecto del mapa de envío"
+
+msgid "plugins.generic.geoMetadata.settings.subsection.submissionMapDefault.description"
+msgstr "Desplace y haga zoom sobre el mapa de abajo hasta la zona que describen la mayoría de los artículos de esta revista. El mapa del formulario de envío se abrirá con esa vista."
+
+msgid "plugins.generic.geoMetadata.settings.subsection.featureColours"
+msgstr "Colores de las geometrías"
+
+msgid "plugins.generic.geoMetadata.settings.subsection.featureColours.description"
+msgstr "Colores utilizados para mostrar la geometría de los artículos y la superposición de la unidad administrativa en los mapas mostrados a los lectores."
+
+msgid "plugins.generic.geoMetadata.settings.mapFeatureColor"
+msgstr "Color de la geometría"
+
+msgid "plugins.generic.geoMetadata.settings.mapFeatureColor.description"
+msgstr "Color del trazo y del relleno para la geometría de los artículos (puntos, líneas, polígonos) en los mapas del artículo, del número y de la revista."
+
+msgid "plugins.generic.geoMetadata.settings.markerHueRotation"
+msgstr "Rotación de tono para los marcadores puntuales"
+
+msgid "plugins.generic.geoMetadata.settings.markerHueRotation.description"
+msgstr "Las geometrías puntuales usan una imagen rasterizada como marcador; mueva el control deslizante hasta que la vista previa coincida con el color de geometría elegido arriba."
+
+msgid "plugins.generic.geoMetadata.settings.mapFeatureColorHighlight"
+msgstr "Color de resaltado"
+
+msgid "plugins.generic.geoMetadata.settings.mapFeatureColorHighlight.description"
+msgstr "Color utilizado en el mapa del número cuando la lectora o el lector pasa el ratón por encima de la entrada de un artículo o de su geometría."
+
+msgid "plugins.generic.geoMetadata.settings.markerHueRotationHighlight"
+msgstr "Rotación de tono para los marcadores puntuales resaltados"
+
+msgid "plugins.generic.geoMetadata.settings.markerHueRotationHighlight.description"
+msgstr "Rotación de tono aplicada al marcador al pasar el ratón; mueva el control deslizante hasta que la vista previa coincida con el color de resaltado elegido arriba."
+
+msgid "plugins.generic.geoMetadata.settings.enableSyncedHighlight"
+msgstr "Sincronizar el resaltado entre el mapa del número y las entradas de artículos."
+
+msgid "plugins.generic.geoMetadata.settings.enableSyncedHighlight.description"
+msgstr "Cuando está activado, pasar el ratón sobre la geometría de un artículo en el mapa del número resalta su entrada en la tabla de contenidos, y viceversa. Utiliza el color de resaltado configurado arriba."
+
+msgid "plugins.generic.geoMetadata.settings.adminUnitOverlayColor"
+msgstr "Color de la superposición de unidad administrativa"
+
+msgid "plugins.generic.geoMetadata.settings.adminUnitOverlayColor.description"
+msgstr "Color del trazo y del relleno para la caja delimitadora dibujada alrededor de la unidad administrativa de un artículo."
+
+msgid "plugins.generic.geoMetadata.settings.adminUnitOverlayFillOpacity"
+msgstr "Opacidad de la superposición de unidad administrativa"
+
+msgid "plugins.generic.geoMetadata.settings.adminUnitOverlayFillOpacity.description"
+msgstr "Opacidad del relleno (0 = transparente, 1 = opaco) para la superposición de unidad administrativa."
+
 msgid "plugins.generic.geoMetadata.settings.section.submission"
 msgstr "Formulario de envío (autor/a)"
 

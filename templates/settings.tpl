@@ -86,6 +86,137 @@
     {/fbvFormSection}
     {/fbvFormArea}
 
+    {fbvFormArea id="geoMetadataSettingsMapAppearance" title="plugins.generic.geoMetadata.settings.section.mapAppearance"}
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.section.mapAppearance.intro"}
+    </p>
+
+    {fbvFormSection title="plugins.generic.geoMetadata.settings.subsection.submissionMapDefault" list=true}
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.subsection.submissionMapDefault.description"}
+    </p>
+    <input type="hidden" name="geoMetadata_submissionMapDefaultLat"  id="geoMetadata_submissionMapDefaultLat"  value="{$geoMetadata_submissionMapDefaultLat|escape}">
+    <input type="hidden" name="geoMetadata_submissionMapDefaultLng"  id="geoMetadata_submissionMapDefaultLng"  value="{$geoMetadata_submissionMapDefaultLng|escape}">
+    <input type="hidden" name="geoMetadata_submissionMapDefaultZoom" id="geoMetadata_submissionMapDefaultZoom" value="{$geoMetadata_submissionMapDefaultZoom|escape}">
+    <div id="geoMetadata_defaultMapViewPreview" style="height: 300px; margin-top: 10px;"></div>
+    <script>
+    (function () {ldelim}
+        var tries = 0;
+        function init() {ldelim}
+            var div = document.getElementById('geoMetadata_defaultMapViewPreview');
+            var latInput  = document.getElementById('geoMetadata_submissionMapDefaultLat');
+            var lngInput  = document.getElementById('geoMetadata_submissionMapDefaultLng');
+            var zoomInput = document.getElementById('geoMetadata_submissionMapDefaultZoom');
+            if (!div || !latInput || !lngInput || !zoomInput || typeof L === 'undefined') return;
+            if (div.offsetWidth === 0 && tries++ < 50) {ldelim} setTimeout(init, 100); return; {rdelim}
+            if (div.dataset.geoMetadataInited === '1') return;
+            div.dataset.geoMetadataInited = '1';
+            var miniMap = L.map('geoMetadata_defaultMapViewPreview').setView(
+                [parseFloat(latInput.value) || 0, parseFloat(lngInput.value) || 0],
+                parseInt(zoomInput.value, 10) || 2
+            );
+            L.tileLayer('https://{ldelim}s{rdelim}.tile.openstreetmap.org/{ldelim}z{rdelim}/{ldelim}x{rdelim}/{ldelim}y{rdelim}.png', {ldelim}
+                attribution: 'Map data: &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+                maxZoom: 18
+            {rdelim}).addTo(miniMap);
+            miniMap.on('moveend', function () {ldelim}
+                var c = miniMap.getCenter();
+                latInput.value  = c.lat.toFixed(6);
+                lngInput.value  = c.lng.toFixed(6);
+                zoomInput.value = miniMap.getZoom();
+            {rdelim});
+            window.geoMetadata_settingsMiniMap = miniMap;
+            miniMap.invalidateSize();
+        {rdelim}
+        if (document.readyState === 'loading') {ldelim}
+            document.addEventListener('DOMContentLoaded', init);
+        {rdelim} else {ldelim}
+            init();
+        {rdelim}
+    {rdelim})();
+    </script>
+    {/fbvFormSection}
+
+    {fbvFormSection title="plugins.generic.geoMetadata.settings.subsection.featureColours" list=true}
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.subsection.featureColours.description"}
+    </p>
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.mapFeatureColor.description"}
+        <br/>
+        <label for="geoMetadata_mapFeatureColor">{translate key="plugins.generic.geoMetadata.settings.mapFeatureColor"}</label>
+        <input type="color" id="geoMetadata_mapFeatureColor" name="geoMetadata_mapFeatureColor" value="{$geoMetadata_mapFeatureColor|escape}">
+    </p>
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.markerHueRotation.description"}
+        <br/>
+        <label for="geoMetadata_markerHueRotation">{translate key="plugins.generic.geoMetadata.settings.markerHueRotation"}</label>
+        <input type="range" id="geoMetadata_markerHueRotation" name="geoMetadata_markerHueRotation" min="0" max="360" step="1" value="{$geoMetadata_markerHueRotation|escape}" style="vertical-align: middle;">
+        <span id="geoMetadata_markerHueRotation_value" style="display: inline-block; min-width: 3em; vertical-align: middle;">{$geoMetadata_markerHueRotation|escape}&deg;</span>
+        <img id="geoMetadata_markerHueRotation_preview"
+             src="{$geoMetadata_markerBaseUrl|escape}marker-icon-2x-blue.png"
+             alt=""
+             style="height: 41px; vertical-align: middle; filter: hue-rotate({$geoMetadata_markerHueRotation|escape}deg);">
+    </p>
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.mapFeatureColorHighlight.description"}
+        <br/>
+        <label for="geoMetadata_mapFeatureColorHighlight">{translate key="plugins.generic.geoMetadata.settings.mapFeatureColorHighlight"}</label>
+        <input type="color" id="geoMetadata_mapFeatureColorHighlight" name="geoMetadata_mapFeatureColorHighlight" value="{$geoMetadata_mapFeatureColorHighlight|escape}">
+    </p>
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.enableSyncedHighlight.description"}
+        {fbvElement
+        type="checkbox"
+        id="geoMetadata_enableSyncedHighlight"
+        value="1"
+        checked=$geoMetadata_enableSyncedHighlight
+        label="plugins.generic.geoMetadata.settings.enableSyncedHighlight"
+        }
+    </p>
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.markerHueRotationHighlight.description"}
+        <br/>
+        <label for="geoMetadata_markerHueRotationHighlight">{translate key="plugins.generic.geoMetadata.settings.markerHueRotationHighlight"}</label>
+        <input type="range" id="geoMetadata_markerHueRotationHighlight" name="geoMetadata_markerHueRotationHighlight" min="0" max="360" step="1" value="{$geoMetadata_markerHueRotationHighlight|escape}" style="vertical-align: middle;">
+        <span id="geoMetadata_markerHueRotationHighlight_value" style="display: inline-block; min-width: 3em; vertical-align: middle;">{$geoMetadata_markerHueRotationHighlight|escape}&deg;</span>
+        <img id="geoMetadata_markerHueRotationHighlight_preview"
+             src="{$geoMetadata_markerBaseUrl|escape}marker-icon-2x-blue.png"
+             alt=""
+             style="height: 41px; vertical-align: middle; filter: hue-rotate({$geoMetadata_markerHueRotationHighlight|escape}deg);">
+    </p>
+    <script>
+    (function () {ldelim}
+        function wire(sliderId, valueId, previewId) {ldelim}
+            var slider  = document.getElementById(sliderId);
+            var valueEl = document.getElementById(valueId);
+            var preview = document.getElementById(previewId);
+            if (!slider || !valueEl || !preview) return;
+            function update() {ldelim}
+                valueEl.textContent = slider.value + '°';
+                preview.style.filter = 'hue-rotate(' + slider.value + 'deg)';
+            {rdelim}
+            slider.addEventListener('input', update);
+        {rdelim}
+        wire('geoMetadata_markerHueRotation',          'geoMetadata_markerHueRotation_value',          'geoMetadata_markerHueRotation_preview');
+        wire('geoMetadata_markerHueRotationHighlight', 'geoMetadata_markerHueRotationHighlight_value', 'geoMetadata_markerHueRotationHighlight_preview');
+    {rdelim})();
+    </script>
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.adminUnitOverlayColor.description"}
+        <br/>
+        <label for="geoMetadata_adminUnitOverlayColor">{translate key="plugins.generic.geoMetadata.settings.adminUnitOverlayColor"}</label>
+        <input type="color" id="geoMetadata_adminUnitOverlayColor" name="geoMetadata_adminUnitOverlayColor" value="{$geoMetadata_adminUnitOverlayColor|escape}">
+    </p>
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.adminUnitOverlayFillOpacity.description"}
+        <br/>
+        <label for="geoMetadata_adminUnitOverlayFillOpacity">{translate key="plugins.generic.geoMetadata.settings.adminUnitOverlayFillOpacity"}</label>
+        <input type="number" id="geoMetadata_adminUnitOverlayFillOpacity" name="geoMetadata_adminUnitOverlayFillOpacity" step="0.05" min="0" max="1" value="{$geoMetadata_adminUnitOverlayFillOpacity|escape}">
+    </p>
+    {/fbvFormSection}
+    {/fbvFormArea}
+
     {fbvFormArea id="geoMetadataSettingsSubmission" title="plugins.generic.geoMetadata.settings.section.submission"}
     <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
         {translate key="plugins.generic.geoMetadata.settings.section.submission.intro"}

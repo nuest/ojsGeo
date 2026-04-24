@@ -143,6 +143,66 @@ msgstr "Provide the journal-wide map page at /map."
 msgid "plugins.generic.geoMetadata.settings.showJournalMap.description"
 msgstr "When enabled, the plugin registers a public /map route on the journal that renders an interactive map of every published article's spatial metadata. When disabled, the route returns 404 and any menu link pointing to it will break."
 
+msgid "plugins.generic.geoMetadata.settings.section.mapAppearance"
+msgstr "Map appearance"
+
+msgid "plugins.generic.geoMetadata.settings.section.mapAppearance.intro"
+msgstr "How reader-facing maps look and what the submission form's map shows by default."
+
+msgid "plugins.generic.geoMetadata.settings.subsection.submissionMapDefault"
+msgstr "Default map view for submission"
+
+msgid "plugins.generic.geoMetadata.settings.subsection.submissionMapDefault.description"
+msgstr "Pan and zoom the map below to the area most articles in this journal describe. The submission form's map will open at this view."
+
+msgid "plugins.generic.geoMetadata.settings.subsection.featureColours"
+msgstr "Feature colours"
+
+msgid "plugins.generic.geoMetadata.settings.subsection.featureColours.description"
+msgstr "Colours used to render article geometry and administrative-unit overlays on reader-facing maps."
+
+msgid "plugins.generic.geoMetadata.settings.mapFeatureColor"
+msgstr "Geometry colour"
+
+msgid "plugins.generic.geoMetadata.settings.mapFeatureColor.description"
+msgstr "Stroke and fill colour for article geometry (points, lines, polygons) shown on the article, issue, and journal maps."
+
+msgid "plugins.generic.geoMetadata.settings.markerHueRotation"
+msgstr "Point-marker hue rotation"
+
+msgid "plugins.generic.geoMetadata.settings.markerHueRotation.description"
+msgstr "Point geometries use a raster marker image; slide to rotate its hue until the preview matches the geometry colour above."
+
+msgid "plugins.generic.geoMetadata.settings.mapFeatureColorHighlight"
+msgstr "Geometry highlight colour"
+
+msgid "plugins.generic.geoMetadata.settings.mapFeatureColorHighlight.description"
+msgstr "Colour used on the issue map when the reader hovers over an article's entry or geometry."
+
+msgid "plugins.generic.geoMetadata.settings.markerHueRotationHighlight"
+msgstr "Point-marker highlight hue rotation"
+
+msgid "plugins.generic.geoMetadata.settings.markerHueRotationHighlight.description"
+msgstr "Hue rotation applied to the marker image on hover; slide until the preview matches the highlight colour above."
+
+msgid "plugins.generic.geoMetadata.settings.enableSyncedHighlight"
+msgstr "Synchronise hover highlighting between the issue map and the article entries."
+
+msgid "plugins.generic.geoMetadata.settings.enableSyncedHighlight.description"
+msgstr "When enabled, hovering over an article's geometry on the issue map highlights its entry in the table of contents, and vice versa. Uses the highlight colour configured above."
+
+msgid "plugins.generic.geoMetadata.settings.adminUnitOverlayColor"
+msgstr "Administrative-unit overlay colour"
+
+msgid "plugins.generic.geoMetadata.settings.adminUnitOverlayColor.description"
+msgstr "Stroke and fill colour for the bounding box drawn around an article's administrative unit."
+
+msgid "plugins.generic.geoMetadata.settings.adminUnitOverlayFillOpacity"
+msgstr "Administrative-unit overlay opacity"
+
+msgid "plugins.generic.geoMetadata.settings.adminUnitOverlayFillOpacity.description"
+msgstr "Fill opacity (0 = transparent, 1 = opaque) for the administrative-unit overlay."
+
 msgid "plugins.generic.geoMetadata.settings.section.submission"
 msgstr "Submission form (author)"
 

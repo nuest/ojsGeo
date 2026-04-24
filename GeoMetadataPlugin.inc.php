@@ -40,7 +40,7 @@ class GeoMetadataPlugin extends GenericPlugin
 
     protected $versionSpecificNameState = 'state';
 
-	protected $templateParameters = [
+	public $templateParameters = [
 		'pluginStylesheetURL' => '',
 		'pluginJavaScriptURL' => '',
 	];
@@ -58,6 +58,34 @@ class GeoMetadataPlugin extends GenericPlugin
 	{
 		$value = $this->getSetting($this->getCurrentContextId(), $key);
 		return $value === null || (bool) $value;
+	}
+
+	/**
+	 * String plugin-setting read with a per-key fallback from SettingsForm::$settingDefaults.
+	 */
+	public function getSettingOrDefault(string $key): ?string
+	{
+		$value = $this->getSetting($this->getCurrentContextId(), $key);
+		if ($value === null || $value === '') {
+			return SettingsForm::getDefault($key);
+		}
+		return (string) $value;
+	}
+
+	/**
+	 * Return a CSS `rgba(r, g, b, a)` string for a `#RRGGBB` hex + an alpha in [0, 1].
+	 * Malformed input falls back to black + the given alpha.
+	 */
+	public static function hexToRgba(string $hex, float $alpha): string
+	{
+		$hex = ltrim($hex, '#');
+		if (strlen($hex) !== 6 || !ctype_xdigit($hex)) {
+			return "rgba(0, 0, 0, {$alpha})";
+		}
+		$r = hexdec(substr($hex, 0, 2));
+		$g = hexdec(substr($hex, 2, 2));
+		$b = hexdec(substr($hex, 4, 2));
+		return "rgba({$r}, {$g}, {$b}, {$alpha})";
 	}
 
 	public function register($category, $path, $mainContextId = NULL)
@@ -207,6 +235,24 @@ class GeoMetadataPlugin extends GenericPlugin
 			// issue #124: propagate to every map-rendering template via $this->templateParameters.
 			$this->templateParameters['geoMetadata_showEsriBaseLayer'] = $this->isFeatureEnabled('geoMetadata_showEsriBaseLayer');
 			$this->templateParameters['geoMetadata_showGeocoder'] = $this->isFeatureEnabled('geoMetadata_enableGeocoderSearch');
+
+			foreach ([
+				'geoMetadata_submissionMapDefaultLat',
+				'geoMetadata_submissionMapDefaultLng',
+				'geoMetadata_submissionMapDefaultZoom',
+				'geoMetadata_mapFeatureColor',
+				'geoMetadata_mapFeatureColorHighlight',
+				'geoMetadata_adminUnitOverlayColor',
+				'geoMetadata_adminUnitOverlayFillOpacity',
+				'geoMetadata_markerHueRotation',
+				'geoMetadata_markerHueRotationHighlight',
+			] as $key) {
+				$this->templateParameters[$key] = $this->getSettingOrDefault($key);
+			}
+			$this->templateParameters['geoMetadata_mapFeatureColorHighlight_rgba15'] =
+				self::hexToRgba($this->templateParameters['geoMetadata_mapFeatureColorHighlight'], 0.15);
+			$this->templateParameters['geoMetadata_enableSyncedHighlight'] =
+				$this->isFeatureEnabled('geoMetadata_enableSyncedHighlight');
 		}
 
 		return $success;

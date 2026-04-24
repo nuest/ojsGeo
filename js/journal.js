@@ -7,6 +7,7 @@
  * @brief Display spatio-temporal metadata for a whole journal on a separate page.
  */
 
+// Seed view; fitBounds() below overrides it once articles load.
 var mapView = "0, 0, 1".split(",");
 var map = L.map('mapdiv', { zoomControl: false, worldCopyJump: true }).setView([mapView[0], mapView[1]], mapView[2]);
 
@@ -104,6 +105,7 @@ $(function () {
                 }
 
                 let layer = L.geoJSON(spatialParsed, {
+                    pointToLayer: (feature, latlng) => L.marker(latlng, { icon: L.icon(geoMetadata_iconStyleConfig) }),
                     onEachFeature: (feature, layer) => {
                         layer.bindPopup(`${popupTemplate}`);
                     },

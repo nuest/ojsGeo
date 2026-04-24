@@ -19,6 +19,8 @@ Internationalisation, configurability, and HTML-head metadata — target release
 - Overall time-period summary above the issue-TOC map and the journal-wide map, with a single-year special case and support for BCE / deep-history years via numeric comparison ([#105](https://github.com/TIBHannover/geoMetadata/issues/105)).
 - Shared `js/lib/temporal.js` parser/aggregator; replaces the fragile inline split in `article_details.js` / `issue.js` / `journal.js` and is forward-compatible with multi-period per article ([#57](https://github.com/TIBHannover/geoMetadata/issues/57)).
 - Cypress coverage for all admin toggles and for the time-period field in the HTML-head GeoJSON export ([#106](https://github.com/TIBHannover/geoMetadata/issues/106)).
+- Map appearance settings: configurable default view for the submission map, and colours for article geometry, hover highlight, administrative-unit overlay, and point markers ([#39](https://github.com/TIBHannover/geoMetadata/issues/39), [#73](https://github.com/TIBHannover/geoMetadata/issues/73), [#145](https://github.com/TIBHannover/geoMetadata/issues/145)).
+- Hover highlighting on the issue page uses the configured highlight colour, with an admin toggle to synchronise (or disable) the two-way hover between map and article entries.
 
 ### Changed
 

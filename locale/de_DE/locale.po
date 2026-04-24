@@ -143,6 +143,66 @@ msgstr "Journal-weite Kartenseite unter /map bereitstellen."
 msgid "plugins.generic.geoMetadata.settings.showJournalMap.description"
 msgstr "Wenn aktiviert, registriert das Plugin eine öffentliche /map-Route des Journals, welche eine interaktive Karte aller veröffentlichten Artikel mit ihren räumlichen Metadaten darstellt. Wenn deaktiviert, liefert die Route 404 und Menüverweise darauf funktionieren nicht mehr."
 
+msgid "plugins.generic.geoMetadata.settings.section.mapAppearance"
+msgstr "Kartendarstellung"
+
+msgid "plugins.generic.geoMetadata.settings.section.mapAppearance.intro"
+msgstr "Darstellung der Karten auf den öffentlichen Seiten und Standardansicht der Karte im Einreichungsformular."
+
+msgid "plugins.generic.geoMetadata.settings.subsection.submissionMapDefault"
+msgstr "Standardansicht im Einreichungsformular"
+
+msgid "plugins.generic.geoMetadata.settings.subsection.submissionMapDefault.description"
+msgstr "Verschieben und zoomen Sie die Karte auf das Gebiet, das die meisten Artikel dieses Journals beschreiben. Die Karte im Einreichungsformular startet dann mit dieser Ansicht."
+
+msgid "plugins.generic.geoMetadata.settings.subsection.featureColours"
+msgstr "Farben der Geometrien"
+
+msgid "plugins.generic.geoMetadata.settings.subsection.featureColours.description"
+msgstr "Farben, mit denen Artikelgeometrien und Verwaltungseinheit-Overlays auf den öffentlichen Karten dargestellt werden."
+
+msgid "plugins.generic.geoMetadata.settings.mapFeatureColor"
+msgstr "Farbe der Artikelgeometrie"
+
+msgid "plugins.generic.geoMetadata.settings.mapFeatureColor.description"
+msgstr "Rand- und Füllfarbe der Artikelgeometrien (Punkte, Linien, Polygone) auf der Artikel-, Ausgaben- und Journalkarte."
+
+msgid "plugins.generic.geoMetadata.settings.markerHueRotation"
+msgstr "Farbton-Drehung für Punktmarker"
+
+msgid "plugins.generic.geoMetadata.settings.markerHueRotation.description"
+msgstr "Punktgeometrien verwenden eine Rastergrafik als Markersymbol; verschieben Sie den Regler, bis die Vorschau zur oben gewählten Geometriefarbe passt."
+
+msgid "plugins.generic.geoMetadata.settings.mapFeatureColorHighlight"
+msgstr "Hervorhebungsfarbe"
+
+msgid "plugins.generic.geoMetadata.settings.mapFeatureColorHighlight.description"
+msgstr "Farbe, die auf der Ausgabenkarte genutzt wird, wenn eine Leserin oder ein Leser mit der Maus über einen Artikel oder dessen Geometrie fährt."
+
+msgid "plugins.generic.geoMetadata.settings.markerHueRotationHighlight"
+msgstr "Farbton-Drehung für hervorgehobene Punktmarker"
+
+msgid "plugins.generic.geoMetadata.settings.markerHueRotationHighlight.description"
+msgstr "Farbton-Drehung des Markersymbols beim Überfahren mit der Maus; verschieben Sie den Regler, bis die Vorschau zur oben gewählten Hervorhebungsfarbe passt."
+
+msgid "plugins.generic.geoMetadata.settings.enableSyncedHighlight"
+msgstr "Hervorhebung zwischen Ausgabenkarte und Artikeleinträgen synchronisieren."
+
+msgid "plugins.generic.geoMetadata.settings.enableSyncedHighlight.description"
+msgstr "Wenn aktiviert, hebt das Überfahren einer Artikelgeometrie auf der Ausgabenkarte den zugehörigen Eintrag im Inhaltsverzeichnis hervor und umgekehrt. Verwendet die oben konfigurierte Hervorhebungsfarbe."
+
+msgid "plugins.generic.geoMetadata.settings.adminUnitOverlayColor"
+msgstr "Farbe des Verwaltungseinheit-Overlays"
+
+msgid "plugins.generic.geoMetadata.settings.adminUnitOverlayColor.description"
+msgstr "Rand- und Füllfarbe der Bounding-Box der administrativen Einheit eines Artikels."
+
+msgid "plugins.generic.geoMetadata.settings.adminUnitOverlayFillOpacity"
+msgstr "Deckkraft des Verwaltungseinheit-Overlays"
+
+msgid "plugins.generic.geoMetadata.settings.adminUnitOverlayFillOpacity.description"
+msgstr "Deckkraft der Füllung (0 = transparent, 1 = deckend) für das Verwaltungseinheit-Overlay."
+
 msgid "plugins.generic.geoMetadata.settings.section.submission"
 msgstr "Einreichungsformular (Autor*innen)"
 

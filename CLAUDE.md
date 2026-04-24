@@ -46,6 +46,14 @@ The plugin renders two editable forms for spatio-temporal metadata. They share e
 
 Both share `js/submission.js`, which locates fields through the common selectors `input[name="datetimes"]`, `#mapdiv`, and `#administrativeUnitInput`. Changes to one form's fields usually need a mirror change in the other.
 
+### `_map_js_globals.tpl` may only emit plain data
+
+`templates/frontend/_map_js_globals.tpl` is included via `{include file=$geoMetadata_mapJsGlobalsTpl}` inside the hook-rendered fragments (`article_details.tpl`, `issue_map.tpl`, `journal_map.tpl`, …). These render in the page body, but OJS's `addJavaScript()` queues Leaflet's `<script src="leaflet.js">` to the end of `<body>` — so code in this partial executes *before* Leaflet is loaded.
+
+Rule: this partial may declare only strings, numbers, and plain object/array literals. Any `L.icon(...)`, `L.marker(...)`, `L.tileLayer(...)`, etc. at parse time throws `ReferenceError: L is not defined`, which aborts the entire inline script and leaves every subsequent `const` stuck in TDZ (next file to access one gets "cannot access before initialization").
+
+Emit a plain config object here (e.g. `const geoMetadata_iconStyleConfig = {...}`) and construct the Leaflet instance at the use site in `js/*.js` (these files are loaded via `addJavaScript`, so Leaflet is guaranteed present). Cache the instance as a module-level `var` if it's reused across multiple calls.
+
 ## Development Commands
 
 ### Dependency Management

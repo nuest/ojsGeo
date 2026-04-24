@@ -51,8 +51,39 @@ class SettingsForm extends \Form
         'geoMetadata_emitMetaGeoCoords',
         'geoMetadata_emitMetaISO19139',
         'geoMetadata_enableGeocoderSearch',
-        'geoMetadata_showEsriBaseLayer'
+        'geoMetadata_showEsriBaseLayer',
+        'geoMetadata_submissionMapDefaultLat',
+        'geoMetadata_submissionMapDefaultLng',
+        'geoMetadata_submissionMapDefaultZoom',
+        'geoMetadata_mapFeatureColor',
+        'geoMetadata_mapFeatureColorHighlight',
+        'geoMetadata_adminUnitOverlayColor',
+        'geoMetadata_adminUnitOverlayFillOpacity',
+        'geoMetadata_markerHueRotation',
+        'geoMetadata_markerHueRotationHighlight',
+        'geoMetadata_enableSyncedHighlight'
     ];
+
+    /**
+     * Non-boolean settings with a reasonable stored default when no value has been saved.
+     * Read by both initData() and GeoMetadataPlugin::getSettingOrDefault().
+     */
+    public static $settingDefaults = [
+        'geoMetadata_submissionMapDefaultLat'     => '0',
+        'geoMetadata_submissionMapDefaultLng'     => '0',
+        'geoMetadata_submissionMapDefaultZoom'    => '2',
+        'geoMetadata_mapFeatureColor'             => '#1E6292',
+        'geoMetadata_mapFeatureColorHighlight'    => '#FF0000',
+        'geoMetadata_adminUnitOverlayColor'       => '#000000',
+        'geoMetadata_adminUnitOverlayFillOpacity' => '0.15',
+        'geoMetadata_markerHueRotation'           => '0',
+        'geoMetadata_markerHueRotationHighlight'  => '150',
+    ];
+
+    public static function getDefault(string $key): ?string
+    {
+        return self::$settingDefaults[$key] ?? null;
+    }
 
     /**
      * Settings that are booleans defaulting to ON when no value has been saved yet.
@@ -76,7 +107,8 @@ class SettingsForm extends \Form
         'geoMetadata_emitMetaGeoCoords',
         'geoMetadata_emitMetaISO19139',
         'geoMetadata_enableGeocoderSearch',
-        'geoMetadata_showEsriBaseLayer'
+        'geoMetadata_showEsriBaseLayer',
+        'geoMetadata_enableSyncedHighlight'
     ];
 
     public function __construct($plugin)
@@ -103,8 +135,12 @@ class SettingsForm extends \Form
         $contextId = $context ? $context->getId() : CONTEXT_SITE;
         foreach($this->settings as $key){
             $value = $this->plugin->getSetting($contextId, $key);
-            if ($value === null && in_array($key, $this->booleanDefaultOnSettings, true)) {
-                $value = true;
+            if ($value === null) {
+                if (in_array($key, $this->booleanDefaultOnSettings, true)) {
+                    $value = true;
+                } elseif (array_key_exists($key, self::$settingDefaults)) {
+                    $value = self::$settingDefaults[$key];
+                }
             }
             $this->setData($key, $value);
         }
