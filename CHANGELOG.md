@@ -34,7 +34,6 @@ Internationalisation, configurability, and HTML-head metadata — target release
 ### Fixed
 
 - Journal map page (`/<journal>/map`) rendered invalid JS (`fillOpacity: }` syntax error) because `JournalMapHandler` did not propagate the plugin's shared map-template variables, leaving `_map_js_globals.tpl` to emit empty `const` declarations. The resulting crash took out every map script on the page, including the overall time-period summary.
-- Legacy 10-digit Unix-epoch values stored in the temporal field (from very old records) are now silently rejected by the shared parser instead of being misread as year-N; the 6-digit cap still accepts deep-history years like `-100000` for BCE.
 - Issue-page hover: point markers now highlight when hovering the article div, not just polygons ([#83](https://github.com/TIBHannover/geoMetadata/issues/83)).
 - Locale switching in tests; restored `DC.PeriodOfTime` HTML meta emission.
 - Removed dead `isEsriBaseLayerEnabled` helper.
