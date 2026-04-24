@@ -101,15 +101,23 @@ $(function () {
     // load temporal properties from article_details.tpl 
     var temporalProperties = document.getElementById("geoMetadata_temporal").value;
 
-    // load temporal properties from article_details.tpl 
+    // load temporal properties from article_details.tpl
     var administrativeUnit = document.getElementById("geoMetadata_administrativeUnit").value;
 
+    function isAdminUnitEmpty(raw) {
+        if (!raw) return true;
+        try {
+            var a = JSON.parse(raw);
+            return !Array.isArray(a) || a.length === 0;
+        } catch (e) { return true; }
+    }
+
     /*
-    If neither temporal nor spatial properties nor administrativeUnit information are available, the corresponding elements in the article_details.tpl are deleted 
-    and no geospatial metadata are displayed also the download of the geojson is not provided, because there is no data for the geojson. 
-    Otherwise, the display of the elements is initiated. 
+    If neither temporal nor spatial properties nor administrativeUnit information are available, the corresponding elements in the article_details.tpl are deleted
+    and no geospatial metadata are displayed also the download of the geojson is not provided, because there is no data for the geojson.
+    Otherwise, the display of the elements is initiated.
     */
-    if (spatialPropertiesParsed.features.length === 0 && temporalProperties === "no data" && administrativeUnit === "no data") {
+    if (spatialPropertiesParsed.features.length === 0 && temporalProperties === "no data" && isAdminUnitEmpty(administrativeUnit)) {
         $("#geoMetadata_article_geospatialmetadata").hide();
     }
 
@@ -155,7 +163,7 @@ $(function () {
     The administrative unit is requested from the OJS database. 
     The available elements are displayed. If there is a corresponding bbox available, the bbox for the lowest level is displayed in the map
     */
-    if (administrativeUnit === "no data") {
+    if (isAdminUnitEmpty(administrativeUnit)) {
         $("#geoMetadata_article_administrativeUnit").hide();
     }
     else {

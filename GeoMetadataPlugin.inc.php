@@ -318,9 +318,9 @@ class GeoMetadataPlugin extends GenericPlugin
 		$lowestAdministrativeUnitName = null;
 		$lowestAdministrativeUnitBBox = null;
 		$decodedAdminUnits            = [];
-		$hasAdminUnits = ($administrativeUnit !== "no data" && $administrativeUnit !== null && $administrativeUnit !== "");
+		$decodedAdminUnits = $administrativeUnit ? (json_decode($administrativeUnit) ?? []) : [];
+		$hasAdminUnits = !empty($decodedAdminUnits);
 		if ($hasAdminUnits) {
-			$decodedAdminUnits = json_decode($administrativeUnit) ?? [];
 			foreach ($decodedAdminUnits as $unit) {
 				if (isset($unit->bbox) && $unit->bbox != 'not available') {
 					$lowestAdministrativeUnit     = $unit;
@@ -504,8 +504,8 @@ class GeoMetadataPlugin extends GenericPlugin
 			$spatialProperties = 'no data';
 		}
 
-		if ($administrativeUnit === null || (is_array($administrativeUnit) && current($administrativeUnit) === '') || $administrativeUnit === '') {
-			$administrativeUnit = 'no data';
+		if ($administrativeUnit === null || $administrativeUnit === '' || (is_array($administrativeUnit) && current($administrativeUnit) === '')) {
+			$administrativeUnit = '[]';
 		}
 
 		$templateMgr->assign(GEOMETADATA_DB_FIELD_TIME_PERIODS, $timePeriods);
@@ -555,7 +555,7 @@ class GeoMetadataPlugin extends GenericPlugin
 		}
 
 		if ($administrativeUnit === null || $administrativeUnit === '') {
-			$administrativeUnit = 'no data';
+			$administrativeUnit = '[]';
 		}
 
 		$templateMgr->assign(GEOMETADATA_DB_FIELD_TIME_PERIODS, $temporalProperties);
@@ -872,7 +872,8 @@ class GeoMetadataPlugin extends GenericPlugin
 		$spatialProperties =  $_POST[GEOMETADATA_DB_FIELD_SPATIAL] ?? null;
 		$administrativeUnit = $_POST[GEOMETADATA_DB_FIELD_ADMINUNIT] ?? null;
 		
-		// "no data" can not be excluded for the following 3 clauses - if the user had created data and it was already stored in the database but then decides to remove it again, the database needs to be updated triggered by "no data".
+		// The following 3 clauses must also fire for "empty" POST values so that
+		// removing previously-stored data updates the row rather than leaving stale data behind.
 		if ($spatialProperties !== null) {
 			$spatialProperties = AntimeridianSplitter::splitGeoJson($spatialProperties);
 			$newPublication->setData(GEOMETADATA_DB_FIELD_SPATIAL, $spatialProperties);
@@ -881,20 +882,18 @@ class GeoMetadataPlugin extends GenericPlugin
 		if ($temporalProperties !== null && $temporalProperties !== "") {
 			$newPublication->setData(GEOMETADATA_DB_FIELD_TIME_PERIODS, $temporalProperties);
 		}
-		
+
 		if ($administrativeUnit !== null) {
 			$newPublication->setData(GEOMETADATA_DB_FIELD_ADMINUNIT, $administrativeUnit);
 
-			$journal = Application::get()->getRequest()->getJournal(); 
+			$decoded = json_decode($administrativeUnit);
+			$journal = Application::get()->getRequest()->getJournal();
 
-			if ($administrativeUnit !== "no data") {
-				// turn admin units into string then save in Coverage field
+			if (is_array($decoded) && count($decoded) > 0) {
 				$administrativeUnitNames = array_map(function ($unit) {
 					return $unit->name;
-				}, json_decode($administrativeUnit) ?? []);
-				$administrativeUnitNames = implode(', ', $administrativeUnitNames);
-
-				$newPublication->setData('coverage', $administrativeUnitNames, $journal->getPrimaryLocale());
+				}, $decoded);
+				$newPublication->setData('coverage', implode(', ', $administrativeUnitNames), $journal->getPrimaryLocale());
 			} else {
 				$newPublication->setData('coverage', "no data", $journal->getPrimaryLocale());
 			}

@@ -18,6 +18,20 @@ var drawnItems = null;
 var administrativeUnitsMap = null;
 var gazetterDisabled = false;
 
+// The administrativeUnit hidden field is always parseable JSON; empty is '[]'.
+function parseAdministrativeUnit(raw) {
+    if (!raw) return [];
+    try {
+        var arr = JSON.parse(raw);
+        return Array.isArray(arr) ? arr : [];
+    } catch (e) {
+        return [];
+    }
+}
+function isAdministrativeUnitEmpty(raw) {
+    return parseAdministrativeUnit(raw).length === 0;
+}
+
 // Build admin-unit overlay layers from a {north, south, east, west} bbox,
 // emitting two rectangles when east < west (antimeridian-crossing; see issue #60).
 function bboxToLeafletLayers(bbox, styleOpts) {
@@ -401,8 +415,8 @@ function initAdminunits() {
             var administrativeUnit = [];
 
             // It is checked if the input is done by the user or through the API. If it is done through the API, it must already be stored in the array administrativeUnit
-            if (administrativeUnitRaw !== '' && administrativeUnitRaw !== null && administrativeUnitRaw !== undefined && administrativeUnitRaw !== 'no data' && input !== '') {
-                var administrativeUnit = JSON.parse(administrativeUnitRaw);
+            if (!isAdministrativeUnitEmpty(administrativeUnitRaw) && input !== '') {
+                var administrativeUnit = parseAdministrativeUnit(administrativeUnitRaw);
 
                 for (var i = 0; i < administrativeUnit.length; i++) {
                     if (input === administrativeUnit[i].name) {
@@ -534,11 +548,11 @@ function initAdminunits() {
             var administrativeUnitGeoJSON;
             var geojson = JSON.parse($('textarea[name="geoMetadata::spatialProperties"]').val());
 
-            if (administrativeUnitRaw === 'no data') {
+            if (isAdministrativeUnitEmpty(administrativeUnitRaw)) {
                 administrativeUnitGeoJSON = {};
             }
             else {
-                var administrativeUnit = JSON.parse(administrativeUnitRaw);
+                var administrativeUnit = parseAdministrativeUnit(administrativeUnitRaw);
 
                 // the corresponding element is removed
                 var removedWasAutoDerived = false;
@@ -568,9 +582,9 @@ function initAdminunits() {
 
                 administrativeUnitGeoJSON = administrativeUnit;
 
-                // If there is no more element this is indicated by 'no data', otherwise the geoJSON gets updated, if available
+                // Empty list is indicated by '[]'; otherwise the geoJSON gets updated.
                 if (administrativeUnit.length === 0) {
-                    updateVueElement('textarea[name="geoMetadata::administrativeUnit"]', 'no data');
+                    updateVueElement('textarea[name="geoMetadata::administrativeUnit"]', '[]');
                     administrativeUnitGeoJSON = {};
                 }
                 else {
@@ -592,13 +606,10 @@ function initAdminunits() {
      * the already entered data is read from the database, added to the template and loaded here from the template and gets displayed accordingly.
      */
     let administrativeUnit = $('textarea[name="geoMetadata::administrativeUnit"]').val();
-    if (administrativeUnit !== 'no data' && administrativeUnit !== '') {
-        var administrativeUnitParsed = JSON.parse(administrativeUnit);
-
+    var administrativeUnitParsed = parseAdministrativeUnit(administrativeUnit);
+    for (var i = 0; i < administrativeUnitParsed.length; i++) {
         // A corresponding tag is created for each entry in the database.
-        for (var i = 0; i < administrativeUnitParsed.length; i++) {
-            $("#administrativeUnitInput").tagit("createTag", administrativeUnitParsed[i].name);
-        }
+        $("#administrativeUnitInput").tagit("createTag", administrativeUnitParsed[i].name);
     }
 
     updateManualAdminUnitNotice();
@@ -1242,7 +1253,7 @@ function storeCreatedGeoJSONAndAdministrativeUnitInHiddenForms(drawnItems) {
     geojson.administrativeUnits = {};
     updateVueElement('textarea[name="geoMetadata::spatialProperties"]', JSON.stringify(geojson));
     $("#administrativeUnitInput").tagit("removeAll");
-    updateVueElement('textarea[name="geoMetadata::administrativeUnit"]', 'no data');
+    updateVueElement('textarea[name="geoMetadata::administrativeUnit"]', '[]');
 
     if (geojson.features.length !== 0) {
         var administrativeUnitsForAllFeatures = [];
@@ -1328,7 +1339,7 @@ function storeCreatedGeoJSONAndAdministrativeUnitInHiddenForms(drawnItems) {
         geojson.features = [];
         geojson.administrativeUnits = {};
         updateVueElement('textarea[name="geoMetadata::spatialProperties"]', JSON.stringify(geojson));
-        updateVueElement('textarea[name="geoMetadata::administrativeUnit"]', 'no data');
+        updateVueElement('textarea[name="geoMetadata::administrativeUnit"]', '[]');
     }
 
     reapplyAuthorTypedAdminUnits(authorTypedUnits);
@@ -1337,31 +1348,15 @@ function storeCreatedGeoJSONAndAdministrativeUnitInHiddenForms(drawnItems) {
 
 // True when any stored admin-unit entry has auto-derived provenance (id 23).
 function hasAutoDerivedAdminUnits() {
-    var raw = $('textarea[name="geoMetadata::administrativeUnit"]').val();
-    if (!raw || raw === 'no data') return false;
-    try {
-        var arr = JSON.parse(raw);
-    } catch (e) {
-        return false;
-    }
-    if (!Array.isArray(arr)) return false;
-    return arr.some(function (u) {
+    return parseAdministrativeUnit($('textarea[name="geoMetadata::administrativeUnit"]').val()).some(function (u) {
         return u && u.provenance && u.provenance.id === 23;
     });
 }
 
 // Returns admin-unit entries with author-typed provenance (ids 21, 22) from
-// the hidden textarea; empty array if the sentinel or unparseable JSON.
+// the hidden textarea.
 function snapshotAuthorTypedAdminUnits() {
-    var raw = $('textarea[name="geoMetadata::administrativeUnit"]').val();
-    if (!raw || raw === 'no data') return [];
-    try {
-        var arr = JSON.parse(raw);
-    } catch (e) {
-        return [];
-    }
-    if (!Array.isArray(arr)) return [];
-    return arr.filter(function (u) {
+    return parseAdministrativeUnit($('textarea[name="geoMetadata::administrativeUnit"]').val()).filter(function (u) {
         return u && u.provenance && (u.provenance.id === 21 || u.provenance.id === 22);
     });
 }
@@ -1371,8 +1366,7 @@ function snapshotAuthorTypedAdminUnits() {
 function reapplyAuthorTypedAdminUnits(authorTypedUnits) {
     if (!authorTypedUnits || authorTypedUnits.length === 0) return;
 
-    var raw = $('textarea[name="geoMetadata::administrativeUnit"]').val();
-    var current = (raw && raw !== 'no data') ? JSON.parse(raw) : [];
+    var current = parseAdministrativeUnit($('textarea[name="geoMetadata::administrativeUnit"]').val());
 
     var authorNames = authorTypedUnits.map(function (u) { return u.name; });
     current = current.filter(function (u) { return authorNames.indexOf(u.name) === -1; });

@@ -36,7 +36,7 @@ describe('geoMetadata Submission with incomplete Metadata', function () {
             provenance: { description: 'not available', id: 'not available' }
           }
         },
-        adminUnit: 'no data'
+        adminUnit: '[]'
       }
     };
 

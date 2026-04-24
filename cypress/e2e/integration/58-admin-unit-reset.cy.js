@@ -29,13 +29,13 @@ describe('geoMetadata admin-unit reset on submission form', { testIsolation: fal
     cy.wait(2000);
   });
 
-  it('clears the administrativeUnit textarea to "no data" when all features are removed', function () {
+  it('clears the administrativeUnit textarea to "[]" when all features are removed', function () {
     cy.toolbarButton('marker').click();
     cy.get('#mapdiv').click(260, 110);
     cy.wait(3000);
     cy.get('#administrativeUnitInput li.tagit-choice').its('length').should('be.gt', 0);
     cy.get('textarea[name="geoMetadata::administrativeUnit"]').invoke('val')
-      .should('not.eq', 'no data');
+      .should('not.eq', '[]');
 
     cy.window().then(({ map, drawnItems }) => {
       const layers = {};
@@ -47,7 +47,7 @@ describe('geoMetadata admin-unit reset on submission form', { testIsolation: fal
 
     cy.get('#administrativeUnitInput li.tagit-choice').should('have.length', 0);
     cy.get('textarea[name="geoMetadata::administrativeUnit"]').invoke('val')
-      .should('eq', 'no data');
+      .should('eq', '[]');
     cy.get(NOTICE).should('not.be.visible');
   });
 
@@ -56,7 +56,7 @@ describe('geoMetadata admin-unit reset on submission form', { testIsolation: fal
     cy.get('#mapdiv').click(400, 380);
     cy.wait(3000);
     cy.get('textarea[name="geoMetadata::administrativeUnit"]').invoke('val')
-      .should('not.eq', 'no data');
+      .should('not.eq', '[]');
     cy.get('#administrativeUnitInput li.tagit-choice').its('length').should('be.gt', 0);
   });
 

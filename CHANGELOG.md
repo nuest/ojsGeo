@@ -30,6 +30,7 @@ Internationalisation, configurability, and HTML-head metadata — target release
 - Translated remaining Leaflet controls — zoom, geocoder, and draw toolbar ([#109](https://github.com/TIBHannover/geoMetadata/issues/109), [#111](https://github.com/TIBHannover/geoMetadata/issues/111), [#151](https://github.com/TIBHannover/geoMetadata/issues/151)).
 - Cleaned up i18n antipatterns ([#152](https://github.com/TIBHannover/geoMetadata/issues/152)).
 - Aligned msgid order across `en_US` / `de_DE` / `fr_FR` / `es_ES` locales and regenerated `messages.mo`.
+- Standardised the empty-state representation of the `geoMetadata::administrativeUnit` hidden field to the canonical JSON literal `[]`, aligning it with `spatialProperties`'s always-parseable-JSON contract. The prior `"no data"` sentinel is no longer recognised by readers; installations with existing rows in that form should re-save affected publications (or run a one-off `UPDATE publication_settings SET setting_value='[]' WHERE setting_name='geoMetadata::administrativeUnit' AND setting_value='no data'`) ([#154](https://github.com/TIBHannover/geoMetadata/issues/154)).
 
 ### Fixed
 

@@ -56,12 +56,16 @@ class PublicationForm extends FormComponent
             'value' => $publication->getData(GEOMETADATA_DB_FIELD_SPATIAL)
         ]));
 
+        $adminUnit = $publication->getData(GEOMETADATA_DB_FIELD_ADMINUNIT);
+        if ($adminUnit === null || $adminUnit === '') {
+            $adminUnit = '[]';
+        }
         $this->addField(new FieldTextarea(
             GEOMETADATA_DB_FIELD_ADMINUNIT, [
             'label' => __('plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.administrativeUnit'),
             'description' => '',
             'isMultilingual' => false,
-            'value' => $publication->getData(GEOMETADATA_DB_FIELD_ADMINUNIT)
+            'value' => $adminUnit
         ]));
     }
 }
