@@ -117,7 +117,7 @@ $(function () {
     and no geospatial metadata are displayed also the download of the geojson is not provided, because there is no data for the geojson.
     Otherwise, the display of the elements is initiated.
     */
-    if (spatialPropertiesParsed.features.length === 0 && temporalProperties === "no data" && isAdminUnitEmpty(administrativeUnit)) {
+    if (spatialPropertiesParsed.features.length === 0 && !temporalProperties && isAdminUnitEmpty(administrativeUnit)) {
         $("#geoMetadata_article_geospatialmetadata").hide();
     }
 
@@ -188,7 +188,7 @@ $(function () {
     If no temporal properties are available, the corresponding elements in the article_details.tpl are deleted 
     and no temporal metadata are displayed. Otherwise the map is created and the temporal properties are displayed. 
     */
-    if (temporalProperties === "no data") {
+    if (!temporalProperties) {
         $("#geoMetadata_article_temporal").hide();
     }
     else {

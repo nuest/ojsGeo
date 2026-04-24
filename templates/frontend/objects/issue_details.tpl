@@ -31,7 +31,7 @@
 				{$article->getAuthorString()|escape}
 			</div>
 		{/if} 
-		{if $publication->getData(GEOMETADATA_DB_FIELD_TIME_PERIODS) != "no data" && $publication->getData(GEOMETADATA_DB_FIELD_TIME_PERIODS) != ""}
+		{if $publication->getData(GEOMETADATA_DB_FIELD_TIME_PERIODS) != ""}
 			<p></p>
 			<i class="fa fa-calendar pkpIcon--inline"></i>
 			<i>{$publication->getData(GEOMETADATA_DB_FIELD_TIME_PERIODS)|escape|replace:'..':' – '|replace:'{':''|replace:'}':''}</i>

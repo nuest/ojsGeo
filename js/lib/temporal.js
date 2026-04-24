@@ -53,7 +53,7 @@
     }
 
     function parseTimePeriods(raw) {
-        if (raw == null || raw === '' || raw === 'no data') return [];
+        if (!raw) return [];
         var out = [];
         var m;
         BLOCK_RE.lastIndex = 0;
@@ -66,7 +66,7 @@
             if (cmp(s, e) > 0) { var t = s; s = e; e = t; }
             out.push({ start: s.raw, end: e.raw });
         }
-        if (out.length === 0 && raw.length > 0 && raw !== 'no data') {
+        if (out.length === 0 && raw.length > 0) {
             warn('geoMetadata: no parseable time period in value', raw);
         }
         return out;

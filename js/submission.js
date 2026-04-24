@@ -286,7 +286,7 @@ function createInitialGeojson() {
     let spatialProperties = $('textarea[name="geoMetadata::spatialProperties"]').val();
 
     var geojson;
-    if (spatialProperties === 'no data' || spatialProperties === null || spatialProperties === undefined) {
+    if (!spatialProperties) {
         geojson = {
             "type": "FeatureCollection",
             "features": [],
@@ -853,7 +853,6 @@ function updateGeojsonWithLeafletOutput(drawnItems) {
     });
     var geojson = createFeaturesForGeoJSON(pureLayers);
 
-    // if there are no geoJSON Features/ no spatial data available, there is 'no data' stored in database, otherwise the stringified geoJSON
     if (geojson.features.length === 0) {
         geojson.features = [];
     }
@@ -864,7 +863,7 @@ function updateGeojsonWithLeafletOutput(drawnItems) {
     */
     let timePeriods = $('textarea[name="geoMetadata::timePeriods"]').val();
 
-    if (timePeriods === 'no data') {
+    if (!timePeriods) {
         geojson.temporalProperties.timePeriods = [];
         geojson.temporalProperties.provenance.description = 'not available';
         geojson.temporalProperties.provenance.id = 'not available';
@@ -1403,8 +1402,8 @@ function updateManualAdminUnitNotice() {
  * Plain-text temporal input: user types a range directly in the stored
  * format, e.g. "2020..2023", "2020-06-15..2023-09-20", "-10000..-5000".
  * The visible input is mirrored verbatim into the hidden textarea wrapped
- * in braces; empty input becomes "no data". Validation is server-side via
- * the submissionsubmitstep3form::Constructor hook in the main plugin class
+ * in braces; empty input becomes the empty string. Validation is server-side
+ * via the submissionsubmitstep3form::Constructor hook in the main plugin class
  * — on failure OJS re-renders the form with the user's input preserved.
  */
 function initPlainTemporalInput() {
@@ -1416,7 +1415,7 @@ function initPlainTemporalInput() {
     // Load: strip braces from stored value for display. Unbraced values
     // (server-rejected input on re-render) are shown verbatim.
     var stored = ($textarea.val() || '').trim();
-    if (stored && stored !== 'no data') {
+    if (stored) {
         var m = /^\{(.+)\}$/.exec(stored);
         $input.val(m ? m[1] : stored);
     }
@@ -1429,7 +1428,7 @@ function initPlainTemporalInput() {
             var m = raw.match(/^(.+?)\s+-\s+(.+)$/);
             if (m) raw = m[1] + '..' + m[2];
         }
-        var stored = (raw === '') ? 'no data' : '{' + raw + '}';
+        var stored = (raw === '') ? '' : '{' + raw + '}';
         updateVueElement('textarea[name="geoMetadata::timePeriods"]', stored);
 
         var spatialRaw = $('textarea[name="geoMetadata::spatialProperties"]').val();

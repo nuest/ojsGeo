@@ -169,9 +169,9 @@ describe('geoMetadata HTML Head - Article Without Time Period (issue #106)', fun
   });
 
   it('DC.SpatialCoverage GeoJSON has empty timePeriods and "not available" provenance', function () {
-    // js/submission.js:826-829 writes these exact defaults when the time period
-    // textarea is unset ("no data"); GeoMetadataPlugin.inc.php:227 then ships the
-    // resulting GeoJSON verbatim into DC.SpatialCoverage.
+    // js/submission.js writes these exact defaults when the time-period
+    // textarea is empty; GeoMetadataPlugin.inc.php then ships the resulting
+    // GeoJSON verbatim into DC.SpatialCoverage.
     metaContains('DC.SpatialCoverage', [
       /"timePeriods":\[\]/,
       /"provenance":\{"description":"not available","id":"not available"\}/

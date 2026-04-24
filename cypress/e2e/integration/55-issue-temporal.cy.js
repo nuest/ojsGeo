@@ -82,11 +82,10 @@ describe('geoMetadata Issue Temporal Summary', function () {
     });
   });
 
-  it('drops malformed, legacy-epoch, and no-data values silently', function () {
+  it('drops malformed and legacy-epoch values silently', function () {
     cy.visit(issuePath);
     cy.window().then(win => {
       const agg = win.geoMetadataTemporal.aggregateRange([
-        'no data',
         '',
         null,
         '{1609459200..1640995199}',
@@ -96,7 +95,7 @@ describe('geoMetadata Issue Temporal Summary', function () {
       ]);
       expect(agg).to.deep.equal({ minStart: '2020-01-01', maxEnd: '2023-06-30' });
 
-      const none = win.geoMetadataTemporal.aggregateRange(['no data', '', null]);
+      const none = win.geoMetadataTemporal.aggregateRange(['', null]);
       expect(none).to.be.null;
     });
   });
@@ -200,7 +199,7 @@ describe('geoMetadata Issue Temporal Summary', function () {
         '$d = "(?:0[1-9]|[12]\\d|3[01])";' +
         '$s = "\\s*-?\\d+(?:-" . $m . "(?:-" . $d . ")?)?\\s*";' +
         '$v = "' + escaped + '";' +
-        'if ($v === "" || $v === "no data") { echo "ACCEPT"; exit; }' +
+        'if ($v === "") { echo "ACCEPT"; exit; }' +
         'echo preg_match("/^(?:\\{" . $s . "\\.\\." . $s . "\\})+$/", trim($v)) ? "ACCEPT" : "REJECT";' +
         '\'';
       return cy.exec(cmd).then(res => res.stdout);
@@ -212,7 +211,6 @@ describe('geoMetadata Issue Temporal Summary', function () {
       '{2020-06-15..2023-09-20}',
       '{-10000..-5000}',
       '{2020..2020}{2022..2022}',
-      'no data',
       ''
     ];
     const rejected = [
