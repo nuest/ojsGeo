@@ -33,6 +33,9 @@ describe('geoMetadata Workflow Input Toggles', function () {
 
   const setToggle = (name, checked) => {
     openSettings();
+    // workflow_* toggles sit low in the settings form and are often clipped
+    // by the fixed-position modal overflow, so scroll them into view first.
+    cy.get(toggleSelector(name)).scrollIntoView();
     if (checked) {
       cy.get(toggleSelector(name)).check();
     } else {
@@ -42,9 +45,35 @@ describe('geoMetadata Workflow Input Toggles', function () {
     cy.wait(1000);
   };
 
+  // Guarantee all three workflow toggles start ON so test 1 ("all three blocks
+  // are present by default") and subsequent per-toggle tests see a valid tab
+  // layout, even if a previous aborted run left some of them OFF.
+  const restoreAllToggles = () => {
+    openSettings();
+    ['geoMetadata_workflow_enableSpatial',
+     'geoMetadata_workflow_enableTemporal',
+     'geoMetadata_workflow_enableAdminUnit'].forEach((name) => {
+      // {force: true}: the checkbox's label sometimes reports
+      // visibility:hidden mid-render; we only need the final checked state.
+      cy.get(toggleSelector(name)).scrollIntoView().check({ force: true });
+    });
+    cy.get(submitBtnSelector).click();
+    cy.wait(1000);
+    // Drop the admin session so the first test's cy.login('eeditor') lands on
+    // the editor dashboard rather than re-using the admin-backend context.
+    cy.logout();
+  };
+
+  before(restoreAllToggles);
+  after(restoreAllToggles);
+
   const openLatestPublicationTab = () => {
-    cy.login('admin', 'admin', Cypress.env('contextPath'));
-    cy.get('a:contains("Submissions")').click();
+    // Match the working Dashboard flow used by spec 33. Explicit logout first
+    // so we drop the admin session setToggle() leaves us in.
+    cy.logout();
+    cy.login('eeditor');
+    cy.get('a:contains("eeditor"):visible', { timeout: 20000 }).click();
+    cy.get('a:contains("Dashboard")').click({ force: true });
     cy.get('a:contains("View")').first().click();
     cy.get('div[role="tablist"]').find('button:contains("Publication")').click();
     cy.get('button[id^="timeLocation"]').click();

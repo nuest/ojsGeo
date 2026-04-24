@@ -61,34 +61,34 @@ describe('geoMetadata admin-unit reset on submission form', { testIsolation: fal
   });
 
   it('preserves a manually typed admin-unit tag across a map edit and shows the notice', function () {
-    cy.get('#administrativeUnitInput > .tagit-new > .ui-widget-content').type('Hanover{enter}');
+    cy.get('#administrativeUnitInput > .tagit-new > .ui-widget-content').type('ManuallyAdded{enter}');
     cy.wait(500);
-    cy.get('#administrativeUnitInput').contains('Hanover');
+    cy.get('#administrativeUnitInput').contains('ManuallyAdded');
     cy.get(NOTICE).should('be.visible');
 
     cy.toolbarButton('marker').click();
     cy.get('#mapdiv').click(450, 260);
     cy.wait(3000);
 
-    cy.get('#administrativeUnitInput').contains('Hanover');
+    cy.get('#administrativeUnitInput').contains('ManuallyAdded');
     cy.get(NOTICE).should('be.visible');
   });
 
   it('hides the notice when the last manually typed tag is removed', function () {
     cy.get('#administrativeUnitInput li.tagit-choice')
-      .contains('Hanover')
+      .contains('ManuallyAdded')
       .parent()
       .find('.tagit-close')
       .click();
     cy.wait(300);
-    cy.get('#administrativeUnitInput').should('not.contain', 'Hanover');
+    cy.get('#administrativeUnitInput').should('not.contain', 'ManuallyAdded');
     cy.get(NOTICE).should('not.be.visible');
   });
 
 });
 
 // Editor-side coverage: publication tab uses the same JS but a different
-// template. Uses directInject to pre-populate a submission with Hanover
+// template. Uses directInject to pre-populate a submission with ManuallyAdded
 // admin-unit state so the bug surfaces on the timeLocation tab.
 describe('geoMetadata admin-unit reset on publication tab', { testIsolation: false }, function () {
 
@@ -149,6 +149,12 @@ describe('geoMetadata admin-unit reset on publication tab', { testIsolation: fal
       }
     };
 
+    // Explicit logout: the first describe ends logged in as aauthor, and
+    // cy.visit('.../signIn', POST) does not reliably re-authenticate when an
+    // existing OJS session cookie is already present — the post-login landing
+    // page can stay on the previous view long enough that the user-menu link
+    // fails to appear.
+    cy.logout();
     cy.login('aauthor');
     cy.get('a:contains("aauthor")').click();
     cy.get('a:contains("Dashboard")').click({ force: true });
@@ -178,8 +184,11 @@ describe('geoMetadata admin-unit reset on publication tab', { testIsolation: fal
     cy.get('#administrativeUnitInput').contains('Earth');
     cy.get('#administrativeUnitInput').contains('Federal Republic of Germany');
 
+    // Publication tab lays the map inside a scroll container where the centre
+    // can be off-screen; scroll it into view and force the click through.
     cy.toolbarButton('marker').click();
-    cy.get('#mapdiv').click(700, 200);
+    cy.get('#mapdiv').scrollIntoView();
+    cy.get('#mapdiv').click(700, 200, { force: true });
     cy.wait(3000);
 
     cy.get(NOTICE).should('be.visible');

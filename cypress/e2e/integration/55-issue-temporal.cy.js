@@ -7,12 +7,12 @@
  * @brief Issue #105: the issue TOC page shows a one-sentence summary of the
  *        overall time period spanned by its articles.
  *
- * Relies on the baseline state left by earlier specs in issue 1:
- *   - Vancouver is cool  — {2021-01-01..2021-12-31}
- *   - Hanover is nice    — {2022-01-01..2022-12-31}
- *   - Editors saves the day — {2022-01-01..2022-12-31}
- *   - Timeless Isle / Atlas of Saxony — no time period
- * Aggregate: years 2021 → 2022.
+ * Relies on the baseline state left by earlier specs in issue 1. The full set
+ * currently spans 2000 (Vancouver has no place, spec 23) to 2023 (Wellington
+ * ferry, spec 24). Vancouver is cool / Hanover is nice / Editors saves the day
+ * sit between; Timeless Isle / Atlas of Saxony / the other "has no …" siblings
+ * contribute no time period.
+ * Aggregate: years 2000 → 2023.
  */
 
 describe('geoMetadata Issue Temporal Summary', function () {
@@ -35,8 +35,8 @@ describe('geoMetadata Issue Temporal Summary', function () {
   it('renders the range sentence spanning the min-start and max-end years', function () {
     cy.visit(issuePath);
     cy.get('#geoMetadata_issueTemporalRange').should('be.visible');
-    cy.get('#geoMetadata_issueTemporalFrom').should('have.text', '2021');
-    cy.get('#geoMetadata_issueTemporalTo').should('have.text', '2022');
+    cy.get('#geoMetadata_issueTemporalFrom').should('have.text', '2000');
+    cy.get('#geoMetadata_issueTemporalTo').should('have.text', '2023');
     cy.get('#geoMetadata_issueTemporalSingle').should('not.be.visible');
   });
 
@@ -44,10 +44,10 @@ describe('geoMetadata Issue Temporal Summary', function () {
     cy.visit('/' + Cypress.env('contextPath') + '/map');
     cy.get('#geoMetadata_journalTemporalRange').should('be.visible');
     // Journal map aggregates every published article across every issue;
-    // the full set from specs 21/32/33 spans 2021 (Vancouver) to 2022
-    // (Hanover, Münster, Editors).
-    cy.get('#geoMetadata_journalTemporalFrom').should('have.text', '2021');
-    cy.get('#geoMetadata_journalTemporalTo').should('have.text', '2022');
+    // the full set spans 2000 (Vancouver has no place, spec 23) to 2023
+    // (Wellington ferry, spec 24).
+    cy.get('#geoMetadata_journalTemporalFrom').should('have.text', '2000');
+    cy.get('#geoMetadata_journalTemporalTo').should('have.text', '2023');
     cy.get('#geoMetadata_journalTemporalSingle').should('not.be.visible');
   });
 
@@ -59,8 +59,10 @@ describe('geoMetadata Issue Temporal Summary', function () {
     );
     cy.visit(issuePath);
     cy.get('#geoMetadata_issueTemporalRange').should('be.visible');
+    // After replacing Vancouver's period with MULTI_PERIOD (1990 + 2020),
+    // min drops to 1990, max remains 2023 (Wellington ferry, spec 24).
     cy.get('#geoMetadata_issueTemporalFrom').should('have.text', '1990');
-    cy.get('#geoMetadata_issueTemporalTo').should('have.text', '2022');
+    cy.get('#geoMetadata_issueTemporalTo').should('have.text', '2023');
     mysqlExec(
       `UPDATE publication_settings SET setting_value = '${VANCOUVER_PERIOD}' ` +
       `WHERE setting_name = 'geoMetadata::timePeriods' ` +
