@@ -189,7 +189,19 @@ msgid "plugins.generic.geoMetadata.settings.enableSyncedHighlight"
 msgstr "Synchronise hover highlighting between the issue map and the article entries."
 
 msgid "plugins.generic.geoMetadata.settings.enableSyncedHighlight.description"
-msgstr "When enabled, hovering over an article's geometry on the issue map highlights its entry in the table of contents, and vice versa. Uses the highlight colour configured above."
+msgstr "When enabled, hovering over an article's geometry on the issue map highlights its entry in the table of contents, and hovering the map icon next to each title highlights the corresponding geometries. The list-to-map direction requires the map icon below to stay enabled. Uses the highlight colour configured above."
+
+msgid "plugins.generic.geoMetadata.settings.showIssueMapIcon"
+msgstr "Show a map icon next to each article title on the issue page."
+
+msgid "plugins.generic.geoMetadata.settings.showIssueMapIcon.description"
+msgstr "When enabled, each article with spatial data shows a small map icon next to its title in the issue table of contents. Hovering the icon highlights the article's geometries on the map; clicking it scrolls the map into view and opens the article's popup. Articles without spatial data show no icon."
+
+msgid "plugins.generic.geoMetadata.issue.mapIcon.aria"
+msgstr "Show on map"
+
+msgid "plugins.generic.geoMetadata.issue.mapIcon.sr"
+msgstr "Show {$title} on map"
 
 msgid "plugins.generic.geoMetadata.settings.adminUnitOverlayColor"
 msgstr "Administrative-unit overlay colour"

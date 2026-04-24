@@ -62,7 +62,8 @@ class SettingsForm extends \Form
         'geoMetadata_adminUnitOverlayFillOpacity',
         'geoMetadata_markerHueRotation',
         'geoMetadata_markerHueRotationHighlight',
-        'geoMetadata_enableSyncedHighlight'
+        'geoMetadata_enableSyncedHighlight',
+        'geoMetadata_showIssueMapIcon'
     ];
 
     /**
@@ -110,7 +111,8 @@ class SettingsForm extends \Form
         'geoMetadata_emitMetaISO19139',
         'geoMetadata_enableGeocoderSearch',
         'geoMetadata_showEsriBaseLayer',
-        'geoMetadata_enableSyncedHighlight'
+        'geoMetadata_enableSyncedHighlight',
+        'geoMetadata_showIssueMapIcon'
     ];
 
     public function __construct($plugin)

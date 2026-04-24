@@ -8,7 +8,10 @@
  *}
 
 <input type="text" class="geoMetadata_data articleId" name="articleId"
-    style="height: 0px; width: 0px; visibility: hidden;" value='article-{$article->getId()}'>
+    style="height: 0px; width: 0px; visibility: hidden;"
+    value='article-{$article->getId()}'
+    data-title="{$article->getLocalizedTitle()|strip_unsafe_html|escape}"
+    data-sr-label="{translate key="plugins.generic.geoMetadata.issue.mapIcon.sr" title=$article->getLocalizedTitle()|strip_unsafe_html|escape}">
 <input type="text" class="geoMetadata_data spatial" name="{$smarty.const.GEOMETADATA_DB_FIELD_SPATIAL}"
     style="height: 0px; width: 0px; visibility: hidden;" value='{${$smarty.const.GEOMETADATA_DB_FIELD_SPATIAL}|escape:'html'}'>
 <input type="text" class="geoMetadata_data temporal" name="{$smarty.const.GEOMETADATA_DB_FIELD_TIME_PERIODS}"

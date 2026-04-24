@@ -117,6 +117,50 @@ function resetHighlightArticle(articleId) {
     if (r) r.wrapper.classList.remove('geoMetadata_title_hover');
 }
 
+// Remembers which icon opened the currently-visible popup so focus can return
+// there when the popup closes (Esc / outside click / programmatic close).
+var geoMetadata_lastPopupOpener = null;
+
+function geoMetadata_openArticlePopup(articleId) {
+    var layers = articleLayersMap.get(articleId) || [];
+    if (!layers.length) return;
+    var mapEl = document.getElementById('mapdiv');
+    if (mapEl && mapEl.scrollIntoView) mapEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // openPopup after the scroll kicks off; Leaflet positions the popup at render
+    // time, so the map's new viewport is already the reference.
+    layers[0].openPopup();
+}
+
+function geoMetadata_injectIcon(articleIdInput) {
+    var resolved = geoMetadata_resolveArticleAnchor(articleIdInput);
+    if (!resolved) return null;
+    var articleId = articleIdInput.value;
+    var title     = articleIdInput.getAttribute('data-title') || '';
+    var srLabel   = articleIdInput.getAttribute('data-sr-label') || '';
+
+    var link = document.createElement('a');
+    link.className = 'geoMetadata_issue_mapIcon';
+    link.href = '#mapdiv';
+    link.setAttribute('data-article-id', articleId);
+    link.setAttribute('aria-label', geoMetadata_issueMapIconAria);
+    link.setAttribute('title', geoMetadata_issueMapIconAria);
+
+    var iconEl = document.createElement('i');
+    iconEl.className = 'fa fa-map';
+    iconEl.setAttribute('aria-hidden', 'true');
+    link.appendChild(iconEl);
+
+    if (srLabel) {
+        var sr = document.createElement('span');
+        sr.className = 'pkp_screen_reader';
+        sr.textContent = srLabel;
+        link.appendChild(sr);
+    }
+
+    resolved.titleAnchor.insertAdjacentElement('afterend', link);
+    return link;
+}
+
 var articleLayersMap = new Map();
 
 // load spatial data
@@ -182,15 +226,38 @@ $(function () {
             articleLocations.addLayer(layer);
             map.fitBounds(articleLocations.getBounds());
 
-            if (geoMetadata_enableSyncedHighlight) {
-                let r = geoMetadata_wrapperFor(articleId);
-                if (r) {
-                    $(r.wrapper).hover(
-                        (e) => { highlightArticleFeatures(articleId); },
-                        (e) => { resetHighlightArticleFeatures(articleId); }
-                    );
+            if (geoMetadata_showIssueMapIcon) {
+                let input = document.querySelector('.geoMetadata_data.articleId[value="' + articleId + '"]');
+                let link  = input ? geoMetadata_injectIcon(input) : null;
+                if (link) {
+                    link.addEventListener('mouseenter', () => {
+                        if (geoMetadata_enableSyncedHighlight) highlightArticleFeatures(articleId);
+                    });
+                    link.addEventListener('mouseleave', () => {
+                        if (geoMetadata_enableSyncedHighlight) resetHighlightArticleFeatures(articleId);
+                    });
+                    link.addEventListener('focus', () => {
+                        if (geoMetadata_enableSyncedHighlight) highlightArticleFeatures(articleId);
+                    });
+                    link.addEventListener('blur', () => {
+                        if (geoMetadata_enableSyncedHighlight) resetHighlightArticleFeatures(articleId);
+                    });
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        geoMetadata_lastPopupOpener = link;
+                        geoMetadata_openArticlePopup(articleId);
+                    });
                 }
             }
+        }
+    });
+
+    // Return focus to the icon that opened the popup when the popup closes.
+    map.on('popupclose', function () {
+        if (geoMetadata_lastPopupOpener) {
+            var opener = geoMetadata_lastPopupOpener;
+            geoMetadata_lastPopupOpener = null;
+            opener.focus();
         }
     });
 

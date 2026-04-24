@@ -28,6 +28,9 @@ img.leaflet-marker-icon.geoMetadata_marker_highlight {ldelim} filter: hue-rotate
     border-left-color: {$geoMetadata_mapFeatureColorHighlight};
     background-color:  {$geoMetadata_mapFeatureColorHighlight_rgba15};
 {rdelim}
+.geoMetadata_issue_mapIcon {ldelim} margin-left: 0.4em; text-decoration: none; {rdelim}
+.geoMetadata_issue_mapIcon:hover,
+.geoMetadata_issue_mapIcon:focus {ldelim} color: {$geoMetadata_mapFeatureColorHighlight}; {rdelim}
 </style>
 <script type="text/javascript">
 // Antimeridian helpers (issue #60). Split happens PHP-side on save; these run on
@@ -201,6 +204,7 @@ const geoMetadata_iconStyleHighlightConfig = {ldelim}
 const geoMetadata_showEsriBaseLayer = {if $geoMetadata_showEsriBaseLayer}true{else}false{/if};
 const geoMetadata_showGeocoder      = {if $geoMetadata_showGeocoder}true{else}false{/if};
 const geoMetadata_enableSyncedHighlight = {if $geoMetadata_enableSyncedHighlight}true{else}false{/if};
+const geoMetadata_showIssueMapIcon      = {if $geoMetadata_showIssueMapIcon}true{else}false{/if};
 
 // layer switcher labels
 const geoMetadata_articleLayerName = '{$geoMetadata_i18n.articleLayerName|escape:'javascript'}';
@@ -208,6 +212,9 @@ const geoMetadata_layerName        = geoMetadata_articleLayerName; // legacy ali
 const geoMetadata_adminLayerName   = '{$geoMetadata_i18n.adminLayerName|escape:'javascript'}';
 const geoMetadata_overlayGeometry  = '{$geoMetadata_i18n.overlayGeometry|escape:'javascript'}';
 const geoMetadata_overlayAdminUnit = '{$geoMetadata_i18n.overlayAdminUnit|escape:'javascript'}';
+
+// issue-TOC map icon (issue #158)
+const geoMetadata_issueMapIconAria = '{$geoMetadata_i18n.issueMapIconAria|escape:'javascript'}';
 
 // fullscreen control (issue #61)
 const geoMetadata_fullscreenTitle       = '{$geoMetadata_i18n.fullscreenTitle|escape:'javascript'}';

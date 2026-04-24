@@ -230,6 +230,7 @@ class GeoMetadataPlugin extends GenericPlugin
 				'editHandlerText'         => __('plugins.generic.geoMetadata.map.edit.handlerText'),
 				'editHandlerSubtext'      => __('plugins.generic.geoMetadata.map.edit.handlerSubtext'),
 				'editRemoveHandlerText'   => __('plugins.generic.geoMetadata.map.edit.removeHandlerText'),
+				'issueMapIconAria'        => __('plugins.generic.geoMetadata.issue.mapIcon.aria'),
 			]);
 
 			$templateMgr->assign('geoMetadata_mapUrlPath', MAP_URL_PATH);
@@ -256,6 +257,8 @@ class GeoMetadataPlugin extends GenericPlugin
 				self::hexToRgba($this->templateParameters['geoMetadata_mapFeatureColorHighlight'], 0.15);
 			$this->templateParameters['geoMetadata_enableSyncedHighlight'] =
 				$this->isFeatureEnabled('geoMetadata_enableSyncedHighlight');
+			$this->templateParameters['geoMetadata_showIssueMapIcon'] =
+				$this->isFeatureEnabled('geoMetadata_showIssueMapIcon');
 		}
 
 		return $success;

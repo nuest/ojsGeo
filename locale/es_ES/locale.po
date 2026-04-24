@@ -189,7 +189,19 @@ msgid "plugins.generic.geoMetadata.settings.enableSyncedHighlight"
 msgstr "Sincronizar el resaltado entre el mapa del número y las entradas de artículos."
 
 msgid "plugins.generic.geoMetadata.settings.enableSyncedHighlight.description"
-msgstr "Cuando está activado, pasar el ratón sobre la geometría de un artículo en el mapa del número resalta su entrada en la tabla de contenidos, y viceversa. Utiliza el color de resaltado configurado arriba."
+msgstr "Cuando está activado, pasar el ratón sobre la geometría de un artículo en el mapa del número resalta su entrada en la tabla de contenidos, y pasar el ratón sobre el icono de mapa junto a cada título resalta las geometrías correspondientes. La dirección lista → mapa requiere que el icono de mapa de abajo permanezca activado. Utiliza el color de resaltado configurado arriba."
+
+msgid "plugins.generic.geoMetadata.settings.showIssueMapIcon"
+msgstr "Mostrar un icono de mapa junto a cada título de artículo en la página del número."
+
+msgid "plugins.generic.geoMetadata.settings.showIssueMapIcon.description"
+msgstr "Cuando está activado, cada artículo con datos espaciales muestra un pequeño icono de mapa junto a su título en la tabla de contenidos. Al pasar el ratón sobre el icono se resaltan las geometrías del artículo en el mapa; al hacer clic se desplaza el mapa a la vista y se abre la ventana emergente del artículo. Los artículos sin datos espaciales no muestran ningún icono."
+
+msgid "plugins.generic.geoMetadata.issue.mapIcon.aria"
+msgstr "Mostrar en el mapa"
+
+msgid "plugins.generic.geoMetadata.issue.mapIcon.sr"
+msgstr "Mostrar {$title} en el mapa"
 
 msgid "plugins.generic.geoMetadata.settings.adminUnitOverlayColor"
 msgstr "Color de la superposición de unidad administrativa"

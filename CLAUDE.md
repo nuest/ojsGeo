@@ -92,6 +92,7 @@ Cypress is the source of truth for regression coverage — self-bootstraps a fre
 | Vancouver is cool | Point | 2021-01-01 … 12-31 | Earth (`bbox: not available`) | No-bbox branch; `DC.box` / `ISO 19139` not emitted |
 | Timeless Isle | Polygon | — | Earth | Empty-`timePeriods` branch of `DC.SpatialCoverage` |
 | Atlas of Saxony | — | — | Saxony (bbox only) | Centroid-from-admin-unit-bbox fallback for `ICBM` / `geo.position` |
+| Outside of nowhere | — | — | — | No-geoMetadata-at-all branch; used by #158 icon spec to assert the icon is absent |
 | Wellington ferry across the dateline | MultiLineString (split) | 2023-01-01 … 12-31 | New Zealand (bbox east<west) | Antimeridian-crossing storage form; admin-unit overlay with crossing bbox |
 
 **Tests must not recompute expected values.** When asserting on numeric metadata (centroids, bounding boxes, ISO codes, etc.) pin the expected value as a plain literal tied to a specific test record whose input data is fixed — do not port a mirror of the production algorithm into the spec. If you need deterministic numbers for an exact-value assertion, create or reuse a test record with known, fixed stored data (e.g. the spatial-free "Atlas of Saxony" record whose fallback ICBM is the exact centre of Saxony's GeoNames bbox), rather than deriving numbers from what the page renders. Reimplementing the computation makes the test a tautology; comparing against a known constant catches a regression.

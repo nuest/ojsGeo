@@ -189,7 +189,19 @@ msgid "plugins.generic.geoMetadata.settings.enableSyncedHighlight"
 msgstr "Hervorhebung zwischen Ausgabenkarte und Artikeleinträgen synchronisieren."
 
 msgid "plugins.generic.geoMetadata.settings.enableSyncedHighlight.description"
-msgstr "Wenn aktiviert, hebt das Überfahren einer Artikelgeometrie auf der Ausgabenkarte den zugehörigen Eintrag im Inhaltsverzeichnis hervor und umgekehrt. Verwendet die oben konfigurierte Hervorhebungsfarbe."
+msgstr "Wenn aktiviert, hebt das Überfahren einer Artikelgeometrie auf der Ausgabenkarte den zugehörigen Eintrag im Inhaltsverzeichnis hervor, und das Überfahren des Kartensymbols neben jedem Titel hebt die zugehörigen Geometrien hervor. Die Richtung Liste → Karte setzt voraus, dass das Kartensymbol unten aktiviert bleibt. Verwendet die oben konfigurierte Hervorhebungsfarbe."
+
+msgid "plugins.generic.geoMetadata.settings.showIssueMapIcon"
+msgstr "Kartensymbol neben jedem Artikeltitel auf der Ausgabenseite anzeigen."
+
+msgid "plugins.generic.geoMetadata.settings.showIssueMapIcon.description"
+msgstr "Wenn aktiviert, wird neben dem Titel jedes Artikels mit räumlichen Daten ein kleines Kartensymbol im Inhaltsverzeichnis angezeigt. Beim Überfahren des Symbols werden die Geometrien des Artikels auf der Karte hervorgehoben; beim Anklicken wird die Karte in den sichtbaren Bereich gescrollt und das Popup des Artikels geöffnet. Artikel ohne räumliche Daten zeigen kein Symbol."
+
+msgid "plugins.generic.geoMetadata.issue.mapIcon.aria"
+msgstr "Auf der Karte anzeigen"
+
+msgid "plugins.generic.geoMetadata.issue.mapIcon.sr"
+msgstr "{$title} auf der Karte anzeigen"
 
 msgid "plugins.generic.geoMetadata.settings.adminUnitOverlayColor"
 msgstr "Farbe des Verwaltungseinheit-Overlays"
