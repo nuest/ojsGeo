@@ -28,11 +28,14 @@ import('plugins.generic.geoMetadata.classes.Components.Forms.PublicationForm');
 import('plugins.generic.geoMetadata.classes.Components.Forms.SettingsForm');
 import('plugins.generic.geoMetadata.classes.Geo.AntimeridianSplitter');
 import('plugins.generic.geoMetadata.classes.Geo.Centroid');
+import('plugins.generic.geoMetadata.classes.Geo.SchemaOrgGeo');
 
 use geoMetadata\classes\Components\Forms\PublicationForm;
 use geoMetadata\classes\Components\Forms\SettingsForm;
 use geoMetadata\classes\Geo\AntimeridianSplitter;
 use geoMetadata\classes\Geo\Centroid;
+use geoMetadata\classes\Geo\SchemaOrgGeo;
+use Spatie\SchemaOrg\Schema;
 
 class GeoMetadataPlugin extends GenericPlugin
 {
@@ -116,6 +119,7 @@ class GeoMetadataPlugin extends GenericPlugin
 
 			// Hooks for changing the article page
 			HookRegistry::register('Templates::Article::Main', array(&$this, 'extendArticleMainTemplate'));
+			HookRegistry::register('Templates::Article::Main', array(&$this, 'emitSchemaOrgJsonLd'));
 			HookRegistry::register('Templates::Article::Details', array(&$this, 'extendArticleDetailsTemplate'));
 			HookRegistry::register('ArticleHandler::view', array(&$this, 'extendArticleView')); //
 
@@ -582,7 +586,164 @@ class GeoMetadataPlugin extends GenericPlugin
 	}
 
 	/**
-	 * Function which extends the ArticleMain Template by a download button for the geospatial Metadata as geoJSON. 
+	 * Emit a schema.org/ScholarlyArticle JSON-LD block on article pages, carrying
+	 * the article's spatialCoverage and temporalCoverage. Coexists with another
+	 * plugin's article-level JSON-LD via shared @id (article URL).
+	 * @param hook Templates::Article::Main
+	 */
+	public function emitSchemaOrgJsonLd($hookName, $params)
+	{
+		if (!$this->isFeatureEnabled('geoMetadata_emitSchemaOrg')) {
+			return false;
+		}
+
+		try {
+			$templateMgr = &$params[1];
+			$output = &$params[2];
+
+			$publication = $templateMgr->getTemplateVars('publication');
+			if (!$publication) {
+				return false;
+			}
+
+			$spatial            = $publication->getData(GEOMETADATA_DB_FIELD_SPATIAL);
+			$administrativeUnit = $publication->getData(GEOMETADATA_DB_FIELD_ADMINUNIT);
+			$timePeriods        = $publication->getData(GEOMETADATA_DB_FIELD_TIME_PERIODS);
+
+			$lowestUnit = null;
+			$decoded = $administrativeUnit ? (json_decode($administrativeUnit) ?? []) : [];
+			foreach ($decoded as $unit) {
+				if (isset($unit->bbox) && $unit->bbox != 'not available') {
+					$lowestUnit = $unit;
+				}
+			}
+
+			$articleGeo = SchemaOrgGeo::buildArticleGeometries($spatial);
+			$adminPlace = $this->buildAdminUnitPlace($lowestUnit);
+			$temporalCoverage = $this->buildTemporalCoverage($timePeriods);
+
+			if ($articleGeo === null && $adminPlace === null && $temporalCoverage === null) {
+				return false;
+			}
+
+			$request   = Application::get()->getRequest();
+			$articleId = $publication->getData('submissionId');
+			$articleUrl = $request->url(null, 'article', 'view', $articleId);
+			$title = $publication->getLocalizedFullTitle();
+			$doi   = method_exists($publication, 'getStoredPubId') ? $publication->getStoredPubId('doi') : null;
+
+			$article = Schema::scholarlyArticle()
+				->setProperty('@id', $articleUrl)
+				->mainEntityOfPage($articleUrl);
+
+			if ($title) {
+				$article->headline($title);
+			}
+			if ($doi) {
+				$article->identifier(
+					Schema::propertyValue()
+						->propertyID('doi')
+						->value($doi)
+				);
+			}
+
+			$places = [];
+			if ($articleGeo !== null) {
+				$places[] = [
+					'@type' => 'Place',
+					'additionalProperty' => [
+						'@type'      => 'PropertyValue',
+						'propertyID' => 'geometrySource',
+						'value'      => SchemaOrgGeo::SOURCE_ARTICLE_EXTENT,
+					],
+					'geo' => $articleGeo,
+				];
+			}
+			if ($adminPlace !== null) {
+				$places[] = $adminPlace;
+			}
+			if (!empty($places)) {
+				$article->spatialCoverage(count($places) === 1 ? $places[0] : $places);
+			}
+
+			if ($temporalCoverage !== null) {
+				$article->temporalCoverage($temporalCoverage);
+			}
+
+			$templateMgr->assign('geoMetadata_schemaOrgScript', $article->toScript());
+			$output .= $templateMgr->fetch($this->getTemplateResource('frontend/objects/schema_org_jsonld.tpl'));
+		} catch (\Throwable $e) {
+			error_log('[geoMetadata] schema.org JSON-LD skipped: ' . $e->getMessage());
+		}
+		return false;
+	}
+
+	/**
+	 * Build a schema.org Place for the lowest administrative unit: name,
+	 * GeoNames URI as sameAs, ISO country/subdivision codes as
+	 * additionalProperty, the bbox as geo. Returns null when there is no
+	 * usable bbox to emit. The Place is tagged as administrativeUnitBoundingBox
+	 * via additionalProperty so consumers can distinguish it from the
+	 * article-extent Place without inspecting names.
+	 */
+	private function buildAdminUnitPlace($unit): ?array
+	{
+		if (!$unit) return null;
+		$bboxShape = SchemaOrgGeo::buildAdminUnitBoxShape($unit->bbox ?? null);
+		if ($bboxShape === null) return null;
+
+		$additionalProperty = [[
+			'@type'      => 'PropertyValue',
+			'propertyID' => 'geometrySource',
+			'value'      => SchemaOrgGeo::SOURCE_ADMIN_UNIT_BBOX,
+		]];
+		if (!empty($unit->isoCountryCode)) {
+			$additionalProperty[] = [
+				'@type'      => 'PropertyValue',
+				'propertyID' => 'isoCountryCode',
+				'value'      => $unit->isoCountryCode,
+			];
+		}
+		if (!empty($unit->isoSubdivisionCode)) {
+			$additionalProperty[] = [
+				'@type'      => 'PropertyValue',
+				'propertyID' => 'isoSubdivisionCode',
+				'value'      => $unit->isoSubdivisionCode,
+			];
+		}
+
+		$place = ['@type' => 'Place'];
+		if (!empty($unit->name)) {
+			$place['name'] = $unit->name;
+		}
+		if (!empty($unit->geonameId)) {
+			$place['sameAs'] = 'https://www.geonames.org/' . $unit->geonameId;
+		}
+		$place['additionalProperty'] = $additionalProperty;
+		$place['geo'] = $bboxShape;
+		return $place;
+	}
+
+	/**
+	 * Convert the stored `{begin..end}` timePeriods string into a schema.org
+	 * temporalCoverage value: an ISO 8601 interval `begin/end`. Returns null
+	 * when the field is empty or unparseable.
+	 */
+	private function buildTemporalCoverage(?string $timePeriods): ?string
+	{
+		if (empty($timePeriods)) return null;
+		$openBrace = strpos($timePeriods, '{');
+		$closeBrace = strpos($timePeriods, '}');
+		$dotDot = strpos($timePeriods, '..');
+		if ($openBrace === false || $closeBrace === false || $dotDot === false) return null;
+		$begin = substr($timePeriods, $openBrace + 1, $dotDot - $openBrace - 1);
+		$end   = substr($timePeriods, $dotDot + 2, $closeBrace - $dotDot - 2);
+		if ($begin === '' || $end === '') return null;
+		return $begin . '/' . $end;
+	}
+
+	/**
+	 * Function which extends the ArticleMain Template by a download button for the geospatial Metadata as geoJSON.
 	 * @param hook Templates::Article::Details
 	 */
 	public function extendArticleDetailsTemplate($hookName, $params)

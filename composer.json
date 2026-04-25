@@ -15,7 +15,8 @@
         "npm-asset/leaflet-draw": "1.0.4",
         "npm-asset/leaflet.fullscreen": "^3.0",
         "npm-asset/leaflet-color-markers": "^0.1.0",
-        "oomphinc/composer-installers-extender": "^2.0"
+        "oomphinc/composer-installers-extender": "^2.0",
+        "spatie/schema-org": "^3.13"
     },
     "autoload": {
         "psr-4": {

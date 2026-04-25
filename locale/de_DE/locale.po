@@ -299,6 +299,12 @@ msgstr "Meta-Tag ISO-19139 EX_GeographicBoundingBox ausgeben."
 msgid "plugins.generic.geoMetadata.settings.emitMetaISO19139.description"
 msgstr "Wenn aktiviert, wird die Bounding Box der Verwaltungseinheit als inline ISO-19139-XML-Fragment in den Head eingefügt. Nische; deaktivieren Sie dies für strikte HTML-Head-Hygiene (das Tag enthält gmd:/gco:-Namespaces, die in HTML nicht deklariert sind)."
 
+msgid "plugins.generic.geoMetadata.settings.emitSchemaOrg"
+msgstr "schema.org-JSON-LD ausgeben."
+
+msgid "plugins.generic.geoMetadata.settings.emitSchemaOrg.description"
+msgstr "Wenn aktiviert, wird ein schema.org/ScholarlyArticle-JSON-LD-Block eingefügt, der spatialCoverage und temporalCoverage des Artikels enthält. Die Geometrie folgt den Konventionen von ESIPFeds science-on-schema.org (GeoCoordinates / GeoShape line / polygon / box, Breiten-/Längen-Reihenfolge). Koexistiert mit dem JSON-LD eines anderen Plugins über die gemeinsame @id (Artikel-URL)."
+
 msgid "plugins.generic.geoMetadata.settings.section.services"
 msgstr "Drittanbieterdienste"
 

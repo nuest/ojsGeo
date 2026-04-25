@@ -299,6 +299,12 @@ msgstr "Emit ISO 19139 EX_GeographicBoundingBox meta tag."
 msgid "plugins.generic.geoMetadata.settings.emitMetaISO19139.description"
 msgstr "When enabled, injects the article's admin-unit bounding box as an inline ISO 19139 XML fragment in the head. Niche; disable for stricter HTML head hygiene (the tag embeds gmd:/gco: namespaces that are not declared in HTML)."
 
+msgid "plugins.generic.geoMetadata.settings.emitSchemaOrg"
+msgstr "Emit schema.org JSON-LD."
+
+msgid "plugins.generic.geoMetadata.settings.emitSchemaOrg.description"
+msgstr "When enabled, injects a schema.org/ScholarlyArticle JSON-LD block carrying the article's spatialCoverage and temporalCoverage. Geometry follows ESIPFed's science-on-schema.org conventions (GeoCoordinates / GeoShape line / polygon / box, lat-lon order). Coexists with another plugin's article-level JSON-LD via shared @id (article URL)."
+
 msgid "plugins.generic.geoMetadata.settings.section.services"
 msgstr "Third-party services"
 

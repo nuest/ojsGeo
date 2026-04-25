@@ -299,6 +299,12 @@ msgstr "Emitir etiqueta meta ISO 19139 EX_GeographicBoundingBox."
 msgid "plugins.generic.geoMetadata.settings.emitMetaISO19139.description"
 msgstr "Cuando está activado, se inyecta el cuadro delimitador de la unidad administrativa como un fragmento XML ISO 19139 en línea dentro del head. De nicho; desactive esta opción para una higiene estricta del head HTML (la etiqueta incrusta los espacios de nombres gmd:/gco: que no están declarados en HTML)."
 
+msgid "plugins.generic.geoMetadata.settings.emitSchemaOrg"
+msgstr "Emitir JSON-LD de schema.org."
+
+msgid "plugins.generic.geoMetadata.settings.emitSchemaOrg.description"
+msgstr "Cuando está activado, se inyecta un bloque JSON-LD de schema.org/ScholarlyArticle con spatialCoverage y temporalCoverage del artículo. La geometría sigue las convenciones de science-on-schema.org de ESIPFed (GeoCoordinates / GeoShape line / polygon / box, orden lat-lon). Coexiste con el JSON-LD de otro complemento mediante el @id compartido (URL del artículo)."
+
 msgid "plugins.generic.geoMetadata.settings.section.services"
 msgstr "Servicios de terceros"
 

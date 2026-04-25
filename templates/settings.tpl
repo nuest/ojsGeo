@@ -358,6 +358,16 @@
         label="plugins.generic.geoMetadata.settings.emitMetaISO19139"
         }
     </p>
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.emitSchemaOrg.description"}
+        {fbvElement
+        type="checkbox"
+        id="geoMetadata_emitSchemaOrg"
+        value="1"
+        checked=$geoMetadata_emitSchemaOrg
+        label="plugins.generic.geoMetadata.settings.emitSchemaOrg"
+        }
+    </p>
     {/fbvFormSection}
     {/fbvFormArea}
 

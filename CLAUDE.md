@@ -220,10 +220,11 @@ The file follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/).
 
 1. Update version in `version.xml`
 2. Run `composer update` and `composer install`
-3. Finalise `CHANGELOG.md`: rename the `unreleased` section to `## [X.Y.Z.Z] - YYYY-MM-DD`
-4. Create git tag: `git tag -a vX.X.X.X-beta -m "release vX.X.X.X-beta"`
-5. Push tag: `git push origin tag vX.X.X.X-beta`
-6. Create release archives excluding development files
+3. Run `make validate_schema_org` against a live dev-server article URL (defaults to `localhost:8330/.../article/view/20`; override with `VALIDATE_URLS="…"`). Exits non-zero on any error or warning from validator.schema.org. Cypress structural assertions live in `63-schema-org-jsonld.cy.js`; this is the semantic complement and is not part of CI.
+4. Finalise `CHANGELOG.md`: rename the `unreleased` section to `## [X.Y.Z.Z] - YYYY-MM-DD`
+5. Create git tag: `git tag -a vX.X.X.X-beta -m "release vX.X.X.X-beta"`
+6. Push tag: `git push origin tag vX.X.X.X-beta`
+7. Create release archives excluding development files
 
 ## Plugin Integration
 
