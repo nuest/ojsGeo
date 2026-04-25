@@ -61,6 +61,12 @@ $(function () {
         coverageInput.attr('disabled', 'disabled');
         coverageInput.attr('title', document.getElementById("geoMetadata_coverageDisabledHover").value);
     }
+
+    if (map) {
+        setTimeout(function () {
+            L.control.geoMetadataResetView({ position: 'topleft', title: geoMetadata_resetViewTitle }).addTo(map);
+        }, 0);
+    }
 });
 
 function disableGazzetter() {

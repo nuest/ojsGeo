@@ -118,6 +118,10 @@ $(function () {
         }
         // TODO load temporal properties and add them to a timeline
     });
+
+    setTimeout(function () {
+        L.control.geoMetadataResetView({ position: 'topleft', title: geoMetadata_resetViewTitle }).addTo(map);
+    }, 0);
 });
 
 // aggregate time periods across publications and render the appropriate sentence

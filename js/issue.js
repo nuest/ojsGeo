@@ -263,7 +263,12 @@ $(function () {
 
     if (!spatialInputsAvailable) {
         $("#mapdiv").hide();
+        return;
     }
+
+    setTimeout(function () {
+        L.control.geoMetadataResetView({ position: 'topleft', title: geoMetadata_resetViewTitle }).addTo(map);
+    }, 0);
 });
 
 // aggregate time periods across articles and render the appropriate sentence

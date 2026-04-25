@@ -200,6 +200,12 @@ $(function () {
             $("#geoMetadata_span_end").text(ranges[0].end);
         }
     }
+
+    if (geoMetadata_mapEnabled) {
+        setTimeout(function () {
+            L.control.geoMetadataResetView({ position: 'topleft', title: geoMetadata_resetViewTitle }).addTo(map);
+        }, 0);
+    }
 });
 
 /**

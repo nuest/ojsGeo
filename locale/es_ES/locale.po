@@ -395,6 +395,9 @@ msgstr "Acercar"
 msgid "plugins.generic.geoMetadata.map.zoom.out"
 msgstr "Alejar"
 
+msgid "plugins.generic.geoMetadata.map.resetView.title"
+msgstr "Restablecer la vista"
+
 msgid "plugins.generic.geoMetadata.map.geocoder.placeholder"
 msgstr "Buscar"
 

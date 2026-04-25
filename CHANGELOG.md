@@ -22,6 +22,7 @@ Internationalisation, configurability, and HTML-head metadata — target release
 - Map appearance settings: configurable default view for the submission map, and colours for article geometry, hover highlight, administrative-unit overlay, and point markers ([#39](https://github.com/TIBHannover/geoMetadata/issues/39), [#73](https://github.com/TIBHannover/geoMetadata/issues/73), [#145](https://github.com/TIBHannover/geoMetadata/issues/145)).
 - Hover highlighting on the issue page uses the configured highlight colour, with an admin toggle to synchronise (or disable) the two-way hover between map and article entries.
 - Map icon next to each article title in the issue table of contents; hover highlights the article's geometries, click opens the popup and scrolls the map into view. Admin toggle, default on ([#158](https://github.com/TIBHannover/geoMetadata/issues/158)).
+- Reset-view button next to the fullscreen control on every map; one click returns the map to its initial view.
 - Raw-data textareas on the publication tab start read-only with an "Enable editing" button, to prevent accidental edits that can silently corrupt stored GeoJSON. An admin toggle under *Workflow settings* disables the lock for journals that prefer the previous always-editable behaviour ([#114](https://github.com/TIBHannover/geoMetadata/issues/114)).
 
 ### Changed

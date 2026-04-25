@@ -31,6 +31,20 @@ img.leaflet-marker-icon.geoMetadata_marker_highlight {ldelim} filter: hue-rotate
 .geoMetadata_issue_mapIcon {ldelim} margin-left: 0.4em; text-decoration: none; {rdelim}
 .geoMetadata_issue_mapIcon:hover,
 .geoMetadata_issue_mapIcon:focus {ldelim} color: {$geoMetadata_mapFeatureColorHighlight}; {rdelim}
+.leaflet-control-geoMetadataResetView {ldelim}
+    display: block;
+    width: 26px;
+    height: 26px;
+    line-height: 26px;
+    text-align: center;
+    color: #000;
+    background-color: #fff;
+{rdelim}
+.leaflet-control-geoMetadataResetView:hover,
+.leaflet-control-geoMetadataResetView:focus {ldelim}
+    color: {$geoMetadata_mapFeatureColorHighlight};
+    background-color: #f4f4f4;
+{rdelim}
 </style>
 <script type="text/javascript">
 // Antimeridian helpers (issue #60). Split happens PHP-side on save; these run on
@@ -215,6 +229,9 @@ const geoMetadata_overlayAdminUnit = '{$geoMetadata_i18n.overlayAdminUnit|escape
 
 // issue-TOC map icon (issue #158)
 const geoMetadata_issueMapIconAria = '{$geoMetadata_i18n.issueMapIconAria|escape:'javascript'}';
+
+// reset-view control
+const geoMetadata_resetViewTitle   = '{$geoMetadata_i18n.resetViewTitle|escape:'javascript'}';
 
 // fullscreen control (issue #61)
 const geoMetadata_fullscreenTitle       = '{$geoMetadata_i18n.fullscreenTitle|escape:'javascript'}';

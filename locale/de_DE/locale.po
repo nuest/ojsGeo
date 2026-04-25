@@ -395,6 +395,9 @@ msgstr "Hineinzoomen"
 msgid "plugins.generic.geoMetadata.map.zoom.out"
 msgstr "Herauszoomen"
 
+msgid "plugins.generic.geoMetadata.map.resetView.title"
+msgstr "Ansicht zurücksetzen"
+
 msgid "plugins.generic.geoMetadata.map.geocoder.placeholder"
 msgstr "Suchen"
 

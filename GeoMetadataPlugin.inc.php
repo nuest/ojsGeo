@@ -170,6 +170,9 @@ class GeoMetadataPlugin extends GenericPlugin
 			$urlThemeResolversJS = $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/theme_resolvers.js';
 			$templateMgr->addJavaScript('geoMetadataThemeResolversJS', $urlThemeResolversJS, array('contexts' => array('frontend', 'backend')));
 
+			$urlResetViewJS = $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/reset_view_control.js';
+			$templateMgr->addJavaScript('geoMetadataResetViewJS', $urlResetViewJS, array('contexts' => array('frontend', 'backend')));
+
 			$templateMgr->assign('geoMetadata_submissionJS',      $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/submission.js');
 			$templateMgr->assign('geoMetadata_article_detailsJS', $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/article_details.js');
 			$templateMgr->assign('geoMetadata_issueJS',           $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/issue.js');
@@ -231,6 +234,7 @@ class GeoMetadataPlugin extends GenericPlugin
 				'editHandlerSubtext'      => __('plugins.generic.geoMetadata.map.edit.handlerSubtext'),
 				'editRemoveHandlerText'   => __('plugins.generic.geoMetadata.map.edit.removeHandlerText'),
 				'issueMapIconAria'        => __('plugins.generic.geoMetadata.issue.mapIcon.aria'),
+				'resetViewTitle'          => __('plugins.generic.geoMetadata.map.resetView.title'),
 			]);
 
 			$templateMgr->assign('geoMetadata_mapUrlPath', MAP_URL_PATH);
