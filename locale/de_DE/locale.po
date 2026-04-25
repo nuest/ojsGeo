@@ -197,6 +197,12 @@ msgstr "Kartensymbol neben jedem Artikeltitel auf der Ausgabenseite anzeigen."
 msgid "plugins.generic.geoMetadata.settings.showIssueMapIcon.description"
 msgstr "Wenn aktiviert, wird neben dem Titel jedes Artikels mit räumlichen Daten ein kleines Kartensymbol im Inhaltsverzeichnis angezeigt. Beim Überfahren des Symbols werden die Geometrien des Artikels auf der Karte hervorgehoben; beim Anklicken wird die Karte in den sichtbaren Bereich gescrollt und das Popup des Artikels geöffnet. Artikel ohne räumliche Daten zeigen kein Symbol."
 
+msgid "plugins.generic.geoMetadata.settings.overlapPicker"
+msgstr "Bei Klick durch sich überlappende Artikel blättern."
+
+msgid "plugins.generic.geoMetadata.settings.overlapPicker.description"
+msgstr "Wenn sich zwei oder mehr Artikel denselben Kartenbereich teilen, können Lesende per Klick durch die Informationen zu jedem Artikel blättern. Wenn deaktiviert, wird nur das Popup eines einzigen Artikels geöffnet — und zwar das der zuoberst gezeichneten Geometrie."
+
 msgid "plugins.generic.geoMetadata.issue.mapIcon.aria"
 msgstr "Auf der Karte anzeigen"
 
@@ -403,6 +409,15 @@ msgstr "Herauszoomen"
 
 msgid "plugins.generic.geoMetadata.map.resetView.title"
 msgstr "Ansicht zurücksetzen"
+
+msgid "plugins.generic.geoMetadata.map.overlap.prevTitle"
+msgstr "Vorheriger Artikel"
+
+msgid "plugins.generic.geoMetadata.map.overlap.nextTitle"
+msgstr "Nächster Artikel"
+
+msgid "plugins.generic.geoMetadata.map.overlap.counter"
+msgstr "{$i} von {$n} Artikeln"
 
 msgid "plugins.generic.geoMetadata.map.geocoder.placeholder"
 msgstr "Suchen"

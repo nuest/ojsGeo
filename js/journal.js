@@ -45,6 +45,40 @@ L.control.fullscreen({
 var articleLocations = new L.FeatureGroup();
 map.addLayer(articleLocations);
 
+// Per-article tracking — needed by the overlap picker (issue #81) and by the
+// hover/active highlight (ported from js/issue.js, originally added for #83).
+var articleLayersMap = new Map();
+var articlePopupMap  = new Map();
+var geoMetadata_overlapManager = null;
+var geoMetadata_iconStyle          = L.icon(geoMetadata_iconStyleConfig);
+var geoMetadata_iconStyleHighlight = L.icon(geoMetadata_iconStyleHighlightConfig);
+
+function highlightFeature(layer, feature) {
+    if (feature && feature.geometry.type === 'Point' && layer.options.icon) {
+        layer.setIcon(geoMetadata_iconStyleHighlight);
+    } else {
+        layer.setStyle(geoMetadata_mapLayerStyleHighlight);
+        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) layer.bringToFront();
+    }
+}
+function resetHighlightFeature(layer, feature) {
+    if (feature && feature.geometry.type === 'Point' && layer.options.icon) {
+        layer.setIcon(geoMetadata_iconStyle);
+    } else {
+        layer.setStyle(geoMetadata_mapLayerStyle);
+    }
+}
+function highlightArticleFeatures(articleId) {
+    (articleLayersMap.get(articleId) || []).forEach(function (layer) {
+        highlightFeature(layer, layer.feature);
+    });
+}
+function resetHighlightArticleFeatures(articleId) {
+    (articleLayersMap.get(articleId) || []).forEach(function (layer) {
+        resetHighlightFeature(layer, layer.feature);
+    });
+}
+
 var overlayMaps = {
     [geoMetadata_layerName]: articleLocations,
 };
@@ -104,10 +138,24 @@ $(function () {
                     popupTemplate = popupTemplate.concat(popupAdministrativeUnit);
                 }
 
+                articlePopupMap.set(submissionId, popupTemplate);
+                if (!articleLayersMap.has(submissionId)) articleLayersMap.set(submissionId, []);
+
                 let layer = L.geoJSON(spatialParsed, {
-                    pointToLayer: (feature, latlng) => L.marker(latlng, { icon: L.icon(geoMetadata_iconStyleConfig) }),
+                    pointToLayer: (feature, latlng) => L.marker(latlng, { icon: geoMetadata_iconStyle }),
                     onEachFeature: (feature, layer) => {
-                        layer.bindPopup(`${popupTemplate}`);
+                        if (!geoMetadata_overlapPicker) {
+                            layer.bindPopup(`${popupTemplate}`);
+                        }
+                        feature.properties = feature.properties || {};
+                        feature.properties.articleId = submissionId;
+                        articleLayersMap.get(submissionId).push(layer);
+                        if (geoMetadata_enableSyncedHighlight) {
+                            layer.on({
+                                mouseover: () => highlightArticleFeatures(submissionId),
+                                mouseout:  () => resetHighlightArticleFeatures(submissionId)
+                            });
+                        }
                     },
                     style: geoMetadata_mapLayerStyle,
                     submissionId: submissionId
@@ -118,6 +166,22 @@ $(function () {
         }
         // TODO load temporal properties and add them to a timeline
     });
+
+    if (geoMetadata_overlapPicker) {
+        geoMetadata_overlapManager = geoMetadata_createOverlapManager(map, {
+            articleLayersMap: articleLayersMap,
+            getArticleMeta: function (id) {
+                return { popupHtml: articlePopupMap.get(id), layers: articleLayersMap.get(id) || [] };
+            },
+            highlight:      highlightArticleFeatures,
+            resetHighlight: resetHighlightArticleFeatures,
+            i18n: {
+                overlapPrevTitle: geoMetadata_overlapPrevTitle,
+                overlapNextTitle: geoMetadata_overlapNextTitle,
+                overlapCounter:   geoMetadata_overlapCounter
+            }
+        });
+    }
 
     setTimeout(function () {
         L.control.geoMetadataResetView({ position: 'topleft', title: geoMetadata_resetViewTitle }).addTo(map);

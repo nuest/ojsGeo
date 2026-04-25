@@ -177,6 +177,9 @@ class GeoMetadataPlugin extends GenericPlugin
 			$urlResetViewJS = $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/reset_view_control.js';
 			$templateMgr->addJavaScript('geoMetadataResetViewJS', $urlResetViewJS, array('contexts' => array('frontend', 'backend')));
 
+			$urlMapOverlapJS = $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/map_overlap.js';
+			$templateMgr->addJavaScript('geoMetadataMapOverlapJS', $urlMapOverlapJS, array('contexts' => array('frontend', 'backend')));
+
 			$templateMgr->assign('geoMetadata_submissionJS',      $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/submission.js');
 			$templateMgr->assign('geoMetadata_article_detailsJS', $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/article_details.js');
 			$templateMgr->assign('geoMetadata_issueJS',           $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/issue.js');
@@ -239,6 +242,9 @@ class GeoMetadataPlugin extends GenericPlugin
 				'editRemoveHandlerText'   => __('plugins.generic.geoMetadata.map.edit.removeHandlerText'),
 				'issueMapIconAria'        => __('plugins.generic.geoMetadata.issue.mapIcon.aria'),
 				'resetViewTitle'          => __('plugins.generic.geoMetadata.map.resetView.title'),
+				'overlapPrevTitle'        => __('plugins.generic.geoMetadata.map.overlap.prevTitle'),
+				'overlapNextTitle'        => __('plugins.generic.geoMetadata.map.overlap.nextTitle'),
+				'overlapCounter'          => __('plugins.generic.geoMetadata.map.overlap.counter'),
 			]);
 
 			$templateMgr->assign('geoMetadata_mapUrlPath', MAP_URL_PATH);
@@ -267,6 +273,8 @@ class GeoMetadataPlugin extends GenericPlugin
 				$this->isFeatureEnabled('geoMetadata_enableSyncedHighlight');
 			$this->templateParameters['geoMetadata_showIssueMapIcon'] =
 				$this->isFeatureEnabled('geoMetadata_showIssueMapIcon');
+			$this->templateParameters['geoMetadata_overlapPicker'] =
+				$this->isFeatureEnabled('geoMetadata_overlapPicker');
 		}
 
 		return $success;

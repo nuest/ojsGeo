@@ -64,7 +64,8 @@ class SettingsForm extends \Form
         'geoMetadata_markerHueRotation',
         'geoMetadata_markerHueRotationHighlight',
         'geoMetadata_enableSyncedHighlight',
-        'geoMetadata_showIssueMapIcon'
+        'geoMetadata_showIssueMapIcon',
+        'geoMetadata_overlapPicker'
     ];
 
     /**
@@ -114,7 +115,8 @@ class SettingsForm extends \Form
         'geoMetadata_enableGeocoderSearch',
         'geoMetadata_showEsriBaseLayer',
         'geoMetadata_enableSyncedHighlight',
-        'geoMetadata_showIssueMapIcon'
+        'geoMetadata_showIssueMapIcon',
+        'geoMetadata_overlapPicker'
     ];
 
     public function __construct($plugin)

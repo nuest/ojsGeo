@@ -197,6 +197,12 @@ msgstr "Afficher une icône de carte à côté de chaque titre d'article sur la 
 msgid "plugins.generic.geoMetadata.settings.showIssueMapIcon.description"
 msgstr "Lorsque cette option est activée, chaque article avec des données spatiales affiche une petite icône de carte à côté de son titre dans la table des matières. Survoler l'icône met en évidence les géométries de l'article sur la carte ; cliquer fait défiler la carte dans la vue et ouvre la popup de l'article. Les articles sans données spatiales n'affichent aucune icône."
 
+msgid "plugins.generic.geoMetadata.settings.overlapPicker"
+msgstr "Parcourir les articles superposés au clic."
+
+msgid "plugins.generic.geoMetadata.settings.overlapPicker.description"
+msgstr "Lorsque deux articles ou plus partagent la même zone sur la carte, cliquer permet aux lecteurs et lectrices de naviguer entre les informations de chaque article. Lorsque cette option est désactivée, seule la popup d'un seul article s'ouvre — celle de la géométrie dessinée au-dessus."
+
 msgid "plugins.generic.geoMetadata.issue.mapIcon.aria"
 msgstr "Afficher sur la carte"
 
@@ -403,6 +409,15 @@ msgstr "Zoom arrière"
 
 msgid "plugins.generic.geoMetadata.map.resetView.title"
 msgstr "Réinitialiser la vue"
+
+msgid "plugins.generic.geoMetadata.map.overlap.prevTitle"
+msgstr "Article précédent"
+
+msgid "plugins.generic.geoMetadata.map.overlap.nextTitle"
+msgstr "Article suivant"
+
+msgid "plugins.generic.geoMetadata.map.overlap.counter"
+msgstr "{$i} sur {$n} articles"
 
 msgid "plugins.generic.geoMetadata.map.geocoder.placeholder"
 msgstr "Rechercher"

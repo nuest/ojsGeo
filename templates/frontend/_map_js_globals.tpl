@@ -31,6 +31,34 @@ img.leaflet-marker-icon.geoMetadata_marker_highlight {ldelim} filter: hue-rotate
 .geoMetadata_issue_mapIcon {ldelim} margin-left: 0.4em; text-decoration: none; {rdelim}
 .geoMetadata_issue_mapIcon:hover,
 .geoMetadata_issue_mapIcon:focus {ldelim} color: {$geoMetadata_mapFeatureColorHighlight}; {rdelim}
+.geoMetadata_overlap_header {ldelim}
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5em;
+    padding-bottom: 0.4em;
+    margin-bottom: 0.4em;
+    border-bottom: 1px solid #e0e0e0;
+{rdelim}
+.geoMetadata_overlap_counter {ldelim} font-size: 0.9em; color: #555; flex: 1; text-align: center; {rdelim}
+.geoMetadata_overlap_prev,
+.geoMetadata_overlap_next {ldelim}
+    background: transparent;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    color: inherit;
+    cursor: pointer;
+    font-size: 1.1em;
+    line-height: 1;
+    padding: 0.1em 0.5em;
+{rdelim}
+.geoMetadata_overlap_prev:hover,
+.geoMetadata_overlap_next:hover,
+.geoMetadata_overlap_prev:focus,
+.geoMetadata_overlap_next:focus {ldelim}
+    border-color: {$geoMetadata_mapFeatureColorHighlight};
+    color: {$geoMetadata_mapFeatureColorHighlight};
+{rdelim}
 .leaflet-control-geoMetadataResetView {ldelim}
     display: block;
     width: 26px;
@@ -219,6 +247,7 @@ const geoMetadata_showEsriBaseLayer = {if $geoMetadata_showEsriBaseLayer}true{el
 const geoMetadata_showGeocoder      = {if $geoMetadata_showGeocoder}true{else}false{/if};
 const geoMetadata_enableSyncedHighlight = {if $geoMetadata_enableSyncedHighlight}true{else}false{/if};
 const geoMetadata_showIssueMapIcon      = {if $geoMetadata_showIssueMapIcon}true{else}false{/if};
+const geoMetadata_overlapPicker         = {if $geoMetadata_overlapPicker}true{else}false{/if};
 
 // layer switcher labels
 const geoMetadata_articleLayerName = '{$geoMetadata_i18n.articleLayerName|escape:'javascript'}';
@@ -232,6 +261,11 @@ const geoMetadata_issueMapIconAria = '{$geoMetadata_i18n.issueMapIconAria|escape
 
 // reset-view control
 const geoMetadata_resetViewTitle   = '{$geoMetadata_i18n.resetViewTitle|escape:'javascript'}';
+
+// multi-article overlap picker (issue #81)
+const geoMetadata_overlapPrevTitle = '{$geoMetadata_i18n.overlapPrevTitle|escape:'javascript'}';
+const geoMetadata_overlapNextTitle = '{$geoMetadata_i18n.overlapNextTitle|escape:'javascript'}';
+const geoMetadata_overlapCounter   = '{$geoMetadata_i18n.overlapCounter|escape:'javascript'}';
 
 // fullscreen control (issue #61)
 const geoMetadata_fullscreenTitle       = '{$geoMetadata_i18n.fullscreenTitle|escape:'javascript'}';

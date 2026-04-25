@@ -185,6 +185,16 @@
         }
     </p>
     <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.overlapPicker.description"}
+        {fbvElement
+        type="checkbox"
+        id="geoMetadata_overlapPicker"
+        value="1"
+        checked=$geoMetadata_overlapPicker
+        label="plugins.generic.geoMetadata.settings.overlapPicker"
+        }
+    </p>
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
         {translate key="plugins.generic.geoMetadata.settings.markerHueRotationHighlight.description"}
         <br/>
         <label for="geoMetadata_markerHueRotationHighlight">{translate key="plugins.generic.geoMetadata.settings.markerHueRotationHighlight"}</label>

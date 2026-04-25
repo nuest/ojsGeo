@@ -126,9 +126,13 @@ function geoMetadata_openArticlePopup(articleId) {
     if (!layers.length) return;
     var mapEl = document.getElementById('mapdiv');
     if (mapEl && mapEl.scrollIntoView) mapEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    // openPopup after the scroll kicks off; Leaflet positions the popup at render
-    // time, so the map's new viewport is already the reference.
-    layers[0].openPopup();
+    if (geoMetadata_overlapManager) {
+        geoMetadata_overlapManager.openArticle(articleId);
+    } else {
+        // openPopup after the scroll kicks off; Leaflet positions the popup at render
+        // time, so the map's new viewport is already the reference.
+        layers[0].openPopup();
+    }
 }
 
 function geoMetadata_injectIcon(articleIdInput) {
@@ -162,6 +166,8 @@ function geoMetadata_injectIcon(articleIdInput) {
 }
 
 var articleLayersMap = new Map();
+var articlePopupMap = new Map();
+var geoMetadata_overlapManager = null;
 
 // load spatial data
 $(function () {
@@ -197,10 +203,14 @@ $(function () {
                 articleLayersMap.set(articleId, []);
             }
 
+            articlePopupMap.set(articleId, popupInputs[index]);
+
             let layer = L.geoJSON(spatialProperty, {
                 pointToLayer: (feature, latlng) => L.marker(latlng, { icon: geoMetadata_iconStyle }),
                 onEachFeature: (feature, layer) => {
-                    layer.bindPopup(popupInputs[index]);
+                    if (!geoMetadata_overlapPicker) {
+                        layer.bindPopup(popupInputs[index]);
+                    }
                     feature.properties['articleId'] = articleId;
 
                     // Store layer reference for this article
@@ -264,6 +274,22 @@ $(function () {
     if (!spatialInputsAvailable) {
         $("#mapdiv").hide();
         return;
+    }
+
+    if (geoMetadata_overlapPicker) {
+        geoMetadata_overlapManager = geoMetadata_createOverlapManager(map, {
+            articleLayersMap: articleLayersMap,
+            getArticleMeta: function (id) {
+                return { popupHtml: articlePopupMap.get(id), layers: articleLayersMap.get(id) || [] };
+            },
+            highlight:      highlightArticleFeatures,
+            resetHighlight: resetHighlightArticleFeatures,
+            i18n: {
+                overlapPrevTitle: geoMetadata_overlapPrevTitle,
+                overlapNextTitle: geoMetadata_overlapNextTitle,
+                overlapCounter:   geoMetadata_overlapCounter
+            }
+        });
     }
 
     setTimeout(function () {

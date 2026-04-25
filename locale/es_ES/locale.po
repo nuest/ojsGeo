@@ -197,6 +197,12 @@ msgstr "Mostrar un icono de mapa junto a cada título de artículo en la página
 msgid "plugins.generic.geoMetadata.settings.showIssueMapIcon.description"
 msgstr "Cuando está activado, cada artículo con datos espaciales muestra un pequeño icono de mapa junto a su título en la tabla de contenidos. Al pasar el ratón sobre el icono se resaltan las geometrías del artículo en el mapa; al hacer clic se desplaza el mapa a la vista y se abre la ventana emergente del artículo. Los artículos sin datos espaciales no muestran ningún icono."
 
+msgid "plugins.generic.geoMetadata.settings.overlapPicker"
+msgstr "Recorrer los artículos solapados al hacer clic."
+
+msgid "plugins.generic.geoMetadata.settings.overlapPicker.description"
+msgstr "Cuando dos o más artículos comparten el mismo área en el mapa, hacer clic permite a las lectoras y lectores recorrer la información de cada artículo. Cuando está desactivado, solo se abre la ventana emergente de un único artículo: la de la geometría dibujada encima."
+
 msgid "plugins.generic.geoMetadata.issue.mapIcon.aria"
 msgstr "Mostrar en el mapa"
 
@@ -403,6 +409,15 @@ msgstr "Alejar"
 
 msgid "plugins.generic.geoMetadata.map.resetView.title"
 msgstr "Restablecer la vista"
+
+msgid "plugins.generic.geoMetadata.map.overlap.prevTitle"
+msgstr "Artículo anterior"
+
+msgid "plugins.generic.geoMetadata.map.overlap.nextTitle"
+msgstr "Artículo siguiente"
+
+msgid "plugins.generic.geoMetadata.map.overlap.counter"
+msgstr "{$i} de {$n} artículos"
 
 msgid "plugins.generic.geoMetadata.map.geocoder.placeholder"
 msgstr "Buscar"

@@ -10,6 +10,8 @@ Internationalisation, configurability, and HTML-head metadata — target release
 
 ### Added
 
+- Multi-article picker on the issue and journal maps: clicking where two or more articles' geometries overlap opens a popup that cycles through every article at that location with prev/next controls (wrap-around), instead of arbitrarily picking the one painted on top. Admin toggle, default on ([#81](https://github.com/TIBHannover/geoMetadata/issues/81)).
+- Hover and active-article highlighting on the journal map, matching the issue-map behaviour ([#83](https://github.com/TIBHannover/geoMetadata/issues/83)).
 - Fullscreen button on all maps ([#61](https://github.com/TIBHannover/geoMetadata/issues/61)).
 - `ICBM`, `geo.position`, and `geo.region` HTML meta tags ([#87](https://github.com/TIBHannover/geoMetadata/issues/87), [#88](https://github.com/TIBHannover/geoMetadata/issues/88)).
 - Configurable base layer with reader-facing info on the external services in use ([#124](https://github.com/TIBHannover/geoMetadata/issues/124)).

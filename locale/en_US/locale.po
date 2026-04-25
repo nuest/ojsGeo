@@ -197,6 +197,12 @@ msgstr "Show a map icon next to each article title on the issue page."
 msgid "plugins.generic.geoMetadata.settings.showIssueMapIcon.description"
 msgstr "When enabled, each article with spatial data shows a small map icon next to its title in the issue table of contents. Hovering the icon highlights the article's geometries on the map; clicking it scrolls the map into view and opens the article's popup. Articles without spatial data show no icon."
 
+msgid "plugins.generic.geoMetadata.settings.overlapPicker"
+msgstr "Step through overlapping articles on click."
+
+msgid "plugins.generic.geoMetadata.settings.overlapPicker.description"
+msgstr "When two or more articles share the same map area, clicking lets readers cycle through each article's information. When disabled, only one article's popup opens — whichever geometry was rendered on top."
+
 msgid "plugins.generic.geoMetadata.issue.mapIcon.aria"
 msgstr "Show on map"
 
@@ -403,6 +409,15 @@ msgstr "Zoom out"
 
 msgid "plugins.generic.geoMetadata.map.resetView.title"
 msgstr "Reset view"
+
+msgid "plugins.generic.geoMetadata.map.overlap.prevTitle"
+msgstr "Previous article"
+
+msgid "plugins.generic.geoMetadata.map.overlap.nextTitle"
+msgstr "Next article"
+
+msgid "plugins.generic.geoMetadata.map.overlap.counter"
+msgstr "{$i} of {$n} articles"
 
 msgid "plugins.generic.geoMetadata.map.geocoder.placeholder"
 msgstr "Search"
