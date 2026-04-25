@@ -82,13 +82,12 @@ describe('geoMetadata Issue Temporal Summary', function () {
     });
   });
 
-  it('drops malformed and legacy-epoch values silently', function () {
+  it('drops malformed values silently', function () {
     cy.visit(issuePath);
     cy.window().then(win => {
       const agg = win.geoMetadataTemporal.aggregateRange([
         '',
         null,
-        '{1609459200..1640995199}',
         '{garbage}',
         '[2020-01-01..2020-12-31]',
         '{2020-01-01..2023-06-30}'

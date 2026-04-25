@@ -20,7 +20,9 @@
     var BLOCK_RE = /\{([^{}]+)\}/g;
     var DAY_RE   = /^(-?\d+)-(\d{2})-(\d{2})$/;
     var MONTH_RE = /^(-?\d+)-(\d{2})$/;
-    var YEAR_RE  = /^(-?\d+)$/;
+    // Cap bare-year form at 6 digits so 10-digit Unix epoch values (legacy
+    // storage format) are silently dropped instead of parsing as year N.
+    var YEAR_RE  = /^(-?\d{1,6})$/;
 
     function parseSide(s, isEnd) {
         s = s.trim();
