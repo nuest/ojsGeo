@@ -13,9 +13,14 @@
 describe('geoMetadata Admin-Unit Empty State Roundtrip', function () {
 
   const openLatestPublicationTab = () => {
-    cy.login('admin', 'admin', Cypress.env('contextPath'));
-    cy.get('a:contains("Submissions")').click();
-    cy.get('a:contains("View")').first().click();
+    // Editor Dashboard flow (matches the working pattern in spec 33 / 56) —
+    // `a:contains("Submissions")` isn't reliably visible on the admin landing
+    // page and the first "View" link can sit inside a hidden dashboard tab.
+    cy.logout();
+    cy.login('eeditor');
+    cy.get('a:contains("eeditor"):visible', { timeout: 20000 }).click();
+    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.get('a:contains("View"):visible').first().click();
     cy.get('div[role="tablist"]').find('button:contains("Publication")').click();
     cy.get('button[id^="timeLocation"]').click();
   };

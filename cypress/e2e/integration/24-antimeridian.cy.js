@@ -89,7 +89,8 @@ describe('geoMetadata Antimeridian', { testIsolation: false }, function () {
     cy.visit('/');
     cy.get('a:contains("eeditor"):visible', { timeout: 20000 }).click();
     cy.get('a:contains("Dashboard")').click({ force: true });
-    cy.get('a:contains("View")').first().click();
+    // :visible guards against hidden dashboard tabs' View links.
+    cy.get('a:contains("View"):visible').first().click();
     cy.get('div[role="tablist"]').find('button:contains("Publication")').click();
     cy.get('button[id^="timeLocation"]').click();
 

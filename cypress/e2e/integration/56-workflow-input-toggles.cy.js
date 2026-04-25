@@ -74,7 +74,9 @@ describe('geoMetadata Workflow Input Toggles', function () {
     cy.login('eeditor');
     cy.get('a:contains("eeditor"):visible', { timeout: 20000 }).click();
     cy.get('a:contains("Dashboard")').click({ force: true });
-    cy.get('a:contains("View")').first().click();
+    // :visible is critical — inactive editor-dashboard tabs share the same
+    // "View" button markup but sit inside `div#active.pkpTab { display:none }`.
+    cy.get('a:contains("View"):visible').first().click();
     cy.get('div[role="tablist"]').find('button:contains("Publication")').click();
     cy.get('button[id^="timeLocation"]').click();
   };

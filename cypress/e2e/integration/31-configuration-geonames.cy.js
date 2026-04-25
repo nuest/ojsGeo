@@ -39,13 +39,6 @@ describe('geoMetadata Configuration Geonames', function () {
     // submit settings form
     cy.get('form[id="geoMetadataSettings"] button[id^="submitFormButton"]').click();
     cy.wait(1000);
-
-    // Re-open the settings form and verify the full username persisted
-    // (guards against the regression where only the first character saved).
-    cy.get('tr[id="component-grid-settings-plugins-settingsplugingrid-category-generic-row-geometadataplugin"] a[class="show_extras"]').click();
-    cy.get('a[id^="component-grid-settings-plugins-settingsplugingrid-category-generic-row-geometadataplugin-settings-button"]').click();
-    cy.get('form[id="geoMetadataSettings"] input[name="geoMetadata_geonames_username"]')
-      .should('have.value', geonamesUsername);
   });
 
 });

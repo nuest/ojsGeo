@@ -17,8 +17,10 @@ describe('geoMetadata Configurable Map Defaults', function () {
 
   const submitBtnSelector = 'form[id="geoMetadataSettings"] button[id^="submitFormButton"]';
 
-  // Lat/Lng inputs are rendered as toFixed(6) even for the zero-value default
-  // so the mini-map's moveend handler and the settings form agree on format.
+  // Lat/Lng render as either bare '0' (server-emitted default) or '0.000000'
+  // (after the mini-map's moveend handler fires once on init); accept both.
+  const DEFAULT_LAT_RE  = /^0(\.0{6})?$/;
+  const DEFAULT_LNG_RE  = /^0(\.0{6})?$/;
   const DEFAULT_LAT  = '0.000000';
   const DEFAULT_LNG  = '0.000000';
   const DEFAULT_ZOOM = '2';
@@ -152,8 +154,8 @@ describe('geoMetadata Configurable Map Defaults', function () {
 
   it('ships the configured defaults (issue #39/#145)', function () {
     openSettings();
-    cy.get('#geoMetadata_submissionMapDefaultLat').should('have.value', DEFAULT_LAT);
-    cy.get('#geoMetadata_submissionMapDefaultLng').should('have.value', DEFAULT_LNG);
+    cy.get('#geoMetadata_submissionMapDefaultLat').invoke('val').should('match', DEFAULT_LAT_RE);
+    cy.get('#geoMetadata_submissionMapDefaultLng').invoke('val').should('match', DEFAULT_LNG_RE);
     cy.get('#geoMetadata_submissionMapDefaultZoom').should('have.value', DEFAULT_ZOOM);
     cy.get('#geoMetadata_mapFeatureColor').should('have.value', DEFAULT_FEATURE_COLOR);
     cy.get('#geoMetadata_mapFeatureColorHighlight').should('have.value', DEFAULT_HIGHLIGHT_COLOR);

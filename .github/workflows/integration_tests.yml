@@ -33,7 +33,8 @@ jobs:
         #'ops'
         pkp-version: [
             # "3_2_1-4" or "stable-3_2_1" # > installation does not work in Cypress, but manually it does
-            "3_3_0-11",
+            # PHP 8.1 image — required by spatie/schema-org which needs PHP ^8.0.
+            "3_3_0-16-php8.1-mod-250824.0309",
           ]
     env:
       OJS_VERSION: ${{ matrix.pkp-version }}
