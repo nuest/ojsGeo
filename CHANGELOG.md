@@ -10,6 +10,7 @@ Internationalisation, configurability, and HTML-head metadata — target release
 
 ### Added
 
+- `testData` dump now contains a Wellington antimeridian-crossing fixture article ("Wellington ferry across the dateline", submission 46), so demos and the Playwright screenshot script can exercise the [#60](https://github.com/TIBHannover/geoMetadata/issues/60) split-MultiLineString rendering without a fresh Cypress run.
 - Multi-article picker on the issue and journal maps: clicking where two or more articles' geometries overlap opens a popup that cycles through every article at that location with prev/next controls (wrap-around), instead of arbitrarily picking the one painted on top. Admin toggle, default on ([#81](https://github.com/TIBHannover/geoMetadata/issues/81)).
 - Hover and active-article highlighting on the journal map, matching the issue-map behaviour ([#83](https://github.com/TIBHannover/geoMetadata/issues/83)).
 - Fullscreen button on all maps ([#61](https://github.com/TIBHannover/geoMetadata/issues/61)).
@@ -21,6 +22,7 @@ Internationalisation, configurability, and HTML-head metadata — target release
 - Overall time-period summary above the issue-TOC map and the journal-wide map, with a single-year special case and support for BCE / deep-history years via numeric comparison ([#105](https://github.com/TIBHannover/geoMetadata/issues/105)).
 - Shared `js/lib/temporal.js` parser/aggregator; replaces the fragile inline split in `article_details.js` / `issue.js` / `journal.js` and is forward-compatible with multi-period per article ([#57](https://github.com/TIBHannover/geoMetadata/issues/57)).
 - Cypress coverage for all admin toggles and for the time-period field in the HTML-head GeoJSON export ([#106](https://github.com/TIBHannover/geoMetadata/issues/106)).
+- Cypress regression test that editing geo metadata on a new publication version leaves the previous version's stored data intact ([#102](https://github.com/TIBHannover/geoMetadata/issues/102)).
 - Map appearance settings: configurable default view for the submission map, and colours for article geometry, hover highlight, administrative-unit overlay, and point markers ([#39](https://github.com/TIBHannover/geoMetadata/issues/39), [#73](https://github.com/TIBHannover/geoMetadata/issues/73), [#145](https://github.com/TIBHannover/geoMetadata/issues/145)).
 - Hover highlighting on the issue page uses the configured highlight colour, with an admin toggle to synchronise (or disable) the two-way hover between map and article entries.
 - Map icon next to each article title in the issue table of contents; hover highlights the article's geometries, click opens the popup and scrolls the map into view. Admin toggle, default on ([#158](https://github.com/TIBHannover/geoMetadata/issues/158)).
@@ -69,3 +71,24 @@ Bugfix and packaging release on the `stable-3_3_0` branch.
 
 - `testData` excluded from release archives.
 - Removed the OptiMeta logo and discontinued-theme references from the README.
+
+## [1.0.0.0-beta] - 2022-09-26
+
+First public beta on the `stable-3_3_0` branch. The CHANGELOG was added later, so the entries below are reconstructed from the issue tracker and commit history; dates and grouping are best-effort.
+
+### Added
+
+- Author submission form: enter geospatial extent by drawing one or more shapes (point, line, polygon) on a Leaflet map, or by accepting the bounding box returned by a place-name search ([#1](https://github.com/TIBHannover/geoMetadata/issues/1), [#18](https://github.com/TIBHannover/geoMetadata/issues/18)).
+- Author submission form: enter a temporal range as a daterangepicker; stored as ISO-style text rather than Unix epoch ([#15](https://github.com/TIBHannover/geoMetadata/issues/15), [#25](https://github.com/TIBHannover/geoMetadata/issues/25), [#37](https://github.com/TIBHannover/geoMetadata/issues/37), [#89](https://github.com/TIBHannover/geoMetadata/issues/89)).
+- Gazetteer-driven administrative-unit suggestion via the GeoNames API; stored alongside the GeoJSON as a separate textual field for non-map consumers ([#58](https://github.com/TIBHannover/geoMetadata/issues/58), [#64](https://github.com/TIBHannover/geoMetadata/issues/64)).
+- Editorial-workflow publication tab so editors can review and revise spatio-temporal metadata during production / when scheduling for publication ([#19](https://github.com/TIBHannover/geoMetadata/issues/19), [#53](https://github.com/TIBHannover/geoMetadata/issues/53), [#65](https://github.com/TIBHannover/geoMetadata/issues/65)).
+- Article-page reader view: map of the author-supplied geometry, temporal range, and administrative unit, with a GeoJSON download in the article sidebar ([#6](https://github.com/TIBHannover/geoMetadata/issues/6)).
+- Issue-page reader view: map of every article in the issue, with two-way hover sync between map features and the table-of-contents entries (including point markers) ([#27](https://github.com/TIBHannover/geoMetadata/issues/27), [#69](https://github.com/TIBHannover/geoMetadata/issues/69), [#80](https://github.com/TIBHannover/geoMetadata/issues/80)). Requires the host theme's `issue_toc.tpl` to expose the `Templates::Issue::TOC::Main` hook.
+- Journal-wide map at `/<journal>/map`, listing every article in the journal on a single Leaflet map with popups linking back to each article ([#7](https://github.com/TIBHannover/geoMetadata/issues/7)).
+- HTML `<head>` injection on article pages: `DC.SpatialCoverage` (full GeoJSON), `DC.box` (DCMI Box from the most specific admin unit), and `DC.Coverage` as a comma-separated text list of admin-unit names, intended for academic search engines and discovery services ([#3](https://github.com/TIBHannover/geoMetadata/issues/3), [#22](https://github.com/TIBHannover/geoMetadata/issues/22), [#64](https://github.com/TIBHannover/geoMetadata/issues/64)).
+- Plugin settings page with the GeoNames API username and base URL ([#2](https://github.com/TIBHannover/geoMetadata/issues/2)).
+- Internationalisation: English, German, French, and Spanish translations of the plugin's user-facing strings, including the daterangepicker `cancelLabel` ([#94](https://github.com/TIBHannover/geoMetadata/issues/94), [#95](https://github.com/TIBHannover/geoMetadata/issues/95), [#90](https://github.com/TIBHannover/geoMetadata/issues/90)).
+- Cypress test suite that bootstraps a fresh OJS via docker-compose and exercises installation, configuration, submission, and the article/issue/journal map views ([#47](https://github.com/TIBHannover/geoMetadata/issues/47)).
+- JavaScript dependency management via Composer + Asset Packagist (Leaflet, Leaflet Draw, leaflet-control-geocoder, daterangepicker, Font Awesome) — replaces the earlier CDN-loading scheme ([#49](https://github.com/TIBHannover/geoMetadata/issues/49), [#51](https://github.com/TIBHannover/geoMetadata/issues/51)).
+- Theme support beyond OJS default: Bootstrap3 ([#122](https://github.com/TIBHannover/geoMetadata/issues/122)).
+- Transparent licensing notice for the metadata captured and emitted by the plugin ([#30](https://github.com/TIBHannover/geoMetadata/issues/30)).
