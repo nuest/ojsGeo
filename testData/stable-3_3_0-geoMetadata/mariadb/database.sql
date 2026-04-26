@@ -15143,6 +15143,52 @@ INSERT INTO `versions` VALUES
 /*!40000 ALTER TABLE `versions` ENABLE KEYS */;
 UNLOCK TABLES;
 commit;
+
+--
+-- Wellington antimeridian-crossing fixture article (issue #60).
+-- Appended after the main dump so it is obvious which rows were added by hand.
+-- Geometry is a pre-split MultiLineString crossing 180° at lat -20°.
+-- IDs: submission_id=46, publication_id=47, author_id=120 (next free after the
+-- "Overlap test" articles 44/45). Issue 4 (Vol. 1 No. 2), section 3.
+--
+INSERT INTO `submissions`
+  (`submission_id`, `context_id`, `current_publication_id`, `date_last_activity`, `date_submitted`, `last_modified`, `stage_id`, `locale`, `status`, `submission_progress`, `work_type`)
+VALUES
+  (46, 2, 47, '2026-04-26 00:42:00', '2026-04-26 00:42:00', '2026-04-26 00:42:00', 5, 'en_US', 3, 0, 0);
+INSERT INTO `publications`
+  (`publication_id`, `access_status`, `date_published`, `last_modified`, `locale`, `primary_contact_id`, `section_id`, `seq`, `submission_id`, `status`, `url_path`, `version`)
+VALUES
+  (47, 0, '2026-04-26', '2026-04-26 00:42:00', 'en_US', 120, 3, 0.00, 46, 3, NULL, 1);
+INSERT INTO `authors`
+  (`author_id`, `email`, `include_in_browse`, `publication_id`, `seq`, `user_group_id`)
+VALUES
+  (120, 'komet@mailinator.com', 1, 47, 1.00, 31);
+INSERT INTO `author_settings` (`author_id`, `locale`, `setting_name`, `setting_value`) VALUES
+  (120, '',      'country',             'NZ'),
+  (120, '',      'orcid',               ''),
+  (120, '',      'url',                 ''),
+  (120, 'en_US', 'affiliation',         'Test University'),
+  (120, 'en_US', 'biography',           ''),
+  (120, 'en_US', 'familyName',          'Tester'),
+  (120, 'en_US', 'givenName',           'Antimeridian'),
+  (120, 'en_US', 'preferredPublicName', '');
+INSERT INTO `publication_settings` (`publication_id`, `locale`, `setting_name`, `setting_value`) VALUES
+  (47, 'en_US', 'abstract',
+   '<p>Test article for issue #60. The ferry route crosses the International Date Line; geometry is stored as an RFC 7946 §3.1.9-compliant MultiLineString split at ±180°. The administrative-unit overlay for New Zealand draws two rectangles because the country bbox has east&lt;west.</p>'),
+  (47, '',      'categoryIds',                       '[]'),
+  (47, 'en_US', 'copyrightHolder',                   'geoMetadata Demo Journal'),
+  (47, '',      'copyrightYear',                     '2026'),
+  (47, 'en_US', 'coverage',                          'Earth, New Zealand'),
+  (47, '',      'geoMetadata::administrativeUnit',
+   '[{"name":"Earth","geonameId":6295630,"bbox":"not available","administrativeUnitSuborder":["Earth"],"provenance":{"description":"administrative unit created by user (accepting the suggestion of the geonames API , which was created on basis of a geometric shape input)","id":23}},{"name":"New Zealand","geonameId":2186224,"bbox":{"north":-29.231115,"south":-52.619442,"east":-175.830215,"west":165.869141},"administrativeUnitSuborder":["Earth","New Zealand"],"isoCountryCode":"NZ","provenance":{"description":"administrative unit created by user (accepting the suggestion of the geonames API , which was created on basis of a geometric shape input)","id":23}}]'),
+  (47, '',      'geoMetadata::spatialProperties',
+   '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"provenance":{"description":"geometric shape created by user (drawing)","id":11}},"geometry":{"type":"MultiLineString","coordinates":[[[175,-20],[180,-20]],[[-180,-20],[-170,-20]]]}}],"administrativeUnits":[{"name":"Earth","geonameId":6295630,"bbox":"not available","administrativeUnitSuborder":["Earth"],"provenance":{"description":"administrative unit created by user (accepting the suggestion of the geonames API , which was created on basis of a geometric shape input)","id":23}},{"name":"New Zealand","geonameId":2186224,"bbox":{"north":-29.231115,"south":-52.619442,"east":-175.830215,"west":165.869141},"administrativeUnitSuborder":["Earth","New Zealand"],"isoCountryCode":"NZ","provenance":{"description":"administrative unit created by user (accepting the suggestion of the geonames API , which was created on basis of a geometric shape input)","id":23}}],"temporalProperties":{"timePeriods":["{2023-01-01..2023-12-31}"],"provenance":{"description":"temporal properties created by user","id":31}}}'),
+  (47, '',      'geoMetadata::timePeriods',          '{2023-01-01..2023-12-31}'),
+  (47, '',      'issueId',                           '4'),
+  (47, 'en_US', 'prefix',                            ''),
+  (47, 'en_US', 'subtitle',                          'A round-trip through 180°'),
+  (47, 'en_US', 'title',                             'Wellington ferry across the dateline');
+COMMIT;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
