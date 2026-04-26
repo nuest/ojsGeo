@@ -95,6 +95,7 @@ Cypress is the source of truth for regression coverage — self-bootstraps a fre
 | Outside of nowhere | — | — | — | No-geoMetadata-at-all branch; used by #158 icon spec to assert the icon is absent |
 | Wellington ferry across the dateline | MultiLineString (split) | 2023-01-01 … 12-31 | New Zealand (bbox east<west) | Antimeridian-crossing storage form; admin-unit overlay with crossing bbox |
 | Lower Saxony details | Polygon (8.0–9.0 E, 52.0–52.7 N) | — | — | Realistic overlap with the Hanover LineString; exercises the #81 multi-article picker |
+| Three continents traverse | FeatureCollection of 3 Features (Madagascar Point, Australia rect Polygon, Brazil rect Polygon) | — | — | Multi-Feature article; exercises the #84 synced-highlight loop in `articleLayersMap.get(id).forEach` |
 
 **Tests must not recompute expected values.** When asserting on numeric metadata (centroids, bounding boxes, ISO codes, etc.) pin the expected value as a plain literal tied to a specific test record whose input data is fixed — do not port a mirror of the production algorithm into the spec. If you need deterministic numbers for an exact-value assertion, create or reuse a test record with known, fixed stored data (e.g. the spatial-free "Atlas of Saxony" record whose fallback ICBM is the exact centre of Saxony's GeoNames bbox), rather than deriving numbers from what the page renders. Reimplementing the computation makes the test a tautology; comparing against a known constant catches a regression.
 
