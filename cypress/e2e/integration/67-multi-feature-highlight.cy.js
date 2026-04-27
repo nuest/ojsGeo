@@ -126,8 +126,11 @@ describe('geoMetadata Multi-Feature Synced Highlight', function () {
         }
       });
 
-      // Hover the first layer and re-read every layer's style.
-      targetLayers[0].fire('mouseover');
+      // Hover a point inside the Brazil rectangle (well clear of the other
+      // fixture geometries) and re-read every layer's style. Hover is now
+      // driven by map-level mousemove (issue #159), so we fire on the map
+      // rather than on a layer.
+      win.map.fire('mousemove', { latlng: win.L.latLng(-15, -54) });
 
       targetLayers.forEach((layer) => {
         if (layer.feature.geometry.type === 'Point') {
@@ -147,8 +150,8 @@ describe('geoMetadata Multi-Feature Synced Highlight', function () {
           'control article stays at default during hover').to.equal(controlColorBefore);
       }
 
-      // Mouseout reverts every target layer.
-      targetLayers[0].fire('mouseout');
+      // Map mouseout reverts every target layer.
+      win.map.fire('mouseout');
       targetLayers.forEach((layer) => {
         if (layer.feature.geometry.type === 'Point') {
           expect(layer.options.icon.options.className).to.equal('geoMetadata_marker_default');
@@ -180,8 +183,9 @@ describe('geoMetadata Multi-Feature Synced Highlight', function () {
       const layers = win.articleLayersMap.get(targetId);
       const polygon = layers.find(l => l.feature.geometry.type === 'Polygon');
       const colorBefore = polygon.options.color;
-      layers[0].fire('mouseover');
-      // With the toggle off the listener is never bound, so polygon stays at default.
+      win.map.fire('mousemove', { latlng: win.L.latLng(-15, -54) });
+      // With the toggle off the map-level mousemove handler is never bound,
+      // so the polygon stays at default.
       expect(polygon.options.color, 'no highlight when toggle off').to.equal(colorBefore);
     });
 

@@ -216,18 +216,6 @@ $(function () {
                     // Store layer reference for this article
                     articleLayersMap.get(articleId).push(layer);
 
-                    if (geoMetadata_enableSyncedHighlight) {
-                        layer.on({
-                            mouseover: (e) => {
-                                highlightArticleFeatures(articleId);
-                                highlightArticle(feature.properties.articleId);
-                            },
-                            mouseout: (e) => {
-                                resetHighlightArticleFeatures(articleId);
-                                resetHighlightArticle(feature.properties.articleId);
-                            }
-                        });
-                    }
                     features.push(feature);
                 },
                 style: geoMetadata_mapLayerStyle
@@ -274,6 +262,45 @@ $(function () {
     if (!spatialInputsAvailable) {
         $("#mapdiv").hide();
         return;
+    }
+
+    // Map-level hover sync (issues #83, #159). Replaces per-layer mouseover —
+    // Leaflet only fires that on the topmost layer, so overlapping articles
+    // were missed. We resolve every overlapping article at the cursor with
+    // geoMetadata_findOverlappingArticles and diff against the previously-lit
+    // set so each tick only flips the delta.
+    if (geoMetadata_enableSyncedHighlight) {
+        var hoverHighlightSet = new Set();
+
+        function applyHoverHits(hits) {
+            var nextIds = new Set(hits.map(function (h) { return h.articleId; }));
+            hoverHighlightSet.forEach(function (id) {
+                if (!nextIds.has(id)) {
+                    resetHighlightArticleFeatures(id);
+                    resetHighlightArticle(id);
+                }
+            });
+            nextIds.forEach(function (id) {
+                if (!hoverHighlightSet.has(id)) {
+                    highlightArticleFeatures(id);
+                    highlightArticle(id);
+                }
+            });
+            hoverHighlightSet = nextIds;
+        }
+
+        function clearHoverHighlights() {
+            hoverHighlightSet.forEach(function (id) {
+                resetHighlightArticleFeatures(id);
+                resetHighlightArticle(id);
+            });
+            hoverHighlightSet = new Set();
+        }
+
+        map.on('mousemove', function (e) {
+            applyHoverHits(geoMetadata_findOverlappingArticles(map, articleLayersMap, e.latlng));
+        });
+        map.on('mouseout', clearHoverHighlights);
     }
 
     if (geoMetadata_overlapPicker) {

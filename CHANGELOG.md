@@ -33,6 +33,7 @@ Internationalisation, configurability, and HTML-head metadata — target release
 
 ### Changed
 
+- Hovering the issue or journal map now highlights every article whose geometry contains the cursor — both the article entries on the issue page's table of contents and the matching layers on either map — instead of only the topmost geometry Leaflet would have fired on ([#159](https://github.com/TIBHannover/geoMetadata/issues/159)).
 - Replaced the daterangepicker on both submission forms with a plain-text field accepting `YYYY`, `YYYY-MM`, or `YYYY-MM-DD` on each side (signed integers for BCE). Validation runs server-side via OJS `FormValidatorCustom` on `SubmissionSubmitStep3Form`; invalid input is preserved in the field for correction instead of being silently dropped. Preliminary — full replacement tracked in [#140](https://github.com/TIBHannover/geoMetadata/issues/140).
 - Dropped `npm-asset/daterangepicker` and `npm-asset/moment` (and transitively `npm-asset/jquery`) from composer; removed the JS/CSS include wiring and the `.daterangepicker` CSS overrides from submission templates.
 - Translated remaining Leaflet controls — zoom, geocoder, and draw toolbar ([#109](https://github.com/TIBHannover/geoMetadata/issues/109), [#111](https://github.com/TIBHannover/geoMetadata/issues/111), [#151](https://github.com/TIBHannover/geoMetadata/issues/151)).

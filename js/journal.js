@@ -150,12 +150,6 @@ $(function () {
                         feature.properties = feature.properties || {};
                         feature.properties.articleId = submissionId;
                         articleLayersMap.get(submissionId).push(layer);
-                        if (geoMetadata_enableSyncedHighlight) {
-                            layer.on({
-                                mouseover: () => highlightArticleFeatures(submissionId),
-                                mouseout:  () => resetHighlightArticleFeatures(submissionId)
-                            });
-                        }
                     },
                     style: geoMetadata_mapLayerStyle,
                     submissionId: submissionId
@@ -166,6 +160,36 @@ $(function () {
         }
         // TODO load temporal properties and add them to a timeline
     });
+
+    // Map-level hover sync (issues #83, #159). Replaces per-layer mouseover —
+    // Leaflet only fires that on the topmost layer, so overlapping articles
+    // were missed.
+    if (geoMetadata_enableSyncedHighlight) {
+        var hoverHighlightSet = new Set();
+
+        function applyHoverHits(hits) {
+            var nextIds = new Set(hits.map(function (h) { return h.articleId; }));
+            hoverHighlightSet.forEach(function (id) {
+                if (!nextIds.has(id)) resetHighlightArticleFeatures(id);
+            });
+            nextIds.forEach(function (id) {
+                if (!hoverHighlightSet.has(id)) highlightArticleFeatures(id);
+            });
+            hoverHighlightSet = nextIds;
+        }
+
+        function clearHoverHighlights() {
+            hoverHighlightSet.forEach(function (id) {
+                resetHighlightArticleFeatures(id);
+            });
+            hoverHighlightSet = new Set();
+        }
+
+        map.on('mousemove', function (e) {
+            applyHoverHits(geoMetadata_findOverlappingArticles(map, articleLayersMap, e.latlng));
+        });
+        map.on('mouseout', clearHoverHighlights);
+    }
 
     if (geoMetadata_overlapPicker) {
         geoMetadata_overlapManager = geoMetadata_createOverlapManager(map, {
