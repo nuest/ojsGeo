@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b7e197541097f8d461147f4ba9ef5bf7",
+    "content-hash": "865cdf4c6564d6aaecea363ca8749776",
     "packages": [
         {
             "name": "brick/geo",
@@ -272,6 +272,18 @@
             "type": "npm-asset",
             "license": [
                 "MIT"
+            ]
+        },
+        {
+            "name": "npm-asset/vis-timeline",
+            "version": "8.5.0",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/vis-timeline/-/vis-timeline-8.5.0.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "(Apache-2.0 OR MIT)"
             ]
         },
         {

@@ -143,6 +143,42 @@ msgstr "Proporcionar la página cartográfica de la revista en /map."
 msgid "plugins.generic.geoMetadata.settings.showJournalMap.description"
 msgstr "Cuando está activado, el plugin registra una ruta pública /map de la revista que muestra un mapa interactivo de todos los metadatos espaciales de los artículos publicados. Cuando está desactivado, la ruta devuelve 404 y cualquier enlace de menú que apunte a ella quedará roto."
 
+msgid "plugins.generic.geoMetadata.settings.showIssueTimeline"
+msgstr "Mostrar una línea de tiempo agregada en la tabla de contenidos de cada número."
+
+msgid "plugins.generic.geoMetadata.settings.showIssueTimeline.description"
+msgstr "Cuando está activado, la tabla de contenidos de un número muestra, justo debajo del mapa, una línea de tiempo interactiva con los periodos temporales de todos los artículos. Cuando está desactivado, no se muestra ninguna línea de tiempo aunque los artículos tengan metadatos temporales."
+
+msgid "plugins.generic.geoMetadata.settings.showJournalTimeline"
+msgstr "Mostrar una línea de tiempo agregada en la página cartográfica de la revista."
+
+msgid "plugins.generic.geoMetadata.settings.showJournalTimeline.description"
+msgstr "Cuando está activado, la página /map de la revista muestra, justo debajo del mapa, una línea de tiempo interactiva con los periodos temporales de todos los artículos publicados. Cuando está desactivado, no se muestra ninguna línea de tiempo aunque los artículos tengan metadatos temporales. La URL /map sigue disponible mientras esté activado el mapa de la revista o esta línea de tiempo."
+
+msgid "plugins.generic.geoMetadata.settings.timelineCollapsedByDefault"
+msgstr "Iniciar la línea de tiempo plegada."
+
+msgid "plugins.generic.geoMetadata.settings.timelineCollapsedByDefault.description"
+msgstr "Cuando está activado, la línea de tiempo permanece oculta al cargar la página por primera vez; las lectoras y lectores deben pulsar «Mostrar línea de tiempo» para desplegarla. Útil para revistas en las que la línea de tiempo es complementaria; quienes prefieran una página compacta verán inicialmente solo el mapa."
+
+msgid "plugins.generic.geoMetadata.settings.timelineShowInstructions"
+msgstr "Mostrar la indicación de uso bajo el título de la línea de tiempo."
+
+msgid "plugins.generic.geoMetadata.settings.timelineShowInstructions.description"
+msgstr "Cuando está activado, una línea de texto atenuada bajo el título de la línea de tiempo explica la interacción (arrastrar para desplazarse, pasar el cursor para el título, hacer clic para abrir, doble clic en un agregado para hacer zoom). Desactívalo para compactar la página una vez que las lectoras y lectores estén familiarizados con el control."
+
+msgid "plugins.generic.geoMetadata.settings.timelineHeight"
+msgstr "Altura de la línea de tiempo (en píxeles)."
+
+msgid "plugins.generic.geoMetadata.settings.timelineHeight.description"
+msgstr "Altura vertical del lienzo de la línea de tiempo en píxeles. Valor por defecto 200. Aumenta para dar más espacio a un fondo denso (muchos elementos superpuestos); reduce para revistas con pocos artículos. Rango razonable: 120–500."
+
+msgid "plugins.generic.geoMetadata.settings.timelineClusterMaxItems"
+msgstr "Agrupar los elementos cuando más de este número se solapen."
+
+msgid "plugins.generic.geoMetadata.settings.timelineClusterMaxItems.description"
+msgstr "Cuando la línea de tiempo está alejada y los elementos se solaparían, vis-timeline puede agruparlos en una sola insignia «{count} articles». El valor por defecto 1 significa agrupar tan pronto como dos elementos se solapen. Valores más altos (por ejemplo 3 o 5) agrupan de forma menos agresiva, dejando más elementos individuales seleccionables a cambio de una densidad visual mayor."
+
 msgid "plugins.generic.geoMetadata.settings.section.mapAppearance"
 msgstr "Apariencia del mapa"
 
@@ -165,7 +201,7 @@ msgid "plugins.generic.geoMetadata.settings.mapFeatureColor"
 msgstr "Color de la geometría"
 
 msgid "plugins.generic.geoMetadata.settings.mapFeatureColor.description"
-msgstr "Color del trazo y del relleno para la geometría de los artículos (puntos, líneas, polígonos) en los mapas del artículo, del número y de la revista."
+msgstr "Color del trazo y del relleno para la geometría de los artículos (puntos, líneas, polígonos) en los mapas del artículo, del número y de la revista. También se usa para los elementos de las líneas de tiempo del número y de la revista."
 
 msgid "plugins.generic.geoMetadata.settings.markerHueRotation"
 msgstr "Rotación de tono para los marcadores puntuales"
@@ -177,7 +213,7 @@ msgid "plugins.generic.geoMetadata.settings.mapFeatureColorHighlight"
 msgstr "Color de resaltado"
 
 msgid "plugins.generic.geoMetadata.settings.mapFeatureColorHighlight.description"
-msgstr "Color utilizado en el mapa del número cuando la lectora o el lector pasa el ratón por encima de la entrada de un artículo o de su geometría."
+msgstr "Color utilizado en el mapa del número cuando la lectora o el lector pasa el ratón por encima de la entrada de un artículo o de su geometría. También se usa para los elementos resaltados o seleccionados en las líneas de tiempo del número y de la revista."
 
 msgid "plugins.generic.geoMetadata.settings.markerHueRotationHighlight"
 msgstr "Rotación de tono para los marcadores puntuales resaltados"
@@ -361,6 +397,18 @@ msgstr "Este número contiene artículos que cubren el período de {$from} a {$t
 
 msgid "plugins.generic.geoMetadata.issue.temporalCoverage.singleYear"
 msgstr "Este número contiene artículos que cubren el año {$year}."
+
+msgid "plugins.generic.geoMetadata.timeline.heading"
+msgstr "Línea de tiempo"
+
+msgid "plugins.generic.geoMetadata.timeline.collapse.hide"
+msgstr "Ocultar línea de tiempo"
+
+msgid "plugins.generic.geoMetadata.timeline.collapse.show"
+msgstr "Mostrar línea de tiempo"
+
+msgid "plugins.generic.geoMetadata.timeline.instructions"
+msgstr "Arrastra para desplazarte por la línea de tiempo; pasa el cursor sobre un elemento para ver el título completo del artículo; haz clic en un elemento para abrir el artículo; haz doble clic en un bloque agregado para hacer zoom sobre los artículos que contiene."
 
 msgid "plugins.generic.geoMetadata.journal.pageTitle"
 msgstr "Tiempos y ubicaciones de todos los artículos"

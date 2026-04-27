@@ -143,6 +143,42 @@ msgstr "Provide the journal-wide map page at /map."
 msgid "plugins.generic.geoMetadata.settings.showJournalMap.description"
 msgstr "When enabled, the plugin registers a public /map route on the journal that renders an interactive map of every published article's spatial metadata. When disabled, the route returns 404 and any menu link pointing to it will break."
 
+msgid "plugins.generic.geoMetadata.settings.showIssueTimeline"
+msgstr "Show an aggregated timeline on each issue's table of contents."
+
+msgid "plugins.generic.geoMetadata.settings.showIssueTimeline.description"
+msgstr "When enabled, an issue's table of contents renders an interactive timeline of every article's time periods directly below the issue map. When disabled, no timeline strip is shown even when articles carry temporal data."
+
+msgid "plugins.generic.geoMetadata.settings.showJournalTimeline"
+msgstr "Show an aggregated timeline on the journal-wide map page."
+
+msgid "plugins.generic.geoMetadata.settings.showJournalTimeline.description"
+msgstr "When enabled, the journal-wide /map page renders an interactive timeline of every published article's time periods directly below the map. When disabled, no timeline strip is shown even when articles carry temporal data. The /map URL stays available as long as either the journal map or this timeline is enabled."
+
+msgid "plugins.generic.geoMetadata.settings.timelineCollapsedByDefault"
+msgstr "Start the timeline collapsed."
+
+msgid "plugins.generic.geoMetadata.settings.timelineCollapsedByDefault.description"
+msgstr "When enabled, the timeline strip is hidden on first page load and the reader has to click \"Show timeline\" to expand it. Useful for journals where the timeline is supplementary; readers who want a compact page see only the map by default."
+
+msgid "plugins.generic.geoMetadata.settings.timelineShowInstructions"
+msgstr "Show usage hint below the timeline heading."
+
+msgid "plugins.generic.geoMetadata.settings.timelineShowInstructions.description"
+msgstr "When enabled, a single muted line of text below the timeline heading explains how to interact with the strip (drag to pan, hover, click, double-click clusters). Disable to keep the page tighter once your readers are familiar with the control."
+
+msgid "plugins.generic.geoMetadata.settings.timelineHeight"
+msgstr "Timeline strip height (in pixels)."
+
+msgid "plugins.generic.geoMetadata.settings.timelineHeight.description"
+msgstr "Vertical height of the timeline canvas in pixels. Default 200. Increase to give a dense archive (many overlapping items) more room to stack; decrease for journals with only a handful of articles. Reasonable range: 120–500."
+
+msgid "plugins.generic.geoMetadata.settings.timelineClusterMaxItems"
+msgstr "Cluster items when more than this many overlap."
+
+msgid "plugins.generic.geoMetadata.settings.timelineClusterMaxItems.description"
+msgstr "When the timeline is zoomed out and items would overlap, vis-timeline can group them into a single \"{count} articles\" badge. Default 1 means cluster as soon as any two items would overlap. Higher numbers (e.g. 3 or 5) cluster less aggressively, leaving more individual items selectable but accepting denser visual noise."
+
 msgid "plugins.generic.geoMetadata.settings.section.mapAppearance"
 msgstr "Map appearance"
 
@@ -165,7 +201,7 @@ msgid "plugins.generic.geoMetadata.settings.mapFeatureColor"
 msgstr "Geometry colour"
 
 msgid "plugins.generic.geoMetadata.settings.mapFeatureColor.description"
-msgstr "Stroke and fill colour for article geometry (points, lines, polygons) shown on the article, issue, and journal maps."
+msgstr "Stroke and fill colour for article geometry (points, lines, polygons) shown on the article, issue, and journal maps. Also used for the items on the issue and journal timelines."
 
 msgid "plugins.generic.geoMetadata.settings.markerHueRotation"
 msgstr "Point-marker hue rotation"
@@ -177,7 +213,7 @@ msgid "plugins.generic.geoMetadata.settings.mapFeatureColorHighlight"
 msgstr "Geometry highlight colour"
 
 msgid "plugins.generic.geoMetadata.settings.mapFeatureColorHighlight.description"
-msgstr "Colour used on the issue map when the reader hovers over an article's entry or geometry."
+msgstr "Colour used on the issue map when the reader hovers over an article's entry or geometry. Also used for hovered or selected items on the issue and journal timelines."
 
 msgid "plugins.generic.geoMetadata.settings.markerHueRotationHighlight"
 msgstr "Point-marker highlight hue rotation"
@@ -361,6 +397,18 @@ msgstr "This issue contains articles covering the time period from {$from} to {$
 
 msgid "plugins.generic.geoMetadata.issue.temporalCoverage.singleYear"
 msgstr "This issue contains articles covering the year {$year}."
+
+msgid "plugins.generic.geoMetadata.timeline.heading"
+msgstr "Timeline"
+
+msgid "plugins.generic.geoMetadata.timeline.collapse.hide"
+msgstr "Hide timeline"
+
+msgid "plugins.generic.geoMetadata.timeline.collapse.show"
+msgstr "Show timeline"
+
+msgid "plugins.generic.geoMetadata.timeline.instructions"
+msgstr "Drag to pan along the timeline; hover an item to see the full article title; click an item to open the article; double-click an aggregated box to zoom in to the articles within."
 
 msgid "plugins.generic.geoMetadata.journal.pageTitle"
 msgstr "Times & Locations of all articles"

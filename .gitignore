@@ -53,3 +53,5 @@ screenshots/*.png
 screenshots/*.pdf
 screenshots/*.log
 screenshots/*.html
+
+js/lib/vis-timeline/

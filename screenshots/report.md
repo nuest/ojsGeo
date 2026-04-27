@@ -177,7 +177,7 @@ Overall time-period summary banner above the issue map: aggregated min start / m
 \includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{12-C5-issue-overlap-popup.png}
 \end{center}
 
-Multi-article popup at the Hanover overlap: clicking a point covered by both the polygon and the line opens a popup with prev/next controls instead of arbitrarily picking one article. Triggered programmatically here at lat=52.40, lng=9.73 (a vertex of the LineString that also lies inside the Polygon). Real users get the same popup by clicking on overlapping geometry. Admin toggle, default on. Popup status: overlap-popup.
+Multi-article popup at the Hanover overlap: clicking a point covered by both the polygon and the line opens a popup with prev/next controls instead of arbitrarily picking one article. Triggered programmatically here at lat=52.40, lng=9.73 (a vertex of the LineString that also lies inside the Polygon). Real users get the same popup by clicking on overlapping geometry. Admin toggle, default on. Popup status: no popup.
 
 · **URL:** `http://localhost:8330/index.php/gmdj/issue/view/4` · **User:** no login required (anonymous reader) · **Issues:** [#81](https://github.com/TIBHannover/geoMetadata/issues/81) · **File:** `12-C5-issue-overlap-popup.png`
 
@@ -221,113 +221,139 @@ Multi-article overlap popup on the journal map at the same Hanover point. Same p
 
 \newpage
 
+# Section G — Timeline strip (issue #74)
+
+## Journal-wide timeline (under the map)
+
+\begin{center}
+\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{16-G1-journal-timeline.png}
+\end{center}
+
+Timeline strip below the journal-wide map: every published article positioned on a year axis according to its temporal metadata, with a "Hide timeline" collapse link above the strip. Stacked beneath the existing map on the same /map page (no separate URL or menu entry). Built on vis-timeline with a deep-time bridge in js/lib/temporal.js::toVisDate() — the earliest tick on the axis comes from a Holocene-era fixture article. Independent admin toggle from the map.
+
+· **URL:** `http://localhost:8330/index.php/gmdj/map` · **User:** no login required (anonymous reader) · **Issues:** [#74](https://github.com/TIBHannover/geoMetadata/issues/74) · **File:** `16-G1-journal-timeline.png`
+
+\newpage
+
+## Issue-page timeline (under the issue map)
+
+\begin{center}
+\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{17-G2-issue-timeline.png}
+\end{center}
+
+Timeline strip below the issue-TOC map: only the articles in this issue, on the same year axis, with the same collapse link. Same renderer and collapse UI as the journal-wide variant, scoped to the current issue. Hidden when no article in the issue carries temporal data.
+
+· **URL:** `http://localhost:8330/index.php/gmdj/issue/view/4` · **User:** no login required (anonymous reader) · **Issues:** [#74](https://github.com/TIBHannover/geoMetadata/issues/74) · **File:** `17-G2-issue-timeline.png`
+
+\newpage
+
 # Section E — Admin settings
 
 ## Settings form — overview
 
 \begin{center}
-\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{16-E0-settings-full-form.png}
+\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{18-E0-settings-full-form.png}
 \end{center}
 
 Top of the geoMetadata settings form (admin → Website → Plugins → geoMetadata → Settings). The form is divided into eight sections; subsequent shots zoom into each. Almost every visible/discovery feature can be toggled per journal so a publisher can opt in or out without code changes.
 
-· **URL:** `http://localhost:8330/index.php/gmdj/management/settings/website#plugins` · **User:** logged in as **admin** (admin / admin) · **Issues:** [#23](https://github.com/TIBHannover/geoMetadata/issues/23) · **File:** `16-E0-settings-full-form.png`
+· **URL:** `http://localhost:8330/index.php/gmdj/management/settings/website#plugins` · **User:** logged in as **admin** (admin / admin) · **Issues:** [#23](https://github.com/TIBHannover/geoMetadata/issues/23) · **File:** `18-E0-settings-full-form.png`
 
 \newpage
 
 ## Article-page settings
 
 \begin{center}
-\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{17-E1-article-page.png}
+\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{19-E1-article-page.png}
 \end{center}
 
 Toggles for the article-page map, the temporal block, the administrative-unit block, and the GeoJSON download in the article sidebar.
 
-· **URL:** `http://localhost:8330/index.php/gmdj/management/settings/website#plugins` · **User:** logged in as **admin** (admin / admin) · **Issues:** [#23](https://github.com/TIBHannover/geoMetadata/issues/23), [#55](https://github.com/TIBHannover/geoMetadata/issues/55) · **File:** `17-E1-article-page.png`
+· **URL:** `http://localhost:8330/index.php/gmdj/management/settings/website#plugins` · **User:** logged in as **admin** (admin / admin) · **Issues:** [#23](https://github.com/TIBHannover/geoMetadata/issues/23), [#55](https://github.com/TIBHannover/geoMetadata/issues/55) · **File:** `19-E1-article-page.png`
 
 \newpage
 
 ## Issue and journal-map settings
 
 \begin{center}
-\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{18-E2-issue-journal-map.png}
+\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{20-E2-issue-journal-map.png}
 \end{center}
 
 Toggles for the issue-page map, the journal-wide map, and the issue-TOC map icon.
 
-· **URL:** `http://localhost:8330/index.php/gmdj/management/settings/website#plugins` · **User:** logged in as **admin** (admin / admin) · **Issues:** [#23](https://github.com/TIBHannover/geoMetadata/issues/23), [#158](https://github.com/TIBHannover/geoMetadata/issues/158) · **File:** `18-E2-issue-journal-map.png`
+· **URL:** `http://localhost:8330/index.php/gmdj/management/settings/website#plugins` · **User:** logged in as **admin** (admin / admin) · **Issues:** [#23](https://github.com/TIBHannover/geoMetadata/issues/23), [#158](https://github.com/TIBHannover/geoMetadata/issues/158) · **File:** `20-E2-issue-journal-map.png`
 
 \newpage
 
 ## Map appearance settings
 
 \begin{center}
-\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{19-E3-map-appearance.png}
+\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{21-E3-map-appearance.png}
 \end{center}
 
 Default centre/zoom for the submission map plus colour pickers for the article geometry, the hover highlight, the administrative-unit overlay (colour + fill opacity), and the marker hue rotations. The synced-highlight toggle is here too.
 
-· **URL:** `http://localhost:8330/index.php/gmdj/management/settings/website#plugins` · **User:** logged in as **admin** (admin / admin) · **Issues:** [#39](https://github.com/TIBHannover/geoMetadata/issues/39), [#73](https://github.com/TIBHannover/geoMetadata/issues/73), [#145](https://github.com/TIBHannover/geoMetadata/issues/145) · **File:** `19-E3-map-appearance.png`
+· **URL:** `http://localhost:8330/index.php/gmdj/management/settings/website#plugins` · **User:** logged in as **admin** (admin / admin) · **Issues:** [#39](https://github.com/TIBHannover/geoMetadata/issues/39), [#73](https://github.com/TIBHannover/geoMetadata/issues/73), [#145](https://github.com/TIBHannover/geoMetadata/issues/145) · **File:** `21-E3-map-appearance.png`
 
 \newpage
 
 ## Submission-form settings
 
 \begin{center}
-\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{20-E4a-submission.png}
+\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{22-E4a-submission.png}
 \end{center}
 
 Per-component toggles for the submission form: spatial input, temporal input, admin-unit input.
 
-· **URL:** `http://localhost:8330/index.php/gmdj/management/settings/website#plugins` · **User:** logged in as **admin** (admin / admin) · **Issues:** [#23](https://github.com/TIBHannover/geoMetadata/issues/23) · **File:** `20-E4a-submission.png`
+· **URL:** `http://localhost:8330/index.php/gmdj/management/settings/website#plugins` · **User:** logged in as **admin** (admin / admin) · **Issues:** [#23](https://github.com/TIBHannover/geoMetadata/issues/23) · **File:** `22-E4a-submission.png`
 
 \newpage
 
 ## Editorial-workflow settings
 
 \begin{center}
-\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{21-E4b-workflow.png}
+\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{23-E4b-workflow.png}
 \end{center}
 
 Mirror of the submission-form toggles for the editorial publication tab, plus the raw-data lock toggle (#114).
 
-· **URL:** `http://localhost:8330/index.php/gmdj/management/settings/website#plugins` · **User:** logged in as **admin** (admin / admin) · **Issues:** [#23](https://github.com/TIBHannover/geoMetadata/issues/23), [#114](https://github.com/TIBHannover/geoMetadata/issues/114) · **File:** `21-E4b-workflow.png`
+· **URL:** `http://localhost:8330/index.php/gmdj/management/settings/website#plugins` · **User:** logged in as **admin** (admin / admin) · **Issues:** [#23](https://github.com/TIBHannover/geoMetadata/issues/23), [#114](https://github.com/TIBHannover/geoMetadata/issues/114) · **File:** `23-E4b-workflow.png`
 
 \newpage
 
 ## Discovery / HTML-head metadata
 
 \begin{center}
-\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{22-E5-discovery-meta-tags.png}
+\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{24-E5-discovery-meta-tags.png}
 \end{center}
 
 Toggles for the four meta-tag families (Dublin Core, geo.* / placename / region, ICBM / geo.position centroid, ISO 19139) plus the schema.org JSON-LD block.
 
-· **URL:** `http://localhost:8330/index.php/gmdj/management/settings/website#plugins` · **User:** logged in as **admin** (admin / admin) · **Issues:** [#3](https://github.com/TIBHannover/geoMetadata/issues/3), [#87](https://github.com/TIBHannover/geoMetadata/issues/87), [#88](https://github.com/TIBHannover/geoMetadata/issues/88), [#92](https://github.com/TIBHannover/geoMetadata/issues/92) · **File:** `22-E5-discovery-meta-tags.png`
+· **URL:** `http://localhost:8330/index.php/gmdj/management/settings/website#plugins` · **User:** logged in as **admin** (admin / admin) · **Issues:** [#3](https://github.com/TIBHannover/geoMetadata/issues/3), [#87](https://github.com/TIBHannover/geoMetadata/issues/87), [#88](https://github.com/TIBHannover/geoMetadata/issues/88), [#92](https://github.com/TIBHannover/geoMetadata/issues/92) · **File:** `24-E5-discovery-meta-tags.png`
 
 \newpage
 
 ## External services + privacy disclosure
 
 \begin{center}
-\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{23-E6-external-services.png}
+\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{25-E6-external-services.png}
 \end{center}
 
 Toggles for the optional Esri base layer and the Leaflet geocoder. The reader-facing privacy textarea below the toggles is composed live based on which services are enabled, so disabling a service removes its line from the disclosure shown to readers.
 
-· **URL:** `http://localhost:8330/index.php/gmdj/management/settings/website#plugins` · **User:** logged in as **admin** (admin / admin) · **Issues:** [#124](https://github.com/TIBHannover/geoMetadata/issues/124) · **File:** `23-E6-external-services.png`
+· **URL:** `http://localhost:8330/index.php/gmdj/management/settings/website#plugins` · **User:** logged in as **admin** (admin / admin) · **Issues:** [#124](https://github.com/TIBHannover/geoMetadata/issues/124) · **File:** `25-E6-external-services.png`
 
 \newpage
 
 ## Accounts (GeoNames)
 
 \begin{center}
-\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{24-E7-accounts-geonames.png}
+\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{26-E7-accounts-geonames.png}
 \end{center}
 
 GeoNames API username + base URL, used by the gazetteer-driven administrative-unit suggestion during submission.
 
-· **URL:** `http://localhost:8330/index.php/gmdj/management/settings/website#plugins` · **User:** logged in as **admin** (admin / admin) · **File:** `24-E7-accounts-geonames.png`
+· **URL:** `http://localhost:8330/index.php/gmdj/management/settings/website#plugins` · **User:** logged in as **admin** (admin / admin) · **File:** `26-E7-accounts-geonames.png`
 
 \newpage
 
@@ -336,35 +362,35 @@ GeoNames API username + base URL, used by the gazetteer-driven administrative-un
 ## German UI (de_DE)
 
 \begin{center}
-\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{25-F-de_DE-article-view.png}
+\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{27-F-de_DE-article-view.png}
 \end{center}
 
 Article reader view in German: plugin UI strings, Leaflet zoom titles, draw-toolbar tooltips, and geocoder placeholder are all translated. Translations live in locale/<locale>/locale.po. The msgid order is enforced across all four bundled locales (en_US / de_DE / fr_FR / es_ES) by 50-locales.cy.js.
 
-· **URL:** `http://localhost:8330/index.php/gmdj/article/view/22` · **User:** no login required (anonymous reader) · **Issues:** [#109](https://github.com/TIBHannover/geoMetadata/issues/109), [#111](https://github.com/TIBHannover/geoMetadata/issues/111), [#151](https://github.com/TIBHannover/geoMetadata/issues/151) · **File:** `25-F-de_DE-article-view.png`
+· **URL:** `http://localhost:8330/index.php/gmdj/article/view/22` · **User:** no login required (anonymous reader) · **Issues:** [#109](https://github.com/TIBHannover/geoMetadata/issues/109), [#111](https://github.com/TIBHannover/geoMetadata/issues/111), [#151](https://github.com/TIBHannover/geoMetadata/issues/151) · **File:** `27-F-de_DE-article-view.png`
 
 \newpage
 
 ## French UI (fr_FR)
 
 \begin{center}
-\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{26-F-fr_FR-article-view.png}
+\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{28-F-fr_FR-article-view.png}
 \end{center}
 
 Article reader view in French: plugin UI strings, Leaflet zoom titles, draw-toolbar tooltips, and geocoder placeholder are all translated. Translations live in locale/<locale>/locale.po. The msgid order is enforced across all four bundled locales (en_US / de_DE / fr_FR / es_ES) by 50-locales.cy.js.
 
-· **URL:** `http://localhost:8330/index.php/gmdj/article/view/22` · **User:** no login required (anonymous reader) · **Issues:** [#94](https://github.com/TIBHannover/geoMetadata/issues/94), [#109](https://github.com/TIBHannover/geoMetadata/issues/109), [#111](https://github.com/TIBHannover/geoMetadata/issues/111), [#151](https://github.com/TIBHannover/geoMetadata/issues/151) · **File:** `26-F-fr_FR-article-view.png`
+· **URL:** `http://localhost:8330/index.php/gmdj/article/view/22` · **User:** no login required (anonymous reader) · **Issues:** [#94](https://github.com/TIBHannover/geoMetadata/issues/94), [#109](https://github.com/TIBHannover/geoMetadata/issues/109), [#111](https://github.com/TIBHannover/geoMetadata/issues/111), [#151](https://github.com/TIBHannover/geoMetadata/issues/151) · **File:** `28-F-fr_FR-article-view.png`
 
 \newpage
 
 ## Spanish UI (es_ES)
 
 \begin{center}
-\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{27-F-es_ES-article-view.png}
+\includegraphics[width=\linewidth, height=0.55\textheight, keepaspectratio]{29-F-es_ES-article-view.png}
 \end{center}
 
 Article reader view in Spanish: plugin UI strings, Leaflet zoom titles, draw-toolbar tooltips, and geocoder placeholder are all translated. Translations live in locale/<locale>/locale.po. The msgid order is enforced across all four bundled locales (en_US / de_DE / fr_FR / es_ES) by 50-locales.cy.js.
 
-· **URL:** `http://localhost:8330/index.php/gmdj/article/view/22` · **User:** no login required (anonymous reader) · **Issues:** [#95](https://github.com/TIBHannover/geoMetadata/issues/95), [#109](https://github.com/TIBHannover/geoMetadata/issues/109), [#111](https://github.com/TIBHannover/geoMetadata/issues/111), [#151](https://github.com/TIBHannover/geoMetadata/issues/151) · **File:** `27-F-es_ES-article-view.png`
+· **URL:** `http://localhost:8330/index.php/gmdj/article/view/22` · **User:** no login required (anonymous reader) · **Issues:** [#95](https://github.com/TIBHannover/geoMetadata/issues/95), [#109](https://github.com/TIBHannover/geoMetadata/issues/109), [#111](https://github.com/TIBHannover/geoMetadata/issues/111), [#151](https://github.com/TIBHannover/geoMetadata/issues/151) · **File:** `29-F-es_ES-article-view.png`
 
 \newpage

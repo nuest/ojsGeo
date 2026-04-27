@@ -37,10 +37,20 @@ const geoMetadata_articleBaseUrl = '{if $journal}{url journal=$journal->getPath(
 		{translate key="plugins.generic.geoMetadata.journal.temporalCoverage.singleYear" year=$geoMetadata_journalYear}
 	</p>
 
+	{if $geoMetadata_showJournalTimeline}
+	<script type="text/javascript">
+		const geoMetadata_timelineCollapseHideLabel = '{translate key="plugins.generic.geoMetadata.timeline.collapse.hide"|escape:'javascript'}';
+		const geoMetadata_timelineCollapseShowLabel = '{translate key="plugins.generic.geoMetadata.timeline.collapse.show"|escape:'javascript'}';
+	</script>
+	{include file=$geoMetadata_journalTimelineTpl}
+	{/if}
+
+	{if $geoMetadata_showJournalMap}
 	<div id="mapdiv" style="width: 100%; height: 480px; z-index: 1;"></div>
 	<p class="geoMetadata_privacyNotice description">
 		{translate key="plugins.generic.geoMetadata.privacy.mapNotice"}
 	</p>
+	{/if}
 
 	<p class="geoMetadata_license">
 		{translate key="plugins.generic.geoMetadata.license.frontend" license=$geoMetadata_metadataLicense}

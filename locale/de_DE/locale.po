@@ -143,6 +143,42 @@ msgstr "Journal-weite Kartenseite unter /map bereitstellen."
 msgid "plugins.generic.geoMetadata.settings.showJournalMap.description"
 msgstr "Wenn aktiviert, registriert das Plugin eine öffentliche /map-Route des Journals, welche eine interaktive Karte aller veröffentlichten Artikel mit ihren räumlichen Metadaten darstellt. Wenn deaktiviert, liefert die Route 404 und Menüverweise darauf funktionieren nicht mehr."
 
+msgid "plugins.generic.geoMetadata.settings.showIssueTimeline"
+msgstr "Aggregierte Zeitleiste im Inhaltsverzeichnis jeder Ausgabe anzeigen."
+
+msgid "plugins.generic.geoMetadata.settings.showIssueTimeline.description"
+msgstr "Wenn aktiviert, stellt das Inhaltsverzeichnis einer Ausgabe direkt unter der Karte eine interaktive Zeitleiste mit den Zeiträumen aller Artikel dar. Wenn deaktiviert, wird auch bei vorhandenen zeitlichen Metadaten keine Zeitleiste angezeigt."
+
+msgid "plugins.generic.geoMetadata.settings.showJournalTimeline"
+msgstr "Aggregierte Zeitleiste auf der Journal-weiten Kartenseite anzeigen."
+
+msgid "plugins.generic.geoMetadata.settings.showJournalTimeline.description"
+msgstr "Wenn aktiviert, zeigt die Journal-weite /map-Seite direkt unter der Karte eine interaktive Zeitleiste mit den Zeiträumen aller veröffentlichten Artikel. Wenn deaktiviert, wird auch bei vorhandenen zeitlichen Metadaten keine Zeitleiste angezeigt. Die /map-URL bleibt erreichbar, solange entweder die Journal-Karte oder diese Zeitleiste aktiviert ist."
+
+msgid "plugins.generic.geoMetadata.settings.timelineCollapsedByDefault"
+msgstr "Zeitleiste eingeklappt starten."
+
+msgid "plugins.generic.geoMetadata.settings.timelineCollapsedByDefault.description"
+msgstr "Wenn aktiviert, ist die Zeitleiste beim ersten Seitenaufruf ausgeblendet; Lesende müssen \"Zeitleiste anzeigen\" klicken, um sie aufzuklappen. Nützlich für Journale, in denen die Zeitleiste eher ergänzend ist; eine kompakte Seite zeigt zunächst nur die Karte."
+
+msgid "plugins.generic.geoMetadata.settings.timelineShowInstructions"
+msgstr "Bedienhinweis unter der Überschrift der Zeitleiste anzeigen."
+
+msgid "plugins.generic.geoMetadata.settings.timelineShowInstructions.description"
+msgstr "Wenn aktiviert, erklärt eine dezente Zeile unter der Überschrift der Zeitleiste die Interaktion (ziehen zum Schwenken, Mauszeiger für Titel, Klick zum Öffnen, Doppelklick für Aggregate). Deaktivieren spart Platz, sobald die Lesenden mit der Bedienung vertraut sind."
+
+msgid "plugins.generic.geoMetadata.settings.timelineHeight"
+msgstr "Höhe der Zeitleiste (in Pixeln)."
+
+msgid "plugins.generic.geoMetadata.settings.timelineHeight.description"
+msgstr "Vertikale Höhe der Zeitleisten-Fläche in Pixeln. Standard 200. Erhöhen, damit sich viele überlappende Einträge stapeln können; verringern für Journale mit nur wenigen Artikeln. Sinnvoller Bereich: 120–500."
+
+msgid "plugins.generic.geoMetadata.settings.timelineClusterMaxItems"
+msgstr "Einträge zusammenfassen, wenn mehr als so viele sich überlappen."
+
+msgid "plugins.generic.geoMetadata.settings.timelineClusterMaxItems.description"
+msgstr "Wenn die Zeitleiste herausgezoomt ist und Einträge sich überlappen würden, kann vis-timeline sie zu einer Marke \"{count} articles\" zusammenfassen. Standard 1 bedeutet zusammenfassen, sobald sich zwei Einträge überlappen würden. Höhere Werte (z. B. 3 oder 5) fassen weniger aggressiv zusammen; mehr Einzelelemente bleiben anklickbar, dafür wirkt die Anzeige dichter."
+
 msgid "plugins.generic.geoMetadata.settings.section.mapAppearance"
 msgstr "Kartendarstellung"
 
@@ -165,7 +201,7 @@ msgid "plugins.generic.geoMetadata.settings.mapFeatureColor"
 msgstr "Farbe der Artikelgeometrie"
 
 msgid "plugins.generic.geoMetadata.settings.mapFeatureColor.description"
-msgstr "Rand- und Füllfarbe der Artikelgeometrien (Punkte, Linien, Polygone) auf der Artikel-, Ausgaben- und Journalkarte."
+msgstr "Rand- und Füllfarbe der Artikelgeometrien (Punkte, Linien, Polygone) auf der Artikel-, Ausgaben- und Journalkarte. Wird auch für die Einträge auf der Zeitleiste der Ausgabe und des Journals verwendet."
 
 msgid "plugins.generic.geoMetadata.settings.markerHueRotation"
 msgstr "Farbton-Drehung für Punktmarker"
@@ -177,7 +213,7 @@ msgid "plugins.generic.geoMetadata.settings.mapFeatureColorHighlight"
 msgstr "Hervorhebungsfarbe"
 
 msgid "plugins.generic.geoMetadata.settings.mapFeatureColorHighlight.description"
-msgstr "Farbe, die auf der Ausgabenkarte genutzt wird, wenn eine Leserin oder ein Leser mit der Maus über einen Artikel oder dessen Geometrie fährt."
+msgstr "Farbe, die auf der Ausgabenkarte genutzt wird, wenn eine Leserin oder ein Leser mit der Maus über einen Artikel oder dessen Geometrie fährt. Wird auch für hervorgehobene oder ausgewählte Einträge auf der Zeitleiste der Ausgabe und des Journals verwendet."
 
 msgid "plugins.generic.geoMetadata.settings.markerHueRotationHighlight"
 msgstr "Farbton-Drehung für hervorgehobene Punktmarker"
@@ -361,6 +397,18 @@ msgstr "Diese Ausgabe enthält Artikel, die den Zeitraum von {$from} bis {$to} a
 
 msgid "plugins.generic.geoMetadata.issue.temporalCoverage.singleYear"
 msgstr "Diese Ausgabe enthält Artikel, die das Jahr {$year} abdecken."
+
+msgid "plugins.generic.geoMetadata.timeline.heading"
+msgstr "Zeitleiste"
+
+msgid "plugins.generic.geoMetadata.timeline.collapse.hide"
+msgstr "Zeitleiste ausblenden"
+
+msgid "plugins.generic.geoMetadata.timeline.collapse.show"
+msgstr "Zeitleiste anzeigen"
+
+msgid "plugins.generic.geoMetadata.timeline.instructions"
+msgstr "Ziehen, um entlang der Zeitleiste zu schwenken; auf ein Element zeigen, um den vollständigen Artikeltitel zu sehen; auf ein Element klicken, um den Artikel zu öffnen; auf ein zusammengefasstes Feld doppelklicken, um in die enthaltenen Artikel hineinzuzoomen."
 
 msgid "plugins.generic.geoMetadata.journal.pageTitle"
 msgstr "Zeiten & Orte aller Artikel"

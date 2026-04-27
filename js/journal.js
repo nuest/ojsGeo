@@ -7,51 +7,51 @@
  * @brief Display spatio-temporal metadata for a whole journal on a separate page.
  */
 
-// Seed view; fitBounds() below overrides it once articles load.
-var mapView = "0, 0, 1".split(",");
-var map = L.map('mapdiv', { zoomControl: false, worldCopyJump: true }).setView([mapView[0], mapView[1]], mapView[2]);
-
-// translated zoom control (issue #151)
-L.control.zoom({
-    zoomInTitle:  geoMetadata_zoomInTitle,
-    zoomOutTitle: geoMetadata_zoomOutTitle
-}).addTo(map);
-
-var osmlayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Map data: &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
-    maxZoom: 18
-}).addTo(map);
-
-var baseLayers = {
-    "OpenStreetMap": osmlayer
-};
-if (geoMetadata_showEsriBaseLayer) {
-    baseLayers["Esri World Imagery"] = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
-        maxZoom: 18
-    });
-}
-
-L.control.scale({ position: 'bottomright' }).addTo(map);
-
-// add fullscreen control
-L.control.fullscreen({
-    position: 'topleft',
-    title: geoMetadata_fullscreenTitle,
-    titleCancel: geoMetadata_fullscreenTitleCancel
-}).addTo(map);
-
-// FeatureGroup for the geospatial extent of articles
-var articleLocations = new L.FeatureGroup();
-map.addLayer(articleLocations);
-
-// Per-article tracking — needed by the overlap picker (issue #81) and by the
-// hover/active highlight (ported from js/issue.js, originally added for #83).
+// Map setup runs only when #mapdiv is in the DOM (issue #74: the journal map
+// can now be disabled while the timeline strip remains).
+var map = null;
+var articleLocations = null;
 var articleLayersMap = new Map();
 var articlePopupMap  = new Map();
 var geoMetadata_overlapManager = null;
-var geoMetadata_iconStyle          = L.icon(geoMetadata_iconStyleConfig);
-var geoMetadata_iconStyleHighlight = L.icon(geoMetadata_iconStyleHighlightConfig);
+var geoMetadata_iconStyle          = (typeof L !== 'undefined') ? L.icon(geoMetadata_iconStyleConfig) : null;
+var geoMetadata_iconStyleHighlight = (typeof L !== 'undefined') ? L.icon(geoMetadata_iconStyleHighlightConfig) : null;
+
+if (document.getElementById('mapdiv')) {
+    var mapView = "0, 0, 1".split(",");
+    map = L.map('mapdiv', { zoomControl: false, worldCopyJump: true }).setView([mapView[0], mapView[1]], mapView[2]);
+
+    L.control.zoom({
+        zoomInTitle:  geoMetadata_zoomInTitle,
+        zoomOutTitle: geoMetadata_zoomOutTitle
+    }).addTo(map);
+
+    var osmlayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data: &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+        maxZoom: 18
+    }).addTo(map);
+
+    var baseLayers = {
+        "OpenStreetMap": osmlayer
+    };
+    if (geoMetadata_showEsriBaseLayer) {
+        baseLayers["Esri World Imagery"] = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+            maxZoom: 18
+        });
+    }
+
+    L.control.scale({ position: 'bottomright' }).addTo(map);
+
+    L.control.fullscreen({
+        position: 'topleft',
+        title: geoMetadata_fullscreenTitle,
+        titleCancel: geoMetadata_fullscreenTitleCancel
+    }).addTo(map);
+
+    articleLocations = new L.FeatureGroup();
+    map.addLayer(articleLocations);
+}
 
 function highlightFeature(layer, feature) {
     if (feature && feature.geometry.type === 'Point' && layer.options.icon) {
@@ -79,18 +79,19 @@ function resetHighlightArticleFeatures(articleId) {
     });
 }
 
-var overlayMaps = {
-    [geoMetadata_layerName]: articleLocations,
-};
-
-// add layerControl to the map to the map 
-L.control.layers(baseLayers, overlayMaps).addTo(map);
+if (map) {
+    var overlayMaps = {
+        [geoMetadata_layerName]: articleLocations,
+    };
+    L.control.layers(baseLayers, overlayMaps).addTo(map);
+}
 
 // load spatial data
 $(function () {
+    if (!map) return;
     // load properties for each article from issue_map.tpl
     var data = JSON.parse($('.geoMetadata_data.publications')[0].value);
-    
+
     data.forEach((publication, index) => {
         let submissionId = publication['submissionId'];
         
@@ -158,7 +159,6 @@ $(function () {
                 map.fitBounds(articleLocations.getBounds());
             }
         }
-        // TODO load temporal properties and add them to a timeline
     });
 
     // Map-level hover sync (issues #83, #159). Replaces per-layer mouseover —
@@ -234,4 +234,123 @@ $(function () {
         document.getElementById('geoMetadata_journalTemporalTo').textContent = toYear;
         rangeEl.style.display = '';
     }
+});
+
+// Timeline strip (issue #74). Renders below the map only when #gm-timelinediv is in the
+// DOM (i.e. the showJournalTimeline toggle is on). Reuses the same hidden-input data the
+// map already consumes; filters out articles whose temporal field is empty.
+$(function () {
+    var container = document.getElementById('gm-timelinediv');
+    if (!container || typeof vis === 'undefined') return;
+
+    var data = JSON.parse($('.geoMetadata_data.publications')[0].value);
+    var items = [];
+    data.forEach(function (publication) {
+        var ranges = window.geoMetadataTemporal.parseTimePeriods(publication.temporal);
+        ranges.forEach(function (range, i) {
+            var start = window.geoMetadataTemporal.toVisDate(range.start, false);
+            var end   = window.geoMetadataTemporal.toVisDate(range.end, true);
+            if (!start || !end) return;
+            items.push({
+                id: publication.submissionId + '-' + i,
+                start: start,
+                end: end,
+                content: publication.title,
+                title: publication.title + ' — ' + publication.authors + (publication.issue ? ' (' + publication.issue + ')' : ''),
+                className: 'gm-timeline-item',
+                _submissionId: publication.submissionId
+            });
+        });
+    });
+
+    if (items.length === 0) {
+        container.style.display = 'none';
+        return;
+    }
+
+    // Clamp panning to the data bounds. Lexicographic compare on expanded-year ISO
+    // strings is wrong for BCE (more-negative year = earlier, but `-000500` sorts
+    // before `-008000` as text). Compare on the parsed year number instead.
+    function startYear(s) { return parseInt(String(s).replace(/^[+-]?0*/, '') || '0', 10) * (String(s).startsWith('-') ? -1 : 1); }
+    var bounds = items.reduce(function (acc, it) {
+        var sy = startYear(it.start), ey = startYear(it.end);
+        return {
+            min: acc.min === null || sy < acc.minY ? it.start : acc.min,
+            minY: acc.minY === null || sy < acc.minY ? sy : acc.minY,
+            max: acc.max === null || ey > acc.maxY ? it.end : acc.max,
+            maxY: acc.maxY === null || ey > acc.maxY ? ey : acc.maxY
+        };
+    }, { min: null, minY: null, max: null, maxY: null });
+
+    var timeline = new vis.Timeline(container, items, {
+        cluster: {
+            maxItems: typeof geoMetadata_timelineClusterMaxItems !== 'undefined'
+                ? Number(geoMetadata_timelineClusterMaxItems) : 1,
+            titleTemplate: '{count} articles'
+        },
+        zoomMin: 1000 * 60 * 60 * 24 * 2,
+        min: bounds.min,
+        max: bounds.max,
+        stack: true,
+        selectable: true,
+        margin: { item: 6, axis: 8 }
+    });
+    timeline.on('select', function (e) {
+        if (!e.items || !e.items.length) return;
+        var item = items.find(function (it) { return it.id === e.items[0]; });
+        if (item) window.location = geoMetadata_articleBaseUrl + '/' + item._submissionId;
+    });
+
+    // Hover sync from timeline → journal map (one-direction, issue #74). The
+    // journal page has no article-summary list, so only the geometries are highlighted.
+    // A hover on a cluster bubble highlights every member article's geometry.
+    function itemById(id) { return items.find(function (it) { return it.id === id; }); }
+    function memberSubmissionIds(itemId) {
+        var leaf = itemById(itemId);
+        if (leaf) return [leaf._submissionId];
+        // vis-timeline cluster path: itemSet.clusters is an array of Cluster objects;
+        // match on .id (vis-timeline assigns a UUID), read .data.uiItems for leaves.
+        try {
+            var clusters = timeline && timeline.itemSet && timeline.itemSet.clusters;
+            if (!clusters || !clusters.length) return [];
+            for (var i = 0; i < clusters.length; i++) {
+                if (clusters[i].id !== itemId) continue;
+                var ui = clusters[i].data && clusters[i].data.uiItems;
+                if (!ui) return [];
+                var ids = ui.map(function (u) {
+                    var l = itemById(u.id);
+                    return l ? l._submissionId : null;
+                }).filter(function (x) { return x !== null && x !== undefined; });
+                return Array.from(new Set(ids));
+            }
+            return [];
+        } catch (err) { return []; }
+    }
+    timeline.on('itemover', function (e) {
+        if (typeof highlightArticleFeatures !== 'function') return;
+        memberSubmissionIds(e.item).forEach(highlightArticleFeatures);
+    });
+    timeline.on('itemout', function (e) {
+        if (typeof resetHighlightArticleFeatures !== 'function') return;
+        memberSubmissionIds(e.item).forEach(resetHighlightArticleFeatures);
+    });
+});
+
+// Collapse / expand the timeline strip (issue #74).
+$(function () {
+    var section = document.getElementById('geoMetadata_journalTimeline');
+    if (!section) return;
+    var link = section.querySelector('.geoMetadata_timelineCollapseLink');
+    var body = document.getElementById('geoMetadata_journalTimelineBody');
+    if (!link || !body) return;
+    link.addEventListener('click', function (e) {
+        e.preventDefault();
+        var collapsed = body.style.display === 'none';
+        body.style.display = collapsed ? '' : 'none';
+        link.setAttribute('aria-expanded', collapsed ? 'true' : 'false');
+        link.querySelector('.geoMetadata_timelineCollapseIcon').innerHTML =
+            collapsed ? '▼' : '▶';
+        link.querySelector('.geoMetadata_timelineCollapseLabel').textContent =
+            collapsed ? geoMetadata_timelineCollapseHideLabel : geoMetadata_timelineCollapseShowLabel;
+    });
 });

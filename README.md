@@ -159,7 +159,28 @@ This map is always available via the URL, but you can carry out the following st
 
 Further information on the geoJSON specification is available via a [wiki](https://github.com/tomniers/geoOJS/wiki/geoJSON-Specification).
 
-### 4. Theme compatibility
+### 4. Timeline view ([#74](https://github.com/TIBHannover/geoMetadata/issues/74))
+
+The plugin can render an interactive timeline strip — every published article positioned on a horizontal year axis according to its `geoMetadata::timePeriods` value — directly below the journal-wide map on `<journal URL>/map` and below the per-issue map on the issue TOC page. The timeline reuses the same data the map already loads; it does not introduce a new URL or menu entry.
+
+**No `config.inc.php` change is required for this feature.** The Issue-TOC hook noted in section 2 above is the only OJS-core change the plugin needs, and it covers the timeline too (the timeline is injected at the same hook point, gated by the issue-TOC hook patch).
+
+Two new admin toggles control visibility, in addition to the existing map toggles:
+
+| Setting | Effect |
+|---|---|
+| Show an aggregated timeline on each issue's table of contents | Renders a timeline strip below the issue map. |
+| Show an aggregated timeline on the journal-wide map page       | Renders a timeline strip below the map on `<journal>/map`. |
+
+Both default to **on** when the plugin is freshly installed. The four flags (map × timeline × journal × issue) work independently — a journal can disable the map and keep the timeline, or vice versa. The `<journal>/map` URL stays available as long as either the journal map or the journal timeline is enabled.
+
+A "Hide timeline" / "Show timeline" link with a triangle icon (▼ / ▶) collapses the strip in-place for readers who only want to see the map.
+
+The timeline view depends on the [vis-timeline](https://github.com/visjs/vis-timeline) library. It is fetched automatically by `composer install` (Asset-Packagist drops it into `js/lib/vis-timeline/`) — no manual download is needed. Browsers download the ~110 KB-gzip vis-timeline bundle only on pages where at least one of the two timeline toggles is enabled; map-only journals pay no runtime cost.
+
+Deep-time / BCE periods (e.g. `-8000-01-01` … `-2000-12-31` for archaeology / paleontology) render correctly: the plugin formats year values outside `[1, 9999]` in the ECMAScript expanded-year ISO form (`±YYYYYY-MM-DD`) before handing them to vis-timeline.
+
+### 5. Theme compatibility
 
 The plugin renders into the host theme via three Smarty hooks and a few DOM conventions. The table below records the state of each theme currently listed in the OJS plugin gallery against those requirements. **None of these themes are exercised in CI** — the Cypress suite runs against the bundled `default` theme only — so the rows below are best-effort audits of the theme sources, not verified end-to-end. If you use one of these themes and something is off (icon missing, hover doesn't sync, map doesn't render, sidebar misplaced), please [open an issue](https://github.com/TIBHannover/geoMetadata/issues).
 

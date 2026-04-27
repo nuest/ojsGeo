@@ -55,11 +55,15 @@ describe('geoMetadata Issue + Journal Map Toggles', function () {
   });
 
   it('issue TOC map is absent when showIssueMap is off', function () {
+    // Timeline toggle (issue #74) keeps the "Times & Locations" heading alive on its own,
+    // so this isolated map-off assertion needs the timeline disabled too.
+    setToggle('geoMetadata_showIssueTimeline', false);
     setToggle('geoMetadata_showIssueMap', false);
     visitIssue();
     cy.get('#mapdiv').should('not.exist');
     cy.get('.pkp_structure_main').should('not.contain', 'Times & Locations');
     setToggle('geoMetadata_showIssueMap', true);
+    setToggle('geoMetadata_showIssueTimeline', true);
   });
 
   it('issue TOC map returns after restoring showIssueMap', function () {
@@ -75,10 +79,14 @@ describe('geoMetadata Issue + Journal Map Toggles', function () {
   });
 
   it('journal /map route returns 404 when showJournalMap is off', function () {
+    // The /map URL stays alive whenever showJournalTimeline is on (issue #74), so the
+    // 404 case requires both toggles off. Restore both at the end.
+    setToggle('geoMetadata_showJournalTimeline', false);
     setToggle('geoMetadata_showJournalMap', false);
     cy.request({ url: journalMapUrl(), failOnStatusCode: false })
       .its('status').should('eq', 404);
     setToggle('geoMetadata_showJournalMap', true);
+    setToggle('geoMetadata_showJournalTimeline', true);
   });
 
   it('journal /map route is back after restoring showJournalMap', function () {

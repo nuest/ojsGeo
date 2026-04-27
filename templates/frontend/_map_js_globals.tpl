@@ -73,6 +73,31 @@ img.leaflet-marker-icon.geoMetadata_marker_highlight {ldelim} filter: hue-rotate
     color: {$geoMetadata_mapFeatureColorHighlight};
     background-color: #f4f4f4;
 {rdelim}
+/* Timeline items (issue #74) — share colours with map geometries. */
+.vis-item.gm-timeline-item {ldelim}
+    background-color: {$geoMetadata_mapFeatureColor};
+    border-color: {$geoMetadata_mapFeatureColor};
+    color: #fff;
+    min-width: 6px;
+{rdelim}
+.vis-item.gm-timeline-item:hover,
+.vis-item.gm-timeline-item.vis-selected {ldelim}
+    background-color: {$geoMetadata_mapFeatureColorHighlight};
+    border-color: {$geoMetadata_mapFeatureColorHighlight};
+    color: #fff;
+{rdelim}
+/* Cluster bubble — must stay wide enough to show the count badge. */
+.vis-item.vis-cluster {ldelim}
+    background-color: {$geoMetadata_mapFeatureColor};
+    border-color: {$geoMetadata_mapFeatureColor};
+    color: #fff;
+    min-width: 5em;
+    text-align: center;
+{rdelim}
+.vis-item.vis-cluster:hover {ldelim}
+    background-color: {$geoMetadata_mapFeatureColorHighlight};
+    border-color: {$geoMetadata_mapFeatureColorHighlight};
+{rdelim}
 </style>
 <script type="text/javascript">
 // Antimeridian helpers (issue #60). Split happens PHP-side on save; these run on
@@ -248,6 +273,8 @@ const geoMetadata_showGeocoder      = {if $geoMetadata_showGeocoder}true{else}fa
 const geoMetadata_enableSyncedHighlight = {if $geoMetadata_enableSyncedHighlight}true{else}false{/if};
 const geoMetadata_showIssueMapIcon      = {if $geoMetadata_showIssueMapIcon}true{else}false{/if};
 const geoMetadata_overlapPicker         = {if $geoMetadata_overlapPicker}true{else}false{/if};
+// issue #74: cluster threshold for the timeline strip
+const geoMetadata_timelineClusterMaxItems = {if $geoMetadata_timelineClusterMaxItems}{$geoMetadata_timelineClusterMaxItems|escape:'javascript'}{else}1{/if};
 
 // layer switcher labels
 const geoMetadata_articleLayerName = '{$geoMetadata_i18n.articleLayerName|escape:'javascript'}';

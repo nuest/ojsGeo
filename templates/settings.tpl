@@ -83,6 +83,66 @@
         label="plugins.generic.geoMetadata.settings.showJournalMap"
         }
     </p>
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.showIssueTimeline.description"}
+        {fbvElement
+        type="checkbox"
+        id="geoMetadata_showIssueTimeline"
+        value="1"
+        checked=$geoMetadata_showIssueTimeline
+        label="plugins.generic.geoMetadata.settings.showIssueTimeline"
+        }
+    </p>
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.showJournalTimeline.description"}
+        {fbvElement
+        type="checkbox"
+        id="geoMetadata_showJournalTimeline"
+        value="1"
+        checked=$geoMetadata_showJournalTimeline
+        label="plugins.generic.geoMetadata.settings.showJournalTimeline"
+        }
+    </p>
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.timelineCollapsedByDefault.description"}
+        {fbvElement
+        type="checkbox"
+        id="geoMetadata_timelineCollapsedByDefault"
+        value="1"
+        checked=$geoMetadata_timelineCollapsedByDefault
+        label="plugins.generic.geoMetadata.settings.timelineCollapsedByDefault"
+        }
+    </p>
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.timelineShowInstructions.description"}
+        {fbvElement
+        type="checkbox"
+        id="geoMetadata_timelineShowInstructions"
+        value="1"
+        checked=$geoMetadata_timelineShowInstructions
+        label="plugins.generic.geoMetadata.settings.timelineShowInstructions"
+        }
+    </p>
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.timelineHeight.description"}
+        {fbvElement
+        type="text"
+        id="geoMetadata_timelineHeight"
+        value=$geoMetadata_timelineHeight
+        size=$fbvStyles.size.SMALL
+        label="plugins.generic.geoMetadata.settings.timelineHeight"
+        }
+    </p>
+    <p align="justify" class="description" style="color: rgba(0,0,0,0.54)">
+        {translate key="plugins.generic.geoMetadata.settings.timelineClusterMaxItems.description"}
+        {fbvElement
+        type="text"
+        id="geoMetadata_timelineClusterMaxItems"
+        value=$geoMetadata_timelineClusterMaxItems
+        size=$fbvStyles.size.SMALL
+        label="plugins.generic.geoMetadata.settings.timelineClusterMaxItems"
+        }
+    </p>
     {/fbvFormSection}
     {/fbvFormArea}
 

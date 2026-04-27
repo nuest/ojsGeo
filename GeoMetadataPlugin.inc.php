@@ -105,7 +105,9 @@ class GeoMetadataPlugin extends GenericPlugin
 
 		// important to check if plugin is enabled before registering the hook, cause otherwise plugin will always run no matter enabled or disabled!
 		if ($success && $this->getEnabled()) {
-			if ($this->isFeatureEnabled('geoMetadata_showJournalMap')) {
+			// Register the /map URL handler if either the journal map or the journal timeline (issue #74)
+			// is enabled — both render on the same page.
+			if ($this->isFeatureEnabled('geoMetadata_showJournalMap') || $this->isFeatureEnabled('geoMetadata_showJournalTimeline')) {
 				// custom page handler, see https://docs.pkp.sfu.ca/dev/plugin-guide/en/examples-custom-page
 				HookRegistry::register('LoadHandler', array($this, 'setPageHandler'));
 			}
@@ -123,7 +125,7 @@ class GeoMetadataPlugin extends GenericPlugin
 			HookRegistry::register('Templates::Article::Details', array(&$this, 'extendArticleDetailsTemplate'));
 			HookRegistry::register('ArticleHandler::view', array(&$this, 'extendArticleView')); //
 
-			if ($this->isFeatureEnabled('geoMetadata_showIssueMap')) {
+			if ($this->isFeatureEnabled('geoMetadata_showIssueMap') || $this->isFeatureEnabled('geoMetadata_showIssueTimeline')) {
 				HookRegistry::register('Templates::Issue::TOC::Main', array(&$this, 'extendIssueTocTemplate'));
 				HookRegistry::register('Templates::Issue::Issue::Article', array(&$this, 'extendIssueTocArticleTemplate'));
 			}
@@ -164,6 +166,14 @@ class GeoMetadataPlugin extends GenericPlugin
 			$templateMgr->addJavaScript("leafletControlGeocodeJS", $urlLeafletControlGeocodeJS, array('contexts' => array('frontend', 'backend')));
 			$templateMgr->addStyleSheet("leafletControlGeocodeCSS", $urlLeafletControlGeocodeCSS, array('contexts' => array('frontend', 'backend')));
 
+			// vis-timeline (issue #74) — register only when at least one timeline scope is enabled.
+			if ($this->isFeatureEnabled('geoMetadata_showJournalTimeline') || $this->isFeatureEnabled('geoMetadata_showIssueTimeline')) {
+				$urlVisTimelineJS  = $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/vis-timeline/standalone/umd/vis-timeline-graph2d.min.js';
+				$urlVisTimelineCSS = $request->getBaseUrl() . '/' . $this->getPluginPath() . '/js/lib/vis-timeline/styles/vis-timeline-graph2d.min.css';
+				$templateMgr->addJavaScript('visTimelineJS', $urlVisTimelineJS, array('contexts' => array('frontend')));
+				$templateMgr->addStyleSheet('visTimelineCSS', $urlVisTimelineCSS, array('contexts' => array('frontend')));
+			}
+
 			$urlPluginCSS = $this->templateParameters['pluginStylesheetURL'] . '/styles.css';
 			$templateMgr->addStyleSheet("geoMetadataStyles", $urlPluginCSS, array('contexts' => array('frontend', 'backend')));
 
@@ -190,6 +200,8 @@ class GeoMetadataPlugin extends GenericPlugin
 			// the plugin's PKP-template-resource because OJS hook-rendered plugin templates inherit the
 			// core Smarty template root, not the plugin's directory.
 			$templateMgr->assign('geoMetadata_mapJsGlobalsTpl',   $this->getTemplateResource('frontend/_map_js_globals.tpl'));
+			$templateMgr->assign('geoMetadata_journalTimelineTpl', $this->getTemplateResource('frontend/objects/journal_timeline.tpl'));
+			$templateMgr->assign('geoMetadata_issueTimelineTpl',   $this->getTemplateResource('frontend/objects/issue_timeline.tpl'));
 
 			// Pre-translated strings for the shared JS globals. Done in PHP so the template can apply
 			// |escape:'javascript' to each value — the {translate} Smarty function doesn't chain
@@ -275,6 +287,24 @@ class GeoMetadataPlugin extends GenericPlugin
 				$this->isFeatureEnabled('geoMetadata_showIssueMapIcon');
 			$this->templateParameters['geoMetadata_overlapPicker'] =
 				$this->isFeatureEnabled('geoMetadata_overlapPicker');
+			$this->templateParameters['geoMetadata_showJournalMap'] =
+				$this->isFeatureEnabled('geoMetadata_showJournalMap');
+			$this->templateParameters['geoMetadata_showIssueMap'] =
+				$this->isFeatureEnabled('geoMetadata_showIssueMap');
+			$this->templateParameters['geoMetadata_showJournalTimeline'] =
+				$this->isFeatureEnabled('geoMetadata_showJournalTimeline');
+			$this->templateParameters['geoMetadata_showIssueTimeline'] =
+				$this->isFeatureEnabled('geoMetadata_showIssueTimeline');
+			// CollapsedByDefault is a boolean that defaults to OFF (timeline expanded on first
+			// page load); use a raw setting read so a never-saved row counts as false.
+			$this->templateParameters['geoMetadata_timelineCollapsedByDefault'] =
+				(bool) $this->getSetting($this->getCurrentContextId(), 'geoMetadata_timelineCollapsedByDefault');
+			$this->templateParameters['geoMetadata_timelineShowInstructions'] =
+				$this->isFeatureEnabled('geoMetadata_timelineShowInstructions');
+			$this->templateParameters['geoMetadata_timelineHeight'] =
+				$this->getSettingOrDefault('geoMetadata_timelineHeight');
+			$this->templateParameters['geoMetadata_timelineClusterMaxItems'] =
+				$this->getSettingOrDefault('geoMetadata_timelineClusterMaxItems');
 		}
 
 		return $success;

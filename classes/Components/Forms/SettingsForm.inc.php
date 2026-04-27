@@ -40,6 +40,12 @@ class SettingsForm extends \Form
         'geoMetadata_showArticleAdminUnit',
         'geoMetadata_showIssueMap',
         'geoMetadata_showJournalMap',
+        'geoMetadata_showIssueTimeline',
+        'geoMetadata_showJournalTimeline',
+        'geoMetadata_timelineCollapsedByDefault',
+        'geoMetadata_timelineShowInstructions',
+        'geoMetadata_timelineHeight',
+        'geoMetadata_timelineClusterMaxItems',
         'geoMetadata_submission_enableSpatial',
         'geoMetadata_submission_enableTemporal',
         'geoMetadata_submission_enableAdminUnit',
@@ -82,6 +88,8 @@ class SettingsForm extends \Form
         'geoMetadata_adminUnitOverlayFillOpacity' => '0.15',
         'geoMetadata_markerHueRotation'           => '0',
         'geoMetadata_markerHueRotationHighlight'  => '150',
+        'geoMetadata_timelineHeight'              => '200',
+        'geoMetadata_timelineClusterMaxItems'     => '1',
     ];
 
     public static function getDefault(string $key): ?string
@@ -100,6 +108,9 @@ class SettingsForm extends \Form
         'geoMetadata_showArticleAdminUnit',
         'geoMetadata_showIssueMap',
         'geoMetadata_showJournalMap',
+        'geoMetadata_showIssueTimeline',
+        'geoMetadata_showJournalTimeline',
+        'geoMetadata_timelineShowInstructions',
         'geoMetadata_submission_enableSpatial',
         'geoMetadata_submission_enableTemporal',
         'geoMetadata_submission_enableAdminUnit',

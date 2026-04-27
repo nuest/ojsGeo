@@ -143,6 +143,42 @@ msgstr "Fournir la page cartographique de la revue à /map."
 msgid "plugins.generic.geoMetadata.settings.showJournalMap.description"
 msgstr "Lorsque cette option est activée, le plugin enregistre une route publique /map de la revue qui affiche une carte interactive de toutes les métadonnées spatiales des articles publiés. Lorsqu'elle est désactivée, la route renvoie 404 et tout lien de menu la ciblant sera rompu."
 
+msgid "plugins.generic.geoMetadata.settings.showIssueTimeline"
+msgstr "Afficher une frise chronologique agrégée dans la table des matières de chaque numéro."
+
+msgid "plugins.generic.geoMetadata.settings.showIssueTimeline.description"
+msgstr "Lorsque cette option est activée, la table des matières d'un numéro affiche, directement sous la carte, une frise chronologique interactive des périodes temporelles de tous les articles. Lorsqu'elle est désactivée, aucune frise n'apparaît même si des articles portent des métadonnées temporelles."
+
+msgid "plugins.generic.geoMetadata.settings.showJournalTimeline"
+msgstr "Afficher une frise chronologique agrégée sur la page cartographique de la revue."
+
+msgid "plugins.generic.geoMetadata.settings.showJournalTimeline.description"
+msgstr "Lorsque cette option est activée, la page /map de la revue affiche, directement sous la carte, une frise chronologique interactive des périodes temporelles de tous les articles publiés. Lorsqu'elle est désactivée, aucune frise n'apparaît même si des articles portent des métadonnées temporelles. L'URL /map reste accessible tant que la carte ou cette frise est activée."
+
+msgid "plugins.generic.geoMetadata.settings.timelineCollapsedByDefault"
+msgstr "Démarrer la chronologie en mode replié."
+
+msgid "plugins.generic.geoMetadata.settings.timelineCollapsedByDefault.description"
+msgstr "Lorsque cette option est activée, la chronologie est masquée au premier chargement de la page ; le lectorat doit cliquer sur « Afficher la chronologie » pour la déplier. Utile pour les revues où la chronologie est complémentaire ; les lectrices et lecteurs préférant une page compacte ne voient d'abord que la carte."
+
+msgid "plugins.generic.geoMetadata.settings.timelineShowInstructions"
+msgstr "Afficher la mention d'utilisation sous le titre de la chronologie."
+
+msgid "plugins.generic.geoMetadata.settings.timelineShowInstructions.description"
+msgstr "Lorsque cette option est activée, une ligne de texte discrète sous le titre de la chronologie explique l'interaction (glisser pour déplacer, survoler pour le titre, cliquer pour ouvrir, double-cliquer un agrégat pour zoomer). Désactivez pour resserrer la page une fois que les lectrices et lecteurs sont familiers de l'outil."
+
+msgid "plugins.generic.geoMetadata.settings.timelineHeight"
+msgstr "Hauteur de la chronologie (en pixels)."
+
+msgid "plugins.generic.geoMetadata.settings.timelineHeight.description"
+msgstr "Hauteur verticale de la zone chronologique en pixels. Valeur par défaut 200. Augmentez pour donner plus de place à un fonds dense (nombreux éléments superposés) ; diminuez pour les revues n'ayant que quelques articles. Plage raisonnable : 120–500."
+
+msgid "plugins.generic.geoMetadata.settings.timelineClusterMaxItems"
+msgstr "Regrouper les éléments lorsque plus de ce nombre se chevauchent."
+
+msgid "plugins.generic.geoMetadata.settings.timelineClusterMaxItems.description"
+msgstr "Lorsque la chronologie est dézoomée et que des éléments se chevaucheraient, vis-timeline peut les regrouper en un seul badge « {count} articles ». La valeur par défaut 1 signifie regrouper dès que deux éléments se chevaucheraient. Des valeurs plus élevées (par exemple 3 ou 5) regroupent moins agressivement, laissant davantage d'éléments individuels cliquables au prix d'une densité visuelle accrue."
+
 msgid "plugins.generic.geoMetadata.settings.section.mapAppearance"
 msgstr "Apparence de la carte"
 
@@ -165,7 +201,7 @@ msgid "plugins.generic.geoMetadata.settings.mapFeatureColor"
 msgstr "Couleur de la géométrie"
 
 msgid "plugins.generic.geoMetadata.settings.mapFeatureColor.description"
-msgstr "Couleur du trait et du remplissage pour la géométrie des articles (points, lignes, polygones) sur les cartes de l'article, du numéro et de la revue."
+msgstr "Couleur du trait et du remplissage pour la géométrie des articles (points, lignes, polygones) sur les cartes de l'article, du numéro et de la revue. Également utilisée pour les éléments des chronologies du numéro et de la revue."
 
 msgid "plugins.generic.geoMetadata.settings.markerHueRotation"
 msgstr "Rotation de teinte pour les marqueurs ponctuels"
@@ -177,7 +213,7 @@ msgid "plugins.generic.geoMetadata.settings.mapFeatureColorHighlight"
 msgstr "Couleur de surbrillance"
 
 msgid "plugins.generic.geoMetadata.settings.mapFeatureColorHighlight.description"
-msgstr "Couleur utilisée sur la carte du numéro lorsque le lectorat survole l'entrée d'un article ou sa géométrie."
+msgstr "Couleur utilisée sur la carte du numéro lorsque le lectorat survole l'entrée d'un article ou sa géométrie. Également utilisée pour les éléments survolés ou sélectionnés sur les chronologies du numéro et de la revue."
 
 msgid "plugins.generic.geoMetadata.settings.markerHueRotationHighlight"
 msgstr "Rotation de teinte pour les marqueurs ponctuels en surbrillance"
@@ -361,6 +397,18 @@ msgstr "Ce numéro contient des articles couvrant la période de {$from} à {$to
 
 msgid "plugins.generic.geoMetadata.issue.temporalCoverage.singleYear"
 msgstr "Ce numéro contient des articles couvrant l'année {$year}."
+
+msgid "plugins.generic.geoMetadata.timeline.heading"
+msgstr "Chronologie"
+
+msgid "plugins.generic.geoMetadata.timeline.collapse.hide"
+msgstr "Masquer la chronologie"
+
+msgid "plugins.generic.geoMetadata.timeline.collapse.show"
+msgstr "Afficher la chronologie"
+
+msgid "plugins.generic.geoMetadata.timeline.instructions"
+msgstr "Faites glisser pour vous déplacer le long de la chronologie ; survolez un élément pour voir le titre complet de l'article ; cliquez sur un élément pour ouvrir l'article ; double-cliquez sur un bloc agrégé pour zoomer sur les articles qu'il contient."
 
 msgid "plugins.generic.geoMetadata.journal.pageTitle"
 msgstr "Heures et lieux de tous les articles."

@@ -20,6 +20,10 @@ class JournalMapHandler extends Handler
 
         $templateMgr = TemplateManager::getManager($request);
 
+        // Propagate plugin-wide template parameters first so the per-handler assigns below
+        // take precedence over any clashing keys (notably pluginStylesheetURL — the plugin
+        // default has no trailing slash, the page template here expects one).
+        $templateMgr->assign($plugin->templateParameters);
         $templateMgr->assign('geoMetadata_journalJS', $request->getBaseUrl() . '/' . $plugin->getPluginPath() . '/js/journal.js');
         $templateMgr->assign('pluginStylesheetURL', $request->getBaseUrl() . '/' . $plugin->getPluginPath() . '/css/');
         $templateMgr->assign('geoMetadata_showEsriBaseLayer', $plugin->isFeatureEnabled('geoMetadata_showEsriBaseLayer'));
@@ -75,14 +79,6 @@ class JournalMapHandler extends Handler
             'publications' => json_encode($publicationsGeodata),
             'context' => $context->getLocalizedName(),
         ));
-
-        // Propagate the plugin's shared map-template variables (marker URLs,
-        // feature colours, overlay opacity, submission-map defaults, i18n) —
-        // the article/issue hooks do this via $templateMgr->assign($plugin
-        // ->templateParameters); the journal-map page serves through a custom
-        // handler and would otherwise emit _map_js_globals.tpl with empty
-        // values, breaking every map script on the page with a JS syntax error.
-        $templateMgr->assign($plugin->templateParameters);
 
         return $templateMgr->display($plugin->getTemplateResource('frontend/pages/journal_map.tpl'));
     }

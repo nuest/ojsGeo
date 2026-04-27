@@ -100,10 +100,27 @@
         return parseSide(s, false) !== null;
     }
 
+    // Convert a stored side string to a value safe to hand to vis-timeline. Years
+    // outside [1, 9999] are emitted in the ECMAScript expanded form (±YYYYYY-MM-DD)
+    // because plain JS Date parsing is unreliable for BCE and far-future years.
+    function toVisDate(rawSide, isEnd) {
+        var p = parseSide(rawSide, !!isEnd);
+        if (!p) return null;
+        var mo = String(p.month).padStart(2, '0');
+        var d  = String(p.day).padStart(2, '0');
+        if (p.year >= 1 && p.year <= 9999) {
+            return String(p.year).padStart(4, '0') + '-' + mo + '-' + d;
+        }
+        var sign = p.year < 0 ? '-' : '+';
+        var absY = String(Math.abs(p.year)).padStart(6, '0');
+        return sign + absY + '-' + mo + '-' + d;
+    }
+
     global.geoMetadataTemporal = {
         parseTimePeriods: parseTimePeriods,
         aggregateRange: aggregateRange,
         yearOf: yearOf,
-        validateSide: validateSide
+        validateSide: validateSide,
+        toVisDate: toVisDate
     };
 })(window);
