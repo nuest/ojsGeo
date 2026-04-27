@@ -8,7 +8,7 @@
 describe('geoMetadata Locales', function () {
 
   before(() => {
-    cy.login('admin', 'admin', Cypress.env('contextPath'));
+    cy.login('admin', 'admin', Cypress.env('contexts').primary.path);
 
     cy.get('nav[class="app__nav"] a:contains("Website")').click();
     cy.get('#setup-button').click();
@@ -43,7 +43,7 @@ describe('geoMetadata Locales', function () {
     switchLocale('de_DE');
     // Go straight to the author's submission dashboard — the user-menu
     // Dashboard link is itself translated, so route by URL.
-    cy.visit('/' + Cypress.env('contextPath') + '/submissions');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/submissions');
 
     // submission page
     cy.get('h1').should('contain', 'Einreichungen');
@@ -64,7 +64,7 @@ describe('geoMetadata Locales', function () {
 
   it('Has the Spanish map headline in submission and the frontend if language is enabled for the UI', function () {
     switchLocale('es_ES');
-    cy.visit('/' + Cypress.env('contextPath') + '/submissions');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/submissions');
 
     // submission page
     cy.get('h1').should('contain', 'Envíos');
@@ -85,7 +85,7 @@ describe('geoMetadata Locales', function () {
 
   it('Has the French map headline in submission and the frontend if language is enabled for the UI', function () {
     switchLocale('fr_FR');
-    cy.visit('/' + Cypress.env('contextPath') + '/submissions');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/submissions');
 
     // submission page
     cy.get('h1').should('contain', 'Soumissions');

@@ -49,7 +49,7 @@ const toggleSelector = (name) => `form[id="geoMetadataSettings"] input[name="${n
 const submitBtnSelector = 'form[id="geoMetadataSettings"] button[id^="submitFormButton"]';
 
 const setSchemaOrgToggle = (checked) => {
-  cy.login('admin', 'admin', Cypress.env('contextPath'));
+  cy.login('admin', 'admin', Cypress.env('contexts').primary.path);
   cy.get('nav[class="app__nav"] a:contains("Website")').click();
   cy.get('button[id="plugins-button"]').click();
   cy.get('tr[id="component-grid-settings-plugins-settingsplugingrid-category-generic-row-geometadataplugin"] a[class="show_extras"]').click();
@@ -219,7 +219,7 @@ describe('geoMetadata schema.org JSON-LD - Atlas of Saxony (admin-unit bbox only
 
 describe('geoMetadata schema.org JSON-LD - Wellington (MultiLineString + east<west bbox)', function () {
 
-  beforeEach(() => visitVol1No2('Wellington ferry across the dateline'));
+  beforeEach(() => visitVol1No2('Wellington to Chatham Islands ferry across the dateline'));
 
   it('article-extent Place has multiple GeoShape lines (MultiLineString split)', function () {
     parseJsonLd().then((ld) => {

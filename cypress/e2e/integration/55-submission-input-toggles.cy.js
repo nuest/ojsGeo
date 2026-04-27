@@ -25,7 +25,7 @@ describe('geoMetadata Submission Input Toggles', function () {
   const submitBtnSelector = 'form[id="geoMetadataSettings"] button[id^="submitFormButton"]';
 
   const openSettings = () => {
-    cy.login('admin', 'admin', Cypress.env('contextPath'));
+    cy.login('admin', 'admin', Cypress.env('contexts').primary.path);
     cy.get('nav[class="app__nav"] a:contains("Website")').click();
     cy.get('button[id="plugins-button"]').click();
     cy.get('tr[id="component-grid-settings-plugins-settingsplugingrid-category-generic-row-geometadataplugin"] a[class="show_extras"]').click();
@@ -44,7 +44,7 @@ describe('geoMetadata Submission Input Toggles', function () {
   };
 
   const visitSubmissionStep3 = () => {
-    cy.login('admin', 'admin', Cypress.env('contextPath'));
+    cy.login('admin', 'admin', Cypress.env('contexts').primary.path);
     cy.get('a:contains("Submissions")').click();
     cy.get('div#myQueue a:contains("New Submission")').click();
     cy.get('input[id^="checklist-"]').click({ multiple: true });

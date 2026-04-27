@@ -8,7 +8,7 @@
 describe('geoMetadata Configuration', function () {
 
   it('Disable geoMetadata', function () {
-    cy.login('admin', 'admin', Cypress.env('contextPath'));
+    cy.login('admin', 'admin', Cypress.env('contexts').primary.path);
     cy.get('nav[class="app__nav"] a:contains("Website")').click();
     cy.get('button[id="plugins-button"]').click();
     // disable plugin if enabled
@@ -23,7 +23,7 @@ describe('geoMetadata Configuration', function () {
   });
 
   it('Enable geoMetadata', function () {
-    cy.login('admin', 'admin', Cypress.env('contextPath'));
+    cy.login('admin', 'admin', Cypress.env('contexts').primary.path);
     cy.get('nav[class="app__nav"] a:contains("Website")').click();
     cy.get('button[id="plugins-button"]').click();
     // Find and enable the plugin; assert the checkbox reflects enabled state
@@ -34,7 +34,7 @@ describe('geoMetadata Configuration', function () {
   });
 
   it('Has a map in the third submissions step', function () {
-    cy.login('admin', 'admin', Cypress.env('contextPath'));
+    cy.login('admin', 'admin', Cypress.env('contexts').primary.path);
 
     cy.get('a:contains("Submissions")').click();
     cy.get('div#myQueue a:contains("New Submission")').click();
@@ -49,7 +49,7 @@ describe('geoMetadata Configuration', function () {
   });
 
   it('Has coverage input disabled with a hover message in the right language if the metadata field is enabled', function () {
-    cy.login('admin', 'admin', Cypress.env('contextPath'));
+    cy.login('admin', 'admin', Cypress.env('contexts').primary.path);
 
     cy.get('nav[class="app__nav"] a:contains("Workflow")').click();
     cy.get('button#metadata-button').click();
@@ -91,7 +91,7 @@ describe('geoMetadata Configuration', function () {
     // specs that rely on the sidebar being present are not affected.
 
     var openSettings = () => {
-      cy.login('admin', 'admin', Cypress.env('contextPath'));
+      cy.login('admin', 'admin', Cypress.env('contexts').primary.path);
       cy.get('nav[class="app__nav"] a:contains("Website")').click();
       cy.get('button[id="plugins-button"]').click();
       cy.get('tr[id="component-grid-settings-plugins-settingsplugingrid-category-generic-row-geometadataplugin"] a[class="show_extras"]').click();
@@ -152,7 +152,7 @@ describe('geoMetadata Configuration', function () {
     ];
 
     const openSettings = () => {
-      cy.login('admin', 'admin', Cypress.env('contextPath'));
+      cy.login('admin', 'admin', Cypress.env('contexts').primary.path);
       cy.get('nav[class="app__nav"] a:contains("Website")').click();
       cy.get('button[id="plugins-button"]').click();
       cy.get('tr[id="component-grid-settings-plugins-settingsplugingrid-category-generic-row-geometadataplugin"] a[class="show_extras"]').click();

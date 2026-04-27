@@ -55,14 +55,14 @@ describe('geoMetadata Reset View Button', function () {
   });
 
   it('on the journal map page', function () {
-    cy.visit('/' + Cypress.env('contextPath') + '/map');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/map');
     cy.get('#mapdiv', { timeout: 20000 }).should('be.visible');
     assertResetLandsBackAtOrigin();
   });
 
   it('on the submission map', function () {
-    cy.login('tobler', 'tobler', Cypress.env('contextPath'));
-    cy.visit('/' + Cypress.env('contextPath') + '/submission/wizard');
+    cy.login('tobler', 'tobler', Cypress.env('contexts').primary.path);
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/submission/wizard');
     cy.get('#mapdiv', { timeout: 20000 }).should('be.visible');
     assertResetLandsBackAtOrigin();
   });

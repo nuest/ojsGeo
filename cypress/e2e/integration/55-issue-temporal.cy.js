@@ -17,7 +17,7 @@
 
 describe('geoMetadata Issue Temporal Summary', function () {
 
-  const issuePath = '/' + Cypress.env('contextPath') + '/issue/view/1';
+  const issuePath = '/' + Cypress.env('contexts').primary.path + '/issue/view/1';
   const VANCOUVER_PERIOD = '{2021-01-01..2021-12-31}';
   const MULTI_PERIOD     = '{1990-01-01..1990-12-31}{2020-01-01..2020-06-30}';
 
@@ -41,7 +41,7 @@ describe('geoMetadata Issue Temporal Summary', function () {
   });
 
   it('renders the same summary above the journal-wide map', function () {
-    cy.visit('/' + Cypress.env('contextPath') + '/map');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/map');
     cy.get('#geoMetadata_journalTemporalRange').should('be.visible');
     // Journal map aggregates every published article across every issue;
     // the full set spans 2000 (Vancouver has no place, spec 23) to 2023

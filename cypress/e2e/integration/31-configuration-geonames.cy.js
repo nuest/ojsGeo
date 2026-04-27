@@ -20,7 +20,7 @@ describe('geoMetadata Configuration Geonames', function () {
   });
 
   it('Configure geoMetadata - Geonames', function () {
-    cy.login('admin', 'admin', Cypress.env('contextPath'));
+    cy.login('admin', 'admin', Cypress.env('contexts').primary.path);
     cy.get('nav[class="app__nav"] a:contains("Website")').click();
     cy.get('button[id="plugins-button"]').click();
 

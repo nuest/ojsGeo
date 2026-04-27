@@ -88,9 +88,13 @@ describe('geoMetadata Submission', { testIsolation: false }, function () {
   });
 
   it('Has a map on the current issue page after publishing a paper', function () {
-    cy.login('aauthor');
-    cy.get('a:contains("aauthor")').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    // Context-level login + direct visit to the submissions queue, bypassing
+    // the user-menu Dashboard click chain. With aauthor having Author role
+    // on multiple journals, site-level login redirects to /index/index (the
+    // site-wide journals list) which has no user menu, and OJS 3.3's
+    // Vue-rendered user-menu trigger is no longer an <a> tag in any case.
+    cy.login('aauthor', undefined, Cypress.env('contexts').primary.path);
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/submissions');
 
     cy.createSubmissionAndPublish(submission);
 
@@ -108,9 +112,8 @@ describe('geoMetadata Submission', { testIsolation: false }, function () {
     // test 1's publish workflow — log out first so the aauthor login lands on
     // the author's dashboard (otherwise OJS re-uses the editor session).
     cy.logout();
-    cy.login('aauthor');
-    cy.get('a:contains("aauthor")').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.login('aauthor', undefined, Cypress.env('contexts').primary.path);
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/submissions');
 
     cy.get('div#myQueue a:contains("New Submission")').click();
     cy.get('input[id^="checklist-"]').click({ multiple: true });

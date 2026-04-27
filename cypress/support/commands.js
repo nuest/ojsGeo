@@ -60,8 +60,14 @@ Cypress.Commands.add('install', function () {
 });
 
 // from https://github.com/pkp/ojs/blob/stable-3_3_0/cypress/tests/data/20-CreateContext.spec.js
-Cypress.Commands.add('createContext', () => {
+Cypress.Commands.add('createContext', (contextKey = 'primary') => {
+    const ctx = Cypress.env('contexts')[contextKey];
+
     cy.login('admin', 'admin');
+    // When zero journals exist, site-level admin login lands on the contexts
+    // grid; when ≥1 exists it lands on that journal's dashboard. Visit
+    // explicitly so this works at any point in the suite.
+    cy.visit('index.php/index/admin/contexts');
 
     // Create a new context
     cy.get('div[id=contextGridContainer]').find('a').contains('Create').click();
@@ -69,16 +75,16 @@ Cypress.Commands.add('createContext', () => {
     // Fill in various details
     cy.wait(1000); // https://github.com/tinymce/tinymce/issues/4355
 
-    cy.get('input[name="name-en_US"]').type(Cypress.env('contextTitles')['en_US'], { delay: 0 });
-    cy.get('input[name=acronym-en_US]').type(Cypress.env('contextAcronyms')['en_US'], { delay: 0 });
+    cy.get('input[name="name-en_US"]').type(ctx.titles['en_US'], { delay: 0 });
+    cy.get('input[name=acronym-en_US]').type(ctx.acronyms['en_US'], { delay: 0 });
     cy.get('span').contains('Enable this journal').siblings('input').check();
     cy.get('input[name="supportedLocales"][value="en_US').check();
     cy.get('input[name="primaryLocale"][value="en_US').check();
 
-    cy.get('input[name=urlPath]').clear().type(Cypress.env('contextPath'), { delay: 0 });
+    cy.get('input[name=urlPath]').clear().type(ctx.path, { delay: 0 });
 
     // Context descriptions
-    cy.setTinyMceContent('context-description-control-en_US', Cypress.env('contextDescriptions')['en_US']);
+    cy.setTinyMceContent('context-description-control-en_US', ctx.descriptions['en_US']);
     cy.get('button').contains('Save').click();
 
     // Wait for it to finish up before moving on
@@ -122,12 +128,13 @@ Cypress.Commands.add('register', data => {
     cy.get('button').contains('Register').click();
 });
 
-Cypress.Commands.add('createIssues', (data, context) => {
-    // create and publish issue
-    cy.login('admin', 'admin');
-    cy.get('a:contains("admin"):visible').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
-    cy.get('.app__nav a').contains('Issues').click();
+Cypress.Commands.add('createIssues', (contextKey = 'primary') => {
+    const ctxPath = Cypress.env('contexts')[contextKey].path;
+    cy.login('admin', 'admin', ctxPath);
+    // Direct URL — the user-menu Dashboard click is ambiguous with multiple
+    // journals. /<context>/manageIssues is the OJS 3.3 issue-management page
+    // hosting the futureissuegrid + addIssue button.
+    cy.visit('index.php/' + ctxPath + '/manageIssues');
     cy.get('a[id^=component-grid-issues-futureissuegrid-addIssue-button-]').click();
     cy.wait(1000); // Avoid occasional failure due to form init taking time
     cy.get('input[name="volume"]').type('1', { delay: 0 });
@@ -152,13 +159,16 @@ Cypress.Commands.add('createIssues', (data, context) => {
     cy.get('button[id^=submitFormButton]').click();
 });
 
-Cypress.Commands.add('createSubmissionAndPublish', (data, context) => {
+Cypress.Commands.add('createSubmissionAndPublish', (data, contextKey = 'primary') => {
     cy.createSubmission(data);
 
     // === Jump through review and publication  ===
-    cy.login('eeditor');
-    cy.get('a:contains("eeditor"):visible').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    const ctxPath = Cypress.env('contexts')[contextKey].path;
+    // Context-level login + direct visit, mirroring the createIssues pattern.
+    // Site-level login redirects an editor with roles on multiple journals to
+    // /index/index, breaking the user-menu Dashboard click chain.
+    cy.login('eeditor', undefined, ctxPath);
+    cy.visit('index.php/' + ctxPath + '/submissions');
     cy.get('a:contains("View")').first().click();
     cy.get('a[id^="accept-button"]').click();
     cy.get('input[id^="skipEmail-skip"]').click();
@@ -246,7 +256,7 @@ Cypress.Commands.add('createSubmission', (data, context) => {
     // === Submission Step 2 ===
 
     // OPS uses the galley grid
-    if (Cypress.env('contextTitles').en_US == 'Public Knowledge Preprint Server') {
+    if (Cypress.env('contexts').primary.titles.en_US == 'Public Knowledge Preprint Server') {
         data.files.forEach(file => {
             cy.get('a:contains("Add galley")').click();
             cy.wait(2000); // Avoid occasional failure due to form init taking time
@@ -602,6 +612,22 @@ Cypress.Commands.add('hasLayers', (count) => {
         const layerCount = Object.keys(map._layers).length;
         cy.wrap(layerCount).should('eq', count);
     });
+});
+
+// Insert a published submission directly via DB. Side-steps the ~3 min
+// editorial UI flow when a spec only needs the seeded data, not the path
+// through it. Implementation lives in cypress.config.js (cy.task).
+Cypress.Commands.add('publishSubmissionViaDb', (contextKey, opts) => {
+    const ctxPath = Cypress.env('contexts')[contextKey].path;
+    return cy.task('dbInsertPublishedSubmission', { contextPath: ctxPath, ...opts });
+});
+
+// Enroll an existing user into a role in another journal. The OJS UI for
+// enrolling (vs. creating) is fragile; DB is simpler. roleId values:
+// 16 = Manager, 17 = Section Editor, 65536 = Author, 4096 = Reviewer.
+Cypress.Commands.add('enrollUserInContext', (contextKey, username, roleId) => {
+    const ctxPath = Cypress.env('contexts')[contextKey].path;
+    return cy.task('dbEnrollUserInContext', { contextPath: ctxPath, username, roleId });
 });
 
 Cypress.Commands.add('mapHasFeatures', (count) => {

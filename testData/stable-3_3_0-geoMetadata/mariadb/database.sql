@@ -15145,12 +15145,79 @@ UNLOCK TABLES;
 commit;
 
 --
--- Wellington antimeridian-crossing fixture article (issue #60).
--- Appended after the main dump so it is obvious which rows were added by hand.
--- Geometry is a pre-split MultiLineString crossing 180° at lat -20°.
--- IDs: submission_id=46, publication_id=47, author_id=120 (next free after the
--- "Overlap test" articles 44/45). Issue 4 (Vol. 1 No. 2), section 3.
+-- Hand-added demo fixtures (appended after the main dump so it's obvious which
+-- rows are supplemental). All three live in issue 4 (Vol. 1 No. 2), section 3.
 --
+--   submission 44 / publication 45 — "Overlap test: Polygon over Hanover" (issue #81 fixture)
+--   submission 45 / publication 46 — "Overlap test: LineString through Hanover" (issue #81 fixture)
+--   submission 46 / publication 47 — "Wellington to Chatham Islands ferry across the dateline" (issue #60 fixture)
+--
+-- The two overlap-test articles share a point in the Hanover area, so a click
+-- there activates the multi-article picker on the issue and journal maps.
+--
+
+INSERT INTO `submissions`
+  (`submission_id`, `context_id`, `current_publication_id`, `date_last_activity`, `date_submitted`, `last_modified`, `stage_id`, `locale`, `status`, `submission_progress`, `work_type`)
+VALUES
+  (44, 2, 45, '2026-04-26 00:41:00', '2026-04-26 00:41:00', '2026-04-26 00:41:00', 5, 'en_US', 3, 0, 0),
+  (45, 2, 46, '2026-04-26 00:41:30', '2026-04-26 00:41:30', '2026-04-26 00:41:30', 5, 'en_US', 3, 0, 0);
+INSERT INTO `publications`
+  (`publication_id`, `access_status`, `date_published`, `last_modified`, `locale`, `primary_contact_id`, `section_id`, `seq`, `submission_id`, `status`, `url_path`, `version`)
+VALUES
+  (45, 0, '2026-04-26', '2026-04-26 00:41:00', 'en_US', 118, 3, 0.00, 44, 3, NULL, 1),
+  (46, 0, '2026-04-26', '2026-04-26 00:41:30', 'en_US', 119, 3, 0.00, 45, 3, NULL, 1);
+INSERT INTO `authors`
+  (`author_id`, `email`, `include_in_browse`, `publication_id`, `seq`, `user_group_id`)
+VALUES
+  (118, 'komet@mailinator.com', 1, 45, 1.00, 31),
+  (119, 'komet@mailinator.com', 1, 46, 1.00, 31);
+INSERT INTO `author_settings` (`author_id`, `locale`, `setting_name`, `setting_value`) VALUES
+  (118, '',      'country',             'DE'),
+  (118, '',      'orcid',               ''),
+  (118, '',      'url',                 ''),
+  (118, 'en_US', 'affiliation',         'Test University'),
+  (118, 'en_US', 'biography',           ''),
+  (118, 'en_US', 'familyName',          'Tester'),
+  (118, 'en_US', 'givenName',           'Polygon'),
+  (118, 'en_US', 'preferredPublicName', ''),
+  (119, '',      'country',             'DE'),
+  (119, '',      'orcid',               ''),
+  (119, '',      'url',                 ''),
+  (119, 'en_US', 'affiliation',         'Test University'),
+  (119, 'en_US', 'biography',           ''),
+  (119, 'en_US', 'familyName',          'Tester'),
+  (119, 'en_US', 'givenName',           'Line'),
+  (119, 'en_US', 'preferredPublicName', '');
+INSERT INTO `publication_settings` (`publication_id`, `locale`, `setting_name`, `setting_value`) VALUES
+  (45, 'en_US', 'abstract',
+   '<p>Test article for issue #81. Geometry is a polygon enclosing the Hanover area; it overlaps with the LineString in the sibling test paper to demonstrate the multi-article picker on the issue and journal maps.</p>'),
+  (45, '',      'categoryIds',                       '[]'),
+  (45, 'en_US', 'copyrightHolder',                   'geoMetadata Demo Journal'),
+  (45, '',      'copyrightYear',                     '2026'),
+  (45, 'en_US', 'coverage',                          'Earth, Europe, Federal Republic of Germany'),
+  (45, '',      'geoMetadata::administrativeUnit',   '[]'),
+  (45, '',      'geoMetadata::spatialProperties',
+   '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"provenance":{"description":"Direct insert (overlap test, issue #81)","id":99}},"geometry":{"type":"Polygon","coordinates":[[[9.5,52.2],[10.0,52.2],[10.0,52.6],[9.5,52.6],[9.5,52.2]]]}}],"administrativeUnits":[],"temporalProperties":{"timePeriods":[],"provenance":{"description":"not available","id":"not available"}}}'),
+  (45, '',      'geoMetadata::timePeriods',          ''),
+  (45, '',      'issueId',                           '4'),
+  (45, 'en_US', 'prefix',                            ''),
+  (45, 'en_US', 'subtitle',                          ''),
+  (45, 'en_US', 'title',                             'Overlap test: Polygon over Hanover'),
+  (46, 'en_US', 'abstract',
+   '<p>Test article for issue #81. Geometry is a line from Bielefeld through Hanover to Braunschweig; its eastern half lies inside the polygon in the sibling test paper.</p>'),
+  (46, '',      'categoryIds',                       '[]'),
+  (46, 'en_US', 'copyrightHolder',                   'geoMetadata Demo Journal'),
+  (46, '',      'copyrightYear',                     '2026'),
+  (46, 'en_US', 'coverage',                          'Earth, Europe, Federal Republic of Germany'),
+  (46, '',      'geoMetadata::administrativeUnit',   '[]'),
+  (46, '',      'geoMetadata::spatialProperties',
+   '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"provenance":{"description":"Direct insert (overlap test, issue #81)","id":99}},"geometry":{"type":"LineString","coordinates":[[8.43,52.37],[9.73,52.40],[10.51,52.27]]}}],"administrativeUnits":[],"temporalProperties":{"timePeriods":[],"provenance":{"description":"not available","id":"not available"}}}'),
+  (46, '',      'geoMetadata::timePeriods',          ''),
+  (46, '',      'issueId',                           '4'),
+  (46, 'en_US', 'prefix',                            ''),
+  (46, 'en_US', 'subtitle',                          ''),
+  (46, 'en_US', 'title',                             'Overlap test: LineString through Hanover');
+
 INSERT INTO `submissions`
   (`submission_id`, `context_id`, `current_publication_id`, `date_last_activity`, `date_submitted`, `last_modified`, `stage_id`, `locale`, `status`, `submission_progress`, `work_type`)
 VALUES
@@ -15174,7 +15241,7 @@ INSERT INTO `author_settings` (`author_id`, `locale`, `setting_name`, `setting_v
   (120, 'en_US', 'preferredPublicName', '');
 INSERT INTO `publication_settings` (`publication_id`, `locale`, `setting_name`, `setting_value`) VALUES
   (47, 'en_US', 'abstract',
-   '<p>Test article for issue #60. The ferry route crosses the International Date Line; geometry is stored as an RFC 7946 §3.1.9-compliant MultiLineString split at ±180°. The administrative-unit overlay for New Zealand draws two rectangles because the country bbox has east&lt;west.</p>'),
+   '<p>Test article for issue #60. The route from Wellington Harbour to Waitangi (Chatham Islands) crosses the International Date Line; geometry is stored as an RFC 7946 §3.1.9-compliant MultiLineString split at ±180°. The administrative-unit overlay for New Zealand draws two rectangles because the country bbox has east&lt;west.</p>'),
   (47, '',      'categoryIds',                       '[]'),
   (47, 'en_US', 'copyrightHolder',                   'geoMetadata Demo Journal'),
   (47, '',      'copyrightYear',                     '2026'),
@@ -15182,12 +15249,12 @@ INSERT INTO `publication_settings` (`publication_id`, `locale`, `setting_name`, 
   (47, '',      'geoMetadata::administrativeUnit',
    '[{"name":"Earth","geonameId":6295630,"bbox":"not available","administrativeUnitSuborder":["Earth"],"provenance":{"description":"administrative unit created by user (accepting the suggestion of the geonames API , which was created on basis of a geometric shape input)","id":23}},{"name":"New Zealand","geonameId":2186224,"bbox":{"north":-29.231115,"south":-52.619442,"east":-175.830215,"west":165.869141},"administrativeUnitSuborder":["Earth","New Zealand"],"isoCountryCode":"NZ","provenance":{"description":"administrative unit created by user (accepting the suggestion of the geonames API , which was created on basis of a geometric shape input)","id":23}}]'),
   (47, '',      'geoMetadata::spatialProperties',
-   '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"provenance":{"description":"geometric shape created by user (drawing)","id":11}},"geometry":{"type":"MultiLineString","coordinates":[[[175,-20],[180,-20]],[[-180,-20],[-170,-20]]]}}],"administrativeUnits":[{"name":"Earth","geonameId":6295630,"bbox":"not available","administrativeUnitSuborder":["Earth"],"provenance":{"description":"administrative unit created by user (accepting the suggestion of the geonames API , which was created on basis of a geometric shape input)","id":23}},{"name":"New Zealand","geonameId":2186224,"bbox":{"north":-29.231115,"south":-52.619442,"east":-175.830215,"west":165.869141},"administrativeUnitSuborder":["Earth","New Zealand"],"isoCountryCode":"NZ","provenance":{"description":"administrative unit created by user (accepting the suggestion of the geonames API , which was created on basis of a geometric shape input)","id":23}}],"temporalProperties":{"timePeriods":["{2023-01-01..2023-12-31}"],"provenance":{"description":"temporal properties created by user","id":31}}}'),
+   '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"provenance":{"description":"geometric shape created by user (drawing)","id":11}},"geometry":{"type":"MultiLineString","coordinates":[[[174.78,-41.29],[180,-42.89]],[[-180,-42.89],[-176.55,-43.95]]]}}],"administrativeUnits":[{"name":"Earth","geonameId":6295630,"bbox":"not available","administrativeUnitSuborder":["Earth"],"provenance":{"description":"administrative unit created by user (accepting the suggestion of the geonames API , which was created on basis of a geometric shape input)","id":23}},{"name":"New Zealand","geonameId":2186224,"bbox":{"north":-29.231115,"south":-52.619442,"east":-175.830215,"west":165.869141},"administrativeUnitSuborder":["Earth","New Zealand"],"isoCountryCode":"NZ","provenance":{"description":"administrative unit created by user (accepting the suggestion of the geonames API , which was created on basis of a geometric shape input)","id":23}}],"temporalProperties":{"timePeriods":["{2023-01-01..2023-12-31}"],"provenance":{"description":"temporal properties created by user","id":31}}}'),
   (47, '',      'geoMetadata::timePeriods',          '{2023-01-01..2023-12-31}'),
   (47, '',      'issueId',                           '4'),
   (47, 'en_US', 'prefix',                            ''),
-  (47, 'en_US', 'subtitle',                          'A round-trip through 180°'),
-  (47, 'en_US', 'title',                             'Wellington ferry across the dateline');
+  (47, 'en_US', 'subtitle',                          'From Wellington Harbour to Waitangi'),
+  (47, 'en_US', 'title',                             'Wellington to Chatham Islands ferry across the dateline');
 COMMIT;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

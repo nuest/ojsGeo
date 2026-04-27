@@ -29,6 +29,11 @@ describe('geoMetadata Installation', function () {
       'affiliation': 'University of Research',
       'country': 'Germany',
     });
+    // OJS 3.3's register form only exposes a Reviewer checkbox; even though
+    // the Author user-group has permit_self_registration=1, the form does not
+    // grant Author. Without it, aauthor is Reader-only and 32-submission's
+    // "Make a New Submission" link is hidden. 65536 = ROLE_ID_AUTHOR.
+    cy.enrollUserInContext('primary', 'aauthor', 65536);
     cy.logout();
 
     let editor = {
@@ -43,8 +48,8 @@ describe('geoMetadata Installation', function () {
     // Log in at the journal level so the user menu's Dashboard link stays inside the journal context —
     // a site-level login (cy.login without context) sometimes drops the session when following Dashboard,
     // landing on /login?source=... instead of the dashboard's Users & Roles sidebar.
-    cy.login('admin', 'admin', Cypress.env('contextPath'));
-    cy.visit('index.php/' + Cypress.env('contextPath') + '/management/settings/access');
+    cy.login('admin', 'admin', Cypress.env('contexts').primary.path);
+    cy.visit('index.php/' + Cypress.env('contexts').primary.path + '/management/settings/access');
     cy.createUser(editor);
   });
 

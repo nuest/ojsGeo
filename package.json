@@ -12,7 +12,8 @@
     "cypress-failed-log": "^2.10.0",
     "cypress-file-upload": "^5.0.8",
     "cypress-wait-until": "^1.7.2",
-    "dotenv": "^16.4.7"
+    "dotenv": "^16.4.7",
+    "mysql2": "^3.11.0"
   },
   "scripts": {
     "cy_open": "npx cypress open",

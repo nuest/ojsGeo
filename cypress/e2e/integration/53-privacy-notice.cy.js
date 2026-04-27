@@ -21,7 +21,7 @@ describe('geoMetadata Map Privacy Notice', function () {
   // Nr. 2 (2022)"), so we jump straight to the issue view and pick the
   // article by title (titles are not translated).
   const visitHanover = () => {
-    cy.visit('/' + Cypress.env('contextPath') + '/issue/view/1');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/issue/view/1');
     cy.get('a:contains("Hanover is nice")').last().click();
   };
 
@@ -32,7 +32,7 @@ describe('geoMetadata Map Privacy Notice', function () {
   });
 
   it('shows the English privacy notice on the journal map page by default', function () {
-    cy.visit('/' + Cypress.env('contextPath') + '/map');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/map');
     cy.get('#mapdiv').should('exist');
     cy.get(noticeSelector).should('be.visible').and('contain.text', enText);
   });

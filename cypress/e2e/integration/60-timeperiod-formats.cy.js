@@ -61,7 +61,7 @@ describe('geoMetadata Time Period Format Diversity', { testIsolation: false }, f
   }
 
   function visitTarget() {
-    cy.visit('/' + Cypress.env('contextPath') + '/article/view/' + targetSubmissionId);
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/article/view/' + targetSubmissionId);
   }
 
   function setDublinCoreEmission(value) {

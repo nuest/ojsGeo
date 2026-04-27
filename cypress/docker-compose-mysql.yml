@@ -14,6 +14,11 @@ services:
             MYSQL_USER: "${MYSQL_USER}"
             MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
         restart: always
+        # Expose mariadb on host port 3307 so the cypress runner (on the host)
+        # can connect via mysql2 for the second-journal DB-write helper (#99).
+        # 3307 not 3306 to avoid colliding with native mysql on the dev laptop.
+        ports:
+            - "3307:3306"
         networks:
             - inside
     
@@ -25,6 +30,25 @@ services:
         # only root can write. Override back to root; Apache itself drops to
         # www-data once it has bound port 80.
         user: root
+        # The php8.1-mod image has only the C/POSIX glibc locale installed, so
+        # OJS's PKPLocale::initialize() setlocale(LC_ALL, "en_US.UTF-8", "en_US")
+        # silently fails and PHP's locale stays "C". The php81_bc/strftime
+        # shim then passes "C" to IntlDateFormatter, which ICU rejects with
+        # "Found unconstructed IntlDateFormatter" — taking out every grid that
+        # renders a file date (FileDateGridColumn) and breaking the editorial
+        # workflow's file-selection step. Generate en_US.UTF-8 at container
+        # start (idempotent across restarts).
+        command:
+            - sh
+            - -c
+            - |
+              if ! locale -a 2>/dev/null | grep -q '^en_US.utf8$'; then
+                apt-get update -qq >/dev/null && \
+                DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends locales >/dev/null && \
+                sed -i 's/^# *en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+                locale-gen >/dev/null
+              fi
+              exec "$$PKP_CMD"
         env_file:
             - .env
         restart: always

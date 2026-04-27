@@ -22,7 +22,7 @@ describe('geoMetadata Issue + Journal Map Toggles', function () {
   const submitBtnSelector = 'form[id="geoMetadataSettings"] button[id^="submitFormButton"]';
 
   const openSettings = () => {
-    cy.login('admin', 'admin', Cypress.env('contextPath'));
+    cy.login('admin', 'admin', Cypress.env('contexts').primary.path);
     cy.get('nav[class="app__nav"] a:contains("Website")').click();
     cy.get('button[id="plugins-button"]').click();
     cy.get('tr[id="component-grid-settings-plugins-settingsplugingrid-category-generic-row-geometadataplugin"] a[class="show_extras"]').click();
@@ -46,7 +46,7 @@ describe('geoMetadata Issue + Journal Map Toggles', function () {
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
   };
 
-  const journalMapUrl = () => '/' + Cypress.env('contextPath') + '/map';
+  const journalMapUrl = () => '/' + Cypress.env('contexts').primary.path + '/map';
 
   it('issue TOC map is present by default', function () {
     visitIssue();

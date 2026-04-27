@@ -96,7 +96,7 @@ describe('geoMetadata Maps', function () {
   });
 
   it('Shows the published paper on the journal map', function () {
-    cy.visit('/' + Cypress.env('contextPath') + '/map');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/map');
     cy.get('.pkp_structure_main').should('contain', 'Times & Locations');
     cy.get('#mapdiv').should('exist');
   });

@@ -55,7 +55,7 @@ describe('geoMetadata Fullscreen Control — localized titles (via user menu)', 
       // _map_js_globals.tpl + L.control.fullscreen pipeline as the other
       // maps, is rendered by journal.js, and is reachable by URL without
       // depending on the optional "Map" nav-menu item.
-      cy.visit('/' + Cypress.env('contextPath') + '/map');
+      cy.visit('/' + Cypress.env('contexts').primary.path + '/map');
       cy.get('#mapdiv').should('exist');
       cy.get(fsBtnSelector).as('fsBtn');
 

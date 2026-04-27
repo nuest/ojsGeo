@@ -93,7 +93,7 @@ Cypress is the source of truth for regression coverage — self-bootstraps a fre
 | Timeless Isle | Polygon | — | Earth | Empty-`timePeriods` branch of `DC.SpatialCoverage` |
 | Atlas of Saxony | — | — | Saxony (bbox only) | Centroid-from-admin-unit-bbox fallback for `ICBM` / `geo.position` |
 | Outside of nowhere | — | — | — | No-geoMetadata-at-all branch; used by #158 icon spec to assert the icon is absent |
-| Wellington ferry across the dateline | MultiLineString (split) | 2023-01-01 … 12-31 | New Zealand (bbox east<west) | Antimeridian-crossing storage form; admin-unit overlay with crossing bbox |
+| Wellington to Chatham Islands ferry across the dateline | MultiLineString (split, Wellington Harbour → Waitangi) | 2023-01-01 … 12-31 | New Zealand (bbox east<west) | Antimeridian-crossing storage form; admin-unit overlay with crossing bbox |
 | Lower Saxony details | Polygon (8.0–9.0 E, 52.0–52.7 N) | — | — | Realistic overlap with the Hanover LineString; exercises the #81 multi-article picker |
 | Three continents traverse | FeatureCollection of 3 Features (Madagascar Point, Australia rect Polygon, Brazil rect Polygon) | — | — | Multi-Feature article; exercises the #84 synced-highlight loop in `articleLayersMap.get(id).forEach` |
 
@@ -224,9 +224,37 @@ The file follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/).
 2. Run `composer update` and `composer install`
 3. Run `make validate_schema_org` against a live dev-server article URL (defaults to `localhost:8330/.../article/view/20`; override with `VALIDATE_URLS="…"`). Exits non-zero on any error or warning from validator.schema.org. Cypress structural assertions live in `63-schema-org-jsonld.cy.js`; this is the semantic complement and is not part of CI.
 4. Finalise `CHANGELOG.md`: rename the `unreleased` section to `## [X.Y.Z.Z] - YYYY-MM-DD`
-5. Create git tag: `git tag -a vX.X.X.X-beta -m "release vX.X.X.X-beta"`
-6. Push tag: `git push origin tag vX.X.X.X-beta`
-7. Create release archives excluding development files
+5. **Refresh the screenshot artefacts** (see "Demo screenshots" below) — the resulting PNGs are useful for the GitHub release notes, the project website, and any conference / paper-figure update that drops out of a release.
+6. Create git tag: `git tag -a vX.X.X.X-beta -m "release vX.X.X.X-beta"`
+7. Push tag: `git push origin tag vX.X.X.X-beta`
+8. Create release archives excluding development files
+
+### Demo screenshots (`../headless/take-geometadata-screenshots.mjs`)
+
+A Playwright script in the sibling `headless/` workspace drives the local OJS dev-server (the testData dump on `localhost:8330`) and produces a labelled, high-resolution screenshot per plugin feature. Output goes to `../geoMetadata-screenshots/`, one PNG per shot plus `run.log` (every URL visited, per-section timing) and a `report.md` / `report.pdf` (one-page-per-screenshot booklet with the description, the URL the shot was taken at, the user account if login was needed, and links to the related issues). The PDF is built via `pandoc --pdf-engine=xelatex` and takes ~55 s on top of the ~75 s of browser work.
+
+```bash
+cd ../headless
+node take-geometadata-screenshots.mjs                 # all sections (~135s including PDF)
+node take-geometadata-screenshots.mjs --only=B,C       # subset (keeps existing PNGs)
+node take-geometadata-screenshots.mjs --no-pdf         # skip the PDF build
+node take-geometadata-screenshots.mjs --outdir=/tmp/s  # alt output dir
+```
+
+Sections covered: A — editorial publication tab (locked + unlocked raw fields); B — reader article views (full metadata, sidebar download, fullscreen, reset-view, Wellington antimeridian); C — issue page (TOC icons, map, hover sync, time-period summary, multi-article overlap popup); D — journal-wide map (full + hover + overlap popup); E — admin settings page (per-fbvFormArea); F — internationalisation (de / fr / es article views).
+
+Resolution: 1920×1080 viewport at deviceScaleFactor=2 (output PNGs are 3840×2160). Logs in to `admin/admin` for the workflow + settings sections; reader sections are anonymous; locale switches use `/user/setLocale/<locale>?source=…`. Depends on the testData fixtures `wasp` (sub 22), `PALM` (sub 27), `Polygon over Hanover` (sub 44), `LineString through Hanover` (sub 45), and `Wellington to Chatham Islands ferry across the dateline` (sub 46) — the latter three are appended to `testData/.../mariadb/database.sql` as supplemental rows below the main dump.
+
+**Update the script when you add a major user-visible feature.** New screenshot expected for: any new map or page added by the plugin, any new admin setting that visually changes the page, any new locale, any new fixture-style test article. Add a `shot()` call in the relevant section function and update the README / release notes if the feature warrants its own image. Likewise, when a feature is removed, drop its `shot()` call so the run log doesn't carry dead instructions. Re-run the full script after every change to confirm all sections still pass.
+
+**Suggested video-demo candidates** (where motion adds explanatory value beyond a still):
+- The author submission flow — drawing a polygon, accepting the gazetteer suggestion, the admin-unit chip auto-deriving (B-flow but interactive).
+- The multi-article picker (#81) — clicking the overlap, then the prev/next pagination cycling through articles.
+- Hover sync between the issue TOC and map (#83) — the still cannot show that the highlight follows mouse movement.
+- Antimeridian split-on-save behaviour (#60) — drawing a line that crosses 180° and watching the splitter reshape it after save.
+- Fullscreen toggle (#61) — the transition itself, plus the reset-view interaction once zoomed in.
+
+The script is not in CI; it is a release-time aid, not a regression test. The Cypress suite remains the source of truth for behaviour; the screenshots exist so that a release manager can drop fresh imagery into the release notes / website without manually staging each view.
 
 ## Plugin Integration
 

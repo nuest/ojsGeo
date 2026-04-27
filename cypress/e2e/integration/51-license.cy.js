@@ -8,7 +8,7 @@
 describe('geoMetadata Licensing Information', function () {
 
   it('Has licensing information on the journal map page', function () {
-    cy.visit('/' + Cypress.env('contextPath') + '/map');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/map');
     cy.contains('.page', /license: CC-0/);
   });
 

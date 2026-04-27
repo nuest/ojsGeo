@@ -33,8 +33,10 @@ describe('geoMetadata Antimeridian', { testIsolation: false }, function () {
     }
   ];
 
-  // Pre-split MultiLineString: the PHP splitter is idempotent so it passes
-  // through unchanged on save. Assertions below pin these exact coordinates.
+  // Pre-split MultiLineString from Wellington Harbour to Waitangi (Chatham
+  // Islands). Both points are NZ territory but the Chathams sit east of 180°,
+  // so any direct route crosses the antimeridian. The PHP splitter is
+  // idempotent so this already-split form passes through unchanged on save.
   const WELLINGTON_SPATIAL = {
     type: 'FeatureCollection',
     features: [{
@@ -43,8 +45,8 @@ describe('geoMetadata Antimeridian', { testIsolation: false }, function () {
       geometry: {
         type: 'MultiLineString',
         coordinates: [
-          [[175, -20], [180, -20]],
-          [[-180, -20], [-170, -20]]
+          [[174.78, -41.29], [180, -42.89]],
+          [[-180, -42.89], [-176.55, -43.95]]
         ]
       }
     }],
@@ -58,9 +60,9 @@ describe('geoMetadata Antimeridian', { testIsolation: false }, function () {
   const submission = {
     id: 0,
     prefix: '',
-    title: 'Wellington ferry across the dateline',
-    subtitle: 'A round-trip through 180°',
-    abstract: 'The ferry route crosses the International Date Line.',
+    title: 'Wellington to Chatham Islands ferry across the dateline',
+    subtitle: 'From Wellington Harbour to Waitangi',
+    abstract: 'A NZ inter-island route from Wellington Harbour to the Chatham Islands; the path crosses the International Date Line.',
     timePeriod: '2023-01-01 - 2023-12-31',
     issue: '1',
     directInject: {
@@ -111,7 +113,7 @@ describe('geoMetadata Antimeridian', { testIsolation: false }, function () {
     cy.visit('/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
-    cy.get('a:contains("Wellington ferry across the dateline")').last().click();
+    cy.get('a:contains("Wellington to Chatham Islands ferry across the dateline")').last().click();
 
     cy.get('.pkp_structure_main').should('contain', 'Time and Location');
     cy.get('#mapdiv').should('exist');
