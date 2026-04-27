@@ -229,9 +229,14 @@ The file follows [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/).
 7. Push tag: `git push origin tag vX.X.X.X-beta`
 8. Create release archives excluding development files
 
-### Demo screenshots (`../headless/take-geometadata-screenshots.mjs`)
+### Demo screenshots (`screenshots/` + `../headless/take-geometadata-screenshots.mjs`)
 
-A Playwright script in the sibling `headless/` workspace drives the local OJS dev-server (the testData dump on `localhost:8330`) and produces a labelled, high-resolution screenshot per plugin feature. Output goes to `../geoMetadata-screenshots/`, one PNG per shot plus `run.log` (every URL visited, per-section timing) and a `report.md` / `report.pdf` (one-page-per-screenshot booklet with the description, the URL the shot was taken at, the user account if login was needed, and links to the related issues). The PDF is built via `pandoc --pdf-engine=xelatex` and takes ~55 s on top of the ~75 s of browser work.
+A Playwright script in the sibling `headless/` workspace drives the local OJS dev-server (the testData dump on `localhost:8330`) and produces a labelled, high-resolution screenshot per plugin feature. Output goes to **`screenshots/` inside this repository** (no longer a sibling directory) — one PNG per shot plus `run.log` (every URL visited, per-section timing), `report.md` (the source for the booklet), and `geoMetadata-screenshots-YYYY-MM-DD-HHMMSS.pdf` (the rendered one-page-per-screenshot booklet, with the description, the URL the shot was taken at, the user account if login was needed, and links to the related issues). The PDF filename includes the build timestamp so multiple snapshots can sit next to each other and the file is self-identifying when copied or attached elsewhere. It is built via `pandoc --pdf-engine=xelatex` and takes ~55 s on top of the ~75 s of browser work.
+
+What is committed and what is regenerated:
+
+- `screenshots/report.md` is **tracked in git** — it carries the descriptive prose, URLs, and issue links, and renders nicely on GitHub. Browsing it is the fastest way to see what the booklet covers without rebuilding.
+- `screenshots/*.png`, `screenshots/*.pdf`, `screenshots/*.log`, `screenshots/*.html` are **gitignored** — large generated artefacts that the script overwrites every full run. Regenerate locally before tagging a release; the resulting timestamped PDF is the artefact to attach to release notes / share with reviewers.
 
 ```bash
 cd ../headless
