@@ -75,8 +75,10 @@ describe('geoMetadata Issue Map Icon', function () {
     cy.contains('.obj_article_summary', 'Hanover is nice')
       .find('a.geoMetadata_issue_mapIcon')
       .trigger('mouseenter');
-    // geometry's stroke switches to the configured highlight colour (default #FF0000).
-    cy.get('#mapdiv path.leaflet-interactive').should('have.attr', 'stroke', '#ff0000');
+    // At least one path now carries the configured highlight colour. Asserting
+    // "any" rather than "the first" makes the test robust to insertion order
+    // among seeded articles (more were added for the timeline / overlap tests).
+    cy.get('#mapdiv path.leaflet-interactive[stroke="#ff0000"]', { timeout: 10000 }).should('exist');
   });
 
   it('click on the icon opens the article popup and scrolls the map into view', function () {

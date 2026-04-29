@@ -24,6 +24,14 @@ const visitVol1No2 = () => {
   cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
   cy.get('#mapdiv').should('exist');
   cy.window().its('map').should('exist');
+  // articleLayersMap is populated asynchronously after issue.js finishes
+  // attaching all article layers (and the timeline-feature additions made
+  // it more deferred). Wait for layers to settle before tests poke the
+  // overlap helper.
+  cy.wait(3000);
+  // Pin a zoom where the test latlngs are pixel-distinct. Hit-testing is in
+  // pixel space (matches the visible stroke / icon footprint).
+  cy.window().then((win) => win.map.setView(win.L.latLng(52.4, 8.7), 8, { animate: false }));
 };
 
 describe('geoMetadata Overlap Picker - pure helpers', function () {
@@ -53,6 +61,9 @@ describe('geoMetadata Overlap Picker - pure helpers', function () {
   it('pointOnMarker uses pixel tolerance', function () {
     cy.window().then((win) => {
       const map = win.map;
+      // Pin zoom — pixel tolerance is zoom-dependent. At very low zoom 1 deg
+      // collapses to a few pixels, making the "far" assertion below ambiguous.
+      map.setView(win.L.latLng(52.37, 8.43), 4, { animate: false });
       const marker = win.L.latLng(52.37, 8.43);
       expect(win.geoMetadata_pointOnMarker(map, marker, [8.43, 52.37]), 'centre').to.be.true;
       // 1 deg lng at 52° lat is roughly 68 km, way more than 10 px at zoom 4
@@ -176,7 +187,9 @@ describe('geoMetadata Overlap Picker - toggle off', function () {
     setToggle('geoMetadata_overlapPicker', false);
     visitVol1No2();
     cy.window().then((win) => {
-      expect(win.geoMetadata_overlapPicker, 'picker disabled').to.be.false;
+      // geoMetadata_overlapPicker is a script-scoped const in _map_js_globals.tpl,
+      // so it is not a property of window — read it via win.eval.
+      expect(win.eval('geoMetadata_overlapPicker'), 'picker disabled').to.be.false;
       expect(win.geoMetadata_overlapManager, 'no manager instantiated').to.be.null;
     });
     cy.window().then((win) => {
@@ -192,7 +205,7 @@ describe('geoMetadata Overlap Picker - toggle off', function () {
     setToggle('geoMetadata_overlapPicker', true);
     visitVol1No2();
     cy.window().then((win) => {
-      expect(win.geoMetadata_overlapPicker, 'picker re-enabled').to.be.true;
+      expect(win.eval('geoMetadata_overlapPicker'), 'picker re-enabled').to.be.true;
     });
   });
 });

@@ -360,7 +360,11 @@ class GeoMetadataPlugin extends GenericPlugin
 	{
 		$request = $args[0];
 		$article = $args[2];
-		$publication = $article->getCurrentPublication();
+		// args[3] is the publication OJS resolved for this view — for
+		// /article/view/{id}/version/{N} it's the requested older version,
+		// for the canonical URL it's getCurrentPublication(). Fall back to
+		// current if the hook signature changes upstream.
+		$publication = $args[3] ?? $article->getCurrentPublication();
 
 		$emitDC        = $this->isFeatureEnabled('geoMetadata_emitMetaDublinCore');
 		$emitGeoNames  = $this->isFeatureEnabled('geoMetadata_emitMetaGeoNames');
@@ -397,6 +401,27 @@ class GeoMetadataPlugin extends GenericPlugin
 		if ($emitDC && $spatial) {
 			$templateMgr->addHeader('dublinCoreSpatialCoverage', '<meta name="DC.SpatialCoverage" scheme="GeoJSON" content="' . htmlspecialchars(strip_tags($spatial)) . '" />');
 			$dcTagAdded = true;
+		}
+
+		// DC.Coverage: OJS's DublinCoreMetaPlugin emits this from the article's
+		// (submission-level, latest-version) coverage field on canonical URLs
+		// but explicitly suppresses it on /article/view/{id}/version/{N} URLs
+		// (see DublinCoreMetaPlugin::handleArticleHook). For the plugin's own
+		// per-version data to be discoverable on older versions, emit a
+		// publication-specific DC.Coverage from the requested publication's
+		// admin-unit hierarchy ONLY on the /version/ URLs — on the canonical
+		// URL OJS already emits a (locale-tagged) DC.Coverage and we don't
+		// want duplicates.
+		$requestArgs = $request->getRequestedArgs();
+		$onVersionUrl = isset($requestArgs[1]) && $requestArgs[1] === 'version';
+		if ($emitDC && $hasAdminUnits && $onVersionUrl) {
+			$names = array_map(function ($u) { return $u->name; }, $decodedAdminUnits);
+			$names = array_values(array_filter($names, function ($n) { return $n !== null && $n !== ''; }));
+			if (!empty($names)) {
+				$templateMgr->addHeader('dublinCoreCoverageGeoMetadata',
+					'<meta name="DC.Coverage" content="' . htmlspecialchars(implode(', ', $names)) . '" />');
+				$dcTagAdded = true;
+			}
 		}
 
 		if ($emitGeoCoords) {

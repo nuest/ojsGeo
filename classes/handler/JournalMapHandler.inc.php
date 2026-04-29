@@ -45,12 +45,24 @@ class JournalMapHandler extends Handler
         $userGroupDao = DAORegistry::getDAO('UserGroupDAO');
 		$userGroups = $userGroupDao->getByContextId($context->getId())->toArray();	
 
+        // Keep one entry per submission (the latest version). When an article
+        // has multiple published versions, the publications service returns
+        // each one — without this dedupe the journal map paints overlapping
+        // copies of the same article and the timeline would reject duplicate
+        // ids.
+        $latestBySubmission = [];
         foreach ($publications as $publication) {
-            $id = $publication->getData('id');
-
-            if($publication->getData('status') != STATUS_PUBLISHED) {
-                continue;
+            if ($publication->getData('status') != STATUS_PUBLISHED) continue;
+            $sid = $publication->getData('submissionId');
+            $version = (int) $publication->getData('version');
+            if (!isset($latestBySubmission[$sid])
+                || $version > (int) $latestBySubmission[$sid]->getData('version')) {
+                $latestBySubmission[$sid] = $publication;
             }
+        }
+
+        foreach ($latestBySubmission as $publication) {
+            $id = $publication->getData('id');
 
             $issue = "";
             if ($publication->getData('issueId')) {
@@ -58,7 +70,7 @@ class JournalMapHandler extends Handler
                 $issue = $issueDao->getById($publication->getData('issueId'));
                 $issue = $issue->getIssueIdentification();
             }
-            
+
             $publicationsGeodata[$id] = [
                 'publicationId' => $publication->getData('id'),
                 'submissionId' => $publication->getData('submissionId'),

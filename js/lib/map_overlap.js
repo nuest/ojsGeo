@@ -16,7 +16,7 @@
 
 (function (global) {
     var POINT_TOLERANCE_PX = 10;
-    var LINE_TOLERANCE_M   = 100;
+    var LINE_TOLERANCE_PX  = 10;
 
     function pointInRing(latlng, ring) {
         var x = latlng.lng, y = latlng.lat, inside = false;
@@ -39,43 +39,56 @@
         return true;
     }
 
-    function distanceToSegmentMeters(map, latlng, a, b) {
-        var p  = map.latLngToLayerPoint(latlng);
-        var pa = map.latLngToLayerPoint(a);
-        var pb = map.latLngToLayerPoint(b);
-        var dx = pb.x - pa.x, dy = pb.y - pa.y;
-        var lenSq = dx * dx + dy * dy;
-        var t = lenSq === 0 ? 0 : ((p.x - pa.x) * dx + (p.y - pa.y) * dy) / lenSq;
+    function distanceToSegmentPx(map, latlng, a, b) {
+        // Parametrise the segment in lat/lng space (round-tripping through
+        // pixel space loses precision at low zoom), then measure the cursor's
+        // distance in pixels — that matches the visible stroke width, so the
+        // click target lines up with where Leaflet shows the pointer cursor.
+        var dlat = b.lat - a.lat, dlng = b.lng - a.lng;
+        var lenSq = dlat * dlat + dlng * dlng;
+        var t = lenSq === 0 ? 0
+            : ((latlng.lat - a.lat) * dlat + (latlng.lng - a.lng) * dlng) / lenSq;
         if (t < 0) t = 0; else if (t > 1) t = 1;
-        var nearest = L.point(pa.x + t * dx, pa.y + t * dy);
-        var nearestLatLng = map.layerPointToLatLng(nearest);
-        return latlng.distanceTo(nearestLatLng);
+        var nearestLatLng = L.latLng(a.lat + t * dlat, a.lng + t * dlng);
+        var p  = map.latLngToLayerPoint(latlng);
+        var pn = map.latLngToLayerPoint(nearestLatLng);
+        var dx = p.x - pn.x, dy = p.y - pn.y;
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     function pointOnLineString(map, latlng, coords) {
         for (var i = 0; i < coords.length - 1; i++) {
             var a = L.latLng(coords[i][1],     coords[i][0]);
             var b = L.latLng(coords[i + 1][1], coords[i + 1][0]);
-            if (distanceToSegmentMeters(map, latlng, a, b) < LINE_TOLERANCE_M) return true;
+            if (distanceToSegmentPx(map, latlng, a, b) <= LINE_TOLERANCE_PX) return true;
         }
         return false;
     }
 
-    function pointOnMarker(map, latlng, pointCoords) {
+    function pointOnMarker(map, latlng, pointCoords, iconSize, iconAnchor) {
         var p   = map.latLngToLayerPoint(latlng);
         var mp  = map.latLngToLayerPoint(L.latLng(pointCoords[1], pointCoords[0]));
-        var dx = p.x - mp.x, dy = p.y - mp.y;
-        return Math.sqrt(dx * dx + dy * dy) <= POINT_TOLERANCE_PX;
+        // Treat the icon's visible footprint as the hit zone: the rectangle
+        // [mp.x - anchorX, mp.x + (iconW - anchorX)] × [mp.y - anchorY, mp.y + (iconH - anchorY)].
+        // Without icon dimensions, fall back to a small circular tolerance for
+        // a generic point.
+        if (iconSize && iconAnchor) {
+            var dx = p.x - mp.x, dy = p.y - mp.y;
+            return dx >= -iconAnchor[0] && dx <= (iconSize[0] - iconAnchor[0])
+                && dy >= -iconAnchor[1] && dy <= (iconSize[1] - iconAnchor[1]);
+        }
+        var ddx = p.x - mp.x, ddy = p.y - mp.y;
+        return Math.sqrt(ddx * ddx + ddy * ddy) <= POINT_TOLERANCE_PX;
     }
 
-    function geometryContainsPoint(map, geometry, latlng) {
+    function geometryContainsPoint(map, geometry, latlng, iconSize, iconAnchor) {
         if (!geometry) return false;
         var t = geometry.type, c = geometry.coordinates;
-        if (t === 'Point')           return pointOnMarker(map, latlng, c);
+        if (t === 'Point')           return pointOnMarker(map, latlng, c, iconSize, iconAnchor);
         if (t === 'LineString')      return pointOnLineString(map, latlng, c);
         if (t === 'Polygon')         return pointInPolygon(latlng, c);
         if (t === 'MultiPoint') {
-            for (var i = 0; i < c.length; i++) if (pointOnMarker(map, latlng, c[i])) return true;
+            for (var i = 0; i < c.length; i++) if (pointOnMarker(map, latlng, c[i], iconSize, iconAnchor)) return true;
             return false;
         }
         if (t === 'MultiLineString') {
@@ -88,7 +101,7 @@
         }
         if (t === 'GeometryCollection') {
             for (var l = 0; l < geometry.geometries.length; l++) {
-                if (geometryContainsPoint(map, geometry.geometries[l], latlng)) return true;
+                if (geometryContainsPoint(map, geometry.geometries[l], latlng, iconSize, iconAnchor)) return true;
             }
             return false;
         }
@@ -97,7 +110,10 @@
 
     function layerContainsPoint(map, layer, latlng) {
         if (!layer || !layer.feature || !layer.feature.geometry) return false;
-        return geometryContainsPoint(map, layer.feature.geometry, latlng);
+        var iconOpts = layer.options && layer.options.icon && layer.options.icon.options;
+        var iconSize   = iconOpts ? iconOpts.iconSize   : null;
+        var iconAnchor = iconOpts ? iconOpts.iconAnchor : null;
+        return geometryContainsPoint(map, layer.feature.geometry, latlng, iconSize, iconAnchor);
     }
 
     function findOverlappingArticles(map, articleLayersMap, latlng) {
@@ -276,6 +292,10 @@
         }
 
         function onKeyDown(e) {
+            if (e.key === 'Escape' && (paginatedPopup || singlePopup)) {
+                closeAnyManagerPopup();
+                return;
+            }
             if (!paginatedPopup) return;
             if (e.key === 'ArrowLeft')  { goPrev(); }
             else if (e.key === 'ArrowRight') { goNext(); }

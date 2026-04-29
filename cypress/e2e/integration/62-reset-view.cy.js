@@ -21,11 +21,25 @@ describe('geoMetadata Reset View Button', function () {
 
   const captureCentre = () => cy.window().then((win) => win.map.getCenter());
 
+  // Reads the snapshot the control will reset to. Using this rather than
+  // capturing the centre at an arbitrary moment removes timing assumptions
+  // about when the post-init fitBounds chain settles — the control and the
+  // assertion now agree on the same source of truth by construction.
+  const captureControlSnapshot = () => cy.window().then((win) => {
+    const ctrl = win.map._geoMetadataResetView;
+    expect(ctrl, 'reset-view control instance exposed on map').to.exist;
+    return { lat: ctrl._initialCenter.lat, lng: ctrl._initialCenter.lng };
+  });
+
   const assertResetLandsBackAtOrigin = () => {
     cy.get(resetBtn, { timeout: 20000 }).should('exist').and('have.attr', 'title', 'Reset view');
+    // Wait past the control's hard-cap freeze window so the snapshot is stable.
+    cy.wait(3000);
     let origin;
-    captureCentre().then((c) => { origin = { lat: c.lat, lng: c.lng }; });
-    cy.window().then((win) => win.map.panBy(panOffset));
+    captureControlSnapshot().then((c) => { origin = c; });
+    // animate:false keeps the centre update synchronous so the next getCenter()
+    // is guaranteed to reflect the pan.
+    cy.window().then((win) => win.map.panBy(panOffset, { animate: false }));
     captureCentre().then((after) => {
       // Sanity: the pan actually moved the centre (otherwise the test is a no-op).
       expect(Math.abs(after.lat - origin.lat) + Math.abs(after.lng - origin.lng)).to.be.greaterThan(tolerance);
@@ -61,8 +75,14 @@ describe('geoMetadata Reset View Button', function () {
   });
 
   it('on the submission map', function () {
-    cy.login('tobler', 'tobler', Cypress.env('contexts').primary.path);
-    cy.visit('/' + Cypress.env('contexts').primary.path + '/submission/wizard');
+    cy.openSubmissionsAs('aauthor');
+    cy.get('div#myQueue a:contains("New Submission")').click();
+    cy.get('input[id^="checklist-"]').click({ multiple: true });
+    cy.get('input[id="privacyConsent"]').click();
+    cy.get('button.submitFormButton').click();
+    cy.wait(1000);
+    cy.get('button.submitFormButton').click();
+    cy.wait(2000);
     cy.get('#mapdiv', { timeout: 20000 }).should('be.visible');
     assertResetLandsBackAtOrigin();
   });

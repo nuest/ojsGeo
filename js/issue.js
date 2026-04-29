@@ -125,7 +125,7 @@ function geoMetadata_openArticlePopup(articleId) {
     var layers = articleLayersMap.get(articleId) || [];
     if (!layers.length) return;
     var mapEl = document.getElementById('mapdiv');
-    if (mapEl && mapEl.scrollIntoView) mapEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (mapEl && mapEl.scrollIntoView) mapEl.scrollIntoView({ block: 'center' });
     if (geoMetadata_overlapManager) {
         geoMetadata_overlapManager.openArticle(articleId);
     } else {
@@ -228,17 +228,54 @@ $(function () {
                 let input = document.querySelector('.geoMetadata_data.articleId[value="' + articleId + '"]');
                 let link  = input ? geoMetadata_injectIcon(input) : null;
                 if (link) {
+                    // First on-geometry latlng for the article — used to fan
+                    // out the icon-hover highlight to overlapping articles via
+                    // the map mousemove path (the bounds centre would miss for
+                    // irregular polylines / non-convex polygons).
+                    var firstLatLngOf = function (latlngs) {
+                        while (Array.isArray(latlngs) && latlngs.length) {
+                            if (latlngs[0] && typeof latlngs[0].lat === 'number') return latlngs[0];
+                            latlngs = latlngs[0];
+                        }
+                        return null;
+                    };
+                    var centroidFor = function () {
+                        var layers = articleLayersMap.get(articleId) || [];
+                        for (var i = 0; i < layers.length; i++) {
+                            var layer = layers[i];
+                            if (layer.getLatLng) return layer.getLatLng();
+                            if (layer.getLatLngs) {
+                                var ll = firstLatLngOf(layer.getLatLngs());
+                                if (ll) return ll;
+                            }
+                        }
+                        return null;
+                    };
                     link.addEventListener('mouseenter', () => {
-                        if (geoMetadata_enableSyncedHighlight) highlightArticleFeatures(articleId);
+                        highlightArticleFeatures(articleId);
+                        highlightArticle(articleId);
+                        if (geoMetadata_enableSyncedHighlight) {
+                            var ll = centroidFor();
+                            if (ll) map.fire('mousemove', { latlng: ll });
+                        }
                     });
                     link.addEventListener('mouseleave', () => {
-                        if (geoMetadata_enableSyncedHighlight) resetHighlightArticleFeatures(articleId);
+                        resetHighlightArticleFeatures(articleId);
+                        resetHighlightArticle(articleId);
+                        if (geoMetadata_enableSyncedHighlight) map.fire('mouseout');
                     });
                     link.addEventListener('focus', () => {
-                        if (geoMetadata_enableSyncedHighlight) highlightArticleFeatures(articleId);
+                        highlightArticleFeatures(articleId);
+                        highlightArticle(articleId);
+                        if (geoMetadata_enableSyncedHighlight) {
+                            var ll = centroidFor();
+                            if (ll) map.fire('mousemove', { latlng: ll });
+                        }
                     });
                     link.addEventListener('blur', () => {
-                        if (geoMetadata_enableSyncedHighlight) resetHighlightArticleFeatures(articleId);
+                        resetHighlightArticleFeatures(articleId);
+                        resetHighlightArticle(articleId);
+                        if (geoMetadata_enableSyncedHighlight) map.fire('mouseout');
                     });
                     link.addEventListener('click', (e) => {
                         e.preventDefault();

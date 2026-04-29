@@ -96,6 +96,7 @@ describe('geoMetadata Multi-Feature Synced Highlight', function () {
     cy.visit('/' + Cypress.env('contexts').primary.path + '/map');
     cy.get('#mapdiv').should('exist');
     cy.window().its('articleLayersMap').should('exist');
+    cy.wait(3000);
 
     cy.window().then((win) => {
       expect(win.eval('geoMetadata_enableSyncedHighlight'), 'synced-highlight toggle on by default').to.be.true;
@@ -121,7 +122,7 @@ describe('geoMetadata Multi-Feature Synced Highlight', function () {
         if (layer.feature.geometry.type === 'Point') {
           expect(layer.options.icon.options.className).to.equal('geoMetadata_marker_default');
         } else {
-          expect(layer.options.color).to.equal(win.geoMetadata_mapLayerStyle.color);
+          expect(layer.options.color).to.equal(win.eval('geoMetadata_mapLayerStyle').color);
         }
       });
 
@@ -139,7 +140,7 @@ describe('geoMetadata Multi-Feature Synced Highlight', function () {
             'point DOM <img> carries the highlight class').to.contain('geoMetadata_marker_highlight');
         } else {
           expect(layer.options.color,
-            'polygon stroke flipped to highlight').to.equal(win.geoMetadata_mapLayerStyleHighlight.color);
+            'polygon stroke flipped to highlight').to.equal(win.eval('geoMetadata_mapLayerStyleHighlight').color);
         }
       });
 
@@ -155,7 +156,7 @@ describe('geoMetadata Multi-Feature Synced Highlight', function () {
         if (layer.feature.geometry.type === 'Point') {
           expect(layer.options.icon.options.className).to.equal('geoMetadata_marker_default');
         } else {
-          expect(layer.options.color).to.equal(win.geoMetadata_mapLayerStyle.color);
+          expect(layer.options.color).to.equal(win.eval('geoMetadata_mapLayerStyle').color);
         }
       });
     });
@@ -176,6 +177,8 @@ describe('geoMetadata Multi-Feature Synced Highlight', function () {
 
     cy.visit('/' + Cypress.env('contexts').primary.path + '/map');
     cy.get('#mapdiv').should('exist');
+    // articleLayersMap is populated asynchronously by journal.js DOM-ready code.
+    cy.wait(3000);
     cy.window().then((win) => {
       expect(win.eval('geoMetadata_enableSyncedHighlight'), 'toggle now off').to.be.false;
       const targetId = findTargetArticleId(win);

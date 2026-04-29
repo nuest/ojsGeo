@@ -33,6 +33,14 @@ const visitVol1No2 = () => {
   cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
   cy.get('#mapdiv').should('exist');
   cy.window().its('map').should('exist');
+  // articleLayersMap is populated asynchronously after issue.js attaches the
+  // article layers; firing mousemove before it settles produces zero hits.
+  cy.wait(3000);
+  // Pin a zoom where the test latlngs are pixel-distinct. Hit-testing is in
+  // pixel space (matches the visible stroke / icon footprint), so at world-fit
+  // zoom an off-line latlng can fall inside the visible stroke of a far-away
+  // line and produce a false positive.
+  cy.window().then((win) => win.map.setView(win.L.latLng(52.4, 8.7), 8, { animate: false }));
 };
 
 describe('geoMetadata Overlap Hover Highlight - issue map', function () {
