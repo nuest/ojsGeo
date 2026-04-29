@@ -9,11 +9,18 @@
  * - admin-unit bbox overlay emits two rectangles when east<west
  * - JS normalizeLng keeps raw Leaflet out-of-range lngs in (-180, 180]
  * - UI note alerts users to the "flipped preview until save" quirk
+ *
+ * The Wellington fixture is DB-seeded (the splitter is idempotent on already-
+ * split input, so the seed shape matches what the editorial path would
+ * produce). Tests 4–6 still need a live submission form, so they walk the
+ * wizard.
  */
 
-// testIsolation off: the Wellington submission published in test 1 is the
-// fixture that subsequent tests depend on.
+// testIsolation off: the fixture seeded in `before` is the input for tests 1–3.
+// Tests 4–6 open a fresh submission form (independent of the fixture).
 describe('geoMetadata Antimeridian', { testIsolation: false }, function () {
+
+  const primaryPath = Cypress.env('contexts').primary.path;
 
   const NZ_ADMIN_UNITS = [
     {
@@ -57,42 +64,18 @@ describe('geoMetadata Antimeridian', { testIsolation: false }, function () {
     }
   };
 
-  const submission = {
-    id: 0,
-    prefix: '',
-    title: 'Wellington to Chatham Islands ferry across the dateline',
-    subtitle: 'From Wellington Harbour to Waitangi',
-    abstract: 'A NZ inter-island route from Wellington Harbour to the Chatham Islands; the path crosses the International Date Line.',
-    timePeriod: '2023-01-01 - 2023-12-31',
-    issue: '1',
-    directInject: {
-      spatial: WELLINGTON_SPATIAL,
-      adminUnit: NZ_ADMIN_UNITS
-    }
-  };
-
-  before(function () {
-    cy.login('aauthor');
-    cy.get('a:contains("aauthor")').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
-    cy.createSubmissionAndPublish(submission);
-  });
+  // Wellington fixture is seeded by 12-primary-fixtures.cy.js. NZ_ADMIN_UNITS
+  // and WELLINGTON_SPATIAL are kept here as the test-2 reference data.
 
   it('Stores an antimeridian-crossing geometry as a single MultiLineString feature', function () {
-    // The directInject above passed WELLINGTON_SPATIAL through editPublication →
-    // AntimeridianSplitter::splitGeoJson → setData. Verify the stored form by
-    // opening the publication tab and reading the textarea. The splitter is
-    // idempotent, so the already-split input round-trips unchanged.
-    cy.logout();
-    cy.login('eeditor');
-    // Land on the journal homepage first so the user menu is reliably rendered
-    // (post-login redirect from a deep editorial URL can leave us on a page
-    // that hydrates the menu slowly).
-    cy.visit('/');
-    cy.get('a:contains("eeditor"):visible', { timeout: 20000 }).click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
-    // :visible guards against hidden dashboard tabs' View links.
-    cy.get('a:contains("View"):visible').first().click();
+    cy.login('eeditor', undefined, primaryPath);
+    cy.visit('index.php/' + primaryPath + '/submissions');
+    // Wellington is DB-seeded by 12-primary-fixtures (status=PUBLISHED), so
+    // it lives in Archives, not the editor's My-Queue / Active list. Pick
+    // the row by title.
+    cy.get('button[id="archive-button"]').click();
+    cy.contains('.listPanel__item--submission', 'Wellington to Chatham Islands ferry across the dateline')
+      .find('a:contains("View")').first().click({ force: true });
     cy.get('div[role="tablist"]').find('button:contains("Publication")').click();
     cy.get('button[id^="timeLocation"]').click();
 
@@ -110,10 +93,10 @@ describe('geoMetadata Antimeridian', { testIsolation: false }, function () {
   });
 
   it('Renders a MultiLineString across the dateline on the published article page', function () {
-    cy.visit('/');
+    cy.visit('index.php/' + primaryPath + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
-    cy.get('a:contains("Wellington to Chatham Islands ferry across the dateline")').last().click();
+    cy.openArticleByTitle('Wellington to Chatham Islands ferry across the dateline');
 
     cy.get('.pkp_structure_main').should('contain', 'Time and Location');
     cy.get('#mapdiv').should('exist');
@@ -135,9 +118,8 @@ describe('geoMetadata Antimeridian', { testIsolation: false }, function () {
 
   it('Shows the UI note about antimeridian splitting on the submission form', function () {
     cy.logout();
-    cy.login('aauthor');
-    cy.get('a:contains("aauthor")').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.login('aauthor', undefined, primaryPath);
+    cy.visit('index.php/' + primaryPath + '/submissions');
 
     cy.get('div#myQueue a:contains("New Submission")').click();
     cy.get('input[id^="checklist-"]').click({ multiple: true });

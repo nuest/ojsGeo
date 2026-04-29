@@ -17,9 +17,7 @@ describe('geoMetadata Admin-Unit Empty State Roundtrip', function () {
     // `a:contains("Submissions")` isn't reliably visible on the admin landing
     // page and the first "View" link can sit inside a hidden dashboard tab.
     cy.logout();
-    cy.login('eeditor');
-    cy.get('a:contains("eeditor"):visible', { timeout: 20000 }).click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('eeditor');
     cy.get('a:contains("View"):visible').first().click();
     cy.get('div[role="tablist"]').find('button:contains("Publication")').click();
     cy.get('button[id^="timeLocation"]').click();
@@ -43,7 +41,11 @@ describe('geoMetadata Admin-Unit Empty State Roundtrip', function () {
     cy.get('textarea[name="geoMetadata::administrativeUnit"]').invoke('val').should('eq', '[]');
 
     // Save the publication tab (raw-data form's Save lives inside the pkp-form).
-    cy.get('#timeLocation .pkpButton--isPrimary:contains("Save")').last().click({ force: true });
+    cy.get('div#timeLocation button[label="Save"]').click();
+    cy.wait(500);
+    cy.intercept({ method: 'POST', url: '*', times: 1 }).as('post60');
+    cy.get('div#timeLocation button[label="Save"]').click();
+    cy.wait('@post60').its('response.statusCode').should('eq', 200);
     cy.wait(2000);
 
     // Reload and verify persistence.

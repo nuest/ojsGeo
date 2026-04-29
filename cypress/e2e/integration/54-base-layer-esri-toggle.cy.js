@@ -36,10 +36,10 @@ describe('geoMetadata Esri Base Layer Toggle', function () {
   };
 
   const visitHanover = () => {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
-    cy.get('a:contains("Hanover is nice")').last().click();
+    cy.openArticleByTitle('Hanover is nice');
   };
 
   it('setting exists in the Third-party services section and defaults to checked', function () {

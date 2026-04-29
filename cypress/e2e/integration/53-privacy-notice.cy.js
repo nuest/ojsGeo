@@ -22,7 +22,7 @@ describe('geoMetadata Map Privacy Notice', function () {
   // article by title (titles are not translated).
   const visitHanover = () => {
     cy.visit('/' + Cypress.env('contexts').primary.path + '/issue/view/1');
-    cy.get('a:contains("Hanover is nice")').last().click();
+    cy.openArticleByTitle('Hanover is nice');
   };
 
   it('shows the English privacy notice under the article map by default', function () {

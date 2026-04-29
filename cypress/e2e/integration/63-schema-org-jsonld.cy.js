@@ -19,10 +19,10 @@ const SOURCE_ARTICLE = 'articleSpatialExtent';
 const SOURCE_ADMIN   = 'administrativeUnitBoundingBox';
 
 const visitArticle = (issueLabel, title) => {
-  cy.visit('/');
+  cy.visit('/' + Cypress.env('contexts').primary.path + '/');
   cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
   cy.get('a:contains("' + issueLabel + '")').click();
-  cy.get('a:contains("' + title + '")').last().click();
+  cy.openArticleByTitle('' + title + '');
 };
 
 const visitVol1No2 = (title) => visitArticle('Vol. 1 No. 2 (2022)', title);

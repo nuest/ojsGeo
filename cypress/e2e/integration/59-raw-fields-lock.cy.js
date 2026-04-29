@@ -55,9 +55,7 @@ describe('geoMetadata Raw Fields Lock', function () {
     // the admin session setToggle() leaves us in; 20s timeout tolerates slow
     // post-login hydration on first-navigation.
     cy.logout();
-    cy.login('eeditor');
-    cy.get('a:contains("eeditor"):visible', { timeout: 20000 }).click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('eeditor');
     cy.get('a:contains("View")').first().click();
     cy.get('div[role="tablist"]').find('button:contains("Publication")').click();
     cy.get('button[id^="timeLocation"]').click();

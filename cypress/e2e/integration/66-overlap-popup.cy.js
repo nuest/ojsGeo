@@ -19,7 +19,7 @@ const SAXONY_INSIDE_ONLY = { lng: 8.50,  lat: 52.50 };  // inside Lower Saxony p
 const FAR_AWAY           = { lng: -30,   lat: -30   };  // South Atlantic, no seeded geometry
 
 const visitVol1No2 = () => {
-  cy.visit('/');
+  cy.visit('/' + Cypress.env('contexts').primary.path + '/');
   cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
   cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
   cy.get('#mapdiv').should('exist');

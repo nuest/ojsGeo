@@ -11,16 +11,16 @@
  * map-level mousemove handler that calls geoMetadata_findOverlappingArticles
  * on every move and diffs against a Set of currently-highlighted articleIds.
  *
- * To exercise the >2-hit branch deterministically, this spec publishes a
- * third overlapping article ('Hanover micro') whose small polygon is nested
- * inside the Lower Saxony details polygon (spec 38) and contains the start
- * of the Hanover LineString endpoint (spec 21). At HANOVER_LINE_START the
- * issue-1 map then has three articles whose geometries all contain that
- * point, so a single mousemove there must light up three TOC entries.
+ * To exercise the >2-hit branch deterministically, three overlapping
+ * articles must exist on the issue map: 'Hanover is nice' (spec 21
+ * LineString), 'Lower Saxony details' (spec 12 Polygon), and 'Hanover micro'
+ * (spec 12 small Polygon). All three contain HANOVER_LINE_START, so a single
+ * mousemove there must light up three TOC entries.
  *
  * Depends on:
+ *   - spec 12 (Lower Saxony details — Polygon [8.0–9.0, 52.0–52.7])
+ *   - spec 12 (Hanover micro — Polygon [8.40–8.50, 52.30–52.45])
  *   - spec 21 (Hanover is nice — LineString [[8.43, 52.37], [9.73, 52.40]])
- *   - spec 38 (Lower Saxony details — Polygon [8.0–9.0, 52.0–52.7])
  */
 
 const HANOVER_LINE_START = { lng: 8.43,  lat: 52.37 };
@@ -28,61 +28,12 @@ const SAXONY_ONLY        = { lng: 8.20,  lat: 52.10 };  // inside Lower Saxony o
 const FAR_AWAY           = { lng: -30,   lat: -30   };
 
 const visitVol1No2 = () => {
-  cy.visit('/');
+  cy.visit('/' + Cypress.env('contexts').primary.path + '/');
   cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
   cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
   cy.get('#mapdiv').should('exist');
   cy.window().its('map').should('exist');
 };
-
-describe('geoMetadata Overlap Hover Highlight - fixture', function () {
-
-  const submission = {
-    id: 0,
-    prefix: '',
-    title: 'Hanover micro',
-    subtitle: 'A small polygon nested inside Lower Saxony details and covering the Hanover LineString start',
-    abstract: 'Small polygon used to exercise the 3-way overlap branch of the map-level hover-highlight handler.',
-    issue: '1',
-    directInject: {
-      spatial: {
-        type: 'FeatureCollection',
-        features: [{
-          type: 'Feature',
-          properties: { provenance: { description: 'Direct test injection (68-overlap-hover.cy.js)', id: 99 } },
-          geometry: {
-            type: 'Polygon',
-            coordinates: [[
-              [8.40, 52.30],
-              [8.50, 52.30],
-              [8.50, 52.45],
-              [8.40, 52.45],
-              [8.40, 52.30]
-            ]]
-          }
-        }],
-        administrativeUnits: [],
-        temporalProperties: {
-          timePeriods: [],
-          provenance: { description: 'not available', id: 'not available' }
-        }
-      },
-      adminUnit: []
-    }
-  };
-
-  it('Publishes the Hanover micro fixture article', function () {
-    cy.login('aauthor');
-    cy.get('a:contains("aauthor")').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
-    cy.createSubmissionAndPublish(submission);
-
-    cy.visit('/');
-    cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
-    cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
-    cy.get('.pkp_structure_main').should('contain', 'Hanover micro');
-  });
-});
 
 describe('geoMetadata Overlap Hover Highlight - issue map', function () {
 

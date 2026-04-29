@@ -33,14 +33,12 @@ describe('geoMetadata Search', function () {
   });
 
   it('Finds a submission in the text-based search via the location name in the coverage field', function () {
-    cy.login('aauthor');
-    cy.get('a:contains("aauthor")').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('aauthor');
 
     cy.createSubmissionAndPublish(submission);
 
     // go to journal index and check if there is a map
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Search")').click();
     
     cy.get('input#query').type('Sweden');

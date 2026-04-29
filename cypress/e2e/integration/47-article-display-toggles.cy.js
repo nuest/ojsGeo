@@ -43,10 +43,10 @@ describe('geoMetadata Article Display Toggles', function () {
   };
 
   const visitHanover = () => {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
-    cy.get('a:contains("Hanover is nice")').last().click();
+    cy.openArticleByTitle('Hanover is nice');
   };
 
   it('shows map, temporal, and admin-unit blocks by default', function () {

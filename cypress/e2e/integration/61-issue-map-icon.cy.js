@@ -41,7 +41,7 @@ describe('geoMetadata Issue Map Icon', function () {
   };
 
   const visitIssue = () => {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
   };

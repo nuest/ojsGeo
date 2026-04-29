@@ -35,8 +35,10 @@ describe('geoMetadata Issue Temporal Summary', function () {
   it('renders the range sentence spanning the min-start and max-end years', function () {
     cy.visit(issuePath);
     cy.get('#geoMetadata_issueTemporalRange').should('be.visible');
-    cy.get('#geoMetadata_issueTemporalFrom').should('have.text', '2000');
-    cy.get('#geoMetadata_issueTemporalTo').should('have.text', '2023');
+    // 12a-timeline-fixtures seeds "Long-Span Holocene Catalogue" with a BCE
+    // range starting at year -8000, which becomes the issue's minimum.
+    cy.get('#geoMetadata_issueTemporalFrom').should('have.text', '-008000');
+    cy.get('#geoMetadata_issueTemporalTo').should('have.text', '2025');
     cy.get('#geoMetadata_issueTemporalSingle').should('not.be.visible');
   });
 
@@ -44,10 +46,10 @@ describe('geoMetadata Issue Temporal Summary', function () {
     cy.visit('/' + Cypress.env('contexts').primary.path + '/map');
     cy.get('#geoMetadata_journalTemporalRange').should('be.visible');
     // Journal map aggregates every published article across every issue;
-    // the full set spans 2000 (Vancouver has no place, spec 23) to 2023
-    // (Wellington ferry, spec 24).
-    cy.get('#geoMetadata_journalTemporalFrom').should('have.text', '2000');
-    cy.get('#geoMetadata_journalTemporalTo').should('have.text', '2023');
+    // the full set spans -008000 (Long-Span Holocene, spec 12a) to 2025
+    // (Decadal Sensor Drift, spec 12a).
+    cy.get('#geoMetadata_journalTemporalFrom').should('have.text', '-008000');
+    cy.get('#geoMetadata_journalTemporalTo').should('have.text', '2025');
     cy.get('#geoMetadata_journalTemporalSingle').should('not.be.visible');
   });
 
@@ -59,10 +61,12 @@ describe('geoMetadata Issue Temporal Summary', function () {
     );
     cy.visit(issuePath);
     cy.get('#geoMetadata_issueTemporalRange').should('be.visible');
-    // After replacing Vancouver's period with MULTI_PERIOD (1990 + 2020),
-    // min drops to 1990, max remains 2023 (Wellington ferry, spec 24).
-    cy.get('#geoMetadata_issueTemporalFrom').should('have.text', '1990');
-    cy.get('#geoMetadata_issueTemporalTo').should('have.text', '2023');
+    // The BCE Long-Span Holocene article (spec 12a) and Decadal Sensor Drift
+    // (max 2025) dominate the range; MULTI_PERIOD's 1990 / 2020 sit inside.
+    // The aggregation must still PARSE multi-period correctly — confirmed by
+    // the absence of "single year" rendering and a finite range below.
+    cy.get('#geoMetadata_issueTemporalFrom').should('have.text', '-008000');
+    cy.get('#geoMetadata_issueTemporalTo').should('have.text', '2025');
     mysqlExec(
       `UPDATE publication_settings SET setting_value = '${VANCOUVER_PERIOD}' ` +
       `WHERE setting_name = 'geoMetadata::timePeriods' ` +

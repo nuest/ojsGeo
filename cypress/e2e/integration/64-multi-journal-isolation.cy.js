@@ -63,6 +63,11 @@ describe('geoMetadata Multi-journal Isolation', function () {
   };
 
   it('toggling showJournalMap off in primary does not affect secondary', function () {
+    // The /<journal>/map route is registered when showJournalMap OR
+    // showJournalTimeline is enabled (both render on the same page). Disable
+    // both for the 404 assertion to hold; restore both at the end.
+    openSettings(primary);
+    setToggleAndSave('geoMetadata_showJournalTimeline', false);
     openSettings(primary);
     setToggleAndSave('geoMetadata_showJournalMap', false);
 
@@ -77,6 +82,8 @@ describe('geoMetadata Multi-journal Isolation', function () {
 
     openSettings(primary);
     setToggleAndSave('geoMetadata_showJournalMap', true);
+    openSettings(primary);
+    setToggleAndSave('geoMetadata_showJournalTimeline', true);
     cy.request({ url: '/' + primary + '/map', failOnStatusCode: false })
       .its('status').should('eq', 200);
   });

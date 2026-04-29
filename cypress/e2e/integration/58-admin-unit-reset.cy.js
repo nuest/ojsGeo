@@ -16,9 +16,7 @@ describe('geoMetadata admin-unit reset on submission form', { testIsolation: fal
   const NOTICE = '.geoMetadata-manual-admin-unit-notice';
 
   before(function () {
-    cy.login('aauthor');
-    cy.get('a:contains("aauthor")').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('aauthor');
 
     cy.get('div#myQueue a:contains("New Submission")').click();
     cy.get('input[id^="checklist-"]').click({ multiple: true });
@@ -155,15 +153,11 @@ describe('geoMetadata admin-unit reset on publication tab', { testIsolation: fal
     // page can stay on the previous view long enough that the user-menu link
     // fails to appear.
     cy.logout();
-    cy.login('aauthor');
-    cy.get('a:contains("aauthor")').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('aauthor');
     cy.createSubmission(submission);
     cy.logout();
 
-    cy.login('eeditor');
-    cy.get('a:contains("eeditor"):visible').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('eeditor');
     cy.get('a:contains("View")').first().click();
     cy.get('div[role="tablist"]').find('button:contains("Publication")').click();
     cy.get('button[id^="timeLocation"]').click();

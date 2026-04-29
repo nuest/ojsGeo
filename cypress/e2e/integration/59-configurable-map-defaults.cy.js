@@ -87,23 +87,23 @@ describe('geoMetadata Configurable Map Defaults', function () {
   // lists issues, not articles, so we must open the issue before clicking the
   // article title.
   const visitSaxony = () => {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
-    cy.get('a:contains("Atlas of Saxony")').last().click();
+    cy.openArticleByTitle('Atlas of Saxony');
   };
 
   const visitCurrentIssue = () => {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
   };
 
   const visitArticle = (title) => {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
-    cy.get('a:contains("' + title + '")').last().click();
+    cy.openArticleByTitle('' + title + '');
   };
 
   // Reset every appearance-related plugin setting straight via MySQL, so tests
@@ -197,9 +197,7 @@ describe('geoMetadata Configurable Map Defaults', function () {
     // Submission" button, not a direct /submission/wizard URL. Use aauthor
     // (spec 10 registers this user); tobler only exists in the testData dump.
     cy.logout();
-    cy.login('aauthor');
-    cy.get('a:contains("aauthor"):visible', { timeout: 20000 }).click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('aauthor');
     cy.get('div#myQueue a:contains("New Submission")').click();
     cy.get('input[id^="checklist-"]').click({ multiple: true });
     cy.get('input[id="privacyConsent"]').click();

@@ -100,6 +100,49 @@ Cypress.Commands.add('login', (username, password, context) => {
     });
 });
 
+// Click the article-title link on a journal/issue TOC for the given article
+// title, avoiding the issue-map icon link that shares the same text. Issue
+// #158 added an `<a class="geoMetadata_issue_maplink">` next to each article
+// whose click handler is hijacked by the multi-article popup picker — so a
+// naïve `cy.get('a:contains(title)').last().click()` ends up opening the map
+// popup instead of navigating to the article page.
+Cypress.Commands.add('openArticleByTitle', (title) => {
+    cy.get('a:contains("' + title + '"):not(.geoMetadata_issue_maplink)').first().click();
+});
+
+// OJS 3.3.0-16 (PHP-8.1 image) regression: Accept-and-Skip-Review forwards
+// the manuscript into the submission-files grid only — the Final Draft Files
+// / Copyedited grids on the Copyediting stage stay empty, so the
+// Send-to-Production decision modal has nothing to forward and its
+// `input[id^="select"]` checkbox would never appear. This helper opens the
+// Final Draft Files "Upload/Select Files" modal, ticks the all-stages
+// checkbox to surface the original submission file, selects it, and saves —
+// after which the Send-to-Production modal can pick it up.
+//
+// Caller must already be on the workflow page at stage Copyediting (stage 4).
+Cypress.Commands.add('promoteFileToFinalDraft', () => {
+    cy.get('[id^="component-grid-files-final-finaldraftfilesgrid-selectFiles-button"]').click();
+    cy.get('.pkp_modal_panel input[name="allStages"]').check();
+    cy.wait(1500); // grid reloads via AJAX with files from all stages
+    cy.get('.pkp_modal_panel input[name="selectedFiles[]"]').first().check();
+    cy.get('.pkp_modal_panel button.submitFormButton').click();
+    cy.wait(2000);
+});
+
+// Login + journey to the journal-context submissions dashboard, in one call.
+//
+// The naive pattern of `cy.login('eeditor') ; click user-menu ; click Dashboard`
+// breaks when the user has roles on more than one journal: site-level login
+// lands on /index/index where the user-menu "Dashboard" link points at
+// /index/user/profile (not a journal dashboard). Logging in at the journal
+// context routes straight to /<ctx>/submissions, which is what every spec
+// that drove the broken pattern actually wants.
+Cypress.Commands.add('openSubmissionsAs', (username, contextKey = 'primary') => {
+    const ctxPath = Cypress.env('contexts')[contextKey].path;
+    cy.login(username, undefined, ctxPath);
+    cy.visit('index.php/' + ctxPath + '/submissions');
+});
+
 Cypress.Commands.add('logout', function () {
     cy.visit('index.php/index/login/signOut');
 });
@@ -169,13 +212,16 @@ Cypress.Commands.add('createSubmissionAndPublish', (data, contextKey = 'primary'
     // /index/index, breaking the user-menu Dashboard click chain.
     cy.login('eeditor', undefined, ctxPath);
     cy.visit('index.php/' + ctxPath + '/submissions');
-    cy.get('a:contains("View")').first().click();
+    cy.get('a:contains("View"):visible').first().click();
     cy.get('a[id^="accept-button"]').click();
     cy.get('input[id^="skipEmail-skip"]').click();
     cy.get('form[id="promote"] button:contains("Next:")').click();
     cy.get('input[id^="select"]').click();
     cy.get('button:contains("Record Editorial Decision")').click();
     cy.wait(2000);
+
+    cy.promoteFileToFinalDraft();
+
     cy.get('a:contains("Send To Production")').click();
     cy.get('input[id="skipEmail-skip"]').click();
     cy.get('form[id="promote"] button:contains("Next:")').click();
@@ -194,7 +240,17 @@ Cypress.Commands.add('createSubmissionAndPublish', (data, contextKey = 'primary'
     cy.get('button:contains("Publish"), div[class="pkpFormPages"] button:contains("Schedule For Publication")').click();
 });
 
-Cypress.Commands.add('createSubmission', (data, context) => {
+Cypress.Commands.add('createSubmission', (data, contextKey = 'primary') => {
+    // Author-side login + journal-context navigation. Site-level login
+    // (cy.login('aauthor') with default 'index' context) lands on /index/index,
+    // where the user-menu "Dashboard" link points to /index/user/profile —
+    // not the journal's submissions dashboard. Logging in at the journal
+    // context routes straight to /<ctx>/submissions, which is what the
+    // "Make a New Submission" link below assumes.
+    const ctxPath = Cypress.env('contexts')[contextKey].path;
+    cy.login('aauthor', undefined, ctxPath);
+    cy.visit('index.php/' + ctxPath + '/submissions');
+
     // Initialize some data defaults before starting
     if (data.type == 'editedVolume' && !('files' in data)) {
         data.files = [];

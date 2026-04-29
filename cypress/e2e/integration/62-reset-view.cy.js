@@ -38,7 +38,7 @@ describe('geoMetadata Reset View Button', function () {
   };
 
   it('on the issue page', function () {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
     cy.get('#mapdiv', { timeout: 20000 }).should('be.visible');
@@ -46,10 +46,10 @@ describe('geoMetadata Reset View Button', function () {
   });
 
   it('on the article page', function () {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
-    cy.get('a:contains("Hanover is nice")').last().click();
+    cy.openArticleByTitle('Hanover is nice');
     cy.get('#mapdiv', { timeout: 20000 }).should('be.visible');
     assertResetLandsBackAtOrigin();
   });

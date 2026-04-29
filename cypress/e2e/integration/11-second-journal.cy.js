@@ -43,15 +43,18 @@ describe('geoMetadata Second Journal', function () {
     cy.createIssues('secondary');
   });
 
-  it('Enrolls eeditor as Manager and aauthor as Author on the secondary', function () {
+  it('Enrolls eeditor as Manager on the secondary', function () {
     // 16 = ROLE_ID_MANAGER for eeditor (mirrors the editorial authority that
     // lets cy.createSubmissionAndPublish drive the publish flow as eeditor).
-    // 65536 = ROLE_ID_AUTHOR for aauthor so the author can submit on the
-    // secondary too — aauthor was registered at site level in 10-installation
-    // and may not have Author on the new journal even if the default Author
-    // group permits self-registration.
+    //
+    // aauthor is intentionally NOT enrolled on the secondary: every primary-
+    // journal spec uses `cy.login('aauthor') + Dashboard click`, which lands
+    // on the site dashboard (not a journal dashboard) when aauthor has roles
+    // on >1 journal — breaking the "Make a New Submission" navigation chain.
+    // The secondary's articles are seeded via DB write below, which doesn't
+    // need an enrolled author user, so aauthor staying single-journal is the
+    // simplest way to keep the multi-journal cypress run stable.
     cy.enrollUserInContext('secondary', 'eeditor', 16);
-    cy.enrollUserInContext('secondary', 'aauthor', 65536);
   });
 
   it('Seeds three published articles via direct DB write', function () {

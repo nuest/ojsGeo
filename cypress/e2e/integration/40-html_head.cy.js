@@ -21,10 +21,10 @@ var metaContains = (name, content, scheme) => {
 describe('geoMetadata Geospatial Metadata in HTML Head', function () {
 
   beforeEach(() => {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
-    cy.get('a:contains("Hanover is nice")').last().click();
+    cy.openArticleByTitle('Hanover is nice');
   });
 
   it('has DC.Coverage with correct text string', function () {
@@ -140,10 +140,10 @@ describe('geoMetadata Geospatial Metadata in HTML Head', function () {
 describe('geoMetadata Temporal Metadata in HTML Head', function () {
 
   beforeEach(() => {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
-    cy.get('a:contains("Hanover is nice")').last().click();
+    cy.openArticleByTitle('Hanover is nice');
   });
 
   it('has DC.temporal with correct scheme and content', function () {
@@ -162,10 +162,10 @@ describe('geoMetadata HTML Head - Article Without Time Period (issue #106)', fun
   // spatial data present, no temporal range entered.
 
   beforeEach(() => {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
-    cy.get('a:contains("Timeless Isle")').last().click();
+    cy.openArticleByTitle('Timeless Isle');
   });
 
   it('DC.SpatialCoverage GeoJSON has empty timePeriods and "not available" provenance', function () {
@@ -200,10 +200,10 @@ describe('geoMetadata HTML Head - Atlas of Saxony (exact centroid values, issues
     '<!-- geoMetadata: next meta tags based on centroid of most precise admin unit bbox (&quot;Saxony&quot;) -->';
 
   beforeEach(() => {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
-    cy.get('a:contains("Atlas of Saxony")').last().click();
+    cy.openArticleByTitle('Atlas of Saxony');
   });
 
   it('has ICBM exactly "' + EXPECTED_ICBM + '" (fallback: admin-unit bbox centre) (issue #87)', function () {

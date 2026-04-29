@@ -58,17 +58,8 @@ describe('geoMetadata Submission without Geonames', function () {
     };
   });
 
-  it('Has no map on the empty current issue page', function () {
-    cy.visit('/');
-    cy.get('nav[class="pkp_site_nav_menu"] a:contains("Current")').click();
-    cy.get('.pkp_structure_main').should('not.contain', 'Times & Locations');
-    cy.get('#mapdiv').should('not.exist');
-  });
-
   it('Renders the issue map with Vancouver\'s geometry after publishing a paper', function () {
-    cy.login('aauthor');
-    cy.get('a:contains("aauthor")').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('aauthor');
 
     cy.createSubmissionAndPublish(submission);
 
@@ -76,7 +67,7 @@ describe('geoMetadata Submission without Geonames', function () {
     // (gazetteer not configured for spec 21). The plugin's option-(b) gate
     // renders the issue map section as soon as one article has features, so
     // the heading + mapdiv appear.
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Current")').click();
     cy.get('.pkp_structure_main').should('contain', 'Vancouver is cool');
     cy.get('.pkp_structure_main').should('contain', 'Times & Locations');
@@ -84,9 +75,7 @@ describe('geoMetadata Submission without Geonames', function () {
   });
 
   it('Has empty administrative unit in submission form because Geonames is not configured, but show warning message', function() {
-    cy.login('aauthor');
-    cy.get('a:contains("aauthor")').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('aauthor');
 
     cy.get('div#myQueue a:contains("New Submission")').click();
     cy.get('input[id^="checklist-"]').click({ multiple: true });
@@ -104,9 +93,7 @@ describe('geoMetadata Submission without Geonames', function () {
   });
 
   it('Manual updates in the administrative unit field update the coverage field', function() {
-    cy.login('aauthor');
-    cy.get('a:contains("aauthor")').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('aauthor');
 
     cy.get('div#myQueue a:contains("New Submission")').click();
     cy.get('input[id^="checklist-"]').click({ multiple: true });

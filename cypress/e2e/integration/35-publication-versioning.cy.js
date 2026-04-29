@@ -85,9 +85,7 @@ describe('geoMetadata Publication Versioning', { testIsolation: false }, functio
   });
 
   it('Author submits and editor publishes v1', function () {
-    cy.login('aauthor');
-    cy.get('a:contains("aauthor")').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('aauthor');
     cy.createSubmissionAndPublish(submission);
     cy.wait(2000);
     cy.logout();
@@ -104,9 +102,7 @@ describe('geoMetadata Publication Versioning', { testIsolation: false }, functio
   });
 
   it('Editor opens the publication tab and creates a new version', function () {
-    cy.login('eeditor');
-    cy.get('a:contains("eeditor"):visible').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('eeditor');
     cy.get('button:contains("Archives")').click({ force: true });
     cy.wait(2000);
     cy.contains('Time-traveling article').parents('.listPanel__item--submission')
@@ -140,6 +136,12 @@ describe('geoMetadata Publication Versioning', { testIsolation: false }, functio
         expect(sorted[0].id).to.equal(v1PublicationId);
         v2PublicationId = sorted[1].id;
       });
+
+    // The geoMetadata pkp-form's $action is computed server-side from
+    // getLatestPublication() at template render. Without a reload it still
+    // targets v1's API endpoint — and v1 is published, so a save would 403.
+    cy.reload();
+    cy.get('div[role="tablist"]').find('button:contains("Publication")').click();
   });
 
   it('v2 inherits v1 metadata in the publication tab', function () {
@@ -164,9 +166,11 @@ describe('geoMetadata Publication Versioning', { testIsolation: false }, functio
     cy.get('#mapdiv').click(700, 200, { force: true });
     cy.wait(4000); // gazetteer round-trip
 
-    // Admin unit — drop the Germany chip so v2's coverage diverges from v1.
-    cy.get('#administrativeUnitInput li.tagit-choice[title*="Germany"] .tagit-close')
-      .click();
+    // Admin unit — drawing a Point far from Germany causes the gazetteer to
+    // collapse the common admin hierarchy, dropping Germany automatically.
+    // No manual chip removal needed; just verify the divergence from v1.
+    cy.get('#administrativeUnitInput li.tagit-choice', { timeout: 15000 })
+      .should('not.contain', 'Federal Republic of Germany');
     cy.get('textarea[name="geoMetadata::administrativeUnit"]').invoke('val')
       .then(val => expect(val).to.not.include('Federal Republic of Germany'));
 
@@ -181,11 +185,10 @@ describe('geoMetadata Publication Versioning', { testIsolation: false }, functio
     // v2 inherits v1's issueId, so the publication-header button calls
     // openPublish() directly — no Assign-to-Issue step. The button label is
     // "Publish" when the parent submission is already published, otherwise
-    // "Schedule For Publication"; match either to stay locale-stable across
-    // the two cases.
-    cy.get('.pkpPublication__header')
-      .find('button.pkpButton')
-      .contains(/^(Publish|Schedule For Publication)$/)
+    // "Schedule For Publication"; match either.
+    cy.get('.pkpPublication__header button.pkpButton')
+      .filter(':contains("Publish"), :contains("Schedule For Publication")')
+      .first()
       .click();
     cy.wait(2000);
     cy.get('div[class="pkpFormPages"] button:contains("Publish"), div[class="pkpFormPages"] button:contains("Schedule For Publication")')

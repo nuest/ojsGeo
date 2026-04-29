@@ -68,14 +68,14 @@ describe('geoMetadata Workflow Input Toggles', function () {
   after(restoreAllToggles);
 
   const openLatestPublicationTab = () => {
-    // Match the working Dashboard flow used by spec 33. Explicit logout first
-    // so we drop the admin session setToggle() leaves us in.
+    // Explicit logout first so we drop the admin session setToggle() leaves us
+    // in. Use the Archives tab — the publication-tab markup is identical for
+    // published and in-flight submissions, and Archives is reliably populated
+    // by the DB-seeded fixtures (12-primary-fixtures, 12a-timeline-fixtures)
+    // independent of which prior specs have published things during the run.
     cy.logout();
-    cy.login('eeditor');
-    cy.get('a:contains("eeditor"):visible', { timeout: 20000 }).click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
-    // :visible is critical — inactive editor-dashboard tabs share the same
-    // "View" button markup but sit inside `div#active.pkpTab { display:none }`.
+    cy.openSubmissionsAs('eeditor');
+    cy.get('button[id="archive-button"]').click();
     cy.get('a:contains("View"):visible').first().click();
     cy.get('div[role="tablist"]').find('button:contains("Publication")').click();
     cy.get('button[id^="timeLocation"]').click();

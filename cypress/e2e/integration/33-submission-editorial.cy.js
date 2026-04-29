@@ -71,17 +71,13 @@ describe('geoMetadata Production Editing', { testIsolation: false }, function ()
       }
     };
 
-    cy.login('aauthor');
-    cy.get('a:contains("aauthor")').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('aauthor');
     cy.createSubmission(submission);
     cy.logout();
   });
 
   it('Can inspect the spatio-temporal metadata as editor', function () {
-    cy.login('eeditor');
-    cy.get('a:contains("eeditor"):visible').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('eeditor');
     cy.get('a:contains("View")').first().click(); // click latest submission
 
     cy.get('div[role="tablist"]').find('button:contains("Publication")').click();
@@ -170,9 +166,7 @@ describe('geoMetadata Production Editing — per-user flows', function () {
   });
 
   it('Author can see but not edit time & location in publication tab', function () {
-    cy.login('aauthor');
-    cy.get('a:contains("aauthor")').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('aauthor');
     cy.get('a:contains("View")').first().click(); // click latest submission
 
     cy.get('div[role="tablist"]').find('button:contains("Publication")').click();
@@ -205,9 +199,7 @@ describe('geoMetadata Production Editing — per-user flows', function () {
   });
 
   it('Has updated information on preview page', function () {
-    cy.login('eeditor');
-    cy.get('a:contains("eeditor"):visible').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('eeditor');
     cy.get('a:contains("View")').first().click(); // click latest submission
 
     cy.get('div[role="tablist"]').find('button:contains("Publication")').click();
@@ -261,9 +253,7 @@ describe('geoMetadata Production Editing — per-user flows', function () {
   });
 
   it('Can save time & location in publication tab as editor', function () {
-    cy.login('eeditor');
-    cy.get('a:contains("eeditor"):visible').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('eeditor');
     cy.get('a:contains("View")').first().click(); // click latest submission
 
     cy.get('div[role="tablist"]').find('button:contains("Publication")').click();
@@ -288,11 +278,11 @@ describe('geoMetadata Production Editing — per-user flows', function () {
   });
 
   it('Contains correct data on article page after publication', function () {
-    cy.login('eeditor');
-    cy.get('a:contains("eeditor"):visible').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('eeditor');
     cy.get('a:contains("View")').first().click(); // click latest submission
     cy.wait(2000);
+
+    cy.promoteFileToFinalDraft();
 
     cy.get('a[id^="sendToProduction-button"]').click();
     cy.get('input[id^="skipEmail-skip"]').click();
@@ -310,9 +300,11 @@ describe('geoMetadata Production Editing — per-user flows', function () {
     cy.wait(1000);
     cy.get('button:contains("Schedule For Publication")');
     cy.get('button:contains("Publish"), div[class="pkpFormPages"] button:contains("Schedule For Publication")').click();
+    cy.wait(3000); // Vue publish form posts asynchronously; wait so the issue
+                   // TOC has the article by the time we navigate there.
 
     cy.get('.pkpWorkflow__identificationId').then(id => {
-      cy.visit('/');
+      cy.visit('/' + Cypress.env('contexts').primary.path + '/');
       cy.get('a#article-' + id.text()).click();
       cy.wait(500);
 
@@ -327,9 +319,7 @@ describe('geoMetadata Production Editing — per-user flows', function () {
   });
 
   it('After publication editor cannot edit time & location metadata', function () {
-    cy.login('eeditor');
-    cy.get('a:contains("eeditor")').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('eeditor');
     cy.get('button:contains("Archives")').click({ force: true });
     cy.wait(5000);
     //cy.get('li[class="listPanel__item"]').first().find('span:contains("View")').click({multiple: true, force: true}); // view latest archived submission

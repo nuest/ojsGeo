@@ -32,7 +32,7 @@ describe('geoMetadata Maps', function () {
   };
 
   it('The map on the current issue page has the papers\' geometries', function () {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.window().wait(200).then((win) => {
       const features = collectFeatures(win);
       expect(features.length).to.be.at.least(minGeometries);
@@ -41,7 +41,7 @@ describe('geoMetadata Maps', function () {
   });
 
   it('The map on the issue page in the archive has the papers\' geometries', function () {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
 
@@ -56,10 +56,10 @@ describe('geoMetadata Maps', function () {
   });
 
   it('The article page has the paper\'s geometry and the administrative units', function () {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
-    cy.get('a:contains("Hanover is nice")').last().click();
+    cy.openArticleByTitle('Hanover is nice');
 
     cy.get('.pkp_structure_main').should('contain', 'Time and Location');
     cy.get('#mapdiv').should('exist');
@@ -87,10 +87,10 @@ describe('geoMetadata Maps', function () {
   });
 
   it('The article page has the administrative units in a text', function () {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
-    cy.get('a:contains("Hanover is nice")').last().click();
+    cy.openArticleByTitle('Hanover is nice');
 
     cy.get('#geoMetadata_article_administrativeUnit').should('contain', 'Earth, Europe, Federal Republic of Germany');
   });
@@ -104,9 +104,7 @@ describe('geoMetadata Maps', function () {
   it('Does not show an article from an unpublished issue on the journal map', function () {
     this.skip(); // TODO fix journal map in tests
 
-    cy.login('aauthor');
-    cy.get('a:contains("aauthor")').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('aauthor');
 
     cy.createSubmissionAndPublish(submission2);
 

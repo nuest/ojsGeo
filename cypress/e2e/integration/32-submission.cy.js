@@ -99,7 +99,7 @@ describe('geoMetadata Submission', { testIsolation: false }, function () {
     cy.createSubmissionAndPublish(submission);
 
     // go to journal index and check if there is a map
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Current")').click();
     cy.get('.pkp_structure_main').should('contain', 'Hanover is nice');
     cy.get('.pkp_structure_main').should('contain', 'Augusta Author');

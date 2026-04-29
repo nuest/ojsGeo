@@ -8,7 +8,7 @@
 describe('geoMetadata Article View', function () {
 
   it('The article page has the paper\'s geometry and no administrative unit on the map', function () {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
     cy.get('a:contains("Vancouver")').first().click();
@@ -30,7 +30,7 @@ describe('geoMetadata Article View', function () {
   });
 
   it('The article page has the time period in a text', function () {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
     cy.get('a:contains("Vancouver")').first().click();
@@ -40,9 +40,7 @@ describe('geoMetadata Article View', function () {
   });
 
   it('The article page has the administrative unit in a text when added manually during submission', function () {
-    cy.login('aauthor');
-    cy.get('a:contains("aauthor")').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('aauthor');
 
     var submission = {
       id: 0,
@@ -58,10 +56,10 @@ describe('geoMetadata Article View', function () {
 
     cy.createSubmissionAndPublish(submission);
 
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
-    cy.get('a:contains("Vancouver is hot")').last().click();
+    cy.openArticleByTitle('Vancouver is hot');
 
     cy.get('#geoMetadata_article_administrativeUnit').should('contain', 'Earth, Canada, BC');
   });

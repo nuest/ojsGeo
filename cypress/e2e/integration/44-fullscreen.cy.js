@@ -24,13 +24,13 @@ describe('geoMetadata Fullscreen Control', function () {
   };
 
   it('renders the fullscreen button on the current-issue map', function () {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('#mapdiv').should('exist');
     expectButton(titleEnter);
   });
 
   it('renders the fullscreen button on an archive-issue map', function () {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
 
@@ -39,20 +39,20 @@ describe('geoMetadata Fullscreen Control', function () {
   });
 
   it('renders the fullscreen button on an article details page', function () {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
-    cy.get('a:contains("Hanover is nice")').last().click();
+    cy.openArticleByTitle('Hanover is nice');
 
     cy.get('#mapdiv').should('exist');
     expectButton(titleEnter);
   });
 
   it('toggles fullscreen state and updates the button title when clicked', function () {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
-    cy.get('a:contains("Hanover is nice")').last().click();
+    cy.openArticleByTitle('Hanover is nice');
 
     cy.get('#mapdiv').should('exist');
     cy.get(fsBtnSelector).as('fsBtn');

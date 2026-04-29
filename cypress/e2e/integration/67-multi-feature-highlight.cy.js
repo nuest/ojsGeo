@@ -68,19 +68,18 @@ describe('geoMetadata Multi-Feature Synced Highlight', function () {
   };
 
   before(function () {
-    cy.login('aauthor');
-    cy.get('a:contains("aauthor")').click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
+    cy.openSubmissionsAs('aauthor');
     cy.createSubmissionAndPublish(submission);
   });
 
   it('Stores three distinct Features in the FeatureCollection', function () {
     cy.logout();
-    cy.login('eeditor');
-    cy.visit('/');
-    cy.get('a:contains("eeditor"):visible', { timeout: 20000 }).click();
-    cy.get('a:contains("Dashboard")').click({ force: true });
-    cy.contains('a', 'View ' + TARGET_TITLE).click({ force: true });
+    cy.openSubmissionsAs('eeditor');
+    // Article is fully published by createSubmissionAndPublish in before(),
+    // so it lives in Archives, not the active queue.
+    cy.get('button[id="archive-button"]').click();
+    cy.contains('.listPanel__item--submission', TARGET_TITLE)
+      .find('a:contains("View")').first().click({ force: true });
     cy.get('div[role="tablist"]').find('button:contains("Publication")').click();
     cy.get('button[id^="timeLocation"]').click();
 

@@ -41,17 +41,17 @@ describe('geoMetadata Map Controls — en_US strings + no JS errors on map pages
   });
 
   it('zoom control on the current-issue map has English tooltip titles', function () {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('#mapdiv').should('exist');
     cy.get('a.leaflet-control-zoom-in').should('have.attr', 'title', 'Zoom in');
     cy.get('a.leaflet-control-zoom-out').should('have.attr', 'title', 'Zoom out');
   });
 
   it('article details page: zoom, geocoder and overlay layer names are localized', function () {
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
-    cy.get('a:contains("Hanover is nice")').last().click();
+    cy.openArticleByTitle('Hanover is nice');
 
     cy.get('#mapdiv').should('exist');
 
@@ -84,7 +84,7 @@ describe('geoMetadata Map Controls — en_US strings + no JS errors on map pages
     // `win.eval` proves the Smarty `|escape:'javascript'` chain is intact.
     // (Top-level `const`s don't attach to window, so plain `win.X` returns
     // undefined — use eval.)
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.window().then((win) => {
       const typeofDrawLocal = win.eval('typeof geoMetadata_drawLocal');
       expect(typeofDrawLocal, 'geoMetadata_drawLocal is defined').to.equal('object');

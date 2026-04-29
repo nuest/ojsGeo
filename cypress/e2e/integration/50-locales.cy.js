@@ -57,7 +57,7 @@ describe('geoMetadata Locales', function () {
     cy.contains('#submitStep3Form', /Ort\(e\) oder Gebiet\(e\)/);
 
     // home page
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('#navigationPrimary > :nth-child(1) > a').click();
     cy.contains('.pkp_structure_main', /Zeiten \& Orte/);
   });
@@ -78,7 +78,7 @@ describe('geoMetadata Locales', function () {
     cy.contains('#submitStep3Form', /Ubicación\(es\) o área\(s\)/);
 
     // home page
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('#navigationPrimary > :nth-child(1) > a').click();
     cy.contains('.pkp_structure_main', /Tiempos y ubicaciones/);
   });
@@ -99,7 +99,7 @@ describe('geoMetadata Locales', function () {
     cy.contains('#submitStep3Form', /Lieu\(x\) ou zone\(s\)/);
 
     // home page
-    cy.visit('/');
+    cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('#navigationPrimary > :nth-child(1) > a').click();
     cy.contains('.pkp_structure_main', /Heures et lieux de publication/);
   });
