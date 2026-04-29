@@ -12,6 +12,24 @@ describe('geoMetadata Submission without Geonames', function () {
   var sub1end = '2021-12-31';
 
   before(function () {
+    // The "without Geonames" name is load-bearing — clear any GeoNames
+    // credentials a prior run (or spec 31) may have written to plugin
+    // settings, otherwise the marker draw triggers a real gazetteer call and
+    // populates admin-unit / coverage fields the assertions expect to be
+    // empty.
+    cy.login('admin', 'admin', Cypress.env('contexts').primary.path);
+    cy.get('nav[class="app__nav"] a:contains("Website")').click();
+    cy.get('button[id="plugins-button"]').click();
+    cy.get('tr[id="component-grid-settings-plugins-settingsplugingrid-category-generic-row-geometadataplugin"] a[class="show_extras"]').click();
+    cy.get('a[id^="component-grid-settings-plugins-settingsplugingrid-category-generic-row-geometadataplugin-settings-button"]').click();
+    cy.get('form[id="geoMetadataSettings"] input[name="geoMetadata_geonames_username"]')
+      .invoke('val', '').trigger('input').trigger('change');
+    cy.get('form[id="geoMetadataSettings"] input[name="geoMetadata_geonames_baseurl"]')
+      .invoke('val', '').trigger('input').trigger('change');
+    cy.get('form[id="geoMetadataSettings"] button[id^="submitFormButton"]').click();
+    cy.wait(1000);
+    cy.logout();
+
     // Inject a single Point feature with no admin-unit bbox — gazetteer is
     // intentionally not configured for this spec, so in the real flow the
     // admin-unit resolution fails. The Point is reused by 22-article-view's
@@ -87,7 +105,7 @@ describe('geoMetadata Submission without Geonames', function () {
     cy.toolbarButton('marker').click();
     cy.get('#mapdiv').click(260, 110);
     cy.wait(3000); // a bit longer for GitHub action
-    cy.get('input[id^="coverage-"').should('have.value', '');
+    cy.get('input[id^="coverage-"]').should('have.value', '');
 
     cy.get('#submitStep3Form').should('contain', 'The gazetteer service is unavailable');
     cy.get('#submitStep3Form').should('contain', 'No GeoNames Base URL is configured for the plugin');
@@ -105,7 +123,7 @@ describe('geoMetadata Submission without Geonames', function () {
 
     cy.get('#administrativeUnitInput > .tagit-new > .ui-widget-content').type('Canada{enter}');
     cy.wait(100);
-    cy.get('input[id^="coverage-"').should('have.value', 'Canada');
+    cy.get('input[id^="coverage-"]').should('have.value', 'Canada');
   });
 
 });

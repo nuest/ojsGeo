@@ -44,6 +44,14 @@ describe('geoMetadata Production Editing', { testIsolation: false }, function ()
   ];
 
   before(function () {
+    // Idempotent: drop prior copies before re-creating; otherwise the
+    // accumulated UI-published submissions pollute spec 66's overlap-picker
+    // pagination assertions.
+    cy.task('dbDeleteSubmissionsByTitle', {
+      contextPath: Cypress.env('contexts').primary.path,
+      titles: ['Editors saves the day'],
+    });
+
     submission = {
       id: 0,
       //section: 'Articles',
@@ -84,9 +92,9 @@ describe('geoMetadata Production Editing', { testIsolation: false }, function ()
 
     // the coverage metadata field is disabled but with correct content
     cy.get('button[id^="metadata"]').click();
-    cy.get('input[id^="metadata-coverage-"').invoke('attr', 'disabled').should('eq', 'disabled');
-    cy.get('input[id^="metadata-coverage-"').invoke('attr', 'title').should('contain', 'field has been disabled');
-    cy.get('input[id^="metadata-coverage-"').should('have.value', 'Earth, Europe, Federal Republic of Germany');
+    cy.get('input[id^="metadata-coverage-"]').invoke('attr', 'disabled').should('eq', 'disabled');
+    cy.get('input[id^="metadata-coverage-"]').invoke('attr', 'title').should('contain', 'field has been disabled');
+    cy.get('input[id^="metadata-coverage-"]').should('have.value', 'Earth, Europe, Federal Republic of Germany');
 
     // time & location tab
     cy.get('button[id^="timeLocation"]').click();
@@ -136,7 +144,7 @@ describe('geoMetadata Production Editing', { testIsolation: false }, function ()
       .then(($value) => { expect($value).to.include('{"type":"Point","coordinates":['); });
     cy.get('textarea[name="geoMetadata::administrativeUnit"]').invoke('val')
       .then(($value) => { expect($value).to.not.include('Federal Republic of Germany'); });
-    cy.get('input[id^="metadata-coverage-"').invoke('val')
+    cy.get('input[id^="metadata-coverage-"]').invoke('val')
       .should('match', /^Earth(, [^,]+)*$/);
   });
 
@@ -147,7 +155,7 @@ describe('geoMetadata Production Editing', { testIsolation: false }, function ()
     cy.get('#administrativeUnitInput li.tagit-choice[title*="Europe"] .tagit-close').click();
     cy.get('textarea[name="geoMetadata::administrativeUnit"]').invoke('val')
       .then(($value) => { expect($value).to.not.include('"Europe"'); });
-    cy.get('input[id^="metadata-coverage-"').invoke('val')
+    cy.get('input[id^="metadata-coverage-"]').invoke('val')
       .should('match', /^Earth$|^$/);
   });
 
@@ -170,7 +178,7 @@ describe('geoMetadata Production Editing — per-user flows', function () {
     cy.get('a:contains("View")').first().click(); // click latest submission
 
     cy.get('div[role="tablist"]').find('button:contains("Publication")').click();
-    cy.get('input[id^="metadata-coverage-"').should('have.value', 'Earth, Europe, Federal Republic of Germany');
+    cy.get('input[id^="metadata-coverage-"]').should('have.value', 'Earth, Europe, Federal Republic of Germany');
     cy.get('button[id^="timeLocation"]').click();
     cy.get('#mapdiv').should('exist');
     cy.get('textarea').should('have.length', 3); // three text areas for raw input

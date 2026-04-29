@@ -64,22 +64,23 @@ describe('geoMetadata Timeline (issue #74)', function () {
   });
 
   it('BCE regression guard — Holocene item lays out left of every modern item', function () {
-    // Q7 decision: a permanent guard against a vis-timeline patch that breaks the
-    // ECMAScript expanded-year ISO bridge in toVisDate(). The Long-Span Holocene
-    // Catalogue's start (-008000) must produce a smaller data-start than any 19xx/20xx
-    // article seeded in 12-primary-fixtures.
+    // Permanent guard against a vis-timeline patch that breaks the ECMAScript
+    // expanded-year ISO bridge in toVisDate(). The Long-Span Holocene Catalogue's
+    // start (-008000) must produce a smaller `start` ISO string than any 19xx/20xx
+    // article seeded in 12-primary-fixtures. We read the items journal.js handed
+    // to vis.Timeline; inspecting the rendered DOM is fragile because vis-timeline
+    // doesn't emit `data-start` and may cluster items off-screen.
     cy.visit(journalMapUrl());
     cy.get('#gm-timelinediv .vis-item', { timeout: 10000 }).should('have.length.at.least', 2);
-    cy.get('#gm-timelinediv').then(($container) => {
-      const items = Array.from($container[0].querySelectorAll('.vis-item'));
-      const dataStarts = items
-        .map(el => el.getAttribute('data-start') || '')
-        .filter(Boolean);
-      // vis-timeline emits data-start as an ISO-ish string; lexicographic compare
-      // works because expanded-year ISO -008000-… sorts before any plain 1980-… string.
-      const minStart = dataStarts.reduce((a, b) => (a < b ? a : b));
-      expect(minStart.startsWith('-') || minStart.startsWith('-0'),
-        `expected a BCE item (data-start "${minStart}") to be present`).to.equal(true);
+    cy.window().its('geoMetadata_journalTimelineItems').should('exist');
+    cy.window().then((win) => {
+      const items = win.geoMetadata_journalTimelineItems;
+      expect(items, 'timeline items array').to.have.length.at.least(2);
+      const starts = items.map(it => String(it.start));
+      // expanded-year ISO -008000-… sorts before any plain 1980-… string lexicographically
+      const minStart = starts.reduce((a, b) => (a < b ? a : b));
+      expect(minStart.startsWith('-'),
+        `expected a BCE item (start "${minStart}") to be present`).to.equal(true);
     });
   });
 

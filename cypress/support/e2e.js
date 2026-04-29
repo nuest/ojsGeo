@@ -18,6 +18,7 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
+import './geonames-stubs'
 
 import '@foreachbe/cypress-tinymce'
 

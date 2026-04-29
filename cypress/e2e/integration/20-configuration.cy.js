@@ -11,13 +11,14 @@ describe('geoMetadata Configuration', function () {
     cy.login('admin', 'admin', Cypress.env('contexts').primary.path);
     cy.get('nav[class="app__nav"] a:contains("Website")').click();
     cy.get('button[id="plugins-button"]').click();
-    // disable plugin if enabled
+    // Disable plugin if currently enabled. The success toast is too transient
+    // to assert against reliably; verify the checkbox state instead.
     cy.get('input[id^="select-cell-geometadataplugin-enabled"]')
       .then($btn => {
-        if ($btn.attr('checked') === 'checked') {
+        if ($btn.is(':checked')) {
           cy.get('input[id^="select-cell-geometadataplugin-enabled"]').click();
           cy.get('div[class*="pkp_modal_panel"] button[class*="pkpModalConfirmButton"]').click();
-          cy.get('div:contains(\'The plugin "geoMetadata" has been disabled.\')');
+          cy.get('input[id^="select-cell-geometadataplugin-enabled"]').should('not.be.checked');
         }
       });
   });
@@ -53,8 +54,10 @@ describe('geoMetadata Configuration', function () {
 
     cy.get('nav[class="app__nav"] a:contains("Workflow")').click();
     cy.get('button#metadata-button').click();
-    cy.get('input[aria-describedby^="metadataSettings-coverage"]').click();
-    cy.get('input[value="request"]').click({ multiple: true });
+    // Idempotent: if the toggle is already on from a prior run, clicking
+    // again disables it. Use .check() to force the on state.
+    cy.get('input[aria-describedby^="metadataSettings-coverage"]').check();
+    cy.get('input[value="request"]').check({ multiple: true });
     cy.get('div#metadata').find('button:contains("Save")').click();
     cy.wait(2000);
     
@@ -65,10 +68,10 @@ describe('geoMetadata Configuration', function () {
     cy.get('button.submitFormButton').click();
     cy.wait(2000);
     cy.get('button.submitFormButton').click();
-    cy.get('input[id^="coverage-"').should('exist');
-    cy.get('input[id^="coverage-"').invoke('attr', 'disabled').should('eq', 'disabled');
-    cy.get('input[id^="coverage-"').invoke('attr', 'title').should('contain', 'field has been disabled');
-    cy.get('input[id^="coverage-"').should('have.value', '');
+    cy.get('input[id^="coverage-"]', { timeout: 20000 }).should('exist');
+    cy.get('input[id^="coverage-"]').invoke('attr', 'disabled').should('eq', 'disabled');
+    cy.get('input[id^="coverage-"]').invoke('attr', 'title').should('contain', 'field has been disabled');
+    cy.get('input[id^="coverage-"]').should('have.value', '');
     
     cy.logout();
   });

@@ -282,6 +282,7 @@ $(function () {
         };
     }, { min: null, minY: null, max: null, maxY: null });
 
+    window.geoMetadata_journalTimelineItems = items;
     var timeline = new vis.Timeline(container, items, {
         cluster: {
             maxItems: typeof geoMetadata_timelineClusterMaxItems !== 'undefined'

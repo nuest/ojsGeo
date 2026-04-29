@@ -60,6 +60,15 @@ describe('geoMetadata Submission', { testIsolation: false }, function () {
   };
 
   before(function () {
+    // Idempotent re-runs: drop any prior copies of these UI-created fixtures
+    // before the test publishes new ones — otherwise spec 66's paginated-popup
+    // test sees duplicate Hanovers with identical body text and the
+    // page-1-vs-page-2 comparison degenerates.
+    cy.task('dbDeleteSubmissionsByTitle', {
+      contextPath: Cypress.env('contexts').primary.path,
+      titles: ['Hanover is nice', 'Münster will be nice'],
+    });
+
     submission = {
       id: 0,
       //section: 'Articles',
@@ -112,6 +121,11 @@ describe('geoMetadata Submission', { testIsolation: false }, function () {
     // test 1's publish workflow — log out first so the aauthor login lands on
     // the author's dashboard (otherwise OJS re-uses the editor session).
     cy.logout();
+    // Stub GeoNames so the coverage assertions are deterministic and don't
+    // burn through the daily quota. The first marker draw resolves to the
+    // full BC chain; the second collapses to Earth+Canada to exercise the
+    // common-ancestor logic the next test asserts on.
+    cy.stubGeoNames({ coordHierarchyQueue: ['earthCanadaBC', 'earthCanada'] });
     cy.login('aauthor', undefined, Cypress.env('contexts').primary.path);
     cy.visit('/' + Cypress.env('contexts').primary.path + '/submissions');
 
@@ -151,7 +165,7 @@ describe('geoMetadata Submission', { testIsolation: false }, function () {
     // Pixel (260,110) at default zoom falls on the BC coast; depending on
     // sub-pixel click position either North Coast or Cariboo Regional
     // District resolves. Match the stable prefix.
-    cy.get('input[id^="coverage-"')
+    cy.get('input[id^="coverage-"]')
       .invoke('val')
       .should('match', /^Earth, Canada, British Columbia, .+ Regional District$/);
     cy.get('a.leaflet-control-zoom-out').click().click().click().click().click().click().click().click().click().click().click();
@@ -163,14 +177,14 @@ describe('geoMetadata Submission', { testIsolation: false }, function () {
     cy.toolbarButton('marker').click();
     cy.get('#mapdiv').click(400, 380);
     cy.wait(2000);
-    cy.get('input[id^="coverage-"').invoke('val')
+    cy.get('input[id^="coverage-"]').invoke('val')
       .should('match', /^Earth, Canada, British Columbia$|^Earth, Canada$|^Earth$/);
   });
 
   it('Updates the coverage field on interaction with the administrative unit field', function () {
     // Remove the most-specific tag; coverage should shorten by one level.
     cy.get('#administrativeUnitInput li.tagit-choice').last().find('.tagit-close').click();
-    cy.get('input[id^="coverage-"').invoke('val')
+    cy.get('input[id^="coverage-"]').invoke('val')
       .should('match', /^Earth(, .+)?$/);
   });
 

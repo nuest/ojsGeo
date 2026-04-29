@@ -87,7 +87,10 @@ describe('geoMetadata gazetteer-unavailable reasons (issue #164)', { testIsolati
       const $warn = win.jQuery('#geoMetadata_gazetteer_unavailable');
       $warn.hide();
       $warn.find('.geoMetadata_gazetteer_unavailable_reason').text('');
-      win.gazetterDisabled = false;
+      // Reset both flags — the previous test's disableGazetteer calls null out
+      // baseurlGeonames; without it the ajax block wouldn't fire at all.
+      win.eval('baseurlGeonames = "http://api.geonames.org"');
+      win.eval('gazetterDisabled = false');
       // Stub jQuery.ajax to immediately invoke success with a GeoNames error envelope.
       // ajaxRequestGeonamesPlaceName uses async:false, so the success handler runs
       // synchronously inside this call — exactly what we want to assert against.
@@ -109,6 +112,53 @@ describe('geoMetadata gazetteer-unavailable reasons (issue #164)', { testIsolati
       // Ensure the third-party English status.message is never relayed into the UI.
       expect($warn.text()).to.not.contain(RAW_GEONAMES_MESSAGE);
     });
+  });
+
+  it('end-to-end: a stubbed quota envelope on a real submission marker draw fires the warning', function () {
+    openFreshSubmission();
+    // Re-stub on the loaded window so the override is in place before the
+    // marker draw triggers a hierarchyJSON call. Reset the warning visibility
+    // and the gazetterDisabled flag a previous test may have left.
+    cy.stubGeoNames({ mode: 'quota' });
+    cy.window().then((win) => {
+      const $warn = win.jQuery('#geoMetadata_gazetteer_unavailable');
+      $warn.hide();
+      $warn.find('.geoMetadata_gazetteer_unavailable_reason').text('');
+      win.eval('gazetterDisabled = false');
+      win.eval('baseurlGeonames = "http://api.geonames.org"');
+    });
+    cy.toolbarButton('marker').click();
+    cy.get('#mapdiv').click(260, 110);
+    cy.wait(2000);
+    cy.window().then((win) => {
+      const $warn = win.jQuery('#geoMetadata_gazetteer_unavailable');
+      expect($warn.is(':visible'), 'warning visible after stubbed quota envelope').to.be.true;
+      expect($warn.find('.geoMetadata_gazetteer_unavailable_reason').text())
+        .to.contain(EN_REASON_QUOTA);
+    });
+    cy.clearGeoNamesStub();
+  });
+
+  it('end-to-end: a stubbed network failure on a real submission marker draw fires the warning', function () {
+    openFreshSubmission();
+    cy.stubGeoNames({ mode: 'network' });
+    cy.window().then((win) => {
+      const $warn = win.jQuery('#geoMetadata_gazetteer_unavailable');
+      $warn.hide();
+      $warn.find('.geoMetadata_gazetteer_unavailable_reason').text('');
+      win.eval('gazetterDisabled = false');
+      win.eval('baseurlGeonames = "http://api.geonames.org"');
+    });
+    cy.toolbarButton('marker').click();
+    cy.get('#mapdiv').click(260, 110);
+    cy.wait(2000);
+    cy.window().then((win) => {
+      const $warn = win.jQuery('#geoMetadata_gazetteer_unavailable');
+      expect($warn.is(':visible'), 'warning visible after network failure').to.be.true;
+      expect($warn.find('.geoMetadata_gazetteer_unavailable_reason').text())
+        .to.contain(EN_REASON_EXTERNAL);
+    });
+    cy.clearGeoNamesStub();
   });
 
   it('locale switch: German submission form shows the German title and quota reason', function () {

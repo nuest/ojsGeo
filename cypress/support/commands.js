@@ -516,8 +516,14 @@ Cypress.Commands.add('createSubmission', (data, contextKey = 'primary') => {
     cy.wait(6000);
 
     if ('adminUnit' in data && !('directInject' in data)) {
-        cy.get('#administrativeUnitInput > .tagit-new > .ui-widget-content').type(data.adminUnit);
-        cy.wait(100);
+        // tagit only commits on Enter (or comma if configured); typing the
+        // whole string leaves it in the field and discards it on save. Split
+        // and Enter each tag separately.
+        const tags = String(data.adminUnit).split(',').map(s => s.trim()).filter(Boolean);
+        tags.forEach(tag => {
+            cy.get('#administrativeUnitInput > .tagit-new > .ui-widget-content').type(tag + '{enter}');
+            cy.wait(100);
+        });
     }
 
     cy.get('form[id=submitStep3Form]').find('button').contains('Save and continue').click();

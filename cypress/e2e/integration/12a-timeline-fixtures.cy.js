@@ -19,6 +19,18 @@
 
 describe('geoMetadata Timeline Fixtures', function () {
 
+  before(function () {
+    cy.task('dbDeleteSubmissionsByTitle', {
+      contextPath: Cypress.env('contexts').primary.path,
+      titles: [
+        'Long-Span Holocene Catalogue',
+        'Twin Field Campaigns',
+        'Decadal Sensor Drift',
+        'One-Day Workshop Notes',
+      ],
+    });
+  });
+
   it('Seeds "Long-Span Holocene Catalogue" (BCE deep-time, no spatial)', function () {
     cy.publishSubmissionViaDb('primary', {
       title: 'Long-Span Holocene Catalogue',

@@ -179,6 +179,55 @@ async function dbEnrollUserInContext({ contextPath, username, roleId }) {
   }
 }
 
+// Delete every submission in a journal whose current-publication title
+// matches one of the given titles. Used by the fixture specs (12-…, 12a-…)
+// to keep re-runs against a non-fresh OJS stack idempotent — without this,
+// each cypress run inserts another copy of every fixture and downstream
+// specs that assume one-of-each title break (e.g. 66's single-article popup).
+async function dbDeleteSubmissionsByTitle({ contextPath, titles }) {
+  if (!Array.isArray(titles) || titles.length === 0) return { deleted: 0 };
+  const mysql = require('mysql2/promise');
+  const conn = await mysql.createConnection({
+    host: process.env.OJS_DB_HOST_FOR_CYPRESS || process.env.OJS_DB_HOST,
+    port: parseInt(process.env.OJS_DB_PORT_FOR_CYPRESS || '3306', 10),
+    user: process.env.OJS_DB_USER,
+    password: process.env.OJS_DB_PASSWORD,
+    database: process.env.OJS_DB_NAME,
+  });
+  try {
+    const [[journal]] = await conn.query(
+      'SELECT journal_id FROM journals WHERE path = ?',
+      [contextPath]
+    );
+    if (!journal) throw new Error(`Journal not found for path "${contextPath}"`);
+
+    const placeholders = titles.map(() => '?').join(',');
+    const [rows] = await conn.query(
+      `SELECT DISTINCT s.submission_id
+         FROM submissions s
+         JOIN publications p ON p.submission_id = s.submission_id
+         JOIN publication_settings ps ON ps.publication_id = p.publication_id
+        WHERE s.context_id = ?
+          AND ps.setting_name = 'title'
+          AND ps.setting_value IN (${placeholders})`,
+      [journal.journal_id, ...titles]
+    );
+    const submissionIds = rows.map((r) => r.submission_id);
+    if (submissionIds.length === 0) return { deleted: 0 };
+
+    const ids = submissionIds.map(() => '?').join(',');
+    // OJS uses InnoDB but the FK graph from submissions is wide; delete the
+    // rows we know about and rely on ON DELETE CASCADE for the rest.
+    await conn.query(`DELETE FROM publication_settings WHERE publication_id IN (SELECT publication_id FROM publications WHERE submission_id IN (${ids}))`, submissionIds);
+    await conn.query(`DELETE FROM authors WHERE publication_id IN (SELECT publication_id FROM publications WHERE submission_id IN (${ids}))`, submissionIds);
+    await conn.query(`DELETE FROM publications WHERE submission_id IN (${ids})`, submissionIds);
+    await conn.query(`DELETE FROM submissions WHERE submission_id IN (${ids})`, submissionIds);
+    return { deleted: submissionIds.length, submissionIds };
+  } finally {
+    await conn.end();
+  }
+}
+
 // Look up the first published issue id for a journal. Used by 64-multi-journal-
 // isolation: issue ids are global, not per-journal, so the secondary's first
 // issue is not id 1.
@@ -218,6 +267,7 @@ module.exports = defineConfig({
         dbInsertPublishedSubmission,
         dbEnrollUserInContext,
         dbGetPublishedIssueId,
+        dbDeleteSubmissionsByTitle,
       });
     },
     baseUrl: "http://localhost:" + process.env.OJS_PORT,

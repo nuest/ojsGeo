@@ -33,7 +33,9 @@ describe('geoMetadata Article View', function () {
     cy.visit('/' + Cypress.env('contexts').primary.path + '/');
     cy.get('nav[class="pkp_site_nav_menu"] a:contains("Archive")').click();
     cy.get('a:contains("Vol. 1 No. 2 (2022)")').click();
-    cy.get('a:contains("Vancouver")').first().click();
+    // Target the specific Vancouver article seeded by 21-submission. Other
+    // specs create more "Vancouver …" submissions whose temporals differ.
+    cy.openArticleByTitle('Vancouver is cool');
 
     cy.get('#geoMetadata_article_temporal').contains('from 2021-01-01');
     cy.get('#geoMetadata_article_temporal').contains('to 2021-12-31');

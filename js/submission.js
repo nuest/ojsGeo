@@ -92,6 +92,23 @@ function mapGeonamesStatusToReason(status) {
     return 'externalError';
 }
 
+// Shared post-success / post-error handlers so every GeoNames endpoint uses
+// the same disableGazetteer cascade. The success branch checks for the
+// inline-error envelope GeoNames returns on quota/auth failures, the error
+// branch fires on network / 5xx / abort.
+function _handleGeonamesEnvelope(result) {
+    if (gazetterDisabled) return;
+    if (result && result.status !== undefined) {
+        console.log(logPrefix + "GeoNames returned an error envelope: " + JSON.stringify(result.status));
+        disableGazetteer(mapGeonamesStatusToReason(result.status));
+    }
+}
+function _handleGeonamesAjaxError(xhr, statusText) {
+    if (gazetterDisabled) return;
+    console.log(logPrefix + "GeoNames request failed (" + statusText + "): HTTP " + (xhr && xhr.status));
+    disableGazetteer('externalError');
+}
+
 function checkGeonames() {
     if (baseurlGeonames === "") {
         console.log(logPrefix + "No Base URL configured for GeoNames. Please configure the Base URL for GeoNames in the OJS plugin settings.");
@@ -920,13 +937,8 @@ function ajaxRequestGeonamesPlaceName(placeName) {
                 style: "full",
                 maxRows: 12,
             },
-            success: function (result) {
-                resultGeonames = result;
-                if (result && result.status !== undefined && !gazetterDisabled) {
-                    console.log(logPrefix + "GeoNames returned an error envelope: " + JSON.stringify(result.status));
-                    disableGazetteer(mapGeonamesStatusToReason(result.status));
-                }
-            }
+            success: function (result) { resultGeonames = result; _handleGeonamesEnvelope(result); },
+            error: _handleGeonamesAjaxError
         });
     }
 
@@ -947,9 +959,8 @@ function ajaxRequestGeonamesCoordinates(lng, lat) {
         $.ajax({
             url: urlGeonames,
             async: false,
-            success: function (result) {
-                resultGeonames = result;
-            }
+            success: function (result) { resultGeonames = result; _handleGeonamesEnvelope(result); },
+            error: _handleGeonamesAjaxError
         });
     }
 
@@ -975,9 +986,8 @@ function ajaxRequestGeonamesGeonameIdHierarchicalStructure(id) {
                 style: "full",
                 maxRows: 12,
             },
-            success: function (result) {
-                resultGeonames = result;
-            }
+            success: function (result) { resultGeonames = result; _handleGeonamesEnvelope(result); },
+            error: _handleGeonamesAjaxError
         });
     }
 
@@ -1021,8 +1031,10 @@ function ajaxRequestGeonamesGeonamesIdBbox(id) {
                 maxRows: 12,
             },
             success: function (result) {
-                resultGeonames = result.bbox;
-            }
+                _handleGeonamesEnvelope(result);
+                resultGeonames = result && result.bbox;
+            },
+            error: _handleGeonamesAjaxError
         });
     }
 
@@ -1063,6 +1075,7 @@ function ajaxRequestGeonamesIso3166Subdivision(lat, lng) {
             formatted: true
         },
         success: function (resp) {
+            _handleGeonamesEnvelope(resp);
             if (resp && resp.codes) {
                 for (var i = 0; i < resp.codes.length; i++) {
                     if (resp.codes[i].type === "ISO3166-2" && typeof resp.codes[i].code === "string") {
@@ -1072,7 +1085,8 @@ function ajaxRequestGeonamesIso3166Subdivision(lat, lng) {
                     }
                 }
             }
-        }
+        },
+        error: _handleGeonamesAjaxError
     });
     return result;
 }

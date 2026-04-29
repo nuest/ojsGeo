@@ -91,6 +91,24 @@ describe('geoMetadata Primary-Journal Fixtures', function () {
     }
   };
 
+  // Idempotent re-runs against a non-fresh OJS stack: drop any prior copies
+  // of the fixture titles before reseeding. Without this, every cypress run
+  // adds another copy of every fixture and downstream specs that count
+  // matches by title (e.g. 66's single-article popup) break.
+  before(function () {
+    cy.task('dbDeleteSubmissionsByTitle', {
+      contextPath: Cypress.env('contexts').primary.path,
+      titles: [
+        'Timeless Isle',
+        'Atlas of Saxony',
+        'Outside of nowhere',
+        'Lower Saxony details',
+        'Wellington to Chatham Islands ferry across the dateline',
+        'Hanover micro',
+      ],
+    });
+  });
+
   it('Seeds "Timeless Isle" (Polygon, no temporal, Earth)', function () {
     cy.publishSubmissionViaDb('primary', {
       title: 'Timeless Isle',
