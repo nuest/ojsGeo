@@ -578,6 +578,15 @@ msgstr "This field has been disabled. Information will be filled in automaticall
 msgid "plugins.generic.geoMetadata.submission.spatialProperties.antimeridianNote"
 msgstr "Features crossing the antimeridian (180° meridian) are split into two parts on save. The map may display the preview flipped until the record is saved and reloaded."
 
+msgid "plugins.generic.geoMetadata.submission.administrativeUnit.validation.hierarchyAndGeometry"
+msgstr "Your input \"{$input}\" with the superior administrative units {$units} is not valid: it does not match the existing hierarchy of administrative units nor the geometries on the map. Change the tag, the existing administrative units, or the geometries on the map."
+
+msgid "plugins.generic.geoMetadata.submission.administrativeUnit.validation.hierarchyOnly"
+msgstr "Your input \"{$input}\" with the superior administrative units {$units} is not valid: it does not match the existing hierarchy of administrative units. Change the tag or the existing administrative units."
+
+msgid "plugins.generic.geoMetadata.submission.administrativeUnit.validation.geometryOnly"
+msgstr "Your input \"{$input}\" with the superior administrative units {$units} is not valid: it does not match the geometries on the map. Change the tag or the geometries on the map."
+
 msgid "plugins.generic.geoMetadata.license.submission"
 msgstr "Note that the temporal and spatial metadata will be published under the following license: {$license}"
 

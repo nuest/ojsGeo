@@ -257,6 +257,9 @@ class GeoMetadataPlugin extends GenericPlugin
 				'overlapPrevTitle'        => __('plugins.generic.geoMetadata.map.overlap.prevTitle'),
 				'overlapNextTitle'        => __('plugins.generic.geoMetadata.map.overlap.nextTitle'),
 				'overlapCounter'          => __('plugins.generic.geoMetadata.map.overlap.counter'),
+				'adminUnitValidationHierarchyAndGeometry' => __('plugins.generic.geoMetadata.submission.administrativeUnit.validation.hierarchyAndGeometry'),
+				'adminUnitValidationHierarchyOnly'        => __('plugins.generic.geoMetadata.submission.administrativeUnit.validation.hierarchyOnly'),
+				'adminUnitValidationGeometryOnly'         => __('plugins.generic.geoMetadata.submission.administrativeUnit.validation.geometryOnly'),
 			]);
 
 			$templateMgr->assign('geoMetadata_mapUrlPath', MAP_URL_PATH);

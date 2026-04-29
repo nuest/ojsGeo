@@ -294,6 +294,13 @@ const geoMetadata_overlapPrevTitle = '{$geoMetadata_i18n.overlapPrevTitle|escape
 const geoMetadata_overlapNextTitle = '{$geoMetadata_i18n.overlapNextTitle|escape:'javascript'}';
 const geoMetadata_overlapCounter   = '{$geoMetadata_i18n.overlapCounter|escape:'javascript'}';
 
+// admin-unit input validation alerts (issue #110)
+const geoMetadata_adminUnitValidation = {
+    hierarchyAndGeometry: '{$geoMetadata_i18n.adminUnitValidationHierarchyAndGeometry|escape:'javascript'}',
+    hierarchyOnly:        '{$geoMetadata_i18n.adminUnitValidationHierarchyOnly|escape:'javascript'}',
+    geometryOnly:         '{$geoMetadata_i18n.adminUnitValidationGeometryOnly|escape:'javascript'}'
+};
+
 // fullscreen control (issue #61)
 const geoMetadata_fullscreenTitle       = '{$geoMetadata_i18n.fullscreenTitle|escape:'javascript'}';
 const geoMetadata_fullscreenTitleCancel = '{$geoMetadata_i18n.fullscreenTitleCancel|escape:'javascript'}';

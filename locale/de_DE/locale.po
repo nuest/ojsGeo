@@ -578,6 +578,15 @@ msgstr "Dieses Feld wurde deaktiviert. Die Informationen werden automatisch auf 
 msgid "plugins.generic.geoMetadata.submission.spatialProperties.antimeridianNote"
 msgstr "Objekte, die den Antimeridian (180° Meridian) überqueren, werden beim Speichern in zwei Teile geteilt. Die Karte zeigt die Vorschau möglicherweise gespiegelt an, bis der Datensatz gespeichert und neu geladen wird."
 
+msgid "plugins.generic.geoMetadata.submission.administrativeUnit.validation.hierarchyAndGeometry"
+msgstr "Ihre Eingabe \"{$input}\" mit den übergeordneten Verwaltungseinheiten {$units} ist ungültig: Sie passt weder zur bestehenden Hierarchie der Verwaltungseinheiten noch zu den Geometrien auf der Karte. Ändern Sie das Schlagwort, die bestehenden Verwaltungseinheiten oder die Geometrien auf der Karte."
+
+msgid "plugins.generic.geoMetadata.submission.administrativeUnit.validation.hierarchyOnly"
+msgstr "Ihre Eingabe \"{$input}\" mit den übergeordneten Verwaltungseinheiten {$units} ist ungültig: Sie passt nicht zur bestehenden Hierarchie der Verwaltungseinheiten. Ändern Sie das Schlagwort oder die bestehenden Verwaltungseinheiten."
+
+msgid "plugins.generic.geoMetadata.submission.administrativeUnit.validation.geometryOnly"
+msgstr "Ihre Eingabe \"{$input}\" mit den übergeordneten Verwaltungseinheiten {$units} ist ungültig: Sie passt nicht zu den Geometrien auf der Karte. Ändern Sie das Schlagwort oder die Geometrien auf der Karte."
+
 msgid "plugins.generic.geoMetadata.license.submission"
 msgstr "Die zeitlichen und räumlichen Metadaten werden unter der folgenden Lizenz veröffentlicht: {$license}"
 

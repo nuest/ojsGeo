@@ -578,6 +578,15 @@ msgstr "Ce champ a été désactivé. Les informations seront remplies automatiq
 msgid "plugins.generic.geoMetadata.submission.spatialProperties.antimeridianNote"
 msgstr "Les entités qui traversent l'antiméridien (méridien 180°) sont divisées en deux parties lors de l'enregistrement. La carte peut afficher l'aperçu inversé jusqu'à ce que l'enregistrement soit sauvegardé et rechargé."
 
+msgid "plugins.generic.geoMetadata.submission.administrativeUnit.validation.hierarchyAndGeometry"
+msgstr "Votre saisie « {$input} » avec les unités administratives supérieures {$units} n'est pas valide : elle ne correspond ni à la hiérarchie existante des unités administratives ni aux géométries sur la carte. Modifiez l'étiquette, les unités administratives existantes ou les géométries sur la carte."
+
+msgid "plugins.generic.geoMetadata.submission.administrativeUnit.validation.hierarchyOnly"
+msgstr "Votre saisie « {$input} » avec les unités administratives supérieures {$units} n'est pas valide : elle ne correspond pas à la hiérarchie existante des unités administratives. Modifiez l'étiquette ou les unités administratives existantes."
+
+msgid "plugins.generic.geoMetadata.submission.administrativeUnit.validation.geometryOnly"
+msgstr "Votre saisie « {$input} » avec les unités administratives supérieures {$units} n'est pas valide : elle ne correspond pas aux géométries sur la carte. Modifiez l'étiquette ou les géométries sur la carte."
+
 msgid "plugins.generic.geoMetadata.license.submission"
 msgstr "Notez que les métadonnées temporelles et spatiales seront publiées sous la licence suivante : {$license}"
 

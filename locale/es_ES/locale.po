@@ -578,6 +578,15 @@ msgstr "Este campo ha sido deshabilitado. La información se rellenará automát
 msgid "plugins.generic.geoMetadata.submission.spatialProperties.antimeridianNote"
 msgstr "Los objetos que cruzan el antimeridiano (meridiano 180°) se dividen en dos partes al guardar. El mapa puede mostrar la previsualización invertida hasta que el registro se guarde y se vuelva a cargar."
 
+msgid "plugins.generic.geoMetadata.submission.administrativeUnit.validation.hierarchyAndGeometry"
+msgstr "Su entrada «{$input}» con las unidades administrativas superiores {$units} no es válida: no coincide con la jerarquía existente de unidades administrativas ni con las geometrías del mapa. Cambie la etiqueta, las unidades administrativas existentes o las geometrías del mapa."
+
+msgid "plugins.generic.geoMetadata.submission.administrativeUnit.validation.hierarchyOnly"
+msgstr "Su entrada «{$input}» con las unidades administrativas superiores {$units} no es válida: no coincide con la jerarquía existente de unidades administrativas. Cambie la etiqueta o las unidades administrativas existentes."
+
+msgid "plugins.generic.geoMetadata.submission.administrativeUnit.validation.geometryOnly"
+msgstr "Su entrada «{$input}» con las unidades administrativas superiores {$units} no es válida: no coincide con las geometrías del mapa. Cambie la etiqueta o las geometrías del mapa."
+
 msgid "plugins.generic.geoMetadata.license.submission"
 msgstr "Tenga en cuenta que los metadatos temporales y espaciales se publicarán bajo la siguiente licencia: {$license}"
 

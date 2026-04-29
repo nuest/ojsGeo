@@ -18,6 +18,14 @@ var drawnItems = null;
 var administrativeUnitsMap = null;
 var gazetterDisabled = false;
 
+// Substitute {$key} placeholders in a translated template with values from params.
+// Unknown keys are left as-is so misalignment between locale and call site is visible.
+function geoMetadataFormat(template, params) {
+    return template.replace(/\{\$(\w+)\}/g, function (match, key) {
+        return params[key] !== undefined ? params[key] : match;
+    });
+}
+
 // The administrativeUnit hidden field is always parseable JSON; empty is '[]'.
 function parseAdministrativeUnit(raw) {
     if (!raw) return [];
@@ -483,27 +491,29 @@ function initAdminunits() {
                             }
                         }
 
+                        var validationParams = {
+                            input: input,
+                            units: JSON.stringify(administrativeUnitSuborder)
+                        };
                         if (inputTagIsValid === false && proofIfAllFeaturesAreInPolygon(geojson, administrativeUnitAuthorInput.bbox) === false) {
-                            alert('Your input ' + JSON.stringify(input) + ' with the superior administrative units ' + JSON.stringify(administrativeUnitSuborder) +
-                                ' is not valid! Your input tag does not match the hierarchy of administrative units already selected nor the geometries displayed on the map. Change input tag and/or already selected administrative units and/or geometries shown on map.');
+                            alert(geoMetadataFormat(geoMetadata_adminUnitValidation.hierarchyAndGeometry, validationParams));
                             return 'notValidTag';
                         }
                         if (inputTagIsValid === false) {
-                            alert('Your input ' + JSON.stringify(input) + ' with the superior administrative units ' + JSON.stringify(administrativeUnitSuborder) +
-                                ' is not valid! Your input tag does not match the hierarchy of administrative units already selected. Change input tag and/or already selected administrative units.');
+                            alert(geoMetadataFormat(geoMetadata_adminUnitValidation.hierarchyOnly, validationParams));
                             return 'notValidTag';
                         }
                         if (proofIfAllFeaturesAreInPolygon(geojson, administrativeUnitAuthorInput.bbox) === false) {
-                            alert('Your input ' + JSON.stringify(input) + ' with the superior administrative units ' + JSON.stringify(administrativeUnitSuborder) +
-                                ' is not valid! Your input tag does not match the geometries displayed on the map. Change input tag and/or geometries shown on map.');
+                            alert(geoMetadataFormat(geoMetadata_adminUnitValidation.geometryOnly, validationParams));
                             return 'notValidTag';
                         }
                     }
                     else {
-                        // In case no administrative unit is currently available, it must still be checked if the new input matches the geometric shapes in the map
                         if (proofIfAllFeaturesAreInPolygon(geojson, administrativeUnitAuthorInput.bbox) === false) {
-                            alert('Your input ' + JSON.stringify(input) + ' with the superior administrative units ' + JSON.stringify(administrativeUnitSuborder) +
-                                ' is not valid! Your input tag does not match the geometries displayed on the map. Change input tag and/or geometries shown on map.');
+                            alert(geoMetadataFormat(geoMetadata_adminUnitValidation.geometryOnly, {
+                                input: input,
+                                units: JSON.stringify(administrativeUnitSuborder)
+                            }));
                             return 'notValidTag';
                         }
                     }
