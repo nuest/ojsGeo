@@ -2,7 +2,7 @@
  * @file cypress/e2e/integration/60-timeperiod-formats.cy.js
  *
  * Copyright (c) 2026 KOMET project, OPTIMETA project, Daniel Nüst
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * End-to-end coverage for the full set of time-period formats accepted by
  * js/lib/temporal.js + GeoMetadataPlugin::validateTimePeriodString — bare

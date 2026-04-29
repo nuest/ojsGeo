@@ -2,7 +2,7 @@
  * @file cypress/tests/integration/35-publication-versioning.cy.js
  *
  * Copyright (c) 2025 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * Issue #102: editing geo metadata on a new publication version must not
  * disturb the previous version's stored data. v1 is created with directInject

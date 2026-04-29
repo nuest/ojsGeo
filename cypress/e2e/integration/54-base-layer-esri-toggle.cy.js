@@ -2,7 +2,7 @@
  * @file cypress/tests/integration/54-base-layer-esri-toggle.cy.js
  *
  * Copyright (c) 2025 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * @brief Issue #124: plugin setting `geoMetadata_showEsriBaseLayer` toggles the
  *        Esri World Imagery base layer in the Leaflet layer control. Must end

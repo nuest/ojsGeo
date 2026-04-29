@@ -2,7 +2,7 @@
  * @file cypress/tests/integration/configuration.cy.js
  *
  * Copyright (c) 2025 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  */
 
 // testIsolation off: tests 1→4 chain on the same open publication tab

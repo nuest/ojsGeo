@@ -2,7 +2,7 @@
  * @file cypress/e2e/integration/63-schema-org-jsonld.cy.js
  *
  * Copyright (c) 2026 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * @brief Verify the schema.org JSON-LD block emitted on article pages
  *        (issue #92): @type ScholarlyArticle, headline, @id == article URL,

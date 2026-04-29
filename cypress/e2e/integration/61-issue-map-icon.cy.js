@@ -2,7 +2,7 @@
  * @file cypress/e2e/integration/61-issue-map-icon.cy.js
  *
  * Copyright (c) 2026 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * @brief Issue #158 — map icon next to each article title in the issue TOC.
  *        Hover highlights the article's geometries on the map; click opens

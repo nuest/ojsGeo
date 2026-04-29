@@ -2,7 +2,7 @@
  * @file cypress/tests/integration/71-admin-unit-validation-i18n.cy.js
  *
  * Copyright (c) 2025 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * Regression for issue #110: the admin-unit input-validation alerts
  * (preprocessTag in submission.js) must render in the active UI locale,

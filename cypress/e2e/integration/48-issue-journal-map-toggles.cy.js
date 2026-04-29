@@ -2,7 +2,7 @@
  * @file cypress/e2e/integration/48-issue-journal-map-toggles.cy.js
  *
  * Copyright (c) 2025 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * @brief DOM-level verification for the two aggregate-map toggles:
  *        showIssueMap gates the map block on issue table-of-contents pages,

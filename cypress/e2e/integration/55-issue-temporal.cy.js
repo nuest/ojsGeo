@@ -2,7 +2,7 @@
  * @file cypress/e2e/integration/55-issue-temporal.cy.js
  *
  * Copyright (c) 2025 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * @brief Issue #105: the issue TOC page shows a one-sentence summary of the
  *        overall time period spanned by its articles.

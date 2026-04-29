@@ -2,7 +2,7 @@
  * @file cypress/e2e/integration/62-reset-view.cy.js
  *
  * Copyright (c) 2026 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * @brief Reset-view button appears next to the fullscreen control on every
  *        map (article, issue, journal, submission) and snaps the map back

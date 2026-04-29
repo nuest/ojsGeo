@@ -2,7 +2,7 @@
  * @file cypress/tests/integration/46-download-sidebar.cy.js
  *
  * Copyright (c) 2025 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * @brief DOM-level verification for issue #55: the plugin setting
  *        `geoMetadata_showDownloadSidebar` actually hides/shows the GeoJSON

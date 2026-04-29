@@ -2,7 +2,7 @@
  * @file cypress/e2e/integration/60-empty-state-roundtrip.cy.js
  *
  * Copyright (c) 2025 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * @brief Verifies that the administrativeUnit empty-state is stored as the
  *        canonical '[]' JSON literal and survives a save/reload round trip

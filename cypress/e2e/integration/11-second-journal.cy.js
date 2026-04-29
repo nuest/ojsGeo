@@ -2,7 +2,7 @@
  * @file cypress/e2e/integration/11-second-journal.cy.js
  *
  * Copyright (c) 2025 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * Issue #99 — bring up a second journal so 64-multi-journal-isolation can
  * verify per-context settings + content isolation. Configured structurally

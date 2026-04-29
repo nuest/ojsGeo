@@ -2,7 +2,7 @@
  * @file cypress/e2e/integration/66-overlap-popup.cy.js
  *
  * Copyright (c) 2026 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * @brief Multi-article overlap picker (issue #81). Covers:
  *   - pure helpers (point-in-polygon, point-on-line, point-on-marker)

@@ -2,7 +2,7 @@
  * @file cypress/tests/integration/59-configurable-map-defaults.cy.js
  *
  * Copyright (c) 2025 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * @brief Issues #39, #73, #145 — the plugin settings expose:
  *          - default lat/lng/zoom used by the submission map

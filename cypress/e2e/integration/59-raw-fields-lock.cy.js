@@ -2,7 +2,7 @@
  * @file cypress/e2e/integration/59-raw-fields-lock.cy.js
  *
  * Copyright (c) 2025 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * @brief DOM-level verification for the raw-data lock on the editor-side
  *        publication tab (refs #114): the three pkp-form textareas start

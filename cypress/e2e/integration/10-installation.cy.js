@@ -2,7 +2,7 @@
  * @file cypress/tests/integration/10-installation.cy.js
  *
  * Copyright (c) 2025 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * Based on file cypress/tests/data/10-Installation.spec.js
  */

@@ -2,7 +2,7 @@
  * @file cypress/e2e/integration/45-map-controls-i18n.cy.js
  *
  * Copyright (c) 2025 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * @brief Verifies the en_US strings wired into the non-fullscreen Leaflet controls
  *        added by the plugin via the shared `_map_js_globals.tpl` partial:

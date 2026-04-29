@@ -2,7 +2,7 @@
  * @file cypress/tests/integration/52-fullscreen-locales.cy.js
  *
  * Copyright (c) 2025 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * @brief Verifies that the fullscreen control's title attribute uses the user's
  *        display language after switching it via the user menu in the top right

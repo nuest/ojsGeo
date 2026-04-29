@@ -2,7 +2,7 @@
  * @file cypress/e2e/integration/68-overlap-hover.cy.js
  *
  * Copyright (c) 2026 KOMET project, OPTIMETA project, Daniel Nüst
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * @brief Multi-article TOC highlight on overlap hover (issue #159).
  *

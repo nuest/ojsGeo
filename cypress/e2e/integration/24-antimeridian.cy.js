@@ -2,7 +2,7 @@
  * @file cypress/e2e/integration/24-antimeridian.cy.js
  *
  * Copyright (c) 2026 KOMET project, OPTIMETA project, Daniel Nüst
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * Covers issue #60: geometries crossing the antimeridian.
  * - PHP splitter rewrites stored spatialProperties as Multi* on write

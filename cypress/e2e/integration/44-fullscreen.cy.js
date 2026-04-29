@@ -2,7 +2,7 @@
  * @file cypress/tests/integration/44-fullscreen.cy.js
  *
  * Copyright (c) 2025 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * @brief Verifies the Leaflet fullscreen control added to every map by the plugin
  *        (see issue #61). Covers: button presence on current-issue / archive-issue /

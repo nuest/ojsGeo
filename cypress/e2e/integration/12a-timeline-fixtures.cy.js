@@ -2,7 +2,7 @@
  * @file cypress/e2e/integration/12a-timeline-fixtures.cy.js
  *
  * Copyright (c) 2026 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * Timeline-specific fixture articles for issue #74. Each exercises one branch of
  * the timeline strip:

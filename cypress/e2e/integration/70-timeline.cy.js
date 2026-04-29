@@ -2,7 +2,7 @@
  * @file cypress/e2e/integration/70-timeline.cy.js
  *
  * Copyright (c) 2026 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * @brief Timeline strip on the journal /map page and on issue TOC pages (issue #74).
  *

@@ -2,7 +2,7 @@
  * @file cypress/e2e/integration/57-geocoder-toggle.cy.js
  *
  * Copyright (c) 2025 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * @brief DOM-level verification for enableGeocoderSearch. When enabled, the
  *        Leaflet Control.Geocoder search box renders on every map context

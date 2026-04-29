@@ -2,7 +2,7 @@
  * @file cypress/tests/integration/58-admin-unit-reset.cy.js
  *
  * Copyright (c) 2025 KOMET project, OPTIMETA project, Daniel Nüst, Tom Niers
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file LICENSE.
  *
  * Regression for issue #112: admin-unit hidden state must be coherent with
  * the feature set after every Leaflet event, and author-typed tags must
