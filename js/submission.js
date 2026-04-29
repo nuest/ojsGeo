@@ -77,34 +77,40 @@ $(function () {
     }
 });
 
-function disableGazzetter() {
+function disableGazetteer(reason) {
     baseurlGeonames = null;
-    gazetterDisabled = true; 
+    gazetterDisabled = true;
+    var reasonText = (geoMetadata_gazetteerUnavailable.reasons[reason]) || geoMetadata_gazetteerUnavailable.reasons.externalError;
+    $("#geoMetadata_gazetteer_unavailable .geoMetadata_gazetteer_unavailable_reason").text(' ' + reasonText);
     $("#geoMetadata_gazetteer_unavailable").show();
+}
+
+// GeoNames inlines errors as {status: {value, message}} in an otherwise-200 response.
+// value === 19 is the published code for "daily quota exceeded".
+function mapGeonamesStatusToReason(status) {
+    if (status && status.value === 19) return 'quotaExceeded';
+    return 'externalError';
 }
 
 function checkGeonames() {
     if (baseurlGeonames === "") {
         console.log(logPrefix + "No Base URL configured for GeoNames. Please configure the Base URL for GeoNames in the OJS plugin settings.");
-        disableGazzetter();
+        disableGazetteer('noBaseUrl');
+        return;
     }
 
     if (usernameGeonames === "") {
         console.log(logPrefix + "No username configured for GeoNames. Visit https://www.geonames.org/login, register and enter the username in the OJS plugin settings.");
-        disableGazzetter();
+        disableGazetteer('noUsername');
+        return;
     }
-    else {
-        var testRequest = ajaxRequestGeonamesPlaceName("Münster");
-        if (testRequest === null) {
-            console.log(logPrefix + "The configured GeoNames username or Base URL is not valid. Please check that both is set up correctly in the OJS plugin settings.");
-            disableGazzetter();
-        }
-        else if (testRequest.status !== undefined) {
-            if (testRequest.status.value === 19) {
-                console.log(logPrefix + "The limit of credits for your GeoNames account has been exceeded. Please use an other GeoNames account or wait until you got new credits!");
-                disableGazzetter();
-            }
-        }
+
+    // ajaxRequestGeonamesPlaceName surfaces an error envelope itself; here we only need
+    // to handle the outright-failed case (returns null = network/auth failure).
+    var testRequest = ajaxRequestGeonamesPlaceName("Münster");
+    if (testRequest === null && !gazetterDisabled) {
+        console.log(logPrefix + "The configured GeoNames username or Base URL is not valid. Please check that both is set up correctly in the OJS plugin settings.");
+        disableGazetteer('invalidCredentials');
     }
 }
 
@@ -916,6 +922,10 @@ function ajaxRequestGeonamesPlaceName(placeName) {
             },
             success: function (result) {
                 resultGeonames = result;
+                if (result && result.status !== undefined && !gazetterDisabled) {
+                    console.log(logPrefix + "GeoNames returned an error envelope: " + JSON.stringify(result.status));
+                    disableGazetteer(mapGeonamesStatusToReason(result.status));
+                }
             }
         });
     }

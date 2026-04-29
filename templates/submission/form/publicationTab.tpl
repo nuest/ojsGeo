@@ -73,8 +73,11 @@
                     {translate key="plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.administrativeUnit"}
                 </label>
             </div>
-            <div align="justify" class="pkpFormField__description geoMetadata_warning" id="geoMetadata_gazetteer_unavailable" style="display:none;">{translate
-                key="plugins.generic.geoMetadata.geospatialmetadata.gazetteer_unavailable"}
+            <div class="pkpFormField__description geoMetadata_warning" id="geoMetadata_gazetteer_unavailable" style="display:none;">
+                <p align="justify"><strong>{translate key="plugins.generic.geoMetadata.gazetteer.unavailable.title"}</strong>
+                    <span class="geoMetadata_gazetteer_unavailable_reason"></span>
+                </p>
+                <p align="justify">{translate key="plugins.generic.geoMetadata.gazetteer.unavailable.fallback"}</p>
             </div>
             <div id="geoMetadata-adminunit-description" class="pkpFormField__description">
                 {translate key="plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.administrativeUnit.description.submission"}

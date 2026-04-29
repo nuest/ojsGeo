@@ -106,7 +106,7 @@ describe('geoMetadata Overlap Hover Highlight - toggle off', function () {
     setToggle(false);
     visitVol1No2();
     cy.window().then((win) => {
-      expect(win.geoMetadata_enableSyncedHighlight, 'sync disabled').to.be.false;
+      expect(win.eval('geoMetadata_enableSyncedHighlight'), 'sync disabled').to.be.false;
       win.map.fire('mousemove', { latlng: win.L.latLng(HANOVER_LINE_START.lat, HANOVER_LINE_START.lng) });
     });
     cy.contains('.obj_article_summary', 'Hanover is nice').should('not.have.class', 'geoMetadata_title_hover');
@@ -118,7 +118,7 @@ describe('geoMetadata Overlap Hover Highlight - toggle off', function () {
     setToggle(true);
     visitVol1No2();
     cy.window().then((win) => {
-      expect(win.geoMetadata_enableSyncedHighlight, 'sync re-enabled').to.be.true;
+      expect(win.eval('geoMetadata_enableSyncedHighlight'), 'sync re-enabled').to.be.true;
       win.map.fire('mousemove', { latlng: win.L.latLng(HANOVER_LINE_START.lat, HANOVER_LINE_START.lng) });
     });
     cy.contains('.obj_article_summary', 'Hanover is nice').should('have.class', 'geoMetadata_title_hover');

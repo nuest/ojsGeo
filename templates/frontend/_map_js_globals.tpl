@@ -301,6 +301,19 @@ const geoMetadata_adminUnitValidation = {
     geometryOnly:         '{$geoMetadata_i18n.adminUnitValidationGeometryOnly|escape:'javascript'}'
 };
 
+// gazetteer-unavailable cause-specific reasons (issue #164)
+const geoMetadata_gazetteerUnavailable = {
+    title:    '{$geoMetadata_i18n.gazetteerUnavailableTitle|escape:'javascript'}',
+    fallback: '{$geoMetadata_i18n.gazetteerUnavailableFallback|escape:'javascript'}',
+    reasons: {
+        noBaseUrl:          '{$geoMetadata_i18n.gazetteerUnavailableReasonNoBaseUrl|escape:'javascript'}',
+        noUsername:         '{$geoMetadata_i18n.gazetteerUnavailableReasonNoUsername|escape:'javascript'}',
+        invalidCredentials: '{$geoMetadata_i18n.gazetteerUnavailableReasonInvalidCredentials|escape:'javascript'}',
+        quotaExceeded:      '{$geoMetadata_i18n.gazetteerUnavailableReasonQuotaExceeded|escape:'javascript'}',
+        externalError:      '{$geoMetadata_i18n.gazetteerUnavailableReasonExternalError|escape:'javascript'}'
+    }
+};
+
 // fullscreen control (issue #61)
 const geoMetadata_fullscreenTitle       = '{$geoMetadata_i18n.fullscreenTitle|escape:'javascript'}';
 const geoMetadata_fullscreenTitleCancel = '{$geoMetadata_i18n.fullscreenTitleCancel|escape:'javascript'}';

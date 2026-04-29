@@ -59,6 +59,27 @@ msgstr "Administrative Unit"
 msgid "plugins.generic.geoMetadata.geospatialmetadata.gazetteer_unavailable"
 msgstr "The gazetteer service is not available. Please enter administrative units manually, e.g., <code>\"Earth Europe Germany\"</code>, by typing the unit names and confirming each unit by clicking \"Enter\". Refresh the page to try again."
 
+msgid "plugins.generic.geoMetadata.gazetteer.unavailable.title"
+msgstr "The gazetteer service is unavailable."
+
+msgid "plugins.generic.geoMetadata.gazetteer.unavailable.fallback"
+msgstr "Please enter administrative units manually, e.g., <code>\"Earth Europe Germany\"</code>, by typing the unit names and confirming each unit by clicking \"Enter\". Refresh the page to try again."
+
+msgid "plugins.generic.geoMetadata.gazetteer.unavailable.reason.noBaseUrl"
+msgstr "No GeoNames Base URL is configured for the plugin."
+
+msgid "plugins.generic.geoMetadata.gazetteer.unavailable.reason.noUsername"
+msgstr "No GeoNames username is configured for the plugin."
+
+msgid "plugins.generic.geoMetadata.gazetteer.unavailable.reason.invalidCredentials"
+msgstr "The configured GeoNames Base URL or username is not valid."
+
+msgid "plugins.generic.geoMetadata.gazetteer.unavailable.reason.quotaExceeded"
+msgstr "The configured GeoNames account has exceeded its daily request quota."
+
+msgid "plugins.generic.geoMetadata.gazetteer.unavailable.reason.externalError"
+msgstr "GeoNames responded with an error."
+
 msgid "plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.administrativeUnit.description.submission"
 msgstr "Administrative units will be proposed based on your input on the map if a gazetteer service is available. Each time you manually update the inputs in this field, the coverage information will be recalculated and updated. You can delete administrative unit(s) using the red \"x\". If you hover over the administrative unit(s) the superior hierarchy of administrative unit(s) is displayed when available. You can also add additional administrative units. You are only able to insert an additional administrative unit if it fits with the stipulated hierarchy of administrative unit(s) and the shape(s) already in the map. Once you begin to enter the necessary information, some suggestions will be made that you can accept by clicking. You can also input your own administrative unit by hitting \"Enter\". The administrative unit (in black) which is the lowest common denominator for all geometric shape(s) is shown in the map. The administrative unit is not editable or deletable in the map, only here via the input field."
 

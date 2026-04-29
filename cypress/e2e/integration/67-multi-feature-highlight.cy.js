@@ -98,7 +98,7 @@ describe('geoMetadata Multi-Feature Synced Highlight', function () {
     cy.window().its('articleLayersMap').should('exist');
 
     cy.window().then((win) => {
-      expect(win.geoMetadata_enableSyncedHighlight, 'synced-highlight toggle on by default').to.be.true;
+      expect(win.eval('geoMetadata_enableSyncedHighlight'), 'synced-highlight toggle on by default').to.be.true;
 
       const targetId = findTargetArticleId(win);
       const targetLayers = win.articleLayersMap.get(targetId);
@@ -177,7 +177,7 @@ describe('geoMetadata Multi-Feature Synced Highlight', function () {
     cy.visit('/' + Cypress.env('contexts').primary.path + '/map');
     cy.get('#mapdiv').should('exist');
     cy.window().then((win) => {
-      expect(win.geoMetadata_enableSyncedHighlight, 'toggle now off').to.be.false;
+      expect(win.eval('geoMetadata_enableSyncedHighlight'), 'toggle now off').to.be.false;
       const targetId = findTargetArticleId(win);
       const layers = win.articleLayersMap.get(targetId);
       const polygon = layers.find(l => l.feature.geometry.type === 'Polygon');

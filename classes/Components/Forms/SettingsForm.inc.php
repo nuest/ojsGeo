@@ -19,6 +19,7 @@ use FormValidatorCSRF;
 use Application;
 use TemplateManager;
 use NotificationManager;
+use Throwable;
 
 /**
  * Form for the geoMetadata settings. 
@@ -201,6 +202,65 @@ class SettingsForm extends \Form
         $templateMgr->assign('pluginName', $this->plugin->getName());
 
         return parent::fetch($request, $template, $display);
+    }
+
+    /**
+     * Run the standard form validators, then probe the configured GeoNames credentials.
+     * Mirror the JS-side gazetteer reasons so submission and settings show the same text.
+     */
+    public function validate($callHooks = true)
+    {
+        $valid = parent::validate($callHooks);
+
+        $baseurl  = trim((string) $this->getData('geoMetadata_geonames_baseurl'));
+        $username = trim((string) $this->getData('geoMetadata_geonames_username'));
+
+        if ($baseurl === '' || $username === '') {
+            return $valid;
+        }
+
+        $reasonKey = $this->probeGeonames($baseurl, $username);
+        if ($reasonKey !== null) {
+            $message = __('plugins.generic.geoMetadata.gazetteer.unavailable.reason.' . $reasonKey);
+            $this->addError('geoMetadata_geonames_username', $message);
+            $this->addErrorField('geoMetadata_geonames_username');
+            return false;
+        }
+
+        return $valid;
+    }
+
+    /**
+     * Ping GeoNames /searchJSON with the supplied credentials.
+     * Returns null when the call yields valid data, otherwise a reason key from the
+     * gazetteer.unavailable.reason.* set: invalidCredentials, quotaExceeded, externalError.
+     */
+    protected function probeGeonames(string $baseurl, string $username): ?string
+    {
+        $url = rtrim($baseurl, '/') . '/searchJSON';
+        try {
+            $response = Application::get()->getHttpClient()->request('GET', $url, [
+                'query'           => ['name_equals' => 'Münster', 'username' => $username, 'maxRows' => 1],
+                'timeout'         => 5,
+                'connect_timeout' => 5,
+                'http_errors'     => false,
+            ]);
+        } catch (Throwable $e) {
+            return 'invalidCredentials';
+        }
+
+        if ($response->getStatusCode() >= 400) {
+            return 'invalidCredentials';
+        }
+
+        $body = json_decode((string) $response->getBody(), true);
+        if (!is_array($body)) {
+            return 'externalError';
+        }
+        if (isset($body['status']['value'])) {
+            return $body['status']['value'] === 19 ? 'quotaExceeded' : 'externalError';
+        }
+        return null;
     }
 
     /**

@@ -59,9 +59,12 @@
     {if $geoMetadata_submission_enableAdminUnit}
     {fbvFormSection title="plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.administrativeUnit" for="administrativeUnitInput"
     inline=true}
-    <p align="justify" class="description geoMetadata_warning" id="geoMetadata_gazetteer_unavailable" style="display:none;">{translate
-        key="plugins.generic.geoMetadata.geospatialmetadata.gazetteer_unavailable"}
-    </p>
+    <div class="description geoMetadata_warning" id="geoMetadata_gazetteer_unavailable" style="display:none;">
+        <p align="justify"><strong>{translate key="plugins.generic.geoMetadata.gazetteer.unavailable.title"}</strong>
+            <span class="geoMetadata_gazetteer_unavailable_reason"></span>
+        </p>
+        <p align="justify">{translate key="plugins.generic.geoMetadata.gazetteer.unavailable.fallback"}</p>
+    </div>
     <p align="justify" class="description">{translate
         key="plugins.generic.geoMetadata.geospatialmetadata.properties.spatial.administrativeUnit.description.submission"}
     </p>

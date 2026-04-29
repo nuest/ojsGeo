@@ -260,6 +260,13 @@ class GeoMetadataPlugin extends GenericPlugin
 				'adminUnitValidationHierarchyAndGeometry' => __('plugins.generic.geoMetadata.submission.administrativeUnit.validation.hierarchyAndGeometry'),
 				'adminUnitValidationHierarchyOnly'        => __('plugins.generic.geoMetadata.submission.administrativeUnit.validation.hierarchyOnly'),
 				'adminUnitValidationGeometryOnly'         => __('plugins.generic.geoMetadata.submission.administrativeUnit.validation.geometryOnly'),
+				'gazetteerUnavailableTitle'                  => __('plugins.generic.geoMetadata.gazetteer.unavailable.title'),
+				'gazetteerUnavailableFallback'               => __('plugins.generic.geoMetadata.gazetteer.unavailable.fallback'),
+				'gazetteerUnavailableReasonNoBaseUrl'        => __('plugins.generic.geoMetadata.gazetteer.unavailable.reason.noBaseUrl'),
+				'gazetteerUnavailableReasonNoUsername'       => __('plugins.generic.geoMetadata.gazetteer.unavailable.reason.noUsername'),
+				'gazetteerUnavailableReasonInvalidCredentials' => __('plugins.generic.geoMetadata.gazetteer.unavailable.reason.invalidCredentials'),
+				'gazetteerUnavailableReasonQuotaExceeded'    => __('plugins.generic.geoMetadata.gazetteer.unavailable.reason.quotaExceeded'),
+				'gazetteerUnavailableReasonExternalError'    => __('plugins.generic.geoMetadata.gazetteer.unavailable.reason.externalError'),
 			]);
 
 			$templateMgr->assign('geoMetadata_mapUrlPath', MAP_URL_PATH);
@@ -1175,6 +1182,9 @@ class GeoMetadataPlugin extends GenericPlugin
 					$form->execute();
 					return new JSONMessage(true);
 				}
+				// Validation failed: re-render the form so AjaxFormHandler swaps the
+				// HTML and the per-field error sub-label from addError() becomes visible.
+				return new JSONMessage(true, $form->fetch($request));
 		}
 		return parent::manage($args, $request);
 	}

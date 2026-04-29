@@ -89,7 +89,8 @@ describe('geoMetadata Submission without Geonames', function () {
     cy.wait(3000); // a bit longer for GitHub action
     cy.get('input[id^="coverage-"').should('have.value', '');
 
-    cy.get('#submitStep3Form').should('contain', 'The gazetteer service is not available');
+    cy.get('#submitStep3Form').should('contain', 'The gazetteer service is unavailable');
+    cy.get('#submitStep3Form').should('contain', 'No GeoNames Base URL is configured for the plugin');
   });
 
   it('Manual updates in the administrative unit field update the coverage field', function() {
